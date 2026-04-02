@@ -27,6 +27,12 @@ export default function FreedomFinancialBaby() {
 
   return (
     <>
+      {/* --- SEO METADATA --- */}
+      <title>Generational Wealth for Kids | Freedom Financial Baby | Los Angeles</title>
+      <meta name="description" content="Discover how to build generational wealth for your child. We help LA and SGV families set up children's investment accounts leveraging compound interest and tax advantages." />
+      <meta name="keywords" content="How to build generational wealth for a baby, Children's investment accounts Los Angeles, Life insurance for kids compound interest, Tax free wealth transfer strategies" />
+      {/* -------------------- */}
+
       <header className="hero fade-in">
         <div className="container">
           <p

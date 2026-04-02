@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /thanks
+
+Sitemap: https://legacy-in-motion.org/sitemap.xml

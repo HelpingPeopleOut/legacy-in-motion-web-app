@@ -27,6 +27,12 @@ export default function Workshops() {
 
   return (
     <>
+      {/* --- SEO METADATA --- */}
+      <title>Corporate Financial Wellness Workshops Los Angeles | Legacy in Motion</title>
+      <meta name="description" content="Host professional employee financial education workshops in Los Angeles and the SGV. Topics include debt elimination, credit building, and wealth growth strategies." />
+      <meta name="keywords" content="Corporate financial wellness workshops Los Angeles, Employee financial education programs SGV, How does an executive bonus plan work for a small business owner, Key person insurance Los Angeles" />
+      {/* -------------------- */}
+
       <header
         className="hero fade-in"
         style={{
@@ -188,7 +194,7 @@ export default function Workshops() {
               <input type="hidden" name="_subject" value="NEW WORKSHOP INQUIRY: Legacy in Motion" />
               <input type="hidden" name="_template" value="box" />
               <input type="hidden" name="_captcha" value="false" />
-             <input type="hidden" name="_next" value="https://legacy-in-motion.org/thanks" />
+              <input type="hidden" name="_next" value="https://legacy-in-motion.org/thanks" />
               <input type="hidden" name="_cc" value="nlaracruz@experiorfinancialgroup.com" />
 
               <div className="form-grid">

@@ -28,6 +28,12 @@ export default function Home() {
 
   return (
     <>
+      {/* --- SEO METADATA --- */}
+      <title>Financial Consultant in Los Angeles & SGV | Legacy in Motion</title>
+      <meta name="description" content="Expert retirement planning, pension rollovers, and estate planning services across Los Angeles, Pasadena, and the San Gabriel Valley. Build your financial fortress." />
+      <meta name="keywords" content="Retirement planner in Pasadena CA, Pension and 401k rollover specialist near me, Estate planning services San Gabriel Valley, Life insurance living benefits Los Angeles, Financial consultant near me" />
+      {/* -------------------- */}
+
       <header className="hero hero-index container fade-in">
         <div className="hero-grid">
           <div>
@@ -366,7 +372,6 @@ export default function Home() {
               <input type="hidden" name="_subject" value="NEW LEAD: Legacy in Motion Homepage" />
               <input type="hidden" name="_template" value="box" />
               <input type="hidden" name="_captcha" value="false" />
-              {/* Note: Update this _next URL to your new domain once hosted */}
               <input type="hidden" name="_next" value="https://legacy-in-motion.org/thanks" />
               <input type="hidden" name="_cc" value="nlaracruz@experiorfinancialgroup.com" />
 

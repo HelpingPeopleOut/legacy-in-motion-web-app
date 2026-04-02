@@ -27,6 +27,12 @@ export default function Mission() {
 
   return (
     <>
+      {/* --- SEO METADATA --- */}
+      <title>Our Mission | Financial Education & Consulting Los Angeles</title>
+      <meta name="description" content="Legacy in Motion is dedicated to eliminating financial illiteracy. We empower families and business owners in Los Angeles and the SGV with expert financial education." />
+      <meta name="keywords" content="Financial education Los Angeles, Financial literacy SGV, Become a financial advisor Los Angeles, Financial planning underserved communities, Legacy in Motion mission" />
+      {/* -------------------- */}
+
       <header className="hero fade-in">
         <div className="container">
           <h1>Empowering Families and Business Owners Through Financial Education.</h1>
