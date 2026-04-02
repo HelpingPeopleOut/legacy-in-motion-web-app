@@ -174,15 +174,6 @@ footer p.footer-sub { color: #cccccc; margin-bottom: 2rem; font-weight: 300; }
 .math-number strong { font-family: var(--font-heading); font-size: 3rem; color: var(--text-main); line-height: 1; }
 .math-number.highlight strong { color: var(--gold); }
 
-/* === CALCULATORS === */
-.calculator-sec { padding: 6rem 0; background: #ffffff; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
-.calc-container { max-width: 800px; margin: 0 auto; background: transparent; padding: 2rem 0; }
-.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-.calc-group label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
-.calc-group input { width: 100%; padding: 1.2rem; background: var(--bg-card); border: 2px solid var(--border-light); color: var(--text-main); border-radius: 8px; outline: none; transition: var(--transition); font-family: var(--font-body); font-size: 1.1rem; }
-.calc-group input:focus { border-color: var(--gold); background: #ffffff; box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1); }
-.calc-result { margin-top: 2.5rem; padding: 3rem; background: rgba(212,175,55,0.03); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; display: none; text-align: center; }
-
 /* === FORMS & LEAD GEN === */
 .lead-gen { padding: 6rem 0; background: #ffffff; border-top: 1px solid var(--border-light); }
 .form-wrapper { max-width: 800px; margin: 3rem auto 0; width: 100%; }
@@ -202,6 +193,88 @@ footer p.footer-sub { color: #cccccc; margin-bottom: 2rem; font-weight: 300; }
 /* === THANKS PAGE === */
 .thanks-section { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10rem 0 6rem; background: radial-gradient(circle, rgba(212,175,55,0.03) 0%, rgba(255,255,255,0) 70%); }
 .icon-sparkle { font-size: 4.5rem; margin-bottom: 1.5rem; animation: float 4s ease-in-out infinite; display: inline-block; }
+
+/* =========================================
+   TRUSTED PARTNERS INFINITE MARQUEE
+========================================= */
+.trusted-partners {
+  padding: 5rem 0;
+  background-color: var(--bg-page);
+  border-top: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Fading white gradients on the left and right edges */
+.marquee-container::before,
+.marquee-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-page) 0%, transparent 100%);
+}
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-page) 0%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  /* Adjust the '40s' here to make it scroll faster or slower */
+  animation: marquee 40s linear infinite; 
+}
+
+/* Pause the animation if a user hovers over the logos */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 80px;
+}
+
+.marquee-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  /* Make them gray and slightly faded by default */
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.3s ease;
+}
+
+/* On hover, pop into full color */
+.marquee-item img:hover {
+  filter: grayscale(0%) opacity(1);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 2rem)); 
+  }
+}
 
 /* === RESPONSIVE FIXES === */
 @media (max-width: 900px) {
