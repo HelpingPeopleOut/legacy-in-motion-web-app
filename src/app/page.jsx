@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Re-implementing your smooth fade-in scroll animation
   useEffect(() => {
-    // THIS LINE FORCES THE PAGE TO LOAD AT THE VERY TOP
+    // Force the page to load at the very top
     window.scrollTo(0, 0);
 
     const observerOptions = {
@@ -28,6 +32,60 @@ export default function Home() {
       observer.observe(section);
     });
   }, []);
+
+  // --- Custom form handler for Google Apps Script ---
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.target);
+    const file = formData.get("attachment");
+    
+    let fileBase64 = "";
+    let fileName = "";
+    let fileType = "";
+
+    // Convert file to Base64 text if attached
+    if (file && file.size > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      await new Promise((resolve) => (reader.onload = resolve));
+      // Extract just the base64 string without the data URL prefix
+      fileBase64 = reader.result.split(',')[1];
+      fileName = file.name;
+      fileType = file.type;
+    }
+
+    // Package the data for Google Apps Script
+    const payload = {
+      name: formData.get("Full Name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      topic: formData.get("Primary Goal"),
+      notes: formData.get("Notes"),
+      fileBase64: fileBase64,
+      fileName: fileName,
+      fileType: fileType
+    };
+
+    try {
+      // Send data securely to your new Google CRM
+      await fetch("https://script.google.com/macros/s/AKfycbyitmS-i4AxF7jg9GKgID5zpQAh83JjSDV5cbywccURQ4qqVPplG2kliP-RC59pCweX/exec", {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+      });
+      
+      // Redirect to Thanks page instantly
+      router.push("/thanks");
+    } catch (error) {
+      console.error(error);
+      alert("There was an error submitting your request. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -371,18 +429,12 @@ export default function Home() {
           </p>
 
           <div className="form-wrapper">
-            <form action="https://formsubmit.co/workorders@hpo.center" method="POST">
-              <input type="hidden" name="_subject" value="NEW LEAD: Legacy in Motion Homepage" />
-              <input type="hidden" name="_template" value="box" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://legacy-in-motion.org/thanks" />
-              <input type="hidden" name="_cc" value="nlaracruz@experiorfinancialgroup.com" />
+            <form onSubmit={handleSubmit}>
+              <input type="text" name="Full Name" placeholder="Full Name" required disabled={isSubmitting} />
+              <input type="email" name="email" placeholder="Email Address" required disabled={isSubmitting} />
+              <input type="tel" name="phone" placeholder="Phone Number" required disabled={isSubmitting} />
 
-              <input type="text" name="Full Name" placeholder="Full Name" required />
-              <input type="email" name="email" placeholder="Email Address" required />
-              <input type="tel" name="phone" placeholder="Phone Number" required />
-
-              <select name="Primary Goal" required style={{ color: "var(--text-muted)" }}>
+              <select name="Primary Goal" required style={{ color: "var(--text-muted)" }} disabled={isSubmitting}>
                 <option value="" disabled selected>
                   What is your primary financial goal?
                 </option>
@@ -394,10 +446,30 @@ export default function Home() {
                 <option value="children">Children&apos;s Investment & Savings Accounts</option>
               </select>
 
-              <textarea name="Notes" rows="5" placeholder="Briefly describe your current financial priorities..."></textarea>
+              <textarea name="Notes" rows="5" placeholder="Briefly describe your current financial priorities..." disabled={isSubmitting}></textarea>
 
-              <button type="submit" className="btn-gold btn-pulse" style={{ width: "100%" }}>
-                Request Complimentary Strategy Session
+              <div style={{ marginBottom: "1.5rem", textAlign: "left" }}>
+                <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "0.5rem" }}>
+                  Attach Work Order or Image (Optional)
+                </label>
+                <input 
+                  type="file" 
+                  name="attachment" 
+                  accept="image/*, application/pdf"
+                  style={{ 
+                    color: "var(--text-main)", 
+                    background: "transparent", 
+                    border: "1px dashed var(--border-light)", 
+                    padding: "12px", 
+                    width: "100%", 
+                    borderRadius: "4px" 
+                  }}
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              <button type="submit" className="btn-gold btn-pulse" style={{ width: "100%" }} disabled={isSubmitting}>
+                {isSubmitting ? "Submitting securely..." : "Request Complimentary Strategy Session"}
               </button>
             </form>
           </div>
