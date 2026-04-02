@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   // --- Custom form handler for Google Apps Script ---
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 

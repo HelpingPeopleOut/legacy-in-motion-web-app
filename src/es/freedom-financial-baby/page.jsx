@@ -30,7 +30,7 @@ export default function FreedomFinancialBabySpanish() {
     });
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
