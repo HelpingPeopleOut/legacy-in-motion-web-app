@@ -33,11 +33,11 @@ export default function HomeSpanish() {
   }, []);
 
   // --- Manejador de formulario para Google Apps Script ---
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     const file = formData.get("attachment");
     
     let fileBase64 = "";
