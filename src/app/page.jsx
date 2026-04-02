@@ -6,6 +6,9 @@ import Script from "next/script";
 export default function Home() {
   // Re-implementing your smooth fade-in scroll animation
   useEffect(() => {
+    // THIS LINE FORCES THE PAGE TO LOAD AT THE VERY TOP
+    window.scrollTo(0, 0);
+
     const observerOptions = {
       root: null,
       rootMargin: "0px",
