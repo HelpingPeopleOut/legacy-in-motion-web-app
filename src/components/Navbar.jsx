@@ -87,7 +87,7 @@ export default function Navbar() {
   const base = isSpanish ? "/es" : "";
   
   // --- CORRECT CONTACT ROUTES ---
-  const contactRoute = isSpanish ? "/es/solicitar-llamada/page.jsx" : "/request-callback/page.jsx";
+  const contactRoute = isSpanish ? "src/app/es/solicitar-llamada/page.jsx" : "src/app/request-callback/page.jsx";
 
   return (
     <>

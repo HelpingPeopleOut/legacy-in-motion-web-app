@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
+import Link from "next/link";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
@@ -73,9 +74,10 @@ export default function Home() {
               as 90 days.
             </p>
             <div className="hero-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
-                Start Your Plan
-              </a>
+              {/* FIXED ROUTING TO NEW DEDICATED PORTAL */}
+              <Link href="/request-callback" className="btn-gold btn-pulse">
+                Request Call / Install Web App
+              </Link>
               <a href="#framework" className="btn-outline">
                 Explore the Blueprint
               </a>
