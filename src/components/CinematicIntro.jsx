@@ -5,20 +5,36 @@ import styles from "@/app/page.module.css";
 
 export default function CinematicIntro() {
   const [stage, setStage] = useState("trapped"); 
-  // Stages: trapped -> breakthrough -> hidden -> unmounted
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true); // Ensures we only run browser-specific code on the client
+
+    // 1. Check if the URL tells us to skip, or if they already watched it
+    const urlParams = new URLSearchParams(window.location.search);
+    const skipIntro = urlParams.get("skipIntro");
+    const hasPlayed = sessionStorage.getItem("introPlayed");
+
+    if (hasPlayed || skipIntro) {
+      setStage("unmounted");
+      sessionStorage.setItem("introPlayed", "true"); // Guarantee it's marked
+      return; 
+    }
+
     // Prevent scrolling while the cinematic plays
     document.body.style.overflow = "hidden";
 
+    // Mark as played immediately so navigating back/refreshing skips it
+    sessionStorage.setItem("introPlayed", "true");
+
     // Timing Sequence:
     // 1. Verse reads for 6.5 seconds.
-    // 2. The golden light breakthrough begins.
+    // 2. The light breakthrough begins.
     const breakthroughTimer = setTimeout(() => {
       setStage("breakthrough");
     }, 6500);
 
-    // 3. The light consumes the screen, then the overlay fades out, revealing the website.
+    // 3. The light consumes the screen, then the overlay fades out.
     const hideTimer = setTimeout(() => {
       setStage("hidden");
       document.body.style.overflow = ""; // Allow scrolling again
@@ -37,6 +53,8 @@ export default function CinematicIntro() {
     };
   }, []);
 
+  // Prevent hydration mismatch and instantly hide if already played
+  if (!isClient) return null;
   if (stage === "unmounted") return null;
 
   return (
