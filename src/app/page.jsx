@@ -307,7 +307,7 @@ export default function Home() {
             <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
               &quot;A blended family came to me unsure how to divide assets. We
               connected them with an estate attorney to coordinate trusts and
-              wills. Now their legacy is protected, and potential disputes have
+              wils. Now their legacy is protected, and potential disputes have
               been avoided.&quot;
             </p>
             <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
@@ -488,8 +488,7 @@ export default function Home() {
               lineHeight: "1.4",
             }}
           >
-            &quot;Whoever watches the wind will not plant; whoever looks at the clouds
-            will not reap.&quot; <br />
+            &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot; <br />
             <span
               style={{
                 fontSize: "0.9rem",
@@ -503,7 +502,7 @@ export default function Home() {
                 fontWeight: 600,
               }}
             >
-              – Ecclesiastes 11:4
+              – Isaiah 40:31
             </span>
           </p>
         </div>
