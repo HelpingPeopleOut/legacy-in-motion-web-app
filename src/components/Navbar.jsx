@@ -34,7 +34,7 @@ export default function Navbar() {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowInstall(true); // Only show the install button if the device supports it
+      setShowInstall(true); 
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -43,7 +43,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Handle the actual installation
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
@@ -55,24 +54,40 @@ export default function Navbar() {
     setIsFabOpen(false);
   };
 
-  const getToggleUrl = () => {
-    if (isSpanish) {
-      return pathname.replace(/^\/es/, "") || "/";
-    } else {
-      return `/es${pathname === "/" ? "" : pathname}`;
+  // --- SMART LANGUAGE TOGGLE WITH SKIP INTRO COMMAND ---
+  const handleLanguageToggle = () => {
+    closeMenu();
+    // Drop a silent token in the browser so the intro never plays again this session
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("introPlayed", "true");
     }
   };
 
+  const getToggleUrl = () => {
+    let targetPath = "/";
+    if (isSpanish) {
+      targetPath = pathname.replace(/^\/es/, "") || "/";
+    } else {
+      targetPath = `/es${pathname === "/" ? "" : pathname}`;
+    }
+    // Append the skip command directly to the URL
+    return `${targetPath}?skipIntro=true`;
+  };
+
+  // --- FULLY UPDATED BILINGUAL TEXT ---
   const navText = {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
-    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby",
+    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby", 
     workshops: isSpanish ? "Seminarios" : "Workshops",
-    book: isSpanish ? "Agendar Llamada" : "Book a Call",
+    book: isSpanish ? "Llamada / Instalar App" : "Request Call / Install App",
   };
 
   const base = isSpanish ? "/es" : "";
+  
+  // --- CORRECT CONTACT ROUTES ---
+  const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
 
   return (
     <>
@@ -152,14 +167,14 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* --- UPDATED SPANISH ROUTING --- */}
             <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu}>{navText.mission}</Link>
             <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} onClick={closeMenu}>{navText.baby}</Link>
             <Link href={isSpanish ? "/es/seminarios" : "/workshops"} onClick={closeMenu}>{navText.workshops}</Link>
             
+            {/* LANGUAGE TOGGLE BUTTON */}
             <Link
               href={getToggleUrl()}
-              onClick={closeMenu}
+              onClick={handleLanguageToggle}
               style={{
                 fontWeight: 600, color: "var(--gold)", margin: "0 0.5rem",
                 border: "1px solid var(--gold)", padding: "0.2rem 0.6rem",
@@ -169,7 +184,7 @@ export default function Navbar() {
               {isSpanish ? "EN" : "ES"}
             </Link>
 
-            <Link href={`${base}/request-callback`} className="btn-gold" style={{ padding: "0.5rem 1.5rem" }} onClick={closeMenu}>
+            <Link href={contactRoute} className="btn-gold" style={{ padding: "0.5rem 1.5rem" }} onClick={closeMenu}>
               {navText.book}
             </Link>
           </div>
@@ -181,7 +196,6 @@ export default function Navbar() {
       {/* ==================================================== */}
       <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem" }}>
         
-        {/* Expanded Options */}
         <div style={{
           display: "flex", flexDirection: "column", gap: "0.5rem",
           opacity: isFabOpen ? 1 : 0, visibility: isFabOpen ? "visible" : "hidden",
@@ -190,18 +204,17 @@ export default function Navbar() {
         }}>
           {showInstall && (
             <button onClick={handleInstallClick} style={fabActionStyle}>
-              <span style={fabLabelStyle}>{isSpanish ? "Instalar App" : "Install App"}</span>
+              <span style={fabLabelStyle}>{isSpanish ? "Instalar App Automáticamente" : "Install App Automatically"}</span>
               <div style={fabIconWrapperStyle}>📱</div>
             </button>
           )}
           
-          <Link href={`${base}/request-callback`} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
-            <span style={fabLabelStyle}>{isSpanish ? "Solicitar Llamada" : "Request Callback"}</span>
+          <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+            <span style={fabLabelStyle}>{navText.book}</span>
             <div style={fabIconWrapperStyle}>📞</div>
           </Link>
         </div>
 
-        {/* Main Floating Toggle Button */}
         <button 
           onClick={() => setIsFabOpen(!isFabOpen)}
           className="btn-pulse"
