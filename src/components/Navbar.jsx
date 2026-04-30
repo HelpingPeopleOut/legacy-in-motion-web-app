@@ -201,7 +201,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Main Floating Toggle Button */}
+        {/* Main Floating Toggle Button (Fixed typo here) */}
         <button 
           onClick={() => setIsFabOpen(!isFabOpen)}
           className="btn-pulse"
@@ -209,7 +209,7 @@ export default function Navbar() {
             width: "60px", height: "60px", borderRadius: "50%",
             backgroundColor: "var(--gold)", color: "white",
             border: "none", cursor: "pointer", display: "flex",
-            alignItems: "center", justify-content: "center",
+            alignItems: "center", justifyContent: "center",
             boxShadow: "var(--shadow-md)", transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
             transform: isFabOpen ? "rotate(45deg)" : "rotate(0deg)"
           }}
