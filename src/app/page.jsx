@@ -59,10 +59,13 @@ export default function Home() {
       {/* -------------------- */}
 
       {/* HERO SECTION */}
-      <header className="hero hero-index container fade-in">
-        <div className="hero-grid">
+      <header className="hero hero-index fade-in">
+        <div className="container hero-grid">
           <div>
-            <h1>The 7-Steps to Enduring Wealth.</h1>
+            <h1 style={{ lineHeight: "1.15" }}>
+              The 7-Steps to <br />
+              <span className="text-gold">Enduring Wealth.</span>
+            </h1>
             <p>
               As a Senior Financial Associate with Experior Financial Group Inc.,
               I guide clients from financial complexity to a clear, actionable path
@@ -183,54 +186,56 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="stories" className="stories container fade-in">
-        <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
-          Proven Financial Transformations
-        </h2>
-        <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>
-          Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.
-        </p>
+      <section id="stories" className="stories fade-in">
+        <div className="container">
+          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
+            Proven Financial Transformations
+          </h2>
+          <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>
+            Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.
+          </p>
 
-        <div className="card-grid">
-          <article className="card story-card">
-            <h4>Overwhelming Debt Eliminated</h4>
-            <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-              &quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;
-            </p>
-            <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-              <span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.
-            </p>
-          </article>
+          <div className="card-grid">
+            <article className="card story-card">
+              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
+                &quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;
+              </p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
+                <span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.
+              </p>
+            </article>
 
-          <article className="card story-card">
-            <h4>Unmanaged Pension Rollovers</h4>
-            <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-              &quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;
-            </p>
-            <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-              <span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.
-            </p>
-          </article>
+            <article className="card story-card">
+              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
+                &quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;
+              </p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
+                <span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.
+              </p>
+            </article>
 
-          <article className="card story-card">
-            <h4>Protection During Illness</h4>
-            <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-              &quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;
-            </p>
-            <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-              <span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.
-            </p>
-          </article>
+            <article className="card story-card">
+              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
+                &quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;
+              </p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
+                <span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.
+              </p>
+            </article>
 
-          <article className="card story-card">
-            <h4>Avoiding Probate & Family Disputes</h4>
-            <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-              &quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;
-            </p>
-            <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-              <span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.
-            </p>
-          </article>
+            <article className="card story-card">
+              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
+                &quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;
+              </p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
+                <span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -285,19 +290,21 @@ export default function Home() {
       </section>
 
       {/* 2. THE GLOBAL COMPONENT DOES ALL THE HEAVY LIFTING */}
-      <GlobalLeadForm 
-        title="Ready to Build Your Fortress?" 
-        subtitle="Fill out the form below so we can get started on tailored solutions for your family or business."
-        sourcePage="English Main Homepage"
-        dropdownOptions={[
-          "Retirement Planning & 401(k) Rollovers",
-          "Life Insurance & Living Benefits",
-          "Estate Planning, Trusts & Wills",
-          "Debt Elimination & Cash Flow Analysis",
-          "Business Exit & Executive Bonus Plans",
-          "Children's Investment & Savings Accounts"
-        ]}
-      />
+      <div id="consultation">
+        <GlobalLeadForm 
+          title="Ready to Build Your Fortress?" 
+          subtitle="Fill out the form below so we can get started on tailored solutions for your family or business."
+          sourcePage="English Main Homepage"
+          dropdownOptions={[
+            "Retirement Planning & 401(k) Rollovers",
+            "Life Insurance & Living Benefits",
+            "Estate Planning, Trusts & Wills",
+            "Debt Elimination & Cash Flow Analysis",
+            "Business Exit & Executive Bonus Plans",
+            "Children's Investment & Savings Accounts"
+          ]}
+        />
+      </div>
 
       {/* 3. THE BIBLE VERSE CAPSTONE */}
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
