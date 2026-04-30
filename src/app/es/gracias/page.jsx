@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 
-export default function Thanks() {
-  // Re-implementing your smooth fade-in animation
+export default function GraciasSpanish() {
+  // Smooth fade-in animation
   useEffect(() => {
     // Force the page to load at the very top
     window.scrollTo(0, 0);
@@ -33,7 +33,7 @@ export default function Thanks() {
     <>
       {/* --- SEO PROTECTION --- */}
       {/* This prevents Google from indexing your thank you page and ruining your SEO score */}
-      <title>Thank You | Legacy in Motion</title>
+      <title>Gracias | Legacy in Motion</title>
       <meta name="robots" content="noindex, nofollow" />
       
       <section 
@@ -51,11 +51,11 @@ export default function Thanks() {
           <div className="icon-sparkle" style={{ fontSize: "5rem", marginBottom: "1.5rem", animation: "float 4s ease-in-out infinite" }}>✨</div>
           
           <h1 style={{ fontSize: "3.8rem", marginBottom: "1.5rem", color: "var(--text-main)", letterSpacing: "-1px" }}>
-            Inquiry Successfully Received
+            Solicitud Recibida con Éxito
           </h1>
           
           <p style={{ fontSize: "1.25rem", color: "var(--text-muted)", marginBottom: "4rem", maxWidth: "650px", margin: "0 auto 4rem", lineHeight: "1.8" }}>
-            Our team at <span style={{color: "var(--gold)", fontWeight: 600}}>Legacy in Motion</span> has securely received your request. We will be in touch shortly to help you build your financial fortress. In the meantime, join our community for daily financial insights.
+            Nuestro equipo en <span style={{color: "var(--gold)", fontWeight: 600}}>Legacy in Motion</span> ha recibido su solicitud de manera segura. Nos pondremos en contacto con usted en breve. Mientras tanto, únase a nuestra comunidad para obtener consejos financieros diarios.
           </p>
 
           <div className="card-grid" style={{ marginBottom: "5rem", maxWidth: "800px", margin: "0 auto 5rem" }}>
@@ -99,13 +99,13 @@ export default function Thanks() {
                 LinkedIn
               </h3>
               <span style={{ fontSize: "1.1rem", color: "var(--gold)", fontWeight: 600 }}>
-                Connect with Nelly
+                Conecte con Nelly
               </span>
             </a>
           </div>
 
-          <Link href="/" className="btn-outline" style={{ padding: "1rem 3rem" }}>
-            Return to Homepage
+          <Link href="/es" className="btn-outline" style={{ padding: "1rem 3rem" }}>
+            Regresar al Inicio
           </Link>
         </div>
       </section>

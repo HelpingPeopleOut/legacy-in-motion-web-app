@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Script from "next/script";
-import { useRouter } from "next/navigation";
+import CinematicIntro from "@/components/CinematicIntro";
+import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function HomeSpanish() {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   // Implementando la animación de desvanecimiento suave (fade-in)
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,64 +30,30 @@ export default function HomeSpanish() {
     });
   }, []);
 
-  // --- Manejador de formulario para Google Apps Script ---
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get("attachment");
-    
-    let fileBase64 = "";
-    let fileName = "";
-    let fileType = "";
-
-    // Convertir archivo a texto Base64 si se adjuntó alguno
-    if (file && file.size > 0) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      await new Promise((resolve) => (reader.onload = resolve));
-      fileBase64 = reader.result.split(',')[1];
-      fileName = file.name;
-      fileType = file.type;
-    }
-
-    // Empaquetar los datos para enviarlos al CRM de Google
-    const payload = {
-      name: formData.get("Full Name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      topic: formData.get("Primary Goal"),
-      notes: formData.get("Notes"),
-      fileBase64: fileBase64,
-      fileName: fileName,
-      fileType: fileType
-    };
-
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbyitmS-i4AxF7jg9GKgID5zpQAh83JjSDV5cbywccURQ4qqVPplG2kliP-RC59pCweX/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-      });
-      
-      // Redirigir a la página de agradecimiento en español
-      router.push("/es/thanks");
-    } catch (error) {
-      console.error(error);
-      alert("Hubo un error al enviar su solicitud. Por favor, inténtelo de nuevo.");
-      setIsSubmitting(false);
-    }
+  // --- INVISIBLE ORGANIZATION SCHEMA ---
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "Legacy in Motion",
+    "url": "https://www.legacyinmotion.org/es",
+    "description": "Consultoría financiera experta. Especialistas en Planificación de Jubilación, Seguros de Vida con Beneficios en Vida y Planificación Patrimonial.",
+    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"]
   };
 
   return (
     <>
+      {/* 1. LA EXPERIENCIA CINEMATOGRÁFICA */}
+      <CinematicIntro />
+      
       {/* --- SEO METADATA (SPANISH) --- */}
       <title>Consultor Financiero en Los Ángeles y SGV | Legacy in Motion</title>
       <meta name="description" content="Servicios expertos en planificación de jubilación, transferencias de pensiones y planificación patrimonial en Los Ángeles, Pasadena y el Valle de San Gabriel. Construya su fortaleza financiera." />
       <meta name="keywords" content="Planificador de jubilación en Pasadena CA, Especialista en rollover de pensión y 401k cerca de mí, Servicios de planificación patrimonial Valle de San Gabriel, Seguro de vida con beneficios en vida Los Ángeles, Consultor financiero cerca de mí" />
+      <Script 
+        id="schema-org-home-es"
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
+      />
       {/* -------------------- */}
 
       <header className="hero hero-index container fade-in">
@@ -102,7 +66,7 @@ export default function HomeSpanish() {
               para construir un legado. Establezca su fortaleza financiera en tan solo 90 días.
             </p>
             <div className="hero-buttons">
-              <a href="#contact" className="btn-gold btn-pulse">
+              <a href="#consultation" className="btn-gold btn-pulse">
                 Comience su Plan
               </a>
               <a href="#framework" className="btn-outline">
@@ -400,76 +364,28 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      <section id="contact" className="lead-gen fade-in">
-        <div className="container">
-          <h2 className="text-center" style={{ fontSize: "3.2rem", color: "var(--text-main)" }}>
-            ¿Listo para Construir su Fortaleza?
-          </h2>
+      {/* 2. COMPONENTE GLOBAL INTEGRADO EN ESPAÑOL */}
+      <GlobalLeadForm 
+        title="¿Listo para Construir su Fortaleza?" 
+        subtitle="Complete el formulario a continuación para que podamos comenzar a diseñar soluciones personalizadas para su familia o negocio."
+        lang="es"
+        sourcePage="Página de Inicio Principal (ES)"
+        dropdownOptions={[
+          "Planificación de Jubilación y Rollovers 401(k)",
+          "Seguro de Vida y Beneficios en Vida",
+          "Planificación Patrimonial, Fideicomisos y Testamentos",
+          "Eliminación de Deudas y Análisis de Flujo de Efectivo",
+          "Salida de Negocios y Bonificación Ejecutiva",
+          "Cuentas de Inversión y Ahorro para Niños"
+        ]}
+      />
+
+      {/* 3. BIBLE VERSE */}
+      <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
+        <div className="container fade-in">
           <p
             className="text-center"
             style={{
-              color: "var(--text-muted)",
-              fontSize: "1.2rem",
-              marginTop: "1rem",
-              maxWidth: "600px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            Complete el formulario a continuación para que podamos comenzar a diseñar 
-            soluciones personalizadas para su familia o negocio.
-          </p>
-
-          <div className="form-wrapper">
-            <form onSubmit={handleSubmit}>
-              <input type="text" name="Full Name" placeholder="Nombre Completo" required disabled={isSubmitting} />
-              <input type="email" name="email" placeholder="Correo Electrónico" required disabled={isSubmitting} />
-              <input type="tel" name="phone" placeholder="Número de Teléfono" required disabled={isSubmitting} />
-
-              <select name="Primary Goal" required style={{ color: "var(--text-muted)" }} disabled={isSubmitting}>
-                <option value="" disabled selected>
-                  ¿Cuál es su principal objetivo financiero?
-                </option>
-                <option value="retirement">Planificación de Jubilación y Rollovers 401(k)</option>
-                <option value="insurance">Seguro de Vida y Beneficios en Vida</option>
-                <option value="estate">Planificación Patrimonial, Fideicomisos y Testamentos</option>
-                <option value="debt">Eliminación de Deudas y Análisis de Flujo de Efectivo</option>
-                <option value="business">Salida de Negocios y Bonificación Ejecutiva</option>
-                <option value="children">Cuentas de Inversión y Ahorro para Niños</option>
-              </select>
-
-              <textarea name="Notes" rows="5" placeholder="Describa brevemente sus prioridades financieras actuales..." disabled={isSubmitting}></textarea>
-
-              <div style={{ marginBottom: "1.5rem", textAlign: "left" }}>
-                <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "0.5rem" }}>
-                  Adjuntar Orden de Trabajo o Imagen (Opcional)
-                </label>
-                <input 
-                  type="file" 
-                  name="attachment" 
-                  accept="image/*, application/pdf"
-                  style={{ 
-                    color: "var(--text-main)", 
-                    background: "transparent", 
-                    border: "1px dashed var(--border-light)", 
-                    padding: "12px", 
-                    width: "100%", 
-                    borderRadius: "4px" 
-                  }}
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <button type="submit" className="btn-gold btn-pulse" style={{ width: "100%" }} disabled={isSubmitting}>
-                {isSubmitting ? "Enviando de forma segura..." : "Solicitar Sesión de Estrategia Gratuita"}
-              </button>
-            </form>
-          </div>
-
-          <p
-            className="text-center"
-            style={{
-              marginTop: "6rem",
               fontFamily: "var(--font-heading)",
               fontStyle: "italic",
               fontSize: "1.6rem",

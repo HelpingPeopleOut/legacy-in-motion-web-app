@@ -5,8 +5,39 @@ import TrustedPartners from "@/components/TrustedPartners";
 
 export const metadata = {
   title: "Legacy in Motion | Wealth & Estate Planning",
-  description: "Expert financial consulting. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
+  description: "Expert financial consulting in Los Angeles & the San Gabriel Valley. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
   applicationName: "Legacy in Motion",
+  keywords: [
+    "Financial Planner Los Angeles", 
+    "Estate Planning SGV", 
+    "Living Benefits Life Insurance", 
+    "401k Rollovers",
+    "Generational Wealth California"
+  ],
+  // --- ENTERPRISE OPEN GRAPH (SOCIAL SHARING) ---
+  openGraph: {
+    title: "Legacy in Motion | Wealth & Estate Planning",
+    description: "Establish your financial fortress. Expert retirement, living benefits, and estate planning in Southern California.",
+    url: "https://www.legacyinmotion.org",
+    siteName: "Legacy in Motion",
+    images: [
+      {
+        url: "/og-image.jpg", // You can add a premium 1200x630 image to your public folder later!
+        width: 1200,
+        height: 630,
+        alt: "Legacy in Motion - Financial Planning",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  // --- TWITTER / X CARDS ---
+  twitter: {
+    card: "summary_large_image",
+    title: "Legacy in Motion | Wealth & Estate Planning",
+    description: "Establish your financial fortress in as little as 90 days.",
+    images: ["/og-image.jpg"],
+  },
   appleWebApp: {
     capable: true,
     title: "Legacy",
@@ -51,7 +82,8 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-        {/* 'children' is where your page content will automatically go */}
+        
+        {/* 'children' is where your page content (and Cinematic Intro) will automatically go */}
         <main>{children}</main>
         
         {/* --- GLOBAL COMPONENTS --- */}

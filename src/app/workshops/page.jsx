@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import Script from "next/script";
+import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function Workshops() {
   // Re-implementing your smooth fade-in scroll animation
   useEffect(() => {
-    // THIS LINE FORCES THE PAGE TO LOAD AT THE VERY TOP
     window.scrollTo(0, 0);
 
     const observerOptions = {
@@ -28,12 +29,31 @@ export default function Workshops() {
     });
   }, []);
 
+  // --- INVISIBLE SERVICE SCHEMA FOR GOOGLE ---
+  const workshopSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Corporate Financial Wellness Workshops",
+    "provider": {
+      "@type": "FinancialService",
+      "name": "Legacy in Motion"
+    },
+    "description": "Professional employee financial education workshops in Los Angeles and the San Gabriel Valley.",
+    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley", "California"],
+    "serviceType": "Financial Education"
+  };
+
   return (
     <>
       {/* --- SEO METADATA --- */}
       <title>Corporate Financial Wellness Workshops Los Angeles | Legacy in Motion</title>
       <meta name="description" content="Host professional employee financial education workshops in Los Angeles and the SGV. Topics include debt elimination, credit building, and wealth growth strategies." />
       <meta name="keywords" content="Corporate financial wellness workshops Los Angeles, Employee financial education programs SGV, How does an executive bonus plan work for a small business owner, Key person insurance Los Angeles" />
+      <Script 
+        id="schema-workshops"
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(workshopSchema) }} 
+      />
       {/* -------------------- */}
 
       <header
@@ -83,7 +103,7 @@ export default function Workshops() {
             professional workshops designed to eliminate employee financial stress
             and build a roadmap to true wealth.
           </p>
-          <a href="#inquiry" className="btn-gold btn-pulse">
+          <a href="#consultation" className="btn-gold btn-pulse">
             Request Booking Information
           </a>
         </div>
@@ -175,69 +195,18 @@ export default function Workshops() {
         </div>
       </section>
 
-      <section
-        id="inquiry"
-        className="lead-gen dark-theme fade-in"
-        style={{ padding: "8rem 0", background: "var(--bg-dark)", color: "#ffffff" }}
-      >
-        <div className="container">
-          <h2 className="text-center" style={{ fontSize: "3rem", color: "#ffffff" }}>
-            Host a Session
-          </h2>
-          <p
-            className="text-center"
-            style={{ color: "#aaa", maxWidth: "600px", margin: "1.5rem auto 0", fontSize: "1.1rem" }}
-          >
-            Fill out the inquiry form below. This routes directly to Legacy in Motion to
-            begin coordinating your event.
-          </p>
-
-          <div className="form-wrapper">
-            <form action="https://formsubmit.co/workorders@hpo.center" method="POST">
-              <input type="hidden" name="_subject" value="NEW WORKSHOP INQUIRY: Legacy in Motion" />
-              <input type="hidden" name="_template" value="box" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://legacy-in-motion.org/thanks" />
-              <input type="hidden" name="_cc" value="nlaracruz@experiorfinancialgroup.com" />
-
-              <div className="form-grid">
-                <div>
-                  <input type="text" name="Organization" placeholder="Organization Name" required />
-                </div>
-                <div>
-                  <input type="text" name="Contact Name" placeholder="Contact Person Name" required />
-                </div>
-                <div>
-                  <input type="email" name="email" placeholder="Email Address" required />
-                </div>
-                <div>
-                  <input type="tel" name="phone" placeholder="Phone Number" required />
-                </div>
-                <div className="form-full">
-                  <select name="Workshop Topic" required>
-                    <option value="" disabled selected>Select Primary Topic of Interest</option>
-                    <option value="Debt & Credit">Debt Management & Credit Building</option>
-                    <option value="Growth & Wealth">Growth Strategies & Risk Management</option>
-                    <option value="Taxes & Wealth">The Impact of Taxes on Wealth</option>
-                    <option value="Full Series">Comprehensive Financial Wellness Series</option>
-                  </select>
-                </div>
-                <div className="form-full">
-                  <textarea
-                    name="Notes"
-                    rows="6"
-                    placeholder="Tell us about your group (estimated audience size, preferred dates, location)..."
-                  ></textarea>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-gold" style={{ width: "100%" }}>
-                Submit Booking Inquiry
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      {/* --- ENTERPRISE GLOBAL FORM INJECTION --- */}
+      <GlobalLeadForm 
+        title="Host a Session" 
+        subtitle="Fill out the inquiry form below. Please include your Organization Name and expected audience size in the notes."
+        sourcePage="Corporate Workshops Page"
+        dropdownOptions={[
+          "Debt Management & Credit Building",
+          "Growth Strategies & Risk Management",
+          "The Impact of Taxes on Wealth",
+          "Comprehensive Financial Wellness Series"
+        ]}
+      />
     </>
   );
 }

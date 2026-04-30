@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Script from "next/script";
+import GlobalLeadForm from "@/components/GlobalLeadForm";
 
-export default function WorkshopsSpanish() {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+export default function SeminariosSpanish() {
+  // Implementando la animación de desvanecimiento suave (fade-in)
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -30,57 +29,31 @@ export default function WorkshopsSpanish() {
     });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get("attachment");
-    
-    let fileBase64 = "";
-    let fileName = "";
-    let fileType = "";
-
-    if (file && file.size > 0) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      await new Promise((resolve) => (reader.onload = resolve));
-      fileBase64 = reader.result.split(',')[1];
-      fileName = file.name;
-      fileType = file.type;
-    }
-
-    const payload = {
-      name: formData.get("Contact Name") + " (" + formData.get("Organization") + ")",
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      topic: formData.get("Workshop Topic"),
-      notes: formData.get("Notes"),
-      fileBase64: fileBase64,
-      fileName: fileName,
-      fileType: fileType
-    };
-
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbyitmS-i4AxF7jg9GKgID5zpQAh83JjSDV5cbywccURQ4qqVPplG2kliP-RC59pCweX/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-      });
-      router.push("/es/thanks");
-    } catch (error) {
-      console.error(error);
-      alert("Hubo un error al enviar su solicitud. Por favor, inténtelo de nuevo.");
-      setIsSubmitting(false);
-    }
+  // --- INVISIBLE SERVICE SCHEMA FOR GOOGLE (ES) ---
+  const seminarSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Seminarios Corporativos de Bienestar Financiero",
+    "provider": {
+      "@type": "FinancialService",
+      "name": "Legacy in Motion"
+    },
+    "description": "Seminarios profesionales de educación financiera para empleados en Los Ángeles y el Valle de San Gabriel.",
+    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley", "California"],
+    "serviceType": "Educación Financiera"
   };
 
   return (
     <>
       {/* --- SEO METADATA --- */}
-      <title>Talleres Corporativos de Bienestar Financiero Los Ángeles | Legacy in Motion</title>
-      <meta name="description" content="Organice talleres profesionales de educación financiera para empleados. Los temas incluyen eliminación de deudas, construcción de crédito y estrategias de crecimiento." />
-      <meta name="keywords" content="Talleres corporativos de bienestar financiero Los Ángeles, Programas de educación financiera para empleados SGV, Educación financiera para empresas, Seminarios financieros en español" />
+      <title>Seminarios Corporativos de Bienestar Financiero Los Ángeles | Legacy in Motion</title>
+      <meta name="description" content="Organice seminarios profesionales de educación financiera para empleados. Los temas incluyen eliminación de deudas, construcción de crédito y estrategias de crecimiento." />
+      <meta name="keywords" content="Seminarios corporativos de bienestar financiero Los Ángeles, Programas de educación financiera para empleados SGV, Educación financiera para empresas, Seminarios financieros en español" />
+      <Script 
+        id="schema-seminars-es"
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seminarSchema) }} 
+      />
       {/* -------------------- */}
 
       <header
@@ -127,10 +100,10 @@ export default function WorkshopsSpanish() {
             }}
           >
             Nos asociamos con dueños de negocios y líderes comunitarios para organizar
-            talleres profesionales diseñados para eliminar el estrés financiero de los 
+            seminarios profesionales diseñados para eliminar el estrés financiero de los 
             empleados y construir una hoja de ruta hacia la verdadera riqueza.
           </p>
-          <a href="#inquiry" className="btn-gold btn-pulse">
+          <a href="#consultation" className="btn-gold btn-pulse">
             Solicitar Información de Reserva
           </a>
         </div>
@@ -142,7 +115,7 @@ export default function WorkshopsSpanish() {
       >
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "3rem" }}>
-            Temas de las Clases Magistrales
+            Temas de los Seminarios
           </h2>
           <p
             className="text-center text-muted"
@@ -222,83 +195,19 @@ export default function WorkshopsSpanish() {
         </div>
       </section>
 
-      <section
-        id="inquiry"
-        className="lead-gen dark-theme fade-in"
-        style={{ padding: "8rem 0", background: "var(--bg-dark)", color: "#ffffff" }}
-      >
-        <div className="container">
-          <h2 className="text-center" style={{ fontSize: "3rem", color: "#ffffff" }}>
-            Organice una Sesión
-          </h2>
-          <p
-            className="text-center"
-            style={{ color: "#aaa", maxWidth: "600px", margin: "1.5rem auto 0", fontSize: "1.1rem" }}
-          >
-            Complete el formulario de consulta a continuación. Esto se dirige directamente a 
-            Legacy in Motion para comenzar a coordinar su evento.
-          </p>
-
-          <div className="form-wrapper">
-            <form onSubmit={handleSubmit}>
-              <div className="form-grid">
-                <div>
-                  <input type="text" name="Organization" placeholder="Nombre de la Organización" required disabled={isSubmitting} />
-                </div>
-                <div>
-                  <input type="text" name="Contact Name" placeholder="Nombre de la Persona de Contacto" required disabled={isSubmitting} />
-                </div>
-                <div>
-                  <input type="email" name="email" placeholder="Correo Electrónico" required disabled={isSubmitting} />
-                </div>
-                <div>
-                  <input type="tel" name="phone" placeholder="Número de Teléfono" required disabled={isSubmitting} />
-                </div>
-                <div className="form-full">
-                  <select name="Workshop Topic" required disabled={isSubmitting}>
-                    <option value="" disabled selected>Seleccione el Tema Principal de Interés</option>
-                    <option value="Debt & Credit">Gestión de Deudas y Construcción de Crédito</option>
-                    <option value="Growth & Wealth">Estrategias de Crecimiento y Gestión de Riesgos</option>
-                    <option value="Taxes & Wealth">El Impacto de los Impuestos en la Riqueza</option>
-                    <option value="Full Series">Serie Integral de Bienestar Financiero</option>
-                  </select>
-                </div>
-                <div className="form-full">
-                  <textarea
-                    name="Notes"
-                    rows="6"
-                    placeholder="Cuéntenos sobre su grupo (tamaño estimado de audiencia, fechas preferidas, ubicación)..."
-                    disabled={isSubmitting}
-                  ></textarea>
-                </div>
-                <div className="form-full" style={{ marginBottom: "1.5rem", textAlign: "left" }}>
-                  <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "0.5rem" }}>
-                    Adjuntar Orden de Trabajo o Imagen (Opcional)
-                  </label>
-                  <input 
-                    type="file" 
-                    name="attachment" 
-                    accept="image/*, application/pdf"
-                    style={{ 
-                      color: "var(--text-main)", 
-                      background: "transparent", 
-                      border: "1px dashed var(--border-light)", 
-                      padding: "12px", 
-                      width: "100%", 
-                      borderRadius: "4px" 
-                    }}
-                    disabled={isSubmitting}
-                  />
-                </div>
-              </div>
-
-              <button type="submit" className="btn-gold" style={{ width: "100%" }} disabled={isSubmitting}>
-                {isSubmitting ? "Enviando Solicitud..." : "Enviar Consulta de Reserva"}
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      {/* --- ENTERPRISE GLOBAL FORM INJECTION (SPANISH) --- */}
+      <GlobalLeadForm 
+        title="Organice un Seminario" 
+        subtitle="Complete el formulario a continuación. Por favor, incluya el nombre de su organización y el tamaño esperado de la audiencia en las notas."
+        lang="es"
+        sourcePage="Spanish Corporate Seminars Page"
+        dropdownOptions={[
+          "Gestión de Deudas y Construcción de Crédito",
+          "Estrategias de Crecimiento y Gestión de Riesgos",
+          "El Impacto de los Impuestos en la Riqueza",
+          "Serie Integral de Bienestar Financiero"
+        ]}
+      />
     </>
   );
 }

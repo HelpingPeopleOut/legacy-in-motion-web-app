@@ -1,142 +1,148 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
+/* src/app/page.module.css */
 
-  --text-primary: #000;
-  --text-secondary: #666;
+/* =========================================
+   CINEMATIC "TRAPPED TO FREEDOM" INTRO
+========================================= */
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+.introOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  /* The "Trapped" feeling: A heavy, dark, oppressive gradient */
+  background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
+  overflow: hidden;
+  transition: opacity 1.5s cubic-bezier(0.8, 0, 0.2, 1);
 }
 
-.main {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+.introOverlay.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+/* The chains/weight of financial burden */
+.oppressiveShadow {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.8) 0px,
+    rgba(0, 0, 0, 0.8) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  opacity: 0.3;
+  animation: heavyPulse 4s infinite alternate ease-in-out;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
+/* The cinematic focus-pull for the Bible Verse */
+.verseContainer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 2rem;
+  max-width: 900px;
+  /* Starts invisible and blurred out */
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(0.95);
+  animation: divineReveal 5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: 1s; /* Waits 1 second before starting */
+}
+
+.verseText {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-style: italic;
+  color: #ffffff;
+  line-height: 1.5;
+  text-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+}
+
+.verseReference {
+  display: block;
+  margin-top: 2rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold, #D4AF37);
+  opacity: 0;
+  animation: fadeInRef 2s forwards;
+  animation-delay: 4s; /* Reference appears after the verse is read */
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+/* The Breakthrough of Light (Freedom) */
+.lightBreakthrough {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  background: var(--gold, #D4AF37);
+  border-radius: 50%;
+  box-shadow: 0 0 100px 50px rgba(212, 175, 55, 0.8);
+  opacity: 0;
+  z-index: 1;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
+.lightBreakthrough.active {
+  animation: explodeLight 2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+/* =========================================
+   KEYFRAMES (THE MAGIC)
+========================================= */
+
+@keyframes heavyPulse {
+  0% { transform: scale(1); opacity: 0.2; }
+  100% { transform: scale(1.05); opacity: 0.5; }
 }
 
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--button-secondary-border);
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+@keyframes divineReveal {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(0.95);
   }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+  30% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(1.05);
   }
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+@keyframes fadeInRef {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+@keyframes explodeLight {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
   }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  20% {
+    opacity: 1;
+  }
+  100% {
+    /* Expands to cover the entire screen */
+    transform: translate(-50%, -50%) scale(500); 
+    opacity: 1;
   }
 }

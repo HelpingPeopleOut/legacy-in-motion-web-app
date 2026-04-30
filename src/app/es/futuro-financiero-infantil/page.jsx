@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Script from "next/script";
+import GlobalLeadForm from "@/components/GlobalLeadForm";
 
-export default function FreedomFinancialBabySpanish() {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+export default function FuturoFinancieroInfantil() {
+  // Smooth fade-in scroll animation
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -30,48 +29,20 @@ export default function FreedomFinancialBabySpanish() {
     });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get("attachment");
-    
-    let fileBase64 = "";
-    let fileName = "";
-    let fileType = "";
-
-    if (file && file.size > 0) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      await new Promise((resolve) => (reader.onload = resolve));
-      fileBase64 = reader.result.split(',')[1];
-      fileName = file.name;
-      fileType = file.type;
-    }
-
-    const payload = {
-      name: formData.get("Full Name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      topic: formData.get("Childrens Age Range"),
-      notes: formData.get("Notes"),
-      fileBase64: fileBase64,
-      fileName: fileName,
-      fileType: fileType
-    };
-
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbyitmS-i4AxF7jg9GKgID5zpQAh83JjSDV5cbywccURQ4qqVPplG2kliP-RC59pCweX/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-      });
-      router.push("/es/thanks");
-    } catch (error) {
-      console.error(error);
-      alert("Hubo un error al enviar su solicitud. Por favor, inténtelo de nuevo.");
-      setIsSubmitting(false);
+  // --- INVISIBLE PRODUCT SCHEMA FOR GOOGLE (ES) ---
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    "name": "Freedom Financial Baby (Futuro Financiero Infantil)",
+    "brand": {
+      "@type": "FinancialService",
+      "name": "Legacy in Motion"
+    },
+    "description": "Cuentas de inversión para niños que aprovechan el interés compuesto y estrategias de transferencia de riqueza libres de impuestos para familias en Los Ángeles y el Valle de San Gabriel.",
+    "category": "Seguro de Vida / Construcción de Riqueza",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Padres y Abuelos"
     }
   };
 
@@ -81,45 +52,54 @@ export default function FreedomFinancialBabySpanish() {
       <title>Riqueza Generacional para Niños | Freedom Financial Baby | Los Ángeles</title>
       <meta name="description" content="Descubra cómo construir riqueza generacional para su hijo. Ayudamos a familias en Los Ángeles y el SGV a establecer cuentas de inversión aprovechando el interés compuesto." />
       <meta name="keywords" content="Cómo construir riqueza generacional para un bebé, Cuentas de inversión para niños Los Ángeles, Seguro de vida para niños interés compuesto, Estrategias de transferencia de riqueza libres de impuestos" />
+      <Script 
+        id="schema-freedom-baby-es"
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} 
+      />
       {/* -------------------- */}
 
-      <header className="hero fade-in">
+      <header className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">
-          <p
+          <span
             style={{
               textTransform: "uppercase",
               letterSpacing: "2px",
               fontWeight: 600,
               color: "var(--gold)",
               marginBottom: "1rem",
+              display: "inline-block"
             }}
           >
             Freedom Financial Baby
-          </p>
-          <h1>Dé el regalo de un futuro hoy.</h1>
-          <p>
+          </span>
+          <h1 style={{ fontSize: "3.8rem", maxWidth: "900px", margin: "0 auto 1.5rem" }}>
+            Dé el regalo de un futuro hoy.
+          </h1>
+          <p style={{ fontSize: "1.2rem", maxWidth: "700px", margin: "0 auto 2.5rem" }}>
             Transforme su forma de pensar sobre la herencia. Descubra una estrategia práctica
             y accesible para que las familias aseguren un legado financiero masivo
             para sus hijos, sin necesidad de una fortuna para comenzar.
           </p>
-          <a
-            href="#contact"
-            className="btn-gold btn-pulse"
-            style={{ marginTop: "1rem" }}
-          >
-            Comience su Plan Hoy
-          </a>
+          <div className="hero-buttons">
+            <a
+              href="#consultation"
+              className="btn-gold btn-pulse"
+            >
+              Comience su Plan Hoy
+            </a>
+          </div>
         </div>
       </header>
 
-      <section className="text-section fade-in">
+      <section className="text-section fade-in" style={{ background: "var(--bg-page)" }}>
         <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.5rem" }}>
+          <h2 className="text-center" style={{ fontSize: "2.8rem" }}>
             Solo el 22% de los niños recibirán una herencia.
           </h2>
           <p
             className="text-center text-muted"
-            style={{ maxWidth: "700px", margin: "1rem auto 0" }}
+            style={{ maxWidth: "700px", margin: "1rem auto 0", fontSize: "1.1rem" }}
           >
             Tres duras realidades hacen que dejar una herencia tradicional
             sea poco probable para la mayoría de los padres trabajadores:
@@ -128,7 +108,7 @@ export default function FreedomFinancialBabySpanish() {
           <div className="realities-grid card-grid">
             <div className="reality-card card">
               <h3 className="text-gold" style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>01. Longevidad</h3>
-              <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
                 Vivir más es una bendición, pero significa que los padres necesitarán
                 estirar sus ahorros para financiar una jubilación más larga,
                 dejando menos atrás.
@@ -136,14 +116,14 @@ export default function FreedomFinancialBabySpanish() {
             </div>
             <div className="reality-card card">
               <h3 className="text-gold" style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>02. Facturas Médicas</h3>
-              <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
                 Los costos de atención médica superan constantemente la inflación. El jubilado promedio
                 gasta más de $150,000 en atención médica desde los 65 años hasta el final de su vida.
               </p>
             </div>
             <div className="reality-card card">
               <h3 className="text-gold" style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>03. Cuidado a Largo Plazo</h3>
-              <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
                 El 70% de las personas mayores de 65 años necesitarán algún tipo de apoyo
                 a largo plazo, lo que puede costar fácilmente cientos de miles de dólares en sus últimos años.
               </p>
@@ -159,7 +139,7 @@ export default function FreedomFinancialBabySpanish() {
           </h2>
           <p
             className="text-center"
-            style={{ color: "#aaaaaa", maxWidth: "600px", margin: "1rem auto 0" }}
+            style={{ color: "#aaaaaa", maxWidth: "600px", margin: "1rem auto 0", fontSize: "1.1rem" }}
           >
             Ambas opciones crean una base sólida, pero una es mucho más
             alcanzable para la familia moderna.
@@ -193,10 +173,10 @@ export default function FreedomFinancialBabySpanish() {
 
       <section
         className="text-section fade-in text-center"
-        style={{ borderBottom: "1px solid var(--border-light)" }}
+        style={{ borderBottom: "1px solid var(--border-light)", background: "var(--bg-page)" }}
       >
         <div className="container content-wrapper">
-          <h2 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
+          <h2 style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
             Sentido Común que Vale Millones
           </h2>
           <p
@@ -228,22 +208,22 @@ export default function FreedomFinancialBabySpanish() {
             }}
           >
             La estrategia Freedom Financial Baby aprovecha tres conceptos simples:{" "}
-            <strong>Interés Compuesto</strong> (dinero creciendo sobre dinero),{" "}
-            <strong>El Valor del Dinero en el Tiempo</strong> (el dinero ahorrado hoy vale
-            más mañana), y <strong>Protección de Riqueza</strong> (salvaguardar
+            <strong style={{ color: "var(--text-main)" }}>Interés Compuesto</strong> (dinero creciendo sobre dinero),{" "}
+            <strong style={{ color: "var(--text-main)" }}>El Valor del Dinero en el Tiempo</strong> (el dinero ahorrado hoy vale
+            más mañana), y <strong style={{ color: "var(--text-main)" }}>Protección de Riqueza</strong> (salvaguardar
             esos activos a través de productos de seguros estratégicos y fideicomisos).
           </p>
         </div>
       </section>
 
-      <section className="math-section fade-in text-section">
+      <section className="math-section fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.5rem" }}>
+          <h2 className="text-center" style={{ fontSize: "2.8rem" }}>
             El Costo de Esperar
           </h2>
           <p
             className="text-center text-muted"
-            style={{ maxWidth: "600px", margin: "1rem auto 2rem" }}
+            style={{ maxWidth: "650px", margin: "1rem auto 2rem", fontSize: "1.1rem" }}
           >
             ¿Qué sucede si aprovecha toda la vida de un niño para el crecimiento
             compuesto en lugar de esperar hasta que tenga 18 años? Considere esta
@@ -254,12 +234,12 @@ export default function FreedomFinancialBabySpanish() {
             <div className="math-row">
               <div className="math-label">
                 <h4 style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Escenario 1: Comenzando al Nacer</h4>
-                <p style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>Una contribución única de $13,000 crece durante 67 años.</p>
+                <p style={{ fontSize: "0.95rem", color: "var(--text-muted)" }}>Una contribución única de $13,000 crece durante 67 años.</p>
               </div>
               <div className="math-data">
                 <div className="math-number">
                   <span>Contribución Inicial</span>
-                  <strong style={{ fontSize: "2rem" }}>$13,000</strong>
+                  <strong style={{ fontSize: "2.2rem" }}>$13,000</strong>
                 </div>
                 <div className="math-number highlight">
                   <span>Valor a los 67 Años</span>
@@ -271,14 +251,14 @@ export default function FreedomFinancialBabySpanish() {
             <div className="math-row">
               <div className="math-label">
                 <h4 style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>Escenario 2: Comenzando a los 18 Años</h4>
-                <p style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>
+                <p style={{ fontSize: "0.95rem", color: "var(--text-muted)" }}>
                   La misma contribución de $13,000, pero solo crece durante 49 años.
                 </p>
               </div>
               <div className="math-data">
                 <div className="math-number">
                   <span>Contribución Inicial</span>
-                  <strong style={{ fontSize: "2rem" }}>$13,000</strong>
+                  <strong style={{ fontSize: "2.2rem" }}>$13,000</strong>
                 </div>
                 <div className="math-number">
                   <span>Valor a los 67 Años</span>
@@ -290,7 +270,7 @@ export default function FreedomFinancialBabySpanish() {
 
           <p
             style={{
-              fontSize: "0.8rem",
+              fontSize: "0.85rem",
               color: "#888",
               maxWidth: "900px",
               margin: "2rem auto 0",
@@ -306,81 +286,20 @@ export default function FreedomFinancialBabySpanish() {
         </div>
       </section>
 
-      <section id="contact" className="lead-gen fade-in">
-        <div className="container">
-          <h2
-            className="text-center"
-            style={{ fontSize: "3.2rem", color: "var(--text-main)" }}
-          >
-            Plante el Árbol Hoy
-          </h2>
-          <p
-            className="text-center"
-            style={{
-              color: "var(--text-muted)",
-              fontSize: "1.2rem",
-              marginTop: "1rem",
-              maxWidth: "700px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            &quot;El verdadero significado de la vida es plantar árboles bajo cuya sombra
-            no esperas sentarte.&quot; Construyamos un plan para sus hijos que le
-            agradecerán décadas a partir de ahora.
-          </p>
-
-          <div className="form-wrapper">
-            <form onSubmit={handleSubmit}>
-              <input type="text" name="Full Name" placeholder="Su Nombre Completo" required disabled={isSubmitting} />
-              <input type="email" name="email" placeholder="Su Correo Electrónico" required disabled={isSubmitting} />
-              <input type="tel" name="phone" placeholder="Su Número de Teléfono" required disabled={isSubmitting} />
-
-              <select name="Childrens Age Range" required style={{ color: "var(--text-muted)" }} disabled={isSubmitting}>
-                <option value="" disabled selected>
-                  ¿En qué rango de edad están sus hijos?
-                </option>
-                <option value="expecting">Esperando / Recién Nacidos</option>
-                <option value="toddler">1 a 5 años</option>
-                <option value="child">6 a 12 años</option>
-                <option value="teen">13 a 17 años</option>
-                <option value="adult">18+ / Buscando otras opciones de legado</option>
-              </select>
-
-              <textarea
-                name="Notes"
-                rows="5"
-                placeholder="Describa brevemente sus metas para el futuro financiero de sus hijos..."
-                disabled={isSubmitting}
-              ></textarea>
-              
-              <div style={{ marginBottom: "1.5rem", textAlign: "left" }}>
-                <label style={{ display: "block", color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "0.5rem" }}>
-                  Adjuntar Orden de Trabajo o Imagen (Opcional)
-                </label>
-                <input 
-                  type="file" 
-                  name="attachment" 
-                  accept="image/*, application/pdf"
-                  style={{ 
-                    color: "var(--text-main)", 
-                    background: "transparent", 
-                    border: "1px dashed var(--border-light)", 
-                    padding: "12px", 
-                    width: "100%", 
-                    borderRadius: "4px" 
-                  }}
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <button type="submit" className="btn-gold btn-pulse" style={{ width: "100%" }} disabled={isSubmitting}>
-                {isSubmitting ? "Enviando de forma segura..." : "Solicitar una Consulta de Legado"}
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      {/* --- ENTERPRISE GLOBAL FORM INJECTION (SPANISH) --- */}
+      <GlobalLeadForm 
+        title="Plante el Árbol Hoy" 
+        subtitle="&quot;El verdadero significado de la vida es plantar árboles bajo cuya sombra no esperas sentarte.&quot; Construyamos un plan para sus hijos que le agradecerán décadas a partir de ahora."
+        lang="es"
+        sourcePage="Spanish Freedom Financial Baby Page"
+        dropdownOptions={[
+          "Esperando / Recién Nacidos",
+          "1 a 5 años",
+          "6 a 12 años",
+          "13 a 17 años",
+          "18+ / Buscando otras opciones de legado"
+        ]}
+      />
     </>
   );
 }
