@@ -67,7 +67,7 @@ export default function Navbar() {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
-    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby", // <--- FIXED HERE
+    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby",
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Llamada" : "Book a Call",
   };
@@ -169,7 +169,7 @@ export default function Navbar() {
               {isSpanish ? "EN" : "ES"}
             </Link>
 
-            <Link href={`${base}/#consultation`} className="btn-gold" style={{ padding: "0.5rem 1.5rem" }} onClick={closeMenu}>
+            <Link href={`${base}/request-callback`} className="btn-gold" style={{ padding: "0.5rem 1.5rem" }} onClick={closeMenu}>
               {navText.book}
             </Link>
           </div>
@@ -195,7 +195,7 @@ export default function Navbar() {
             </button>
           )}
           
-          <Link href={`${base}/#consultation`} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+          <Link href={`${base}/request-callback`} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
             <span style={fabLabelStyle}>{isSpanish ? "Solicitar Llamada" : "Request Callback"}</span>
             <div style={fabIconWrapperStyle}>📞</div>
           </Link>

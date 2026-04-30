@@ -1,7 +1,7 @@
 /* src/app/page.module.css */
 
 /* =========================================
-   CINEMATIC "TRAPPED TO FREEDOM" INTRO
+   CINEMATIC "TELEPORTATION PORTAL" INTRO
 ========================================= */
 
 .introOverlay {
@@ -12,30 +12,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* The "Trapped" feeling: A heavy, dark, oppressive gradient (now using deeper slate/navy undertones) */
-  background: radial-gradient(circle at 50% 50%, #0f172a 0%, #000000 100%);
+  /* Simple, sleek, pure black background */
+  background: #000000;
   overflow: hidden;
-  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+  /* Adds 3D depth for the portal zoom effect */
+  perspective: 1000px; 
 }
 
 .introOverlay.hidden {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-}
-
-/* The chains/weight of financial burden */
-.oppressiveShadow {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(0, 0, 0, 0.8) 0px,
-    rgba(0, 0, 0, 0.8) 10px,
-    transparent 10px,
-    transparent 20px
-  );
-  opacity: 0.3;
-  animation: heavyPulse 4s infinite alternate ease-in-out;
 }
 
 /* The cinematic focus-pull for the Bible Verse */
@@ -45,12 +33,12 @@
   text-align: center;
   padding: 0 2rem;
   max-width: 900px;
-  /* Starts invisible and blurred out */
   opacity: 0;
   filter: blur(10px);
-  transform: scale(0.95);
+  /* Starts slightly pushed back in 3D space */
+  transform: translateZ(-100px); 
   animation: divineReveal 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 1s; /* Waits 1 second before starting */
+  animation-delay: 1s;
 }
 
 .verseText {
@@ -59,8 +47,8 @@
   font-style: italic;
   color: #ffffff;
   line-height: 1.5;
-  /* Premium Navy Blue Glow */
-  text-shadow: 0 4px 25px rgba(30, 58, 138, 0.6);
+  /* Simple, clean white glow */
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .verseReference {
@@ -71,62 +59,59 @@
   font-weight: 600;
   letter-spacing: 4px;
   text-transform: uppercase;
-  /* Premium Navy Blue Text */
-  color: var(--gold, #1E3A8A);
+  /* Clean silver/grey */
+  color: #a0a0a0; 
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 4s; /* Reference appears after the verse is read */
+  animation-delay: 4s;
 }
 
-/* The Breakthrough of Light (Freedom) */
+/* The Teleportation Flash (Freedom) */
 .lightBreakthrough {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  width: 10px;
-  height: 10px;
-  /* Core is bright white, casting a massive Navy Blue aura */
+  width: 2px;
+  height: 2px;
+  /* Pure blinding white light */
   background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 120px 60px rgba(30, 58, 138, 0.9);
+  box-shadow: 0 0 50px 50px #ffffff, 0 0 150px 150px rgba(255, 255, 255, 0.8);
   opacity: 0;
-  z-index: 1;
+  z-index: 3;
 }
 
 .lightBreakthrough.active {
-  animation: explodeLight 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* Rapid, exponential scale to simulate warp speed/teleportation */
+  animation: teleportFlash 1.2s cubic-bezier(0.7, 0, 1, 1) forwards;
 }
 
 /* =========================================
    KEYFRAMES (THE MAGIC)
 ========================================= */
 
-@keyframes heavyPulse {
-  0% { transform: scale(1); opacity: 0.2; }
-  100% { transform: scale(1.05); opacity: 0.5; }
-}
-
 @keyframes divineReveal {
   0% {
     opacity: 0;
     filter: blur(10px);
-    transform: scale(0.95);
+    transform: translateZ(-100px);
   }
   30% {
     opacity: 1;
     filter: blur(0px);
-    transform: scale(1);
+    transform: translateZ(0px);
   }
   80% {
     opacity: 1;
     filter: blur(0px);
-    transform: scale(1);
+    transform: translateZ(0px);
   }
   100% {
     opacity: 0;
-    filter: blur(10px);
-    transform: scale(1.05);
+    filter: blur(20px);
+    /* Accelerates and zooms massively toward the camera */
+    transform: translateZ(400px); 
   }
 }
 
@@ -135,17 +120,17 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes explodeLight {
+@keyframes teleportFlash {
   0% {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
-  20% {
+  50% {
     opacity: 1;
   }
   100% {
-    /* Expands to cover the entire screen */
-    transform: translate(-50%, -50%) scale(500); 
+    /* Expands to cover the entire screen instantly */
+    transform: translate(-50%, -50%) scale(300); 
     opacity: 1;
   }
 }
