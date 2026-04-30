@@ -67,7 +67,7 @@ export default function Navbar() {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
-    baby: "Freedom Financial Baby", 
+    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby", // <--- FIXED HERE
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Llamada" : "Book a Call",
   };
@@ -201,7 +201,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Main Floating Toggle Button (Fixed typo here) */}
+        {/* Main Floating Toggle Button */}
         <button 
           onClick={() => setIsFabOpen(!isFabOpen)}
           className="btn-pulse"
