@@ -4,11 +4,17 @@ import { useEffect } from "react";
 import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
-export default function PasadenaRetirementPage() {
+export default function PasadenaRetirementPillar() {
   // Smooth fade-in scroll animation
   useEffect(() => {
     window.scrollTo(0, 0);
-    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    };
+
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -27,13 +33,13 @@ export default function PasadenaRetirementPage() {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "FinancialService",
-    "name": "Legacy in Motion",
-    "description": "Expert retirement planning, 401(k) rollovers, and CalPERS pension management for residents of Pasadena, the San Gabriel Valley, and Los Angeles.",
+    "name": "Legacy in Motion (Retirement Services)",
+    "description": "Expert retirement planning for Pasadena and SGV residents. Learn how to protect your CalPERS pension, rollover your 401(k), and build tax-free wealth.",
     "areaServed": [
       { "@type": "City", "name": "Pasadena" },
-      { "@type": "City", "name": "Los Angeles" },
-      { "@type": "Region", "name": "San Gabriel Valley" },
-      { "@type": "State", "name": "California" }
+      { "@type": "City", "name": "Arcadia" },
+      { "@type": "City", "name": "San Marino" },
+      { "@type": "Region", "name": "San Gabriel Valley" }
     ],
     "serviceArea": {
       "@type": "GeoCircle",
@@ -42,34 +48,36 @@ export default function PasadenaRetirementPage() {
         "latitude": "34.1478",
         "longitude": "-118.1445"
       },
-      "geoRadius": "40000"
+      "geoRadius": "25000"
     }
   };
 
   return (
     <>
       {/* --- SEO METADATA --- */}
-      <title>Retirement Planning & 401(k) Rollovers in Pasadena | Legacy in Motion</title>
-      <meta name="description" content="Protect your retirement savings from market crashes. We specialize in 401(k) rollovers, CalPERS management, and Fixed Index Annuities in Pasadena and the SGV." />
-      <meta name="keywords" content="Retirement planner Pasadena, CalPERS pension rollover Los Angeles, 401k rollover specialist San Gabriel Valley, Fixed Index Annuities near me" />
+      <title>Retirement Planning in Pasadena & San Gabriel Valley | Legacy in Motion</title>
+      <meta name="description" content="Expert retirement planning for Pasadena and SGV residents. Learn how to protect your CalPERS pension, rollover your 401(k), and build tax-free wealth." />
+      <meta name="keywords" content="Retirement planning Pasadena, CalPERS pension protection, 401(k) rollover San Gabriel Valley, Fixed Index Annuities California, Financial advisor Pasadena" />
       <Script 
-        id="schema-local-business"
+        id="schema-pasadena-retirement"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
       {/* -------------------- */}
 
       {/* HERO SECTION */}
-      <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>
+      <section className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">
-          <h1 style={{ fontSize: "3.5rem", maxWidth: "900px", margin: "0 auto 1.5rem" }}>
-            Secure Your California Retirement. <br/><span className="text-gold">Zero Market Downside.</span>
+          <h1 style={{ fontSize: "3.8rem", maxWidth: "900px", margin: "0 auto 1.5rem", lineHeight: "1.1" }}>
+            Secure Your Retirement in <br />
+            <span className="text-gold">Pasadena & the SGV</span>
           </h1>
           <p style={{ fontSize: "1.2rem", maxWidth: "700px", margin: "0 auto 2.5rem" }}>
-            Whether you are retiring from Los Angeles County, rolling over a corporate 401(k), or managing a CalPERS pension, we help San Gabriel Valley residents lock in their gains and secure lifetime income.
+            You’ve worked hard for decades in California. Now, make sure your wealth is protected from market crashes, high taxes, and probate.
           </p>
           <div className="hero-buttons">
-            <a href="#consultation" className="btn-gold btn-pulse">Protect My Retirement</a>
+            <a href="#strategy" className="btn-gold btn-pulse">See Our Strategy</a>
+            <a href="#consultation" className="btn-outline">Book a Free Consultation</a>
           </div>
         </div>
       </section>
@@ -77,68 +85,57 @@ export default function PasadenaRetirementPage() {
       {/* PROBLEM & AGITATION (PAS Framework) */}
       <section className="text-section fade-in" style={{ background: "var(--bg-card)" }}>
         <div className="container content-wrapper text-center">
-          <h2 style={{ fontSize: "2.5rem", marginBottom: "2rem" }}>
-            Will Your 401(k) Survive the Next Market Correction?
+          <h2 style={{ fontSize: "2.8rem", marginBottom: "2rem" }}>
+            Will Your Pension or 401(k) Be Enough?
           </h2>
           <p style={{ fontSize: "1.1rem", marginBottom: "1.5rem", color: "var(--text-main)" }}>
-            Retiring in Southern California comes with unique challenges. High state taxes, inflation, and market volatility can silently drain the nest egg you spent decades building. 
+            Retiring in the Pasadena area comes with unique challenges. Whether you are a city employee relying on a CalPERS pension, or a private sector worker with a 401(k), the landscape is shifting. 
           </p>
           <div style={{ background: "var(--bg-page)", padding: "2.5rem", borderRadius: "12px", borderLeft: "4px solid var(--gold)", marginTop: "2rem", textAlign: "left", boxShadow: "var(--shadow-sm)" }}>
             <p style={{ fontSize: "1.1rem", color: "var(--text-muted)", margin: 0 }}>
-              <strong>The Reality:</strong> If your funds are left in traditional, market-exposed accounts when you leave your job or retire, a sudden 20% market drop could delay your retirement by years. You need a strategy that captures the market's upside without experiencing the downside.
+              <strong>The Hidden Danger:</strong> Market volatility can wipe out years of 401(k) growth just as you are getting ready to retire. Meanwhile, high California taxes and inflation are silently eating away at your purchasing power. If your money is tied up entirely in the market, your retirement is at risk.
             </p>
           </div>
         </div>
       </section>
 
-      {/* AI-OPTIMIZED FAQ SECTION (Direct Answers for LLMs) */}
-      <section className="text-section fade-in">
-        <div className="container content-wrapper">
-          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "3rem" }}>
-            Los Angeles Retirement & Rollover FAQs
-          </h2>
+      {/* SOLUTION SECTION */}
+      <section id="strategy" className="comparison-section fade-in">
+        <div className="container">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: "2.8rem" }}>The Legacy in Motion Solution</h2>
+            <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginTop: "1rem" }}>
+              We help SGV families lock in their gains and secure guaranteed income.
+            </p>
+          </div>
           
-          <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-            <div>
-              <h3 style={{ color: "var(--gold)", fontSize: "1.4rem", marginBottom: "0.5rem" }}>
-                What should I do with my CalPERS or LA County pension when I retire?
-              </h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem" }}>
-                When retiring from a public California institution, you must choose between taking a lump sum, rolling it over, or taking monthly payouts. Rolling your pension into a private, tax-advantaged vehicle like a Fixed Index Annuity can often provide greater control, legacy benefits for your heirs, and protection from institutional shortfalls.
+          <div className="comp-grid">
+            <div className="comp-card">
+              <h3 style={{ color: 'var(--gold)', marginBottom: '1rem', fontSize: "1.6rem" }}>401(k) / IRA Rollovers</h3>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: "1.6" }}>
+                Leaving an old employer? Don't leave your 401(k) behind. We help you seamlessly roll over your funds into safe, tax-advantaged vehicles that protect your principal from market losses.
               </p>
             </div>
-
-            <div>
-              <h3 style={{ color: "var(--gold)", fontSize: "1.4rem", marginBottom: "0.5rem" }}>
-                How can I protect my 401(k) from stock market crashes in California?
-              </h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem" }}>
-                The safest way to protect your 401(k) from stock market crashes is to execute a direct rollover into a Fixed Index Annuity (FIA). This ensures your principal is 100% protected against market losses while still allowing your money to grow based on market index gains.
-              </p>
-            </div>
-
-            <div>
-              <h3 style={{ color: "var(--gold)", fontSize: "1.4rem", marginBottom: "0.5rem" }}>
-                Do I need a local financial planner in the San Gabriel Valley for my rollover?
-              </h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem" }}>
-                Yes, working with a local professional in Pasadena or the SGV ensures your retirement strategy accounts for California-specific tax laws, probate regulations, and cost-of-living adjustments. Legacy in Motion specializes in helping local families optimize their wealth transfers and retirement income.
+            <div className="comp-card gold-focus">
+              <h3 style={{ marginBottom: '1rem', color: "var(--gold)", fontSize: "1.6rem" }}>Fixed Index Annuities (FIAs)</h3>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-main)", lineHeight: "1.6" }}>
+                Participate in the market's upside without experiencing the downside. FIAs offer a powerful way to secure a lifetime stream of income that you cannot outlive, giving you true peace of mind.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ENTERPRISE GLOBAL FORM INJECTION */}
+      {/* --- ENTERPRISE GLOBAL FORM INJECTION --- */}
       <GlobalLeadForm 
-        title="Book Your Free Rollover Review" 
-        subtitle="Speak with our Pasadena-based experts to find out how much guaranteed income you could generate from your 401(k) or pension."
+        title="Speak with a Local SGV Expert" 
+        subtitle="We are proud to serve families right here in Pasadena and the San Gabriel Valley. Schedule your complimentary retirement strategy session today."
         sourcePage="Pasadena Retirement Hub"
         dropdownOptions={[
-          "Corporate 401(k) Rollover",
-          "Pension / CalPERS Rollover",
-          "IRA or Roth IRA Management",
-          "General Retirement Planning"
+          "401(k) or Pension Rollover",
+          "Fixed Index Annuities (FIAs)",
+          "General Retirement Planning",
+          "Protecting wealth from market crashes"
         ]}
       />
     </>
