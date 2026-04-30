@@ -1,3 +1,4 @@
+// @ts-expect-error
 import withPWAInit from 'next-pwa';
 
 const withPWA = withPWAInit({
