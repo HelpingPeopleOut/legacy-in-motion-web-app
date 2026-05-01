@@ -23,8 +23,6 @@ export default function CinematicIntro() {
 
     // 2. Lock the screen so they must choose a language
     document.body.style.overflow = "hidden";
-    
-    // NO TIMERS HERE. It will wait forever until the user clicks a button.
   }, []);
 
   const handleLanguageSelect = (lang) => {
@@ -66,17 +64,20 @@ export default function CinematicIntro() {
         <span className={styles.verseReference}>– Isaiah 40:31</span>
       </div>
 
-      {/* The Call to Action / Language Selector */}
+      {/* Grouped Language Selector Cards */}
       <div className={styles.languageSelector}>
-        <p className={styles.langLabel}>
-          Explore Financial Freedom Solutions<br />
-          <span style={{ fontSize: "0.85em", color: "#666", marginTop: "4px", display: "block" }}>
-            Explorar Soluciones de Libertad Financiera
-          </span>
-        </p>
         <div className={styles.langButtonContainer}>
-          <button onClick={() => handleLanguageSelect("en")} className={styles.langBtn}>English</button>
-          <button onClick={() => handleLanguageSelect("es")} className={styles.langBtn}>Español</button>
+          
+          <button onClick={() => handleLanguageSelect("en")} className={styles.langBtn}>
+            <span className={styles.langBtnTitle}>English</span>
+            <span className={styles.langBtnSub}>Explore Financial Freedom Solutions</span>
+          </button>
+
+          <button onClick={() => handleLanguageSelect("es")} className={styles.langBtn}>
+            <span className={styles.langBtnTitle}>Español</span>
+            <span className={styles.langBtnSub}>Explorar Soluciones de Libertad Financiera</span>
+          </button>
+
         </div>
       </div>
     </div>
