@@ -66,9 +66,14 @@ export default function CinematicIntro() {
         <span className={styles.verseReference}>– Isaiah 40:31</span>
       </div>
 
-      {/* The Pre-Entry Language Selector */}
+      {/* The Call to Action / Language Selector */}
       <div className={styles.languageSelector}>
-        <p className={styles.langLabel}>Select Language / Seleccione su idioma</p>
+        <p className={styles.langLabel}>
+          Explore Financial Freedom Solutions<br />
+          <span style={{ fontSize: "0.85em", color: "#666", marginTop: "4px", display: "block" }}>
+            Explorar Soluciones de Libertad Financiera
+          </span>
+        </p>
         <div className={styles.langButtonContainer}>
           <button onClick={() => handleLanguageSelect("en")} className={styles.langBtn}>English</button>
           <button onClick={() => handleLanguageSelect("es")} className={styles.langBtn}>Español</button>
