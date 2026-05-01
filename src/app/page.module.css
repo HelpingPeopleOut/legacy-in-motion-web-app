@@ -7,7 +7,7 @@
 .introOverlay {
   position: fixed;
   inset: 0;
-  z-index: 99999; /* Max Z-index to completely block the homepage */
+  z-index: 999999; /* Max Z-index to block everything including the navbar */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   max-width: 900px;
   opacity: 0;
   filter: blur(10px);
@@ -39,7 +39,7 @@
 
 .verseText {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-size: clamp(1.4rem, 4vw, 3rem);
   font-style: italic;
   color: #ffffff;
   line-height: 1.5;
@@ -48,7 +48,7 @@
 
 .verseReference {
   display: block;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 1rem;
   font-weight: 600;
@@ -57,26 +57,27 @@
   color: #a0a0a0; 
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 2.5s; /* Appears shortly after the verse */
+  animation-delay: 2.5s; 
 }
 
 /* --- NEW LANGUAGE SELECTOR OVERLAY --- */
 .languageSelector {
   position: absolute;
-  bottom: 12%;
+  bottom: 10vh; /* Responsive bottom spacing for mobile */
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   text-align: center;
   width: 100%;
+  padding: 0 1rem;
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 4.5s; /* Appears after they have had time to read the verse */
+  animation-delay: 4.5s; /* Appears after they finish reading the verse */
 }
 
 .langLabel {
   color: #a0a0a0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-size: 0.85rem;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -85,18 +86,18 @@
 
 .langButtonContainer {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Stacks buttons on small phones */
 }
 
 .langBtn {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #ffffff;
-  padding: 1rem 3.5rem;
+  padding: 1rem 3rem;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-weight: 600;
   font-size: 0.95rem;
@@ -104,10 +105,11 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 6px;
+  border-radius: 8px;
+  min-width: 180px;
 }
 
-.langBtn:hover {
+.langBtn:hover, .langBtn:active {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
@@ -135,7 +137,7 @@
 }
 
 /* =========================================
-   KEYFRAMES (THE MAGIC)
+   KEYFRAMES 
 ========================================= */
 
 @keyframes divineReveal {

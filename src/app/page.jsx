@@ -2,14 +2,11 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
-import Link from "next/link";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function Home() {
-  // Re-implementing your smooth fade-in scroll animation
   useEffect(() => {
-    // Force the page to load at the very top
     window.scrollTo(0, 0);
 
     const observerOptions = {
@@ -32,7 +29,6 @@ export default function Home() {
     });
   }, []);
 
-  // --- INVISIBLE ORGANIZATION SCHEMA ---
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "FinancialService",
@@ -45,10 +41,8 @@ export default function Home() {
 
   return (
     <>
-      {/* 1. THE CINEMATIC EXPERIENCE */}
       <CinematicIntro />
 
-      {/* --- SEO METADATA --- */}
       <title>Financial Consultant in Los Angeles & SGV | Legacy in Motion</title>
       <meta name="description" content="Expert retirement planning, pension rollovers, and estate planning services across Los Angeles, Pasadena, and the San Gabriel Valley. Build your financial fortress." />
       <meta name="keywords" content="Retirement planner in Pasadena CA, Pension and 401k rollover specialist near me, Estate planning services San Gabriel Valley, Life insurance living benefits Los Angeles, Financial consultant near me" />
@@ -57,9 +51,8 @@ export default function Home() {
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
-      {/* -------------------- */}
 
-      {/* HERO SECTION */}
+      {/* 1. HERO SECTION */}
       <header className="hero hero-index fade-in">
         <div className="container hero-grid">
           <div>
@@ -74,10 +67,9 @@ export default function Home() {
               as 90 days.
             </p>
             <div className="hero-buttons">
-              {/* FIXED ROUTING TO NEW DEDICATED PORTAL */}
-              <Link href="/request-callback" className="btn-gold btn-pulse">
-                Request Call / Install Web App
-              </Link>
+              <a href="#install-app" className="btn-gold btn-pulse">
+                Install App / Request Call
+              </a>
               <a href="#framework" className="btn-outline">
                 Explore the Blueprint
               </a>
@@ -85,32 +77,9 @@ export default function Home() {
           </div>
           
           <div className="ig-container">
-            <blockquote
-              className="instagram-media"
-              data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading"
-              data-instgrm-version="14"
-              style={{
-                background: "#FFF",
-                border: 0,
-                margin: 0,
-                padding: 0,
-                width: "100%",
-              }}
-            >
+            <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
               <div style={{ padding: "16px" }}>
-                <a
-                  href="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading"
-                  style={{
-                    background: "#FFFFFF",
-                    lineHeight: 0,
-                    padding: "0 0",
-                    textAlign: "center",
-                    textDecoration: "none",
-                    width: "100%",
-                  }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" style={{ background: "#FFFFFF", lineHeight: 0, padding: "0 0", textAlign: "center", textDecoration: "none", width: "100%" }} target="_blank" rel="noopener noreferrer">
                   <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <div style={{ backgroundColor: "#F4F4F4", borderRadius: "50%", flexGrow: 0, height: "40px", marginRight: "14px", width: "40px" }}></div>
                     <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "center" }}>
@@ -133,6 +102,60 @@ export default function Home() {
         </div>
       </header>
 
+      {/* 2. EMPHASIS: APP INSTALLATION INSTRUCTIONS */}
+      <section id="install-app" className="fade-in" style={{ background: "var(--bg-card)", padding: "7rem 0" }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Install Your Financial Fortress</h2>
+          <p style={{ fontSize: "1.2rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem" }}>
+            Add the Legacy in Motion app to your phone's homescreen for instant, daily access to premium financial tools and strategy scheduling.
+          </p>
+          
+          <div className="comp-grid" style={{ marginTop: "0" }}>
+            {/* Apple / iOS Instructions */}
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🍎</div>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone & iPad (Safari)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Open this website in the <strong>Safari</strong> browser.<br />
+                2. Tap the <strong>Share</strong> icon (square with an arrow) at the bottom.<br />
+                3. Scroll down the menu and tap <strong>"Add to Home Screen"</strong>.<br />
+                4. Tap <strong>Add</strong> in the top right corner.
+              </p>
+            </div>
+
+            {/* Android Instructions */}
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🤖</div>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Open this website in the <strong>Chrome</strong> browser.<br />
+                2. Tap the <strong>Menu</strong> icon (three dots) top right.<br />
+                3. Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br />
+                4. Follow the prompt to add the icon to your phone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. REQUEST A CALLBACK */}
+      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
+        <GlobalLeadForm 
+          title="Ready to Start? Request a Callback" 
+          subtitle="Fill out the form below. Our team will review your request and call you back within 24 hours."
+          sourcePage="English Main Homepage"
+          dropdownOptions={[
+            "Retirement Planning & 401(k) Rollovers",
+            "Life Insurance & Living Benefits",
+            "Estate Planning, Trusts & Wills",
+            "Debt Elimination & Cash Flow Analysis",
+            "Business Exit & Executive Bonus Plans",
+            "Children's Investment & Savings Accounts"
+          ]}
+        />
+      </section>
+
+      {/* 4. FRAMEWORK & INFO */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
@@ -143,52 +166,18 @@ export default function Home() {
           </p>
 
           <div className="fwf-elegant-grid">
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 01</span>
-              <h3>Cash Flow & Debt Elimination</h3>
-              <p>Budgeting and cash flow analysis to build healthier money habits and eliminate debt efficiently.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 02</span>
-              <h3>Emergency Fund Planning</h3>
-              <p>Establish 3-6 months of liquid reserves in High-Yield Savings Accounts to outpace inflation.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 03</span>
-              <h3>Living Benefits Protection</h3>
-              <p>Secure Term or Permanent Life Insurance covering critical, chronic, and terminal illnesses.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 04</span>
-              <h3>Retirement Optimization</h3>
-              <p>Execute 401(k) Rollovers and utilize Fixed Indexed Annuities for Guaranteed Retirement Income.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 05</span>
-              <h3>Tax-Free Wealth Building</h3>
-              <p>Leverage Cash Value Life Insurance (IULs) for tax-advantaged savings and Children&apos;s Investment Accounts.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 06</span>
-              <h3>Business Financial Safety</h3>
-              <p>Implement Key Person Insurance and Executive Bonus Plans to protect and reward top talent.</p>
-            </article>
-
-            <article className="fwf-elegant-item">
-              <span className="step-number">Step 07</span>
-              <h3>Estate & Legacy Planning</h3>
-              <p>Avoid probate through proper Trusts and Wills guidance, ensuring seamless Wealth Transfer Strategies.</p>
-            </article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 01</span><h3>Cash Flow & Debt Elimination</h3><p>Budgeting and cash flow analysis to build healthier money habits and eliminate debt efficiently.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 02</span><h3>Emergency Fund Planning</h3><p>Establish 3-6 months of liquid reserves in High-Yield Savings Accounts to outpace inflation.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 03</span><h3>Living Benefits Protection</h3><p>Secure Term or Permanent Life Insurance covering critical, chronic, and terminal illnesses.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 04</span><h3>Retirement Optimization</h3><p>Execute 401(k) Rollovers and utilize Fixed Indexed Annuities for Guaranteed Retirement Income.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 05</span><h3>Tax-Free Wealth Building</h3><p>Leverage Cash Value Life Insurance (IULs) for tax-advantaged savings and Children&apos;s Investment Accounts.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 06</span><h3>Business Financial Safety</h3><p>Implement Key Person Insurance and Executive Bonus Plans to protect and reward top talent.</p></article>
+            <article className="fwf-elegant-item"><span className="step-number">Step 07</span><h3>Estate & Legacy Planning</h3><p>Avoid probate through proper Trusts and Wills guidance, ensuring seamless Wealth Transfer Strategies.</p></article>
           </div>
         </div>
       </section>
 
-      <section id="stories" className="stories fade-in">
+      <section id="stories" className="stories fade-in" style={{ background: "var(--bg-page)" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
             Proven Financial Transformations
@@ -196,7 +185,6 @@ export default function Home() {
           <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>
             Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.
           </p>
-
           <div className="card-grid">
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4>
@@ -207,7 +195,6 @@ export default function Home() {
                 <span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.
               </p>
             </article>
-
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4>
               <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
@@ -217,7 +204,6 @@ export default function Home() {
                 <span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.
               </p>
             </article>
-
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4>
               <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
@@ -227,7 +213,6 @@ export default function Home() {
                 <span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.
               </p>
             </article>
-
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4>
               <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
@@ -291,24 +276,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. THE GLOBAL COMPONENT DOES ALL THE HEAVY LIFTING */}
-      <div id="consultation">
-        <GlobalLeadForm 
-          title="Ready to Build Your Fortress?" 
-          subtitle="Fill out the form below so we can get started on tailored solutions for your family or business."
-          sourcePage="English Main Homepage"
-          dropdownOptions={[
-            "Retirement Planning & 401(k) Rollovers",
-            "Life Insurance & Living Benefits",
-            "Estate Planning, Trusts & Wills",
-            "Debt Elimination & Cash Flow Analysis",
-            "Business Exit & Executive Bonus Plans",
-            "Children's Investment & Savings Accounts"
-          ]}
-        />
-      </div>
-
-      {/* 3. THE BIBLE VERSE CAPSTONE */}
+      {/* 5. BIBLE VERSE CAPSTONE */}
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
           <p

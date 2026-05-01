@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
+import Link from "next/link";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
@@ -56,6 +57,7 @@ export default function HomeSpanish() {
       />
       {/* -------------------- */}
 
+      {/* 2. HERO SECTION */}
       <header className="hero hero-index container fade-in">
         <div className="hero-grid">
           <div>
@@ -66,9 +68,10 @@ export default function HomeSpanish() {
               para construir un legado. Establezca su fortaleza financiera en tan solo 90 días.
             </p>
             <div className="hero-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
-                Comience su Plan
-              </a>
+              {/* FIXED ROUTING TO NEW DEDICATED PORTAL */}
+              <Link href="/es/solicitar-llamada" className="btn-gold btn-pulse">
+                Instalar App / Solicitar Llamada
+              </Link>
               <a href="#framework" className="btn-outline">
                 Explore el Plan
               </a>
@@ -124,6 +127,61 @@ export default function HomeSpanish() {
         </div>
       </header>
 
+      {/* 3. EMPHASIS: APP INSTALLATION INSTRUCTIONS */}
+      <section id="install-app" className="fade-in" style={{ background: "var(--bg-card)", padding: "7rem 0" }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Instale su Fortaleza Financiera</h2>
+          <p style={{ fontSize: "1.2rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem" }}>
+            Agregue la aplicación Legacy in Motion a la pantalla de inicio de su teléfono para obtener acceso instantáneo y diario a herramientas financieras premium y programación de estrategias.
+          </p>
+          
+          <div className="comp-grid" style={{ marginTop: "0" }}>
+            {/* Apple / iOS Instructions */}
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🍎</div>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone y iPad (Safari)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Abra este sitio web en el navegador <strong>Safari</strong>.<br />
+                2. Toque el ícono de <strong>Compartir</strong> (cuadrado con flecha) en la parte inferior.<br />
+                3. Desplácese por el menú y toque <strong>"Agregar a inicio"</strong>.<br />
+                4. Toque <strong>Agregar</strong> en la esquina superior derecha.
+              </p>
+            </div>
+
+            {/* Android Instructions */}
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🤖</div>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Abra este sitio web en el navegador <strong>Chrome</strong>.<br />
+                2. Toque el ícono de <strong>Menú</strong> (tres puntos) arriba a la derecha.<br />
+                3. Toque <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla"</strong>.<br />
+                4. Siga las instrucciones para agregar el ícono a su teléfono.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. COMPONENTE GLOBAL INTEGRADO EN ESPAÑOL */}
+      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
+        <GlobalLeadForm 
+          title="¿Listo para Construir su Fortaleza? Solicite una Llamada" 
+          subtitle="Complete el formulario a continuación. Nuestro equipo revisará su solicitud y le devolverá la llamada en menos de 24 horas."
+          lang="es"
+          sourcePage="Página de Inicio Principal (ES)"
+          dropdownOptions={[
+            "Planificación de Jubilación y Rollovers 401(k)",
+            "Seguro de Vida y Beneficios en Vida",
+            "Planificación Patrimonial, Fideicomisos y Testamentos",
+            "Eliminación de Deudas y Análisis de Flujo de Efectivo",
+            "Salida de Negocios y Bonificación Ejecutiva",
+            "Cuentas de Inversión y Ahorro para Niños"
+          ]}
+        />
+      </section>
+
+      {/* 5. FRAMEWORK & INFO */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Su Plan de Riqueza de 7 Pasos</h2>
@@ -209,7 +267,7 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      <section id="stories" className="stories container fade-in">
+      <section id="stories" className="stories container fade-in" style={{ padding: "7rem 0" }}>
         <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
           Transformaciones Financieras Comprobadas
         </h2>
@@ -302,7 +360,7 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
+      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)", padding: "7rem 0" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem" }}>
             Experiencia Financiera Integral
@@ -364,23 +422,7 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      {/* 2. COMPONENTE GLOBAL INTEGRADO EN ESPAÑOL */}
-      <GlobalLeadForm 
-        title="¿Listo para Construir su Fortaleza?" 
-        subtitle="Complete el formulario a continuación para que podamos comenzar a diseñar soluciones personalizadas para su familia o negocio."
-        lang="es"
-        sourcePage="Página de Inicio Principal (ES)"
-        dropdownOptions={[
-          "Planificación de Jubilación y Rollovers 401(k)",
-          "Seguro de Vida y Beneficios en Vida",
-          "Planificación Patrimonial, Fideicomisos y Testamentos",
-          "Eliminación de Deudas y Análisis de Flujo de Efectivo",
-          "Salida de Negocios y Bonificación Ejecutiva",
-          "Cuentas de Inversión y Ahorro para Niños"
-        ]}
-      />
-
-      {/* 3. BIBLE VERSE */}
+      {/* 6. BIBLE VERSE */}
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
           <p

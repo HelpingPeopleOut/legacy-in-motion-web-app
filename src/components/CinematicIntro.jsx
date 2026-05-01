@@ -10,6 +10,7 @@ export default function CinematicIntro() {
   const router = useRouter();
 
   useEffect(() => {
+    // 1. Check if they already saw the intro or if URL bypasses it
     const urlParams = new URLSearchParams(window.location.search);
     const skipIntro = urlParams.get("skipIntro");
     const hasPlayed = sessionStorage.getItem("introPlayed");
@@ -20,35 +21,33 @@ export default function CinematicIntro() {
       return; 
     }
 
-    // Prevent scrolling while the cinematic plays and waits for selection
+    // 2. Lock the screen so they must choose a language
     document.body.style.overflow = "hidden";
     
-    // NOTE: The auto-skip timers have been completely removed.
-    // The intro will now stay on the screen infinitely until the user clicks a language.
+    // NO TIMERS HERE. It will wait forever until the user clicks a button.
   }, []);
 
   const handleLanguageSelect = (lang) => {
+    // Save token and unlock scrolling
     sessionStorage.setItem("introPlayed", "true");
-    document.body.style.overflow = ""; // Restore scrolling immediately
+    document.body.style.overflow = "";
     
-    // 1. Trigger the Teleportation Flash Animation
+    // Trigger the teleportation flash
     setStage("breakthrough");
 
     if (lang === "es") {
-      // Wait for the flash to blind the screen, then route to Spanish
+      // If Spanish, wait for the flash to blind the screen, then route
       setTimeout(() => {
         router.push("/es?skipIntro=true"); 
       }, 800);
     } else {
-      // Wait for the flash to blind the screen, then reveal the English homepage
+      // If English, wait for the flash to blind the screen, then fade out
       setTimeout(() => setStage("hidden"), 1000);
-      
-      // Fully remove from DOM to save browser memory
-      setTimeout(() => setShouldRender(false), 2000);
+      setTimeout(() => setShouldRender(false), 2000); // Remove from DOM entirely
     }
   };
 
-  // If already played, don't render anything (prevents flashing)
+  // If already played, don't render to prevent flashing
   if (!shouldRender) return null;
 
   return (
