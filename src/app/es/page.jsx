@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
-import Link from "next/link";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
@@ -169,42 +168,8 @@ export default function HomeSpanish() {
         />
       </section>
 
-      {/* 5. APP INSTALLATION (SECONDARY CONVENIENCE TOOL) */}
-      <section id="install-app" className="fade-in" style={{ background: "var(--bg-card)", padding: "6rem 0" }}>
-        <div className="container text-center">
-          <h2 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>Lleve Sus Herramientas Financieras a Cualquier Lugar</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 3rem" }}>
-            Agregue la aplicación Legacy in Motion a la pantalla de inicio de su teléfono para obtener acceso instantáneo a recursos financieros, calculadoras y programación directa.
-          </p>
-          
-          <div className="comp-grid" style={{ marginTop: "0" }}>
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)", padding: "2rem" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🍎</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone y iPad (Safari)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Abra este sitio web en el navegador <strong>Safari</strong>.<br />
-                2. Toque el ícono de <strong>Compartir</strong> (cuadrado con flecha) en la parte inferior.<br />
-                3. Desplácese por el menú y toque <strong>"Agregar a inicio"</strong>.<br />
-                4. Toque <strong>Agregar</strong> en la esquina superior derecha.
-              </p>
-            </div>
-
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)", padding: "2rem" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🤖</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Abra este sitio web en el navegador <strong>Chrome</strong>.<br />
-                2. Toque el ícono de <strong>Menú</strong> (tres puntos) arriba a la derecha.<br />
-                3. Toque <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla"</strong>.<br />
-                4. Siga las instrucciones para agregar el ícono a su teléfono.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. SERVICES DIRECTORY */}
-      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-page)" }}>
+      {/* 5. SERVICES DIRECTORY */}
+      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Experiencia Financiera Integral</h2>
           <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>Diseñamos estrategias personalizadas a través de cada pilar de la generación de riqueza, asegurando que no haya vacíos en su fortaleza financiera.</p>
@@ -217,7 +182,7 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      {/* 7. BIBLE VERSE CAPSTONE (SPANISH) */}
+      {/* 6. BIBLE VERSE CAPSTONE (SPANISH) */}
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
           <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>

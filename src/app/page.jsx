@@ -67,8 +67,8 @@ export default function Home() {
               as 90 days.
             </p>
             <div className="hero-buttons">
-              <a href="#install-app" className="btn-gold btn-pulse">
-                Install App / Request Call
+              <a href="#consultation" className="btn-gold btn-pulse">
+                Schedule a Consultation
               </a>
               <a href="#framework" className="btn-outline">
                 Explore the Blueprint
@@ -102,67 +102,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 2. EMPHASIS: APP INSTALLATION INSTRUCTIONS */}
-      <section id="install-app" className="fade-in" style={{ background: "var(--bg-card)", padding: "7rem 0" }}>
-        <div className="container text-center">
-          <h2 style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Install Your Financial Fortress</h2>
-          <p style={{ fontSize: "1.2rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem" }}>
-            Add the Legacy in Motion app to your phone's homescreen for instant, daily access to premium financial tools and strategy scheduling.
-          </p>
-          
-          <div className="comp-grid" style={{ marginTop: "0" }}>
-            {/* Apple / iOS Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🍎</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone & iPad (Safari)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Open this website in the <strong>Safari</strong> browser.<br />
-                2. Tap the <strong>Share</strong> icon (square with an arrow) at the bottom.<br />
-                3. Scroll down the menu and tap <strong>"Add to Home Screen"</strong>.<br />
-                4. Tap <strong>Add</strong> in the top right corner.
-              </p>
-            </div>
-
-            {/* Android Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🤖</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Open this website in the <strong>Chrome</strong> browser.<br />
-                2. Tap the <strong>Menu</strong> icon (three dots) top right.<br />
-                3. Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br />
-                4. Follow the prompt to add the icon to your phone.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. REQUEST A CALLBACK */}
-      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
-        <GlobalLeadForm 
-          title="Ready to Start? Request a Callback" 
-          subtitle="Fill out the form below. Our team will review your request and call you back within 24 hours."
-          sourcePage="English Main Homepage"
-          dropdownOptions={[
-            "Retirement Planning & 401(k) Rollovers",
-            "Life Insurance & Living Benefits",
-            "Estate Planning, Trusts & Wills",
-            "Debt Elimination & Cash Flow Analysis",
-            "Business Exit & Executive Bonus Plans",
-            "Children's Investment & Savings Accounts"
-          ]}
-        />
-      </section>
-
-      {/* 4. FRAMEWORK & INFO */}
+      {/* 2. THE BLUEPRINT (SOLUTIONS FIRST) */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
           <p style={{ marginBottom: "4rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem", fontSize: "1.1rem" }}>
-            A comprehensive strategy combining personal asset protection,
-            tax-advantaged growth, and robust business structuring to ensure your
-            legacy endures.
+            A comprehensive strategy combining personal asset protection, tax-advantaged growth, and robust business structuring to ensure your legacy endures.
           </p>
 
           <div className="fwf-elegant-grid">
@@ -177,135 +122,73 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="stories" className="stories fade-in" style={{ background: "var(--bg-page)" }}>
+      {/* 3. PROVEN TRANSFORMATIONS */}
+      <section id="stories" className="stories fade-in" style={{ background: "var(--bg-card)" }}>
         <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>
-            Proven Financial Transformations
-          </h2>
-          <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>
-            Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.
-          </p>
+          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Proven Financial Transformations</h2>
+          <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.</p>
           <div className="card-grid">
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-                &quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;
-              </p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-                <span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.
-              </p>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;</p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.</p>
             </article>
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-                &quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;
-              </p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-                <span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.
-              </p>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;</p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.</p>
             </article>
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-                &quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;
-              </p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-                <span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.
-              </p>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;</p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.</p>
             </article>
             <article className="card story-card">
               <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>
-                &quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;
-              </p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}>
-                <span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.
-              </p>
+              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;</p>
+              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.</p>
             </article>
           </div>
         </div>
       </section>
 
+      {/* 4. REQUEST A CALLBACK FORM */}
+      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
+        <GlobalLeadForm 
+          title="Ready to Start? Request a Consultation" 
+          subtitle="Fill out the form below. Our team will review your request and call you back within 24 hours."
+          sourcePage="English Main Homepage"
+          dropdownOptions={[
+            "Retirement Planning & 401(k) Rollovers",
+            "Life Insurance & Living Benefits",
+            "Estate Planning, Trusts & Wills",
+            "Debt Elimination & Cash Flow Analysis",
+            "Business Exit & Executive Bonus Plans",
+            "Children's Investment & Savings Accounts"
+          ]}
+        />
+      </section>
+
+      {/* 5. SERVICES DIRECTORY */}
       <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.8rem" }}>
-            Comprehensive Financial Expertise
-          </h2>
-          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>
-            We architect customized strategies across every pillar of wealth generation, ensuring no gaps in your financial fortress.
-          </p>
-
+          <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Comprehensive Financial Expertise</h2>
+          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>We architect customized strategies across every pillar of wealth generation, ensuring no gaps in your financial fortress.</p>
           <div className="services-wrapper">
-            <div className="service-category">
-              <h3>Retirement & Savings</h3>
-              <ul>
-                <li>Retirement Planning</li>
-                <li>Pension Management</li>
-                <li>401(k) Rollovers</li>
-                <li>Fixed Indexed Annuities</li>
-              </ul>
-            </div>
-            <div className="service-category">
-              <h3>Insurance & Protection</h3>
-              <ul>
-                <li>Life Insurance Policies</li>
-                <li>Living Benefits & Critical Illness</li>
-                <li>Permanent Life Insurance</li>
-                <li>Mortgage Protection Insurance</li>
-              </ul>
-            </div>
-            <div className="service-category">
-              <h3>Legacy & Family</h3>
-              <ul>
-                <li>Estate Planning & Trusts</li>
-                <li>Legacy Planning</li>
-                <li>Children&apos;s Investment Accounts</li>
-                <li>Wealth Transfer Strategies</li>
-              </ul>
-            </div>
-            <div className="service-category">
-              <h3>Business & Cash Flow</h3>
-              <ul>
-                <li>Business Financial Safety Nets</li>
-                <li>Key Person Insurance</li>
-                <li>Executive Bonus Plans</li>
-                <li>Debt Elimination Strategies</li>
-              </ul>
-            </div>
+            <div className="service-category"><h3>Retirement & Savings</h3><ul><li>Retirement Planning</li><li>Pension Management</li><li>401(k) Rollovers</li><li>Fixed Indexed Annuities</li></ul></div>
+            <div className="service-category"><h3>Insurance & Protection</h3><ul><li>Life Insurance Policies</li><li>Living Benefits & Critical Illness</li><li>Permanent Life Insurance</li><li>Mortgage Protection Insurance</li></ul></div>
+            <div className="service-category"><h3>Legacy & Family</h3><ul><li>Estate Planning & Trusts</li><li>Legacy Planning</li><li>Children&apos;s Investment Accounts</li><li>Wealth Transfer Strategies</li></ul></div>
+            <div className="service-category"><h3>Business & Cash Flow</h3><ul><li>Business Financial Safety Nets</li><li>Key Person Insurance</li><li>Executive Bonus Plans</li><li>Debt Elimination Strategies</li></ul></div>
           </div>
         </div>
       </section>
 
-      {/* 5. BIBLE VERSE CAPSTONE */}
+      {/* 6. BIBLE VERSE CAPSTONE */}
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
-          <p
-            className="text-center"
-            style={{
-              fontFamily: "var(--font-heading)",
-              fontStyle: "italic",
-              fontSize: "1.6rem",
-              color: "var(--text-main)",
-              maxWidth: "800px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              lineHeight: "1.4",
-            }}
-          >
+          <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
             &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot; <br />
-            <span
-              style={{
-                fontSize: "0.9rem",
-                color: "var(--gold)",
-                display: "block",
-                marginTop: "1rem",
-                fontFamily: "var(--font-body)",
-                fontStyle: "normal",
-                textTransform: "uppercase",
-                letterSpacing: "3px",
-                fontWeight: 600,
-              }}
-            >
+            <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
               – Isaiah 40:31
             </span>
           </p>

@@ -130,19 +130,21 @@ export default function SpanishRetirementPage() {
         </div>
       </section>
 
-      {/* --- ENTERPRISE GLOBAL FORM INJECTION (SPANISH) --- */}
-      <GlobalLeadForm 
-        title="Solicite su Revisión de Jubilación Gratuita" 
-        subtitle="Hable con nuestros expertos locales en Los Ángeles para averiguar cuánto ingreso garantizado podría generar a partir de su 401(k) o pensión."
-        lang="es"
-        sourcePage="Spanish Retirement & Rollovers Page"
-        dropdownOptions={[
-          "Transferencia de 401(k) Antiguo",
-          "Gestión de Pensión / Retiro",
-          "Planificación General de Jubilación",
-          "Proteger mis ahorros de caídas del mercado"
-        ]}
-      />
+      {/* LEAD CAPTURE FORM (Utilizando el Componente Global Bilingüe) */}
+      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0", borderTop: "1px solid var(--border-light)" }}>
+        <GlobalLeadForm 
+          title="Solicite su Revisión de Jubilación Gratuita" 
+          subtitle="Hable con nuestros expertos en Los Ángeles para averiguar cuánto ingreso garantizado podría generar a partir de su 401(k) o pensión."
+          lang="es"
+          sourcePage="Página de Jubilación en Español"
+          dropdownOptions={[
+            "Transferencia de 401(k) Antiguo",
+            "Gestión de Pensión / Retiro",
+            "Planificación General de Jubilación",
+            "Proteger mis ahorros de caídas del mercado"
+          ]}
+        />
+      </section>
     </>
   );
 }
