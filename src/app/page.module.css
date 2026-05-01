@@ -7,7 +7,7 @@
 .introOverlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 99999; /* Max Z-index to completely block the homepage */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,9 +32,9 @@
   max-width: 900px;
   opacity: 0;
   filter: blur(10px);
-  transform: translateZ(-100px); 
-  animation: divineReveal 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 1s;
+  transform: translateZ(-50px); 
+  animation: divineReveal 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.5s;
 }
 
 .verseText {
@@ -57,7 +57,7 @@
   color: #a0a0a0; 
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 4s;
+  animation-delay: 2.5s; /* Appears shortly after the verse */
 }
 
 /* --- NEW LANGUAGE SELECTOR OVERLAY --- */
@@ -68,9 +68,10 @@
   transform: translateX(-50%);
   z-index: 10;
   text-align: center;
+  width: 100%;
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 3s; /* Appears right before the verse reference */
+  animation-delay: 4.5s; /* Appears after they have had time to read the verse */
 }
 
 .langLabel {
@@ -86,32 +87,35 @@
   display: flex;
   gap: 1.5rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .langBtn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  padding: 0.8rem 2.5rem;
+  padding: 1rem 3.5rem;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .langBtn:hover {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+  transform: translateY(-4px);
 }
 
-/* The Teleportation Flash (Freedom) */
+/* The Teleportation Flash */
 .lightBreakthrough {
   position: absolute;
   top: 50%;
@@ -127,7 +131,7 @@
 }
 
 .lightBreakthrough.active {
-  animation: teleportFlash 1.2s cubic-bezier(0.7, 0, 1, 1) forwards;
+  animation: teleportFlash 1s cubic-bezier(0.7, 0, 1, 1) forwards;
 }
 
 /* =========================================
@@ -135,10 +139,8 @@
 ========================================= */
 
 @keyframes divineReveal {
-  0% { opacity: 0; filter: blur(10px); transform: translateZ(-100px); }
-  30% { opacity: 1; filter: blur(0px); transform: translateZ(0px); }
-  80% { opacity: 1; filter: blur(0px); transform: translateZ(0px); }
-  100% { opacity: 0; filter: blur(20px); transform: translateZ(400px); }
+  0% { opacity: 0; filter: blur(10px); transform: translateZ(-50px); }
+  100% { opacity: 1; filter: blur(0px); transform: translateZ(0px); } 
 }
 
 @keyframes fadeInRef {

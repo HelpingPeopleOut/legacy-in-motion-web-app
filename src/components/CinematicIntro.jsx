@@ -10,63 +10,45 @@ export default function CinematicIntro() {
   const router = useRouter();
 
   useEffect(() => {
-    // 1. Check if the URL tells us to skip, or if they already watched it
     const urlParams = new URLSearchParams(window.location.search);
     const skipIntro = urlParams.get("skipIntro");
     const hasPlayed = sessionStorage.getItem("introPlayed");
 
     if (hasPlayed || skipIntro) {
-      setShouldRender(false); // Instantly remove intro if already played
+      setShouldRender(false);
       sessionStorage.setItem("introPlayed", "true"); 
       return; 
     }
 
-    // Prevent scrolling while the cinematic plays
+    // Prevent scrolling while the cinematic plays and waits for selection
     document.body.style.overflow = "hidden";
-
-    // Mark as played immediately so navigating back/refreshing skips it
-    sessionStorage.setItem("introPlayed", "true");
-
-    // Timing Sequence:
-    const breakthroughTimer = setTimeout(() => {
-      setStage("breakthrough");
-    }, 6500);
-
-    const hideTimer = setTimeout(() => {
-      setStage("hidden");
-      document.body.style.overflow = ""; // Allow scrolling again
-    }, 8000);
-
-    const unmountTimer = setTimeout(() => {
-      setShouldRender(false);
-    }, 9500);
-
-    return () => {
-      clearTimeout(breakthroughTimer);
-      clearTimeout(hideTimer);
-      clearTimeout(unmountTimer);
-      document.body.style.overflow = "";
-    };
+    
+    // NOTE: The auto-skip timers have been completely removed.
+    // The intro will now stay on the screen infinitely until the user clicks a language.
   }, []);
 
-  // Custom function to handle user clicking a language button
   const handleLanguageSelect = (lang) => {
-    // Mark the intro as played and restore scrolling
     sessionStorage.setItem("introPlayed", "true");
-    document.body.style.overflow = "";
+    document.body.style.overflow = ""; // Restore scrolling immediately
     
+    // 1. Trigger the Teleportation Flash Animation
+    setStage("breakthrough");
+
     if (lang === "es") {
-      // Send them to the Spanish site and skip the intro
-      router.push("/es?skipIntro=true");
+      // Wait for the flash to blind the screen, then route to Spanish
+      setTimeout(() => {
+        router.push("/es?skipIntro=true"); 
+      }, 800);
     } else {
-      // If English, trigger the warp flash immediately to enter the site
-      setStage("breakthrough");
+      // Wait for the flash to blind the screen, then reveal the English homepage
       setTimeout(() => setStage("hidden"), 1000);
+      
+      // Fully remove from DOM to save browser memory
       setTimeout(() => setShouldRender(false), 2000);
     }
   };
 
-  // If already played, render nothing (no flashing!)
+  // If already played, don't render anything (prevents flashing)
   if (!shouldRender) return null;
 
   return (
