@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "@/app/page.module.css";
 
 export default function CinematicIntro() {
   const [stage, setStage] = useState("trapped"); 
-  const [isClient, setIsClient] = useState(false);
+  const [shouldRender, setShouldRender] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    setIsClient(true); // Ensures we only run browser-specific code on the client
-
     // 1. Check if the URL tells us to skip, or if they already watched it
     const urlParams = new URLSearchParams(window.location.search);
     const skipIntro = urlParams.get("skipIntro");
     const hasPlayed = sessionStorage.getItem("introPlayed");
 
     if (hasPlayed || skipIntro) {
-      setStage("unmounted");
-      sessionStorage.setItem("introPlayed", "true"); // Guarantee it's marked
+      setShouldRender(false); // Instantly remove intro if already played
+      sessionStorage.setItem("introPlayed", "true"); 
       return; 
     }
 
@@ -28,21 +28,17 @@ export default function CinematicIntro() {
     sessionStorage.setItem("introPlayed", "true");
 
     // Timing Sequence:
-    // 1. Verse reads for 6.5 seconds.
-    // 2. The light breakthrough begins.
     const breakthroughTimer = setTimeout(() => {
       setStage("breakthrough");
     }, 6500);
 
-    // 3. The light consumes the screen, then the overlay fades out.
     const hideTimer = setTimeout(() => {
       setStage("hidden");
       document.body.style.overflow = ""; // Allow scrolling again
     }, 8000);
 
-    // 4. Remove from DOM completely for performance
     const unmountTimer = setTimeout(() => {
-      setStage("unmounted");
+      setShouldRender(false);
     }, 9500);
 
     return () => {
@@ -53,9 +49,25 @@ export default function CinematicIntro() {
     };
   }, []);
 
-  // Prevent hydration mismatch and instantly hide if already played
-  if (!isClient) return null;
-  if (stage === "unmounted") return null;
+  // Custom function to handle user clicking a language button
+  const handleLanguageSelect = (lang) => {
+    // Mark the intro as played and restore scrolling
+    sessionStorage.setItem("introPlayed", "true");
+    document.body.style.overflow = "";
+    
+    if (lang === "es") {
+      // Send them to the Spanish site and skip the intro
+      router.push("/es?skipIntro=true");
+    } else {
+      // If English, trigger the warp flash immediately to enter the site
+      setStage("breakthrough");
+      setTimeout(() => setStage("hidden"), 1000);
+      setTimeout(() => setShouldRender(false), 2000);
+    }
+  };
+
+  // If already played, render nothing (no flashing!)
+  if (!shouldRender) return null;
 
   return (
     <div className={`${styles.introOverlay} ${stage === "hidden" ? styles.hidden : ""}`}>
@@ -71,6 +83,15 @@ export default function CinematicIntro() {
           &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot;
         </p>
         <span className={styles.verseReference}>– Isaiah 40:31</span>
+      </div>
+
+      {/* The Pre-Entry Language Selector */}
+      <div className={styles.languageSelector}>
+        <p className={styles.langLabel}>Select Language / Seleccione su idioma</p>
+        <div className={styles.langButtonContainer}>
+          <button onClick={() => handleLanguageSelect("en")} className={styles.langBtn}>English</button>
+          <button onClick={() => handleLanguageSelect("es")} className={styles.langBtn}>Español</button>
+        </div>
       </div>
     </div>
   );

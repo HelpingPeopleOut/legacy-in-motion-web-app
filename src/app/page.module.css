@@ -12,11 +12,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Simple, sleek, pure black background */
   background: #000000;
   overflow: hidden;
   transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-  /* Adds 3D depth for the portal zoom effect */
   perspective: 1000px; 
 }
 
@@ -26,7 +24,6 @@
   pointer-events: none;
 }
 
-/* The cinematic focus-pull for the Bible Verse */
 .verseContainer {
   position: relative;
   z-index: 2;
@@ -35,7 +32,6 @@
   max-width: 900px;
   opacity: 0;
   filter: blur(10px);
-  /* Starts slightly pushed back in 3D space */
   transform: translateZ(-100px); 
   animation: divineReveal 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 1s;
@@ -47,7 +43,6 @@
   font-style: italic;
   color: #ffffff;
   line-height: 1.5;
-  /* Simple, clean white glow */
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
@@ -59,11 +54,61 @@
   font-weight: 600;
   letter-spacing: 4px;
   text-transform: uppercase;
-  /* Clean silver/grey */
   color: #a0a0a0; 
   opacity: 0;
   animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 4s;
+}
+
+/* --- NEW LANGUAGE SELECTOR OVERLAY --- */
+.languageSelector {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  opacity: 0;
+  animation: fadeInRef 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 3s; /* Appears right before the verse reference */
+}
+
+.langLabel {
+  color: #a0a0a0;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.langButtonContainer {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.langBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.8rem 2.5rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 4px;
+}
+
+.langBtn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  transform: translateY(-3px);
 }
 
 /* The Teleportation Flash (Freedom) */
@@ -74,7 +119,6 @@
   transform: translate(-50%, -50%) scale(0);
   width: 2px;
   height: 2px;
-  /* Pure blinding white light */
   background: #ffffff;
   border-radius: 50%;
   box-shadow: 0 0 50px 50px #ffffff, 0 0 150px 150px rgba(255, 255, 255, 0.8);
@@ -83,7 +127,6 @@
 }
 
 .lightBreakthrough.active {
-  /* Rapid, exponential scale to simulate warp speed/teleportation */
   animation: teleportFlash 1.2s cubic-bezier(0.7, 0, 1, 1) forwards;
 }
 
@@ -92,27 +135,10 @@
 ========================================= */
 
 @keyframes divineReveal {
-  0% {
-    opacity: 0;
-    filter: blur(10px);
-    transform: translateZ(-100px);
-  }
-  30% {
-    opacity: 1;
-    filter: blur(0px);
-    transform: translateZ(0px);
-  }
-  80% {
-    opacity: 1;
-    filter: blur(0px);
-    transform: translateZ(0px);
-  }
-  100% {
-    opacity: 0;
-    filter: blur(20px);
-    /* Accelerates and zooms massively toward the camera */
-    transform: translateZ(400px); 
-  }
+  0% { opacity: 0; filter: blur(10px); transform: translateZ(-100px); }
+  30% { opacity: 1; filter: blur(0px); transform: translateZ(0px); }
+  80% { opacity: 1; filter: blur(0px); transform: translateZ(0px); }
+  100% { opacity: 0; filter: blur(20px); transform: translateZ(400px); }
 }
 
 @keyframes fadeInRef {
@@ -121,16 +147,7 @@
 }
 
 @keyframes teleportFlash {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    /* Expands to cover the entire screen instantly */
-    transform: translate(-50%, -50%) scale(300); 
-    opacity: 1;
-  }
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(300); opacity: 1; }
 }
