@@ -14,6 +14,9 @@ export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
   
+  // VIP App Installed State
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
+  
   // iOS Detection State
   const [isIOS, setIsIOS] = useState(false);
   const [showIOSModal, setShowIOSModal] = useState(false);
@@ -43,23 +46,24 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    // 1. Detect if the user is on an iPhone/iPad
+    // 1. Detect if the app is ALREADY installed (running as standalone PWA)
+    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    setIsAppInstalled(isStandalone);
+
+    // 2. Detect Apple Device
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
     
-    // Also check if it's already running in standalone (PWA) mode
-    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-
     if (isAppleDevice && !isStandalone) {
       setIsIOS(true);
       setShowInstall(true); // Always show the install button on iOS if not installed
     }
 
-    // 2. Listen for Android/Desktop native install prompt
+    // 3. Listen for Android/Desktop native install prompt
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      setShowInstall(true); 
+      if (!isStandalone) setShowInstall(true); 
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -81,6 +85,8 @@ export default function Navbar() {
     if (outcome === "accepted") {
       setDeferredPrompt(null);
       setShowInstall(false);
+      // Once they accept, they are considered installed!
+      setIsAppInstalled(true);
     }
     setIsFabOpen(false);
   };
@@ -105,7 +111,8 @@ export default function Navbar() {
     baby: isSpanish ? "Futuro Infantil" : "Freedom Baby", 
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Consulta" : "Request Consultation",
-    installApp: isSpanish ? "Instalar Herramientas" : "Install Toolbox"
+    installApp: isSpanish ? "Instalar Herramientas" : "Install Toolbox",
+    openToolbox: isSpanish ? "Abrir Herramientas" : "Workshop Toolbox"
   };
 
   const iosModalText = {
@@ -122,6 +129,7 @@ export default function Navbar() {
 
   const base = isSpanish ? "/es" : "";
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
+  const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
 
   return (
     <>
@@ -165,7 +173,7 @@ export default function Navbar() {
           <div className={`nav-links ${isOpen ? "active" : ""}`}>
             <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
             
-            {/* UPGRADED SMOOTH DROPDOWN CONTAINER */}
+            {/* UPGRADED SMOOTH DROPDOWN CONTAINER WITH INVISIBLE HOVER BRIDGE */}
             <div 
               className="nav-dropdown-container" 
               onMouseEnter={() => setIsServicesOpen(true)} 
@@ -252,7 +260,7 @@ export default function Navbar() {
       </nav>
 
       {/* ==================================================== */}
-      {/* FLOATING ACTION MENU (APP-LIKE EXPERIENCE)           */}
+      {/* FLOATING ACTION MENU (VIP APP DETECTION)             */}
       {/* ==================================================== */}
       <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem" }}>
         
@@ -262,12 +270,21 @@ export default function Navbar() {
           transform: isFabOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
           transition: "var(--transition)", transformOrigin: "bottom right"
         }}>
-          {/* Conditional App Install Button */}
-          {showInstall && (
+          
+          {/* STATE 1: Web User -> Ask them to Install */}
+          {showInstall && !isAppInstalled && (
             <button onClick={handleInstallClick} style={fabActionStyle}>
               <span style={fabLabelStyle}>{navText.installApp}</span>
               <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2s infinite"}}>📱</div>
             </button>
+          )}
+
+          {/* STATE 2: App Installed User -> Give them the Workshop Tools! */}
+          {isAppInstalled && (
+            <Link href={toolboxRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+              <span style={fabLabelStyle}>{navText.openToolbox}</span>
+              <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2s infinite", background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
+            </Link>
           )}
           
           {/* Request Callback Button */}

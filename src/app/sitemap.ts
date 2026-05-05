@@ -15,12 +15,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/generational-wealth-arcadia-sgv',
     '/living-benefits-life-insurance-los-angeles',
     '/service-areas',
+    // New English Lead Funnels
+    '/debt-free-wealth-strategy',
+    '/mortgage-protection-los-angeles',
+    '/business-owner-financial-strategies',
+    
+    // Spanish Routes
     '/es',
     '/es/mision',
     '/es/futuro-financiero-infantil',
     '/es/seminarios',
     '/es/planificacion-de-jubilacion-los-angeles',
     '/es/beneficios-en-vida-los-angeles',
+    // New Spanish Lead Funnels
+    '/es/estrategia-libre-de-deudas',
+    '/es/proteccion-de-hipoteca-los-angeles',
+    '/es/estrategias-financieras-para-negocios',
   ];
 
   return routes.map((route) => ({

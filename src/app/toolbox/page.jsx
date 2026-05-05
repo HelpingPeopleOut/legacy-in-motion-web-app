@@ -1,73 +1,87 @@
 "use client";
 
 import { useEffect } from "react";
-import ProgressTracker from "@/components/ProgressTracker";
 import WealthCalculator from "@/components/WealthCalculator";
-import Link from "next/link";
+import ProgressTracker from "@/components/ProgressTracker";
+import RuleOf72 from "@/components/RuleOf72";
+import DIMECalculator from "@/components/DIMECalculator";
+import DebtFreedomVisualizer from "@/components/DebtFreedomVisualizer";
+import TaxFreeComparison from "@/components/TaxFreeComparison";
+import CostOfWaiting from "@/components/CostOfWaiting";
 
-export default function ToolboxDashboard() {
+export default function ToolboxPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <>
-      <title>Client Toolbox | Legacy in Motion</title>
+      <title>Workshop Companion Toolbox | Legacy in Motion</title>
       
-      {/* Sleek App-Like Header */}
-      <section style={{ paddingTop: "8rem", paddingBottom: "3rem", background: "var(--bg-dark)", color: "#fff", textAlign: "center" }}>
-        <div className="container">
-          <h1 style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>Client Toolbox</h1>
-          <p style={{ color: "#a0a0a0", fontSize: "1.1rem" }}>Your secure portal for strategy tracking and financial projections.</p>
+      <section className="hero" style={{ padding: "10rem 0 4rem 0", background: "var(--bg-dark)" }}>
+        <div className="container text-center">
+          <span style={{ color: "var(--gold)", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>
+            Exclusive App Access
+          </span>
+          <h1 style={{ fontSize: "3.2rem", maxWidth: "800px", margin: "1rem auto 1.5rem", color: "#fff" }}>
+            Workshop <span className="text-gold">Companion Toolbox.</span>
+          </h1>
+          <p style={{ fontSize: "1.1rem", maxWidth: "600px", margin: "0 auto", color: "#ccc" }}>
+            Follow along with Nelly during the live workshop. Use these tools to calculate your wealth trajectory and discover your exact financial needs.
+          </p>
         </div>
       </section>
 
-      {/* Main Dashboard Grid */}
-      <section style={{ padding: "4rem 0", background: "var(--bg-page)", minHeight: "60vh" }}>
-        <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "3rem" }}>
-          
-          {/* Left Column: Progress Tracker */}
-          <div>
-            <ProgressTracker />
-          </div>
-
-          {/* Right Column: Utilities & Calculator */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
+      {/* 7-TOOL POWER GRID */}
+      <section style={{ padding: "5rem 0", background: "var(--bg-page)" }}>
+        <div className="container">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "3rem", alignItems: "stretch" }}>
             
-            {/* Quick Actions Panel */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-              <Link href="/request-callback" style={quickActionStyle}>
-                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📅</div>
-                <div style={{ fontWeight: 600 }}>Schedule Call</div>
-              </Link>
-              <a href="tel:626-203-7652" style={quickActionStyle}>
-                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📞</div>
-                <div style={{ fontWeight: 600 }}>Direct Line</div>
-              </a>
-            </div>
-
-            {/* The Wealth Calculator we built previously */}
-            <div style={{ width: "100%" }}>
-              <h3 style={{ fontSize: "1.5rem", marginBottom: "1.5rem" }}>Projections</h3>
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>1. Wealth Calculator</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>Calculate the power of compound interest exactly as shown in the presentation.</p>
               <WealthCalculator />
             </div>
 
-          </div>
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>2. The Rule of 72</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>Discover how many years it takes for your money to double based on your interest rate.</p>
+              <RuleOf72 />
+            </div>
 
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>3. The Cost of Waiting</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>See exactly how much wealth you lose by procrastinating for just 5 years.</p>
+              <CostOfWaiting />
+            </div>
+
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>4. Debt Freedom Visualizer</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>See exactly how much interest the banks are stealing from your family's future.</p>
+              <DebtFreedomVisualizer />
+            </div>
+
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>5. Tax-Free Retirement</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>Compare traditional 401(k) taxes against a tax-free IUL wealth strategy.</p>
+              <TaxFreeComparison />
+            </div>
+
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>6. D.I.M.E. Method</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>Calculate exactly how much life insurance your family needs to be completely protected.</p>
+              <DIMECalculator />
+            </div>
+
+            <div>
+              <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem", color: "var(--text-main)" }}>7. Progress Checklist</h2>
+              <p style={{ color: "var(--text-muted)", marginBottom: "1.5rem" }}>Check off the steps as you secure your financial fortress. Progress saves locally!</p>
+              <ProgressTracker />
+            </div>
+
+          </div>
         </div>
       </section>
     </>
   );
 }
-
-const quickActionStyle = {
-  background: "var(--bg-card)",
-  border: "1px solid var(--border-light)",
-  padding: "1.5rem 1rem",
-  borderRadius: "12px",
-  textAlign: "center",
-  color: "var(--text-main)",
-  textDecoration: "none",
-  boxShadow: "var(--shadow-sm)",
-  transition: "transform 0.2s, box-shadow 0.2s"
-};
