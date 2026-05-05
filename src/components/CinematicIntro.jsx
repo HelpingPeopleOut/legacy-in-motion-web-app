@@ -6,7 +6,8 @@ import styles from "@/app/page.module.css";
 
 export default function CinematicIntro() {
   const [stage, setStage] = useState("trapped"); 
-  const [shouldRender, setShouldRender] = useState(true);
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -15,14 +16,15 @@ export default function CinematicIntro() {
     const skipIntro = urlParams.get("skipIntro");
     const hasPlayed = sessionStorage.getItem("introPlayed");
 
-    if (hasPlayed || skipIntro) {
-      setShouldRender(false);
+    if (!hasPlayed && !skipIntro) {
+      setShouldRender(true);
+      document.body.style.overflow = "hidden";
+    } else {
       sessionStorage.setItem("introPlayed", "true"); 
-      return; 
     }
-
-    // 2. Lock the screen so they must choose a language
-    document.body.style.overflow = "hidden";
+    
+    // Mark that we are safely on the client to prevent SSR flashing
+    setIsClient(true);
   }, []);
 
   const handleLanguageSelect = (lang) => {
@@ -45,8 +47,8 @@ export default function CinematicIntro() {
     }
   };
 
-  // If already played, don't render to prevent flashing
-  if (!shouldRender) return null;
+  // Prevent ANY rendering until the client checks session storage (eliminates the flicker!)
+  if (!isClient || !shouldRender) return null;
 
   return (
     <div className={`${styles.introOverlay} ${stage === "hidden" ? styles.hidden : ""}`}>

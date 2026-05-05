@@ -85,20 +85,24 @@ export default function Navbar() {
     return `${targetPath}?skipIntro=true`;
   };
 
-  // --- BILINGUAL TEXT ---
+  // --- BILINGUAL TEXT WITH TOOLBOX MARKETING ---
   const navText = {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
-    baby: isSpanish ? "Futuro Financiero Infantil" : "Freedom Financial Baby", 
+    // Shortened for the navbar to prevent weird line wrapping
+    baby: isSpanish ? "Futuro Infantil" : "Freedom Baby", 
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Consulta" : "Request Consultation",
-    installApp: isSpanish ? "Instalar App" : "Install App"
+    // Upgraded App Install Call-To-Action
+    installApp: isSpanish ? "Instalar Herramientas" : "Install Toolbox"
   };
 
   const iosModalText = {
-    title: isSpanish ? "Instale su Fortaleza" : "Install Your Fortress",
-    subtitle: isSpanish ? "Agregue Legacy in Motion a su pantalla." : "Add Legacy in Motion to your home screen.",
+    title: isSpanish ? "Instale su Caja de Herramientas" : "Install Your Toolbox",
+    subtitle: isSpanish 
+      ? "Agregue la aplicación a su pantalla para acceso instantáneo a calculadoras y estrategias premium." 
+      : "Add the app to your home screen for instant access to premium financial calculators and trackers.",
     step1: isSpanish ? "Toque el ícono de " : "Tap the ",
     step1b: isSpanish ? " compartir abajo." : " share icon below.",
     step2: isSpanish ? "Desplácese y toque " : "Scroll down and tap ",
@@ -111,7 +115,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* --- INJECTED CSS ANIMATIONS FOR ADVANCED EFFECTS --- */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes slideUp {
           from { transform: translateY(100%); opacity: 0; }
@@ -131,7 +134,7 @@ export default function Navbar() {
 
       <nav style={{ position: "relative", zIndex: 990 }}>
         <div className="container nav-inner">
-          <Link href={base || "/"} className="logo" onClick={closeMenu}>
+          <Link href={base || "/"} className="logo" onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>
             LEGACY IN MOTION
           </Link>
           
@@ -140,9 +143,9 @@ export default function Navbar() {
           </button>
 
           <div className={`nav-links ${isOpen ? "active" : ""}`}>
-            <Link href={`${base}/`} onClick={closeMenu}>{navText.home}</Link>
+            <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
             
-            <div className="nav-dropdown-container" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)} style={{ position: "relative", cursor: "pointer" }}>
+            <div className="nav-dropdown-container" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)} style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}>
               <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px" }}>
                 {navText.services}
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -154,6 +157,9 @@ export default function Navbar() {
                     <>
                       <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Planificación de Jubilación</Link>
                       <Link href="/es/beneficios-en-vida-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Seguros con Beneficios en Vida</Link>
+                      <Link href="/es/estrategia-libre-de-deudas" onClick={closeMenu} style={dropdownItemStyle}>Estrategia Libre de Deudas</Link>
+                      <Link href="/es/proteccion-de-hipoteca-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Protección de Hipoteca</Link>
+                      <Link href="/es/estrategias-financieras-para-negocios" onClick={closeMenu} style={dropdownItemStyle}>Estrategias para Negocios</Link>
                       <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.2rem 0" }}></div>
                       <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>Nuestras Áreas de Servicio</Link>
                     </>
@@ -163,6 +169,9 @@ export default function Navbar() {
                       <Link href="/estate-business-planning-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Estate & Business Planning</Link>
                       <Link href="/generational-wealth-arcadia-sgv" onClick={closeMenu} style={dropdownItemStyle}>Generational Wealth</Link>
                       <Link href="/living-benefits-life-insurance-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Living Benefits & Protection</Link>
+                      <Link href="/debt-free-wealth-strategy" onClick={closeMenu} style={dropdownItemStyle}>Debt Elimination Strategy</Link>
+                      <Link href="/mortgage-protection-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Mortgage Protection</Link>
+                      <Link href="/business-owner-financial-strategies" onClick={closeMenu} style={dropdownItemStyle}>Business Owner Strategies</Link>
                       <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.2rem 0" }}></div>
                       <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>View All Service Areas</Link>
                     </>
@@ -171,15 +180,15 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu}>{navText.mission}</Link>
-            <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} onClick={closeMenu}>{navText.baby}</Link>
-            <Link href={isSpanish ? "/es/seminarios" : "/workshops"} onClick={closeMenu}>{navText.workshops}</Link>
+            <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.mission}</Link>
+            <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.baby}</Link>
+            <Link href={isSpanish ? "/es/seminarios" : "/workshops"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.workshops}</Link>
             
-            <Link href={getToggleUrl()} onClick={handleLanguageToggle} style={{ fontWeight: 600, color: "var(--gold)", margin: "0 0.5rem", border: "1px solid var(--gold)", padding: "0.2rem 0.6rem", borderRadius: "4px", fontSize: "0.9rem" }}>
+            <Link href={getToggleUrl()} onClick={handleLanguageToggle} style={{ fontWeight: 600, color: "var(--gold)", margin: "0 0.5rem", border: "1px solid var(--gold)", padding: "0.2rem 0.6rem", borderRadius: "4px", fontSize: "0.9rem", whiteSpace: "nowrap" }}>
               {isSpanish ? "EN" : "ES"}
             </Link>
 
-            <Link href={contactRoute} className="btn-gold" style={{ padding: "0.5rem 1.5rem" }} onClick={closeMenu}>
+            <Link href={contactRoute} className="btn-gold" style={{ padding: "0.5rem 1.5rem", whiteSpace: "nowrap" }} onClick={closeMenu}>
               {navText.book}
             </Link>
           </div>
@@ -243,9 +252,8 @@ export default function Navbar() {
             background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", padding: "1rem"
           }}
         >
-          {/* The Slide-Up Modal Card */}
           <div 
-            onClick={(e) => e.stopPropagation()} // Prevent clicking inside modal from closing it
+            onClick={(e) => e.stopPropagation()} 
             style={{
               background: "var(--bg-page)", padding: "2.5rem 1.5rem 4rem 1.5rem", borderRadius: "24px 24px 24px 24px", 
               width: "100%", maxWidth: "500px", margin: "0 auto", position: "relative",
@@ -259,7 +267,6 @@ export default function Navbar() {
               <p style={{ color: "var(--text-muted)", fontSize: "1.05rem" }}>{iosModalText.subtitle}</p>
             </div>
             
-            {/* Step 1 */}
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
               <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>1</div>
               <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
@@ -269,7 +276,6 @@ export default function Navbar() {
               </p>
             </div>
 
-            {/* Step 2 */}
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
               <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>2</div>
               <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
@@ -288,7 +294,6 @@ export default function Navbar() {
               {iosModalText.close}
             </button>
 
-            {/* Bouncing Arrow Pointing Down to Safari's Nav Bar */}
             <div style={{
               position: "absolute", bottom: "-35px", left: "50%", marginLeft: "-20px",
               animation: "bounceDown 2s infinite"
