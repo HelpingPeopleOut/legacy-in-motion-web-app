@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function TrustedPartners() {
   const pathname = usePathname() || "/";
@@ -40,8 +40,14 @@ export default function TrustedPartners() {
           <div className="marquee-track">
             {/* Render the logos twice so it creates an infinite scrolling effect */}
             {[...partners, ...partners].map((partner, index) => (
-              <div className="marquee-item" key={index}>
-                <img src={partner.src} alt={partner.alt} loading="lazy" style={{ maxHeight: "45px", objectFit: "contain" }} />
+              <div className="marquee-item" key={index} style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                <Image 
+                  src={partner.src} 
+                  alt={partner.alt} 
+                  width={160} 
+                  height={45} 
+                  style={{ objectFit: "contain", maxHeight: "45px", width: "auto" }} 
+                />
               </div>
             ))}
           </div>
@@ -79,10 +85,6 @@ export default function TrustedPartners() {
             onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
             onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
           >
-            {/* If you have a specific PNG/SVG logo file, you can uncomment this img tag: */}
-            {/* <img src="/hpo-logo.png" alt="HPO Center Web Development" style={{ height: "40px" }} /> */}
-            
-            {/* This is a beautifully styled, fallback CSS logo until you drop your image file in */}
             <div style={{
               display: "flex",
               alignItems: "center",

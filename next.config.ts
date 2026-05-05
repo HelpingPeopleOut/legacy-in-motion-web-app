@@ -8,7 +8,14 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your existing Next.js config options here, if any
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'experiorfinancial.com',
+      },
+    ],
+  },
 };
 
 export default withPWA(nextConfig);
