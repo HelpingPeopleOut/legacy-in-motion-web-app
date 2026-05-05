@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   
   // App-Like Floating Action Button State
   const [isFabOpen, setIsFabOpen] = useState(false);
@@ -25,10 +26,21 @@ export default function Navbar() {
     setIsServicesOpen(false);
   };
 
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
   }, [isOpen]);
+
+  // Detect Scrolling to trigger the "Sticky Glass" effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) setScrolled(true);
+      else setScrolled(false);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     // 1. Detect if the user is on an iPhone/iPad
@@ -90,11 +102,9 @@ export default function Navbar() {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
-    // Shortened for the navbar to prevent weird line wrapping
     baby: isSpanish ? "Futuro Infantil" : "Freedom Baby", 
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Consulta" : "Request Consultation",
-    // Upgraded App Install Call-To-Action
     installApp: isSpanish ? "Instalar Herramientas" : "Install Toolbox"
   };
 
@@ -132,7 +142,17 @@ export default function Navbar() {
         }
       `}} />
 
-      <nav style={{ position: "relative", zIndex: 990 }}>
+      {/* UPGRADED STICKY NAV */}
+      <nav style={{ 
+        position: "sticky", 
+        top: 0, 
+        zIndex: 990, 
+        width: "100%",
+        background: scrolled ? "rgba(255, 255, 255, 0.95)" : "var(--bg-page)",
+        backdropFilter: scrolled ? "blur(10px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--border-light)" : "1px solid transparent",
+        transition: "all 0.3s ease"
+      }}>
         <div className="container nav-inner">
           <Link href={base || "/"} className="logo" onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>
             LEGACY IN MOTION
@@ -145,14 +165,39 @@ export default function Navbar() {
           <div className={`nav-links ${isOpen ? "active" : ""}`}>
             <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
             
+            {/* UPGRADED SMOOTH DROPDOWN CONTAINER */}
             <div className="nav-dropdown-container" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)} style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}>
               <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px" }}>
                 {navText.services}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <svg 
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
               </span>
 
-              {isServicesOpen && (
-                <div className="dropdown-menu" style={{ position: isOpen ? "relative" : "absolute", top: isOpen ? "0" : "100%", left: 0, marginTop: isOpen ? "1rem" : "1.5rem", backgroundColor: "var(--bg-page)", boxShadow: isOpen ? "none" : "var(--shadow-md)", border: isOpen ? "none" : "1px solid var(--border-light)", borderRadius: "12px", display: "flex", flexDirection: "column", minWidth: "280px", zIndex: 100, overflow: "hidden" }}>
+              {/* The Dropdown Menu (Always mounted to prevent layout jumps, handled via CSS) */}
+              <div className="dropdown-menu" style={{ 
+                position: isOpen ? "relative" : "absolute", 
+                top: isOpen ? "0" : "100%", 
+                left: 0, 
+                marginTop: isOpen ? "0.5rem" : "1.5rem", 
+                backgroundColor: "var(--bg-page)", 
+                boxShadow: isOpen ? "none" : "var(--shadow-md)", 
+                border: isOpen ? "none" : "1px solid var(--border-light)", 
+                borderRadius: "12px", 
+                display: isOpen && !isServicesOpen ? "none" : "flex", 
+                flexDirection: "column", 
+                minWidth: "280px", 
+                zIndex: 100, 
+                overflow: "hidden",
+                opacity: isOpen ? 1 : (isServicesOpen ? 1 : 0),
+                visibility: isOpen ? "visible" : (isServicesOpen ? "visible" : "hidden"),
+                transform: isOpen ? "none" : (isServicesOpen ? "translateY(0)" : "translateY(15px)"),
+                transition: "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s",
+                pointerEvents: isOpen ? "auto" : (isServicesOpen ? "auto" : "none")
+              }}>
                   {isSpanish ? (
                     <>
                       <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Planificación de Jubilación</Link>
@@ -176,8 +221,7 @@ export default function Navbar() {
                       <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>View All Service Areas</Link>
                     </>
                   )}
-                </div>
-              )}
+              </div>
             </div>
 
             <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.mission}</Link>
