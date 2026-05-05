@@ -166,8 +166,13 @@ export default function Navbar() {
             <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
             
             {/* UPGRADED SMOOTH DROPDOWN CONTAINER */}
-            <div className="nav-dropdown-container" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)} style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}>
-              <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px" }}>
+            <div 
+              className="nav-dropdown-container" 
+              onMouseEnter={() => setIsServicesOpen(true)} 
+              onMouseLeave={() => setIsServicesOpen(false)} 
+              style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}
+            >
+              <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px", height: "100%", padding: "10px 0" }}>
                 {navText.services}
                 <svg 
                   width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -177,27 +182,32 @@ export default function Navbar() {
                 </svg>
               </span>
 
-              {/* The Dropdown Menu (Always mounted to prevent layout jumps, handled via CSS) */}
-              <div className="dropdown-menu" style={{ 
+              {/* INVISIBLE HOVER BRIDGE WRAPPER */}
+              <div style={{ 
                 position: isOpen ? "relative" : "absolute", 
                 top: isOpen ? "0" : "100%", 
                 left: 0, 
-                marginTop: isOpen ? "0.5rem" : "1.5rem", 
-                backgroundColor: "var(--bg-page)", 
-                boxShadow: isOpen ? "none" : "var(--shadow-md)", 
-                border: isOpen ? "none" : "1px solid var(--border-light)", 
-                borderRadius: "12px", 
-                display: isOpen && !isServicesOpen ? "none" : "flex", 
-                flexDirection: "column", 
+                paddingTop: isOpen ? "0" : "1rem", /* <-- This connects the button to the menu invisibly */
+                display: isOpen && !isServicesOpen ? "none" : "block", 
                 minWidth: "280px", 
                 zIndex: 100, 
-                overflow: "hidden",
                 opacity: isOpen ? 1 : (isServicesOpen ? 1 : 0),
                 visibility: isOpen ? "visible" : (isServicesOpen ? "visible" : "hidden"),
                 transform: isOpen ? "none" : (isServicesOpen ? "translateY(0)" : "translateY(15px)"),
                 transition: "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s",
                 pointerEvents: isOpen ? "auto" : (isServicesOpen ? "auto" : "none")
               }}>
+                
+                {/* ACTUAL DROPDOWN VISUAL BOX */}
+                <div className="dropdown-menu" style={{
+                  backgroundColor: "var(--bg-page)", 
+                  boxShadow: isOpen ? "none" : "var(--shadow-md)", 
+                  border: isOpen ? "none" : "1px solid var(--border-light)", 
+                  borderRadius: "12px", 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  overflow: "hidden"
+                }}>
                   {isSpanish ? (
                     <>
                       <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Planificación de Jubilación</Link>
@@ -221,6 +231,8 @@ export default function Navbar() {
                       <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>View All Service Areas</Link>
                     </>
                   )}
+                </div>
+
               </div>
             </div>
 
