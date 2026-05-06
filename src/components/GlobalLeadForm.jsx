@@ -102,19 +102,19 @@ export default function GlobalLeadForm({ title, subtitle, sourcePage, dropdownOp
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "1.5rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <label style={{ fontWeight: 600, color: "var(--text-muted)", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>{t.name}</label>
-              <input type="text" name=\"Name\" required placeholder={t.namePlaceholder} disabled={isSubmitting} style={inputStyle} />
+              <input type="text" name="Name" required placeholder={t.namePlaceholder} disabled={isSubmitting} style={inputStyle} />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <label style={{ fontWeight: 600, color: "var(--text-muted)", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>{t.email}</label>
-              <input type="email" name=\"Email\" required placeholder={t.emailPlaceholder} disabled={isSubmitting} style={inputStyle} />
+              <input type="email" name="Email" required placeholder={t.emailPlaceholder} disabled={isSubmitting} style={inputStyle} />
             </div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "1.5rem" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               <label style={{ fontWeight: 600, color: "var(--text-muted)", fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "1px" }}>{t.phone}</label>
-              <input type="tel" name=\"Phone\" required placeholder={t.phonePlaceholder} disabled={isSubmitting} style={inputStyle} />
+              <input type="tel" name="Phone" required placeholder={t.phonePlaceholder} disabled={isSubmitting} style={inputStyle} />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
