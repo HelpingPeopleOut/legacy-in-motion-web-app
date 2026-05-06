@@ -3,6 +3,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
 
+// --- ENTERPRISE PWA VIEWPORT LOCK ---
+// This prevents iPhones from zooming in on input fields and gives the app a native feel
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#000000",
+};
+
 export const metadata = {
   title: "Legacy in Motion | Wealth & Estate Planning",
   description: "Expert financial consulting in Los Angeles & the San Gabriel Valley. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
@@ -35,36 +45,15 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Legacy in Motion | Wealth & Estate Planning",
-    description: "Establish your financial fortress in as little as 90 days.",
+    description: "Establish your financial fortress in Southern California.",
     images: ["/og-image.jpg"],
   },
-  appleWebApp: {
-    capable: true,
-    title: "Legacy",
-    statusBarStyle: "default",
-  },
 };
 
-export const viewport = {
-  themeColor: "#ffffff",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-        
         {/* Light Mode Favicons & Manifest */}
         <link rel="icon" type="image/png" sizes="32x32" href="/light/favicon-32x32.png" media="(prefers-color-scheme: light)" />
         <link rel="icon" type="image/png" sizes="16x16" href="/light/favicon-16x16.png" media="(prefers-color-scheme: light)" />
@@ -76,20 +65,12 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/dark/favicon-16x16.png" media="(prefers-color-scheme: dark)" />
         <link rel="apple-touch-icon" sizes="180x180" href="/dark/apple-touch-icon.png" media="(prefers-color-scheme: dark)" />
         <link rel="manifest" href="/dark/site.webmanifest" media="(prefers-color-scheme: dark)" />
-        
-        {/* Fallback for older browsers */}
-        <link rel="shortcut icon" href="/light/favicon.ico" />
       </head>
       <body>
         <Navbar />
-        
-        {/* 'children' is where your page content (and Cinematic Intro) will automatically go */}
         <main>{children}</main>
-        
-        {/* --- GLOBAL COMPONENTS --- */}
         <TrustedPartners />
         <Footer />
-        
       </body>
     </html>
   );
