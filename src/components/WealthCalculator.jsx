@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function WealthCalculator() {
+  const pathname = usePathname() || "";
+  const isEs = pathname.startsWith("/es");
+
   const [initialAmount, setInitialAmount] = useState(5000);
   const [monthlyContribution, setMonthlyContribution] = useState(500);
   const [years, setYears] = useState(20);
   const [interestRate, setInterestRate] = useState(8);
 
-  // Calculate compound interest
   const calculateWealth = () => {
     let total = initialAmount;
     let totalInvested = initialAmount;
@@ -28,91 +31,74 @@ export default function WealthCalculator() {
   };
 
   const results = calculateWealth();
+  const formatCurrency = (num) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
 
-  // Format currency
-  const formatCurrency = (num) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    }).format(num);
+  const t = {
+    title: isEs ? "Proyección de Riqueza" : "Wealth Projector",
+    desc: isEs ? "Calcule el poder del interés compuesto a lo largo del tiempo." : "See how your money grows over time with the right strategy.",
+    initial: isEs ? "Inversión Inicial ($)" : "Initial Investment ($)",
+    monthly: isEs ? "Contribución Mensual ($)" : "Monthly Contribution ($)",
+    years: isEs ? "Años de Crecimiento" : "Years to Grow",
+    rate: isEs ? "Rendimiento Anual Estimado (%)" : "Estimated Annual Return (%)",
+    future: isEs ? "Valor Futuro Estimado" : "Estimated Future Value",
+    invested: isEs ? "Total Invertido" : "Total Invested",
+    earned: isEs ? "Interés Ganado" : "Interest Earned",
+    yrLabel: isEs ? "Años" : "Years",
+    cta: isEs ? "Construir Esta Estrategia con Nelly" : "Build This Strategy With Nelly",
+    contactRoute: isEs ? "/es/solicitar-llamada" : "/request-callback"
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.card}>
       <div style={styles.header}>
-        <h3 style={styles.title}>Compound Wealth Projector</h3>
-        <p style={styles.subtitle}>See how your money grows over time with the right strategy.</p>
+        <div style={styles.iconBox}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+        </div>
+        <div>
+          <h3 style={styles.title}>{t.title}</h3>
+          <p style={styles.desc}>{t.desc}</p>
+        </div>
       </div>
 
       <div style={styles.grid}>
-        {/* INPUT CONTROLS */}
-        <div style={styles.inputSection}>
+        <div style={styles.inputCol}>
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Initial Investment ($)</label>
-            <input 
-              type="number" 
-              value={initialAmount} 
-              onChange={(e) => setInitialAmount(Number(e.target.value))}
-              style={styles.input}
-            />
+            <label style={styles.label}>{t.initial}</label>
+            <input type="number" value={initialAmount} onChange={(e) => setInitialAmount(Number(e.target.value))} style={styles.input} />
           </div>
-
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Monthly Contribution ($)</label>
-            <input 
-              type="number" 
-              value={monthlyContribution} 
-              onChange={(e) => setMonthlyContribution(Number(e.target.value))}
-              style={styles.input}
-            />
+            <label style={styles.label}>{t.monthly}</label>
+            <input type="number" value={monthlyContribution} onChange={(e) => setMonthlyContribution(Number(e.target.value))} style={styles.input} />
           </div>
-
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Years to Grow</label>
-            <input 
-              type="range" 
-              min="1" max="50" 
-              value={years} 
-              onChange={(e) => setYears(Number(e.target.value))}
-              style={styles.range}
-            />
-            <div style={styles.rangeValue}>{years} Years</div>
+            <label style={styles.label}>{t.years}</label>
+            <input type="range" min="1" max="50" value={years} onChange={(e) => setYears(Number(e.target.value))} style={styles.slider} />
+            <div style={styles.sliderValue}>{years} {t.yrLabel}</div>
           </div>
-
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Estimated Annual Return (%)</label>
-            <input 
-              type="range" 
-              min="1" max="15" step="0.5"
-              value={interestRate} 
-              onChange={(e) => setInterestRate(Number(e.target.value))}
-              style={styles.range}
-            />
-            <div style={styles.rangeValue}>{interestRate}%</div>
+            <label style={styles.label}>{t.rate}</label>
+            <input type="range" min="1" max="15" step="0.5" value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))} style={styles.slider} />
+            <div style={styles.sliderValue}>{interestRate}%</div>
           </div>
         </div>
 
-        {/* RESULTS DISPLAY */}
-        <div style={styles.resultSection}>
-          <div style={styles.resultCard}>
-            <p style={styles.resultLabel}>Estimated Future Value</p>
-            <h2 style={styles.resultValueMain}>{formatCurrency(results.futureValue)}</h2>
+        <div style={styles.resultCol}>
+          <div style={styles.mainResultBox}>
+            <p style={styles.resultLabel}>{t.future}</p>
+            <div style={styles.mainValue}>{formatCurrency(results.futureValue)}</div>
           </div>
-          
-          <div style={styles.resultDetails}>
-            <div style={styles.detailBox}>
-              <p style={styles.detailLabel}>Total Invested</p>
-              <p style={styles.detailValue}>{formatCurrency(results.totalInvested)}</p>
+          <div style={styles.subResultGrid}>
+            <div style={styles.subBox}>
+              <p style={styles.subLabel}>{t.invested}</p>
+              <p style={styles.subValue}>{formatCurrency(results.totalInvested)}</p>
             </div>
-            <div style={styles.detailBox}>
-              <p style={styles.detailLabel}>Interest Earned</p>
-              <p style={styles.detailValue} className="text-gold">{formatCurrency(results.totalInterest)}</p>
+            <div style={styles.subBox}>
+              <p style={styles.subLabel}>{t.earned}</p>
+              <p style={{...styles.subValue, color: "var(--gold)"}}>{formatCurrency(results.totalInterest)}</p>
             </div>
           </div>
-
-          <button style={styles.actionButton} onClick={() => window.location.href = '/request-callback'}>
-            Build This Strategy With Nelly
+          <button style={styles.actionButton} onClick={() => window.location.href = t.contactRoute}>
+            {t.cta}
           </button>
         </div>
       </div>
@@ -121,132 +107,25 @@ export default function WealthCalculator() {
 }
 
 const styles = {
-  container: {
-    background: "var(--bg-page)",
-    borderRadius: "16px",
-    border: "1px solid var(--border-light)",
-    boxShadow: "var(--shadow-md)",
-    overflow: "hidden",
-    maxWidth: "900px",
-    margin: "0 auto",
-  },
-  header: {
-    background: "var(--bg-card)",
-    padding: "2rem",
-    borderBottom: "1px solid var(--border-light)",
-    textAlign: "center",
-  },
-  title: {
-    fontSize: "1.8rem",
-    color: "var(--text-main)",
-    marginBottom: "0.5rem",
-  },
-  subtitle: {
-    color: "var(--text-muted)",
-    fontSize: "1rem",
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "0",
-  },
-  inputSection: {
-    padding: "2rem",
-    borderRight: "1px solid var(--border-light)",
-  },
-  inputGroup: {
-    marginBottom: "1.5rem",
-  },
-  label: {
-    display: "block",
-    fontSize: "0.9rem",
-    fontWeight: "600",
-    color: "var(--text-muted)",
-    marginBottom: "0.5rem",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-  },
-  input: {
-    width: "100%",
-    padding: "0.8rem 1rem",
-    borderRadius: "8px",
-    border: "1px solid var(--border-light)",
-    background: "var(--bg-card)",
-    color: "var(--text-main)",
-    fontSize: "1.1rem",
-    outline: "none",
-  },
-  range: {
-    width: "100%",
-    accentColor: "var(--gold)",
-    cursor: "pointer",
-  },
-  rangeValue: {
-    textAlign: "right",
-    fontSize: "1.1rem",
-    fontWeight: "bold",
-    color: "var(--gold)",
-    marginTop: "0.5rem",
-  },
-  resultSection: {
-    padding: "2rem",
-    background: "var(--bg-dark)",
-    color: "#fff",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  resultCard: {
-    textAlign: "center",
-    marginBottom: "2rem",
-  },
-  resultLabel: {
-    color: "#a0a0a0",
-    textTransform: "uppercase",
-    letterSpacing: "2px",
-    fontSize: "0.9rem",
-    marginBottom: "1rem",
-  },
-  resultValueMain: {
-    fontSize: "3.5rem",
-    color: "#ffffff",
-    textShadow: "0 0 20px rgba(212, 175, 55, 0.3)",
-    lineHeight: "1",
-  },
-  resultDetails: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "1rem",
-    marginBottom: "2rem",
-    background: "rgba(255,255,255,0.05)",
-    padding: "1.5rem",
-    borderRadius: "12px",
-  },
-  detailBox: {
-    textAlign: "center",
-    flex: 1,
-  },
-  detailLabel: {
-    fontSize: "0.85rem",
-    color: "#a0a0a0",
-    marginBottom: "0.5rem",
-  },
-  detailValue: {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-  },
-  actionButton: {
-    width: "100%",
-    padding: "1rem",
-    background: "var(--gold)",
-    color: "#000",
-    border: "none",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    cursor: "pointer",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-    transition: "transform 0.2s",
-  }
+  card: { background: "var(--bg-page)", borderRadius: "24px", border: "1px solid var(--border-light)", boxShadow: "0 10px 40px rgba(0,0,0,0.04)", overflow: "hidden", display: "flex", flexDirection: "column", height: "100%" },
+  header: { display: "flex", alignItems: "center", gap: "1rem", padding: "2rem 2rem 1.5rem", borderBottom: "1px solid var(--border-light)", background: "var(--bg-card)" },
+  iconBox: { width: "48px", height: "48px", borderRadius: "12px", background: "rgba(212, 175, 55, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(212, 175, 55, 0.3)", flexShrink: 0 },
+  title: { fontSize: "1.5rem", color: "var(--text-main)", margin: 0 },
+  desc: { fontSize: "0.9rem", color: "var(--text-muted)", margin: 0 },
+  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", flexGrow: 1 },
+  inputCol: { padding: "2rem" },
+  inputGroup: { marginBottom: "1.5rem" },
+  label: { display: "block", color: "var(--text-muted)", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginBottom: "0.5rem" },
+  input: { width: "100%", padding: "1rem", borderRadius: "12px", border: "none", background: "rgba(0,0,0,0.03)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)", fontSize: "1.1rem", color: "var(--text-main)", outline: "none", transition: "all 0.3s ease" },
+  slider: { width: "100%", accentColor: "var(--gold)", cursor: "pointer", height: "6px", borderRadius: "4px" },
+  sliderValue: { textAlign: "right", fontSize: "1.1rem", fontWeight: "bold", color: "var(--gold)", marginTop: "0.5rem" },
+  resultCol: { background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", padding: "2.5rem 2rem", display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid var(--border-light)" },
+  mainResultBox: { textAlign: "center", marginBottom: "2rem" },
+  resultLabel: { color: "#a0a0a0", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: "600" },
+  mainValue: { fontSize: "3.2rem", color: "#ffffff", fontWeight: "800", lineHeight: "1", textShadow: "0 0 30px rgba(212, 175, 55, 0.4)" },
+  subResultGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "2rem" },
+  subBox: { background: "rgba(255,255,255,0.05)", padding: "1.5rem", borderRadius: "16px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" },
+  subLabel: { fontSize: "0.75rem", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "0.5rem" },
+  subValue: { fontSize: "1.3rem", fontWeight: "bold", color: "#fff" },
+  actionButton: { width: "100%", padding: "1rem", background: "var(--gold)", color: "#000", border: "none", borderRadius: "12px", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px", transition: "transform 0.2s" }
 };
