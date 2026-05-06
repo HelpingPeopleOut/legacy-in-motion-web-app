@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import styles from "@/app/page.module.css";
 
-export default function CinematicIntro() {
+// 1. Moving the logic into a content component
+function IntroContent() {
   const [stage, setStage] = useState("trapped"); 
   const [shouldRender, setShouldRender] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -15,7 +16,6 @@ export default function CinematicIntro() {
   const searchParams = useSearchParams();
   const timeouts = useRef([]);
 
-  // Clear timeouts on unmount
   useEffect(() => {
     return () => timeouts.current.forEach(clearTimeout);
   }, []);
@@ -23,7 +23,6 @@ export default function CinematicIntro() {
   useEffect(() => {
     setIsClient(true);
 
-    // 1. Bulletproof PWA Detection
     const checkPWAStatus = () => {
       const isStandalone = 
         window.matchMedia('(display-mode: standalone)').matches ||
@@ -36,8 +35,6 @@ export default function CinematicIntro() {
     };
     checkPWAStatus();
 
-    // 2. Navigation-based Trigger
-    // We only show this on the base home routes ("/" or "/es")
     const isHomePage = pathname === "/" || pathname === "/es";
     const skipIntro = searchParams.get("skipIntro");
 
@@ -64,7 +61,7 @@ export default function CinematicIntro() {
       } else {
         completeIntro();
       }
-    }, 600); // Faster flash transition
+    }, 600);
 
     timeouts.current.push(timer1);
   };
@@ -82,44 +79,24 @@ export default function CinematicIntro() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes tipFadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes borderGlow {
-          0%, 100% { border-color: rgba(212, 175, 55, 0.3); }
-          50% { border-color: rgba(212, 175, 55, 0.7); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
-        }
+        @keyframes tipFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes borderGlow { 0%, 100% { border-color: rgba(212, 175, 55, 0.3); } 50% { border-color: rgba(212, 175, 55, 0.7); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); } }
         .install-tip-box {
-          position: absolute;
-          bottom: 2rem;
-          z-index: 100;
-          background: rgba(10, 10, 10, 0.9);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(212, 175, 55, 0.3);
-          border-radius: 16px;
-          padding: 1rem;
-          width: 90%;
-          max-width: 380px;
-          text-align: center;
+          position: absolute; bottom: 2rem; z-index: 100; background: rgba(10, 10, 10, 0.9);
+          backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 16px; padding: 1rem;
+          width: 90%; max-width: 380px; text-align: center;
           animation: tipFadeUp 0.8s ease forwards, borderGlow 3s infinite;
-          animation-delay: 1.5s; /* Appearing faster */
-          opacity: 0;
+          animation-delay: 1.5s; opacity: 0;
         }
       `}} />
 
       <div className={`${styles.introOverlay} ${stage === "hidden" ? styles.hidden : ""}`}>
-        {/* Failsafe background */}
         <div style={{ position: "absolute", inset: 0, background: "#000", zIndex: 0 }}></div>
-        
-        {/* Visual breakthrough element */}
         <div className={`${styles.lightBreakthrough} ${stage === "breakthrough" ? styles.active : ""}`}></div>
 
         <div className={styles.verseContainer}>
-          <p className={styles.verseText}>
-            &quot;But those who hope in the Lord will renew their strength.&quot;
-          </p>
+          <p className={styles.verseText}>&quot;But those who hope in the Lord will renew their strength.&quot;</p>
           <span className={styles.verseReference}>– Isaiah 40:31</span>
         </div>
 
@@ -129,7 +106,6 @@ export default function CinematicIntro() {
               <span className={styles.langBtnTitle}>English</span>
               <span className={styles.langBtnSub}>Financial Freedom Solutions</span>
             </button>
-
             <button onClick={() => handleLanguageSelect("es")} className={styles.langBtn}>
               <span className={styles.langBtnTitle}>Español</span>
               <span className={styles.langBtnSub}>Soluciones de Libertad</span>
@@ -154,5 +130,14 @@ export default function CinematicIntro() {
         )}
       </div>
     </>
+  );
+}
+
+// 2. Exporting the component wrapped in Suspense
+export default function CinematicIntro() {
+  return (
+    <Suspense fallback={null}>
+      <IntroContent />
+    </Suspense>
   );
 }
