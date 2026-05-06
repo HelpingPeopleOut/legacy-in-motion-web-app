@@ -22,10 +22,13 @@ export default function HerramientasPage() {
     window.scrollTo(0, 0);
 
     const checkPWAStatus = () => {
-      // Detección robusta para Desktop (Chrome/Edge), Android e iOS en modo independiente
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
-                           || window.navigator.standalone 
-                           || document.referrer.includes('android-app://');
+      // Detección robusta para Desktop, Android e iOS en modo independiente
+      const isStandalone = 
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches ||
+        window.navigator.standalone === true ||
+        document.referrer.includes('android-app://');
       
       setIsAppInstalled(isStandalone);
 
@@ -37,16 +40,24 @@ export default function HerramientasPage() {
 
     checkPWAStatus();
 
-    // Capturar el evento nativo de instalación del navegador (Android/Desktop)
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
 
+    const handleAppInstalled = () => {
+      setIsAppInstalled(true);
+    };
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+    
     setIsLoaded(true);
 
-    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
   }, []);
 
   const handleInstallClick = async () => {
@@ -64,11 +75,10 @@ export default function HerramientasPage() {
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setDeferredPrompt(null);
-      setIsAppInstalled(true); // Desbloqueo instantáneo
+      setIsAppInstalled(true);
     }
   };
 
-  // Evitar parpadeo de hidratación
   if (!isLoaded) return null;
 
   // ======================================================
@@ -78,6 +88,11 @@ export default function HerramientasPage() {
     return (
       <>
         <title>Acceso VIP | Caja de Herramientas Legacy in Motion</title>
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+          @keyframes bounceDown { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(15px); } 60% { transform: translateY(7px); } }
+        `}} />
+        
         <section style={{ minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-dark)", padding: "140px 1.5rem 80px" }}>
           <div className="fade-in visible" style={{ background: "var(--bg-card)", padding: "clamp(2rem, 5vw, 4rem) 2rem", borderRadius: "32px", border: "1px solid var(--gold)", textAlign: "center", maxWidth: "650px", boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.1)" }}>
             
