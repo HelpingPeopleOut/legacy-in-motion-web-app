@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
 
 // --- ENTERPRISE PWA VIEWPORT LOCK ---
-// This prevents iPhones from zooming in on input fields and gives the app a native feel
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -24,6 +23,27 @@ export const metadata = {
     "401k Rollovers",
     "Generational Wealth California"
   ],
+  // --- ENTERPRISE ICON & MANIFEST ROUTING ---
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" }
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ]
+  },
+  // --- MANDATORY PWA FLAGS FOR iOS/ANDROID ---
+  appleWebApp: {
+    capable: true,
+    title: "Legacy in Motion",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   // --- ENTERPRISE OPEN GRAPH (SOCIAL SHARING) ---
   openGraph: {
     title: "Legacy in Motion | Wealth & Estate Planning",
@@ -32,7 +52,7 @@ export const metadata = {
     siteName: "Legacy in Motion",
     images: [
       {
-        url: "/og-image.jpg", // You can add a premium 1200x630 image to your public folder later!
+        url: "/og-image.jpg", 
         width: 1200,
         height: 630,
         alt: "Legacy in Motion - Financial Planning",
@@ -53,19 +73,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        {/* Light Mode Favicons & Manifest */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/light/favicon-32x32.png" media="(prefers-color-scheme: light)" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/light/favicon-16x16.png" media="(prefers-color-scheme: light)" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/light/apple-touch-icon.png" media="(prefers-color-scheme: light)" />
-        <link rel="manifest" href="/light/site.webmanifest" media="(prefers-color-scheme: light)" />
-        
-        {/* Dark Mode Favicons & Manifest */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/dark/favicon-32x32.png" media="(prefers-color-scheme: dark)" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/dark/favicon-16x16.png" media="(prefers-color-scheme: dark)" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/dark/apple-touch-icon.png" media="(prefers-color-scheme: dark)" />
-        <link rel="manifest" href="/dark/site.webmanifest" media="(prefers-color-scheme: dark)" />
-      </head>
+      {/* Note: The manual <head> was removed. Next.js natively injects everything from the metadata object above for perfect SEO. */}
       <body>
         <Navbar />
         <main>{children}</main>
