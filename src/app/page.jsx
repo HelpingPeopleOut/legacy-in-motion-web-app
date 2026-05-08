@@ -7,7 +7,7 @@ import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function Home() {
   // --- NATIVE FORM ENGINE STATES ---
-  const [activePortal, setActivePortal] = useState(null);
+  const [activePortal, setActivePortal] = useState(null); // 'career', 'insurance', 'children'
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
@@ -54,9 +54,11 @@ export default function Home() {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Collect form data natively
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     
+    // Simulating the submission delay for the UI
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
@@ -70,9 +72,10 @@ export default function Home() {
   return (
     <>
       <CinematicIntro />
+      {/* CRITICAL FIX: Removed the illegal <title> and <meta> tags from here! 
+        Next.js now handles them automatically via layout.tsx, preventing Error 418.
+      */}
 
-      {/* FIXED: Removed the invalid <title> and <meta> tags that were causing React Error #418 */}
-      
       <Script 
         id="schema-org-home"
         type="application/ld+json" 
