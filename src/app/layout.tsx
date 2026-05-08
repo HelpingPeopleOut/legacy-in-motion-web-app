@@ -2,7 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
-import CacheBuster from "@/components/CacheBuster"; // <-- IMPORT THE BUSTER
+import CacheBuster from "@/components/CacheBuster";
 
 export const viewport = {
   width: "device-width",
@@ -68,9 +68,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    /* suppressHydrationWarning is CRITICAL here to prevent browser extensions from crashing React */
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <CacheBuster /> {/* <-- EXECUTE THE BUSTER ON LOAD */}
+        <CacheBuster />
         <Navbar />
         <main>{children}</main>
         <TrustedPartners />
