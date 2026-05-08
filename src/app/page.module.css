@@ -1,187 +1,69 @@
 /* src/app/page.module.css */
 
-/* =========================================
-   CINEMATIC "TELEPORTATION PORTAL" INTRO
-========================================= */
-
 .introOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999999; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #000000;
-  overflow: hidden;
+  position: fixed; inset: 0; z-index: 999999; 
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #000000; overflow: hidden;
   transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
 }
-
-.introOverlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
+.introOverlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
 .oppressiveShadow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(20, 20, 20, 1) 0%, #000000 100%);
-  z-index: 1;
-  pointer-events: none;
+  position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(20, 20, 20, 1) 0%, #000000 100%); z-index: 1; pointer-events: none;
 }
 
 .verseContainer {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 0 1.5rem;
-  max-width: 800px;
-  opacity: 0;
-  animation: divineReveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 0.3s;
+  position: relative; z-index: 2; text-align: center; padding: 0 1.5rem; max-width: 800px;
+  opacity: 0; animation: divineReveal 2s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.3s;
 }
 
 .verseText {
-  font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: clamp(1.1rem, 3.5vw, 2rem); 
-  font-style: italic;
-  color: #ffffff;
-  line-height: 1.6;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-heading, 'Playfair Display', serif); font-size: clamp(1.1rem, 3vw, 2.2rem); 
+  font-style: italic; color: #ffffff; line-height: 1.6; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .verseReference {
-  display: block;
-  margin-top: 1.2rem;
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0;
-  animation: fadeInRef 1.5s ease forwards;
-  animation-delay: 1.2s; 
+  display: block; margin-top: 1.2rem; font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.85rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); opacity: 0; animation: fadeInRef 1.5s ease forwards; animation-delay: 1.2s; 
 }
 
-/* --- LANGUAGE SELECTOR --- */
 .languageSelector {
-  position: relative; 
-  margin-top: 3rem; 
-  z-index: 10;
-  text-align: center;
-  width: 100%;
-  max-width: 700px; 
-  padding: 0 1.5rem;
-  opacity: 0;
-  animation: fadeInRef 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: 2s; 
+  position: relative; z-index: 10; margin-top: 3rem; text-align: center; width: 100%; max-width: 700px; padding: 0 1.5rem;
+  opacity: 0; animation: fadeInRef 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 2s; 
 }
 
 .langButtonContainer {
-  display: flex;
-  flex-direction: row; 
-  gap: 1.2rem;
-  justify-content: center;
-  align-items: stretch;
+  display: flex; flex-direction: row; gap: 1.2rem; justify-content: center; align-items: stretch;
 }
 
 .langBtn {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #ffffff;
-  padding: 1.2rem;
-  font-family: var(--font-body, 'Inter', sans-serif);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 12px;
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3); color: #ffffff; padding: 1.2rem; font-family: var(--font-body, 'Inter', sans-serif);
+  cursor: pointer; transition: all 0.3s ease; border-radius: 12px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem;
 }
 
 .langBtn:hover {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+  background: #ffffff; color: #000000; border-color: #ffffff; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
 }
 
-.langBtnTitle {
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+.langBtnTitle { font-weight: 700; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; }
+.langBtnSub { font-weight: 400; font-size: 0.8rem; opacity: 0.7; line-height: 1.3; }
+.langBtn:hover .langBtnSub { color: #333333; opacity: 1; }
 
-.langBtnSub {
-  font-weight: 400;
-  font-size: 0.8rem;
-  opacity: 0.7;
-  line-height: 1.3;
-}
-
-.langBtn:hover .langBtnSub {
-  color: #333333;
-  opacity: 1;
-}
-
-/* The Breakthrough Flash */
 .lightBreakthrough {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  width: 5px;
-  height: 5px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 100px 100px #ffffff;
-  opacity: 0;
-  z-index: 100;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+  width: 5px; height: 5px; background: #ffffff; border-radius: 50%; box-shadow: 0 0 100px 100px #ffffff;
+  opacity: 0; z-index: 100;
 }
+.lightBreakthrough.active { animation: teleportFlash 0.8s ease-in forwards; }
 
-.lightBreakthrough.active {
-  animation: teleportFlash 0.8s ease-in forwards;
-}
-
-/* =========================================
-   KEYFRAMES
-========================================= */
-
-@keyframes divineReveal {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); } 
-}
-
-@keyframes fadeInRef {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes teleportFlash {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  40% { opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(500); opacity: 1; }
-}
+@keyframes divineReveal { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInRef { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes teleportFlash { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 40% { opacity: 1; } 100% { transform: translate(-50%, -50%) scale(500); opacity: 1; } }
 
 @media (max-width: 600px) {
-  .langButtonContainer {
-    flex-direction: column; 
-    gap: 0.8rem;
-  }
-  .langBtn {
-    width: 100%; 
-    padding: 1rem; 
-  }
-  .verseText {
-    font-size: 1.2rem;
-  }
+  .langButtonContainer { flex-direction: column; gap: 0.8rem; }
+  .langBtn { width: 100%; padding: 1rem; }
+  .verseText { font-size: 1.2rem; }
 }
