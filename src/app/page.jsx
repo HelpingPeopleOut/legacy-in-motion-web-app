@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function Home() {
+  // --- NATIVE FORM ENGINE STATES ---
+  const [activePortal, setActivePortal] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -29,6 +34,12 @@ export default function Home() {
     });
   }, []);
 
+  // Lock body scroll when a portal modal is open
+  useEffect(() => {
+    if (activePortal) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+  }, [activePortal]);
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "FinancialService",
@@ -39,13 +50,29 @@ export default function Home() {
     "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"]
   };
 
+  const handlePortalSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setActivePortal(null);
+      }, 3000);
+    }, 2000);
+  };
+
   return (
     <>
       <CinematicIntro />
 
-      <title>Financial Consultant in Los Angeles & SGV | Legacy in Motion</title>
-      <meta name="description" content="Expert retirement planning, pension rollovers, and estate planning services across Los Angeles, Pasadena, and the San Gabriel Valley. Build your financial fortress." />
-      <meta name="keywords" content="Retirement planner in Pasadena CA, Pension and 401k rollover specialist near me, Estate planning services San Gabriel Valley, Life insurance living benefits Los Angeles, Financial consultant near me" />
+      {/* FIXED: Removed the invalid <title> and <meta> tags that were causing React Error #418 */}
+      
       <Script 
         id="schema-org-home"
         type="application/ld+json" 
@@ -88,12 +115,6 @@ export default function Home() {
                     </div>
                   </div>
                   <div style={{ padding: "19% 0" }}></div>
-                  <div style={{ paddingTop: "8px" }}>
-                    <div style={{ color: "#3897f0", fontFamily: "Arial,sans-serif", fontSize: "14px", fontStyle: "normal", fontWeight: 550, lineHeight: "18px" }}>
-                      View this post on Instagram
-                    </div>
-                  </div>
-                  <div style={{ padding: "12.5% 0" }}></div>
                 </a>
               </div>
             </blockquote>
@@ -102,7 +123,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 2. THE BLUEPRINT (SOLUTIONS FIRST) */}
+      {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
@@ -122,41 +143,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. PROVEN TRANSFORMATIONS */}
-      <section id="stories" className="stories fade-in" style={{ background: "var(--bg-card)" }}>
+      {/* 3. GOD MODE INTAKE PORTALS */}
+      <section className="fade-in" style={{ background: "var(--bg-dark)", padding: "7rem 0", borderTop: "1px solid var(--gold)", borderBottom: "1px solid var(--gold)" }}>
         <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Proven Financial Transformations</h2>
-          <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.</p>
-          <div className="card-grid">
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.</p>
-            </article>
+          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+            <span style={{ color: "var(--gold)", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", fontSize: "0.9rem" }}>Direct Access</span>
+            <h2 style={{ color: "#fff", fontSize: "2.8rem", margin: "1rem 0" }}>Client Intake Portals</h2>
+            <p style={{ color: "#aaa", maxWidth: "600px", margin: "0 auto" }}>Select your specialized portal below to bypass general inquiries and send your information directly to our executive team.</p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+            <div className="portal-card" onClick={() => setActivePortal('career')}>
+              <div className="portal-icon">💼</div>
+              <h3>Join Our Firm</h3>
+              <p>Learn the secrets of the wealthy and build a thriving financial business across North America.</p>
+              <span className="portal-btn">Access Portal ➔</span>
+            </div>
+
+            <div className="portal-card" onClick={() => setActivePortal('insurance')}>
+              <div className="portal-icon">🛡️</div>
+              <h3>Life Insurance Quote</h3>
+              <p>Secure customized quotes for Term and Permanent coverage with Living Benefits.</p>
+              <span className="portal-btn">Access Portal ➔</span>
+            </div>
+
+            <div className="portal-card" onClick={() => setActivePortal('children')}>
+              <div className="portal-icon">🌱</div>
+              <h3>Children&apos;s Wealth</h3>
+              <p>Create generational wealth and secure your child&apos;s financial future early.</p>
+              <span className="portal-btn">Access Portal ➔</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. REQUEST A CALLBACK FORM */}
+      {/* 4. DIGITAL PRESENCE COMMAND CENTER */}
+      <section className="fade-in" style={{ padding: "6rem 0", background: "var(--bg-card)" }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>Connect With Nelly</h2>
+          <p style={{ color: "var(--text-muted)", maxWidth: "600px", margin: "0 auto 3rem" }}>Follow along for daily financial education, wealth-building strategies, and behind-the-scenes insights into Legacy in Motion.</p>
+          
+          <div style={{ display: "flex", justifyContent: "center", gap: "2rem", flexWrap: "wrap" }}>
+            <a href="https://www.tiktok.com/@laranell14" target="_blank" rel="noopener noreferrer" className="social-god-card">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+              <span>TikTok</span>
+            </a>
+            <a href="https://www.instagram.com/money_withnelz" target="_blank" rel="noopener noreferrer" className="social-god-card">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/nelly.lara.509" target="_blank" rel="noopener noreferrer" className="social-god-card">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              <span>Facebook</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. REQUEST A CALLBACK FORM */}
       <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
         <GlobalLeadForm 
-          title="Ready to Start? Request a Consultation" 
-          subtitle="Fill out the form below. Our team will review your request and call you back within 24 hours."
+          title="General Inquiry" 
+          subtitle="Not sure which portal to use? Fill out the general form below and we will route you to the right place."
           sourcePage="English Main Homepage"
           dropdownOptions={[
             "Retirement Planning & 401(k) Rollovers",
@@ -169,31 +217,117 @@ export default function Home() {
         />
       </section>
 
-      {/* 5. SERVICES DIRECTORY */}
-      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
-        <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Comprehensive Financial Expertise</h2>
-          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>We architect customized strategies across every pillar of wealth generation, ensuring no gaps in your financial fortress.</p>
-          <div className="services-wrapper">
-            <div className="service-category"><h3>Retirement & Savings</h3><ul><li>Retirement Planning</li><li>Pension Management</li><li>401(k) Rollovers</li><li>Fixed Indexed Annuities</li></ul></div>
-            <div className="service-category"><h3>Insurance & Protection</h3><ul><li>Life Insurance Policies</li><li>Living Benefits & Critical Illness</li><li>Permanent Life Insurance</li><li>Mortgage Protection Insurance</li></ul></div>
-            <div className="service-category"><h3>Legacy & Family</h3><ul><li>Estate Planning & Trusts</li><li>Legacy Planning</li><li>Children&apos;s Investment Accounts</li><li>Wealth Transfer Strategies</li></ul></div>
-            <div className="service-category"><h3>Business & Cash Flow</h3><ul><li>Business Financial Safety Nets</li><li>Key Person Insurance</li><li>Executive Bonus Plans</li><li>Debt Elimination Strategies</li></ul></div>
+      {/* NATIVE PORTAL MODALS */}
+      {activePortal && (
+        <div className="portal-modal-overlay">
+          <div className="portal-modal-container fade-in visible">
+            <button className="portal-close-btn" onClick={() => setActivePortal(null)}>✕</button>
+            
+            <div className="portal-header">
+              <h2>
+                {activePortal === 'career' && "Firm Interview Application"}
+                {activePortal === 'insurance' && "Life Insurance Quote"}
+                {activePortal === 'children' && "Children's Wealth Account"}
+              </h2>
+              <p>Direct Submission to Executive Team</p>
+            </div>
+
+            {submitSuccess ? (
+              <div className="portal-success">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <h3>Transmission Successful</h3>
+                <p>Your encrypted file has been sent directly to Nelly Lara. We will be in touch shortly.</p>
+              </div>
+            ) : (
+              <form className="portal-form" onSubmit={handlePortalSubmit}>
+                <input type="hidden" name="Portal Type" value={activePortal.toUpperCase()} />
+                
+                <div className="form-row">
+                  <div className="input-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="Name" required placeholder="John Doe" />
+                  </div>
+                  <div className="input-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="Phone" required placeholder="(555) 000-0000" />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="input-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="Email" required placeholder="john@example.com" />
+                  </div>
+                  <div className="input-group">
+                    <label>State of Residence *</label>
+                    <input type="text" name="State" required placeholder="e.g. California" />
+                  </div>
+                </div>
+
+                {activePortal === 'career' && (
+                  <>
+                    <div className="form-row">
+                      <div className="input-group"><label>Age *</label><input type="number" name="Age" required placeholder="e.g. 35" /></div>
+                      <div className="input-group"><label>Annual Income *</label><input type="number" name="Income" required placeholder="e.g. 75000" /></div>
+                    </div>
+                    <div className="input-group">
+                      <label>Tell us about yourself & your best qualities *</label>
+                      <textarea name="About" required rows="4" placeholder="Why are you interested in our income opportunity?"></textarea>
+                    </div>
+                  </>
+                )}
+
+                {activePortal === 'insurance' && (
+                  <>
+                    <div className="form-row">
+                      <div className="input-group"><label>Date of Birth *</label><input type="date" name="DOB" required /></div>
+                      <div className="input-group">
+                        <label>Coverage Type *</label>
+                        <select name="Type" required>
+                          <option value="">Select Option</option>
+                          <option value="Term">Term Life</option>
+                          <option value="Permanent">Permanent Life</option>
+                          <option value="Not Sure">I'm Not Sure</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="input-group">
+                      <label>Any health concerns? (Surgeries, smoking, Rx) *</label>
+                      <textarea name="Health Concerns" required rows="3" placeholder="Please list any major health details..."></textarea>
+                    </div>
+                  </>
+                )}
+
+                {activePortal === 'children' && (
+                  <>
+                    <div className="form-row">
+                      <div className="input-group"><label>Children's Ages *</label><input type="text" name="Children Ages" required placeholder="e.g. 4, 7, 12" /></div>
+                      <div className="input-group">
+                        <label>Monthly Contribution Target *</label>
+                        <select name="Contribution" required>
+                          <option value="">Select Target</option>
+                          <option value="$75/month">$75 / month</option>
+                          <option value="$100/month">$100 / month</option>
+                          <option value="$125/month">$125 / month</option>
+                          <option value="Other">Other / Discuss Later</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="input-group">
+                      <label>What should we know prior to our meeting? *</label>
+                      <textarea name="Notes" required rows="3" placeholder="Additional details or goals..."></textarea>
+                    </div>
+                  </>
+                )}
+
+                <button type="submit" className="portal-submit-btn" disabled={isSubmitting}>
+                  {isSubmitting ? "ENCRYPTING & SENDING..." : "SUBMIT APPLICATION"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
-      </section>
-
-      {/* 6. BIBLE VERSE CAPSTONE */}
-      <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
-        <div className="container fade-in">
-          <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
-            &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot; <br />
-            <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
-              – Isaiah 40:31
-            </span>
-          </p>
-        </div>
-      </section>
+      )}
     </>
   );
 }
