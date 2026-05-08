@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
+import CacheBuster from "@/components/CacheBuster"; // <-- IMPORT THE BUSTER
 
 export const viewport = {
   width: "device-width",
@@ -68,8 +69,8 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head />
       <body>
+        <CacheBuster /> {/* <-- EXECUTE THE BUSTER ON LOAD */}
         <Navbar />
         <main>{children}</main>
         <TrustedPartners />
