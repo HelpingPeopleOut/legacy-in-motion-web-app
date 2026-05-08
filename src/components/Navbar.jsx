@@ -48,10 +48,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const checkPWAStatus = () => {
-      // 1. Robust cross-platform detection for Standalone mode
-      const isCurrentlyStandalone = window.matchMedia('(display-mode: standalone)').matches 
-                           || window.navigator.standalone 
-                           || document.referrer.includes('android-app://');
+      // 1. BULLETPROOF cross-platform detection (Catches Standalone, Fullscreen, Minimal-UI, iOS, and Android)
+      const isCurrentlyStandalone = 
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches ||
+        window.navigator.standalone === true ||
+        document.referrer.includes('android-app://');
       
       setIsAppInstalled(isCurrentlyStandalone);
 
@@ -80,17 +83,32 @@ export default function Navbar() {
       e.preventDefault();
       setDeferredPrompt(e);
       
-      // We must check standalone status dynamically here to prevent React stale closures
-      const isCurrentlyStandalone = window.matchMedia('(display-mode: standalone)').matches 
-                                    || window.navigator.standalone;
+      // Dynamic fallback check
+      const isCurrentlyStandalone = 
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches ||
+        window.navigator.standalone === true;
 
       if (!isCurrentlyStandalone) {
         setShowInstall(true); 
       }
     };
 
+    const handleAppInstalled = () => {
+      setIsAppInstalled(true);
+      setShowInstall(false);
+      setShowWelcomeModal(true);
+    };
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    // Listen for the exact moment the app is successfully installed!
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
   }, []);
 
   const handleInstallClick = async () => {

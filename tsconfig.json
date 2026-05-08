@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/es/page.jsx"  ],
+, "src/app/es/page.jsx", "src/components/Footer.jsx", "src/app/debt-free-wealth-strategy/page.jsx"  ],
   "exclude": ["node_modules"]
 }

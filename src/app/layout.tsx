@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
 
-// --- ENTERPRISE PWA VIEWPORT LOCK ---
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -23,7 +22,6 @@ export const metadata = {
     "401k Rollovers",
     "Generational Wealth California"
   ],
-  // --- ENTERPRISE ICON & MANIFEST ROUTING ---
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -35,7 +33,6 @@ export const metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
     ]
   },
-  // --- MANDATORY PWA FLAGS FOR iOS/ANDROID ---
   appleWebApp: {
     capable: true,
     title: "Legacy in Motion",
@@ -44,7 +41,6 @@ export const metadata = {
   formatDetection: {
     telephone: false,
   },
-  // --- ENTERPRISE OPEN GRAPH (SOCIAL SHARING) ---
   openGraph: {
     title: "Legacy in Motion | Wealth & Estate Planning",
     description: "Establish your financial fortress. Expert retirement, living benefits, and estate planning in Southern California.",
@@ -61,7 +57,6 @@ export const metadata = {
     locale: "en_US",
     type: "website",
   },
-  // --- TWITTER / X CARDS ---
   twitter: {
     card: "summary_large_image",
     title: "Legacy in Motion | Wealth & Estate Planning",
@@ -73,7 +68,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      {/* Note: The manual <head> was removed. Next.js natively injects everything from the metadata object above for perfect SEO. */}
+      <head />
       <body>
         <Navbar />
         <main>{children}</main>

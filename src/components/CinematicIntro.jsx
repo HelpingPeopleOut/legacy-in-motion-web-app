@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function IntroContent() {
   const [stage, setStage] = useState("trapped"); 
@@ -11,7 +11,6 @@ function IntroContent() {
   
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   useEffect(() => {
     setIsClient(true);
@@ -28,59 +27,48 @@ function IntroContent() {
     };
     checkPWAStatus();
 
-    // STRICT SESSION STORAGE LOGIC (Runs exactly ONCE per session)
-    const skipIntro = searchParams.get("skipIntro");
-    const hasPlayed = sessionStorage.getItem("introPlayed");
+    try {
+      const skipIntro = searchParams.get("skipIntro");
+      const hasPlayed = sessionStorage.getItem("introPlayed");
 
-    if (!hasPlayed && !skipIntro) {
-      setShouldRender(true);
-      document.body.style.overflow = "hidden";
-    } else {
-      sessionStorage.setItem("introPlayed", "true"); 
+      if (!hasPlayed && !skipIntro) {
+        setShouldRender(true);
+        document.body.style.overflow = "hidden";
+      } else {
+        sessionStorage.setItem("introPlayed", "true"); 
+      }
+    } catch (error) {
+      // Catch incognito browsers that block sessionStorage
+      setShouldRender(false);
+      document.body.style.overflow = "";
     }
   }, [searchParams]);
 
   const handleLanguageSelect = (lang) => {
-    sessionStorage.setItem("introPlayed", "true");
+    try { sessionStorage.setItem("introPlayed", "true"); } catch (e) {}
     document.body.style.overflow = "";
-    
     setStage("breakthrough");
 
-    if (lang === "es") {
-      setTimeout(() => {
-        router.push("/es?skipIntro=true"); 
-      }, 800);
-    } else {
-      setTimeout(() => setStage("hidden"), 1000);
-      setTimeout(() => setShouldRender(false), 2000);
-    }
+    setTimeout(() => {
+      if (lang === "es") router.push("/es?skipIntro=true"); 
+      else router.push("/?skipIntro=true");
+      
+      setTimeout(() => setStage("hidden"), 400);
+      setTimeout(() => setShouldRender(false), 1200);
+    }, 600);
   };
 
   if (!isClient || !shouldRender) return null;
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes tipFadeUp { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes borderGlow { 0%, 100% { border-color: rgba(212, 175, 55, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 50% { border-color: rgba(212, 175, 55, 0.6); box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.2); } }
-        .install-tip-box {
-          position: absolute; bottom: 2.5rem; z-index: 10; background: rgba(5, 5, 5, 0.85);
-          backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 16px; padding: 1.2rem;
-          width: 90%; max-width: 400px; text-align: center;
-          animation: tipFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards, borderGlow 3s infinite alternate;
-          animation-delay: 2.5s, 3.7s; opacity: 0;
-        }
-      `}} />
-
-      {/* Replaced CSS module object variables with standard global classes */}
       <div className={`intro-overlay ${stage === "hidden" ? "hidden" : ""}`}>
         <div className="oppressive-shadow"></div>
         <div className={`light-breakthrough ${stage === "breakthrough" ? "active" : ""}`}></div>
 
         <div className="verse-container">
           <p className="verse-text">
-            "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
+            &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot;
           </p>
           <span className="verse-reference">– Isaiah 40:31</span>
         </div>
