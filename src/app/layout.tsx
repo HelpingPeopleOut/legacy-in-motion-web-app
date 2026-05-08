@@ -2,7 +2,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
-import CacheBuster from "@/components/CacheBuster";
 
 export const viewport = {
   width: "device-width",
@@ -12,6 +11,7 @@ export const viewport = {
   themeColor: "#000000",
 };
 
+// PRO FIX: We use the Next.js metadata object for icons, which prevents the React #418 crash.
 export const metadata = {
   title: "Legacy in Motion | Wealth & Estate Planning",
   description: "Expert financial consulting in Los Angeles & the San Gabriel Valley. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
@@ -36,8 +36,8 @@ export const metadata = {
   },
   appleWebApp: {
     capable: true,
-    title: "Legacy in Motion",
-    statusBarStyle: "black-translucent",
+    title: "Legacy",
+    statusBarStyle: "default",
   },
   formatDetection: {
     telephone: false,
@@ -47,31 +47,22 @@ export const metadata = {
     description: "Establish your financial fortress. Expert retirement, living benefits, and estate planning in Southern California.",
     url: "https://www.legacyinmotion.org",
     siteName: "Legacy in Motion",
-    images: [
-      {
-        url: "/og-image.jpg", 
-        width: 1200,
-        height: 630,
-        alt: "Legacy in Motion - Financial Planning",
-      },
-    ],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Legacy in Motion - Financial Planning" }],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Legacy in Motion | Wealth & Estate Planning",
-    description: "Establish your financial fortress in Southern California.",
+    description: "Establish your financial fortress in as little as 90 days.",
     images: ["/og-image.jpg"],
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    /* suppressHydrationWarning is CRITICAL here to prevent browser extensions from crashing React */
     <html lang="en" suppressHydrationWarning>
       <body>
-        <CacheBuster />
         <Navbar />
         <main>{children}</main>
         <TrustedPartners />
