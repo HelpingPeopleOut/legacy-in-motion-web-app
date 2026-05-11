@@ -13,6 +13,10 @@ export default function HerramientasPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   
+  // --- NUEVO: Estados para el Acceso Web (Soft Gate) ---
+  const [isSoftUnlocked, setIsSoftUnlocked] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  
   // Estados para el aviso de instalación
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
@@ -20,6 +24,11 @@ export default function HerramientasPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Comprobar si el usuario ya desbloqueó las herramientas con su correo previamente
+    if (localStorage.getItem("toolbox_unlocked") === "true") {
+      setIsSoftUnlocked(true);
+    }
 
     const checkPWAStatus = () => {
       // Detección robusta para Desktop, Android e iOS en modo independiente
@@ -79,36 +88,83 @@ export default function HerramientasPage() {
     }
   };
 
+  // --- NUEVO: Manejar el envío del formulario de correo electrónico ---
+  const handleSoftUnlock = (e) => {
+    e.preventDefault();
+    if (!emailInput) return;
+    
+    // NOTA: ¡Aquí puedes agregar un fetch() para enviar el correo a tu CRM!
+    console.log("Correo capturado (ES):", emailInput);
+    
+    // Guardar en el almacenamiento local para que no tengan que volver a ingresarlo
+    localStorage.setItem("toolbox_unlocked", "true");
+    
+    // Desbloquear el panel de herramientas inmediatamente
+    setIsSoftUnlocked(true);
+  };
+
   if (!isLoaded) return null;
 
   // ======================================================
   // ESTADO 1: BÓVEDA VIP BLOQUEADA (VISTA DESDE NAVEGADOR)
   // ======================================================
-  if (!isAppInstalled) {
+  if (!isAppInstalled && !isSoftUnlocked) {
     return (
       <>
-        <title>Acceso VIP | Caja de Herramientas Legacy in Motion</title>
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
           @keyframes bounceDown { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(15px); } 60% { transform: translateY(7px); } }
         `}} />
         
-        <section style={{ minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-dark)", padding: "140px 1.5rem 80px" }}>
-          <div className="fade-in visible" style={{ background: "var(--bg-card)", padding: "clamp(2rem, 5vw, 4rem) 2rem", borderRadius: "32px", border: "1px solid var(--gold)", textAlign: "center", maxWidth: "650px", boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.1)" }}>
+        <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-dark)", padding: "120px 1.5rem 80px" }}>
+          
+          <div className="fade-in visible" style={{ background: "var(--bg-card)", padding: "3rem", borderRadius: "24px", border: "1px solid var(--gold)", maxWidth: "800px", width: "100%", boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212, 175, 55, 0.1)" }}>
             
-            <div style={{ width: "90px", height: "90px", background: "rgba(212, 175, 55, 0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 2.5rem", border: "1px solid rgba(212, 175, 55, 0.4)", color: "var(--gold)" }}>
-              <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <div style={{ width: "80px", height: "80px", background: "rgba(212, 175, 55, 0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem", border: "1px solid rgba(212, 175, 55, 0.3)", color: "var(--gold)" }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
             </div>
 
-            <h1 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", color: "var(--text-main)", marginBottom: "1.2rem", letterSpacing: "-0.5px" }}>Acceso Exclusivo de la App</h1>
-            <p style={{ color: "var(--text-muted)", fontSize: "1.15rem", marginBottom: "3rem", lineHeight: "1.7", maxWidth: "500px", margin: "0 auto 3rem" }}>
-              Para garantizar la seguridad de sus datos y una experiencia interactiva premium, la Caja de Herramientas solo es accesible a través de la <strong>App de Legacy in Motion</strong>.
+            <h1 style={{ fontSize: "2.5rem", color: "var(--text-main)", marginBottom: "1rem", textAlign: "center" }}>Desbloquear Herramientas</h1>
+            <p style={{ color: "var(--text-muted)", fontSize: "1.1rem", marginBottom: "3rem", textAlign: "center", maxWidth: "600px", margin: "0 auto 3rem" }}>
+              Elija cómo desea acceder a nuestras calculadoras financieras premium e interactivas.
             </p>
 
-            <button onClick={handleInstallClick} className="btn-gold btn-pulse" style={{ width: "100%", padding: "1.4rem", fontSize: "1.1rem", borderRadius: "16px", border: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", fontWeight: "800" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              INSTALAR APP PARA DESBLOQUEAR
-            </button>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
+              
+              {/* OPCIÓN 1: INSTALAR APP */}
+              <div style={{ background: "var(--bg-page)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border-light)", display: "flex", flexDirection: "column" }}>
+                <h3 style={{ color: "var(--gold)", marginBottom: "1rem", textAlign: "center" }}>Opción 1: Instalar App</h3>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "2rem", textAlign: "center", flexGrow: 1 }}>
+                  Obtenga acceso instantáneo desde su pantalla de inicio, modo pantalla completa y la mejor experiencia.
+                </p>
+                <button onClick={handleInstallClick} className="btn-gold btn-pulse" style={{ width: "100%", padding: "1.2rem", borderRadius: "12px", border: "none", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", cursor: "pointer" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  Instalar App
+                </button>
+              </div>
+
+              {/* OPCIÓN 2: CAPTURA DE CORREO (Soft Gate) */}
+              <div style={{ background: "var(--bg-page)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border-light)", display: "flex", flexDirection: "column" }}>
+                <h3 style={{ color: "var(--text-main)", marginBottom: "1rem", textAlign: "center" }}>Opción 2: Acceso Web</h3>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", marginBottom: "1.5rem", textAlign: "center" }}>
+                  ¿No desea instalar una aplicación? Ingrese su correo electrónico para desbloquear las herramientas en su navegador.
+                </p>
+                <form onSubmit={handleSoftUnlock} style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <input 
+                    type="email" 
+                    required 
+                    placeholder="Ingrese su correo electrónico" 
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    style={{ width: "100%", padding: "1.2rem", borderRadius: "12px", border: "1px solid var(--border-light)", background: "var(--bg-card)", color: "var(--text-main)", outline: "none", fontSize: "1rem" }} 
+                  />
+                  <button type="submit" className="btn-outline" style={{ width: "100%", padding: "1.2rem", borderRadius: "12px", border: "1px solid var(--border-light)", background: "transparent", color: "var(--text-main)", fontWeight: "bold", cursor: "pointer" }}>
+                    Desbloquear Ahora
+                  </button>
+                </form>
+              </div>
+
+            </div>
           </div>
         </section>
 
@@ -145,16 +201,14 @@ export default function HerramientasPage() {
   }
 
   // ======================================================
-  // ESTADO 2: PANEL DESBLOQUEADO (VISTA DESDE LA APP)
+  // ESTADO 2: PANEL DESBLOQUEADO (VISTA DESDE LA APP O WEB)
   // ======================================================
   return (
     <>
-      <title>Herramientas del Taller | Legacy in Motion</title>
-      
       <section className="hero" style={{ padding: "160px 0 60px", background: "var(--bg-dark)" }}>
         <div className="container text-center fade-in visible">
           <span style={{ color: "var(--gold)", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", fontSize: "0.85rem" }}>
-            Función Premium de la App
+            {isAppInstalled ? "Función Premium de la App" : "Acceso Web Desbloqueado"}
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 3.8rem)", maxWidth: "900px", margin: "1.2rem auto", color: "#fff", lineHeight: "1.1" }}>
             Caja de <span className="text-gold">Herramientas.</span>
