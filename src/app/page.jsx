@@ -33,7 +33,7 @@ export default function Home() {
     "@type": "FinancialService",
     "name": "Legacy in Motion",
     "url": "https://www.legacyinmotion.org",
-    "logo": "https://www.legacyinmotion.org/logo.png",
+    "logo": "https://www.legacyinmotion.org/android-chrome-512x512.png",
     "description": "Expert financial consulting. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
     "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"]
   };
@@ -75,8 +75,18 @@ export default function Home() {
             </blockquote>
           </div>
 
-          {/* TEXT CONTENT SECOND - Removed the redundant '7-steps' phrasing */}
+          {/* TEXT CONTENT SECOND */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+            
+            {/* ELEGANT LOGO INJECTION */}
+            <div style={{ marginBottom: "1.5rem" }}>
+              <img 
+                src="/android-chrome-192x192.png" 
+                alt="Legacy in Motion Logo" 
+                style={{ width: "110px", height: "auto", filter: "drop-shadow(0 10px 20px rgba(212, 175, 55, 0.15))" }} 
+              />
+            </div>
+
             <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
               Establish Your <br />
               <span className="text-gold">Financial Fortress.</span>
@@ -184,9 +194,9 @@ export default function Home() {
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
           <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
-            &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot; <br />
+            &quot;I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.&quot; <br />
             <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
-              – Isaiah 40:31
+              – John 16:33
             </span>
           </p>
         </div>

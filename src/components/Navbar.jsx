@@ -9,15 +9,13 @@ export default function Navbar() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
-  // App-Like Floating Action Button State
+  // App-Like Floating Action Button & Install States
   const [isFabOpen, setIsFabOpen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
-  
-  // VIP App Installed State
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   
-  // iOS Detection State
+  // iOS Detection
   const [isIOS, setIsIOS] = useState(false);
   const [showIOSModal, setShowIOSModal] = useState(false);
 
@@ -35,28 +33,21 @@ export default function Navbar() {
     else document.body.style.overflow = "";
   }, [isOpen]);
 
-  // Detect Scrolling to trigger the "Sticky Glass" effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) setScrolled(true);
-      else setScrolled(false);
+      setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  useEffect(() => {
-    // 1. Detect if the app is ALREADY installed (running as standalone PWA)
-    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    // 1. Detect if the app is ALREADY installed (standalone mode)
+    const isStandalone = (typeof window !== 'undefined') && 
+      (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches);
     setIsAppInstalled(isStandalone);
 
     // 2. Detect Apple Device
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
-    
+    const isAppleDevice = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
     if (isAppleDevice && !isStandalone) {
       setIsIOS(true);
-      setShowInstall(true); // Always show the install button on iOS if not installed
+      setShowInstall(true); 
     }
 
     // 3. Listen for Android/Desktop native install prompt
@@ -66,26 +57,27 @@ export default function Navbar() {
       if (!isStandalone) setShowInstall(true); 
     };
 
+    window.addEventListener("scroll", handleScroll);
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
   }, []);
 
   const handleInstallClick = async () => {
-    // If it's an iPhone, show our advanced animated instruction modal
     if (isIOS) {
       setShowIOSModal(true);
       setIsFabOpen(false);
       return;
     }
-
-    // If it's Android, trigger the native automatic prompt (1-click install)
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setDeferredPrompt(null);
       setShowInstall(false);
-      // Once they accept, they are considered installed!
       setIsAppInstalled(true);
     }
     setIsFabOpen(false);
@@ -97,13 +89,13 @@ export default function Navbar() {
   };
 
   const getToggleUrl = () => {
-    let targetPath = "/";
-    if (isSpanish) targetPath = pathname.replace(/^\/es/, "") || "/";
-    else targetPath = `/es${pathname === "/" ? "" : pathname}`;
-    return `${targetPath}?skipIntro=true`;
+    let target = isSpanish ? (pathname.replace(/^\/es/, "") || "/") : `/es${pathname === "/" ? "" : pathname}`;
+    // Clean up potential double slashes
+    target = target.replace(/\/+/g, '/');
+    return `${target}${target.includes('?') ? '&' : '?'}skipIntro=true`;
   };
 
-  // --- BILINGUAL TEXT WITH TOOLBOX MARKETING ---
+  // --- BILINGUAL TEXT ---
   const navText = {
     home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
@@ -134,35 +126,26 @@ export default function Navbar() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideUp {
-          from { transform: translateY(100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes bounceDown {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-          40% { transform: translateY(15px); }
-          60% { transform: translateY(7px); }
-        }
-        @keyframes pulseGlow {
-          0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-          70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes bounceDown { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(15px); } 60% { transform: translateY(7px); } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        
+        .dropdown-item-link:hover {
+          background-color: var(--bg-card) !important;
+          color: var(--gold) !important;
+          padding-left: 1.8rem !important;
         }
       `}} />
 
-      {/* UPGRADED STICKY NAV */}
       <nav style={{ 
-        position: "sticky", 
-        top: 0, 
-        zIndex: 990, 
-        width: "100%",
-        background: scrolled ? "rgba(255, 255, 255, 0.95)" : "var(--bg-page)",
-        backdropFilter: scrolled ? "blur(10px)" : "none",
+        position: "sticky", top: 0, zIndex: 9999, width: "100%",
+        background: scrolled ? "rgba(255, 255, 255, 0.98)" : "var(--bg-page)",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border-light)" : "1px solid transparent",
-        transition: "all 0.3s ease"
+        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
       }}>
-        <div className="container nav-inner">
-          <Link href={base || "/"} className="logo" onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>
+        <div className="container nav-inner" style={{ height: "80px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href={base || "/"} className="logo" onClick={closeMenu} style={{ whiteSpace: "nowrap", fontWeight: 800, letterSpacing: "2px", fontSize: "1.4rem" }}>
             LEGACY IN MOTION
           </Link>
           
@@ -171,210 +154,135 @@ export default function Navbar() {
           </button>
 
           <div className={`nav-links ${isOpen ? "active" : ""}`}>
-            <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
+            <Link href={`${base}/`} onClick={closeMenu}>{navText.home}</Link>
             
-            {/* UPGRADED SMOOTH DROPDOWN CONTAINER WITH INVISIBLE HOVER BRIDGE */}
+            {/* SERVICES DROPDOWN - Perfected for Desktop Hover & Mobile Click */}
             <div 
               className="nav-dropdown-container" 
-              onMouseEnter={() => setIsServicesOpen(true)} 
-              onMouseLeave={() => setIsServicesOpen(false)} 
-              style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}
+              onMouseEnter={() => !isOpen && setIsServicesOpen(true)} 
+              onMouseLeave={() => !isOpen && setIsServicesOpen(false)} 
+              style={{ position: "relative" }}
             >
-              <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px", height: "100%", padding: "10px 0" }}>
+              <button 
+                onClick={() => setIsServicesOpen(!isServicesOpen)} 
+                style={{ 
+                  background: "none", border: "none", cursor: "pointer", fontWeight: 500, color: "inherit",
+                  display: "flex", alignItems: "center", gap: "6px", fontSize: "inherit", padding: "10px 0"
+                }}
+              >
                 {navText.services}
-                <svg 
-                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}
-                >
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "0.3s" }}><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
 
-              {/* INVISIBLE HOVER BRIDGE WRAPPER */}
+              {/* Dropdown Menu Wrapper with Hover Bridge */}
               <div style={{ 
-                position: isOpen ? "relative" : "absolute", 
-                top: isOpen ? "0" : "100%", 
-                left: 0, 
-                paddingTop: isOpen ? "0" : "1rem", /* <-- This connects the button to the menu invisibly */
-                display: isOpen && !isServicesOpen ? "none" : "block", 
-                minWidth: "280px", 
-                zIndex: 100, 
-                opacity: isOpen ? 1 : (isServicesOpen ? 1 : 0),
-                visibility: isOpen ? "visible" : (isServicesOpen ? "visible" : "hidden"),
-                transform: isOpen ? "none" : (isServicesOpen ? "translateY(0)" : "translateY(15px)"),
-                transition: "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s",
-                pointerEvents: isOpen ? "auto" : (isServicesOpen ? "auto" : "none")
+                position: isOpen ? "relative" : "absolute", top: isOpen ? "0" : "100%", left: isOpen ? "0" : "-20px", 
+                paddingTop: isOpen ? "0" : "15px", width: isOpen ? "100%" : "300px", zIndex: 100, 
+                opacity: isServicesOpen ? 1 : 0, visibility: isServicesOpen ? "visible" : "hidden",
+                transform: isServicesOpen ? "translateY(0)" : "translateY(10px)", transition: "all 0.3s ease",
+                pointerEvents: isServicesOpen ? "auto" : "none"
               }}>
-                
-                {/* ACTUAL DROPDOWN VISUAL BOX */}
                 <div className="dropdown-menu" style={{
-                  backgroundColor: "var(--bg-page)", 
-                  boxShadow: isOpen ? "none" : "var(--shadow-md)", 
-                  border: isOpen ? "none" : "1px solid var(--border-light)", 
-                  borderRadius: "12px", 
-                  display: "flex", 
-                  flexDirection: "column", 
-                  overflow: "hidden"
+                  backgroundColor: "var(--bg-page)", boxShadow: isOpen ? "none" : "0 15px 35px rgba(0,0,0,0.1)", 
+                  border: isOpen ? "none" : "1px solid var(--border-light)", borderRadius: "12px", 
+                  display: "flex", flexDirection: "column", overflow: "hidden", padding: isOpen ? "0.5rem 0 0.5rem 1rem" : "0.5rem 0"
                 }}>
                   {isSpanish ? (
                     <>
-                      <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Planificación de Jubilación</Link>
-                      <Link href="/es/beneficios-en-vida-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Seguros con Beneficios en Vida</Link>
-                      <Link href="/es/estrategia-libre-de-deudas" onClick={closeMenu} style={dropdownItemStyle}>Estrategia Libre de Deudas</Link>
-                      <Link href="/es/proteccion-de-hipoteca-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Protección de Hipoteca</Link>
-                      <Link href="/es/estrategias-financieras-para-negocios" onClick={closeMenu} style={dropdownItemStyle}>Estrategias para Negocios</Link>
-                      <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.2rem 0" }}></div>
-                      <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>Nuestras Áreas de Servicio</Link>
+                      <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Planificación de Jubilación</Link>
+                      <Link href="/es/beneficios-en-vida-los-angeles" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Seguros con Beneficios en Vida</Link>
+                      <Link href="/es/estrategia-libre-de-deudas" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Estrategia Libre de Deudas</Link>
                     </>
                   ) : (
                     <>
-                      <Link href="/retirement-planning-pasadena" onClick={closeMenu} style={dropdownItemStyle}>Retirement & Rollovers</Link>
-                      <Link href="/estate-business-planning-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Estate & Business Planning</Link>
-                      <Link href="/generational-wealth-arcadia-sgv" onClick={closeMenu} style={dropdownItemStyle}>Generational Wealth</Link>
-                      <Link href="/living-benefits-life-insurance-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Living Benefits & Protection</Link>
-                      <Link href="/debt-free-wealth-strategy" onClick={closeMenu} style={dropdownItemStyle}>Debt Elimination Strategy</Link>
-                      <Link href="/mortgage-protection-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Mortgage Protection</Link>
-                      <Link href="/business-owner-financial-strategies" onClick={closeMenu} style={dropdownItemStyle}>Business Owner Strategies</Link>
-                      <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.2rem 0" }}></div>
-                      <Link href="/service-areas" onClick={closeMenu} style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 600 }}>View All Service Areas</Link>
+                      <Link href="/retirement-planning-pasadena" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Retirement & Rollovers</Link>
+                      <Link href="/living-benefits-life-insurance-los-angeles" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Living Benefits & Protection</Link>
+                      <Link href="/debt-free-wealth-strategy" onClick={closeMenu} className="dropdown-item-link" style={dropdownItemStyle}>Debt Elimination Strategy</Link>
                     </>
                   )}
+                  <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.5rem 0" }}></div>
+                  <Link href="/service-areas" onClick={closeMenu} className="dropdown-item-link" style={{ ...dropdownItemStyle, color: "var(--gold)", fontWeight: 700 }}>{isSpanish ? "Áreas de Servicio" : "Service Areas"}</Link>
                 </div>
-
               </div>
             </div>
 
-            <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.mission}</Link>
-            <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.baby}</Link>
-            <Link href={isSpanish ? "/es/seminarios" : "/workshops"} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.workshops}</Link>
+            <Link href={isSpanish ? "/es/mision" : "/mission"} onClick={closeMenu}>{navText.mission}</Link>
+            <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} onClick={closeMenu}>{navText.baby}</Link>
+            <Link href={isSpanish ? "/es/seminarios" : "/workshops"} onClick={closeMenu}>{navText.workshops}</Link>
             
-            <Link href={getToggleUrl()} onClick={handleLanguageToggle} style={{ fontWeight: 600, color: "var(--gold)", margin: "0 0.5rem", border: "1px solid var(--gold)", padding: "0.2rem 0.6rem", borderRadius: "4px", fontSize: "0.9rem", whiteSpace: "nowrap" }}>
+            <Link href={getToggleUrl()} onClick={handleLanguageToggle} style={{ 
+              fontWeight: 700, color: "var(--gold)", border: "2px solid var(--gold)", padding: "4px 10px", 
+              borderRadius: "6px", fontSize: "0.85rem", transition: "0.3s"
+            }}>
               {isSpanish ? "EN" : "ES"}
             </Link>
 
-            <Link href={contactRoute} className="btn-gold" style={{ padding: "0.5rem 1.5rem", whiteSpace: "nowrap" }} onClick={closeMenu}>
+            <Link href={contactRoute} className="btn-gold" style={{ padding: "0.7rem 1.5rem" }} onClick={closeMenu}>
               {navText.book}
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* ==================================================== */}
-      {/* FLOATING ACTION MENU (VIP APP DETECTION)             */}
-      {/* ==================================================== */}
+      {/* FLOATING ACTION MENU */}
       <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem" }}>
-        
         <div style={{
           display: "flex", flexDirection: "column", gap: "0.5rem",
           opacity: isFabOpen ? 1 : 0, visibility: isFabOpen ? "visible" : "hidden",
           transform: isFabOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
-          transition: "var(--transition)", transformOrigin: "bottom right"
+          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)", transformOrigin: "bottom right"
         }}>
-          
-          {/* STATE 1: Web User -> Ask them to Install */}
           {showInstall && !isAppInstalled && (
             <button onClick={handleInstallClick} style={fabActionStyle}>
               <span style={fabLabelStyle}>{navText.installApp}</span>
               <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2s infinite"}}>📱</div>
             </button>
           )}
-
-          {/* STATE 2: App Installed User -> Give them the Workshop Tools! */}
           {isAppInstalled && (
             <Link href={toolboxRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
               <span style={fabLabelStyle}>{navText.openToolbox}</span>
               <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2s infinite", background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
             </Link>
           )}
-          
-          {/* Request Callback Button */}
           <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
             <span style={fabLabelStyle}>{navText.book}</span>
             <div style={fabIconWrapperStyle}>📞</div>
           </Link>
         </div>
 
-        <button 
-          onClick={() => setIsFabOpen(!isFabOpen)}
-          className="btn-pulse"
-          style={{
-            width: "60px", height: "60px", borderRadius: "50%",
-            backgroundColor: "var(--gold)", color: "white",
-            border: "none", cursor: "pointer", display: "flex",
-            alignItems: "center", justifyContent: "center",
-            boxShadow: "var(--shadow-md)", transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        <button onClick={() => setIsFabOpen(!isFabOpen)} className="btn-pulse" style={{
+            width: "60px", height: "60px", borderRadius: "50%", backgroundColor: "var(--gold)", color: "white",
+            border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 10px 25px rgba(212, 175, 55, 0.4)", transition: "0.5s",
             transform: isFabOpen ? "rotate(45deg)" : "rotate(0deg)"
-          }}
-          aria-label="Quick Actions"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
+          }}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
       </div>
 
-      {/* ==================================================== */}
-      {/* ADVANCED iOS INSTALLATION BOTTOM SHEET               */}
-      {/* ==================================================== */}
+      {/* iOS MODAL */}
       {showIOSModal && (
-        <div 
-          onClick={() => setShowIOSModal(false)}
-          style={{
-            position: "fixed", inset: 0, zIndex: 99999, display: "flex", flexDirection: "column", justifyContent: "flex-end",
-            background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", padding: "1rem"
-          }}
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()} 
-            style={{
-              background: "var(--bg-page)", padding: "2.5rem 1.5rem 4rem 1.5rem", borderRadius: "24px 24px 24px 24px", 
-              width: "100%", maxWidth: "500px", margin: "0 auto", position: "relative",
-              border: "1px solid var(--border-light)", boxShadow: "0 -10px 40px rgba(0,0,0,0.2)",
-              animation: "slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards"
-            }}
-          >
-            <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-              <div style={{ width: "50px", height: "5px", background: "var(--border-light)", borderRadius: "10px", margin: "0 auto 1.5rem auto" }}></div>
-              <h3 style={{ fontSize: "1.8rem", color: "var(--text-main)", marginBottom: "0.5rem" }}>{iosModalText.title}</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem" }}>{iosModalText.subtitle}</p>
-            </div>
-            
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
-              <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>1</div>
-              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
-                {iosModalText.step1} 
-                <svg style={{ display: "inline", verticalAlign: "middle", margin: "0 4px", color: "var(--gold)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> 
-                {iosModalText.step1b}
-              </p>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
-              <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>2</div>
-              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
-                {iosModalText.step2} <strong>{iosModalText.step2b}</strong> 
-                <svg style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px", color: "var(--text-main)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-              </p>
-            </div>
-
-            <button 
-              onClick={() => setShowIOSModal(false)}
-              style={{
-                width: "100%", padding: "1rem", background: "transparent", color: "var(--text-muted)", fontWeight: "600",
-                border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", textDecoration: "underline"
-              }}
-            >
-              {iosModalText.close}
-            </button>
-
-            <div style={{
-              position: "absolute", bottom: "-35px", left: "50%", marginLeft: "-20px",
-              animation: "bounceDown 2s infinite"
+        <div onClick={() => setShowIOSModal(false)} style={{ position: "fixed", inset: 0, zIndex: 100000, display: "flex", flexDirection: "column", justifyContent: "flex-end", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", padding: "1rem" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{
+              background: "var(--bg-page)", padding: "2.5rem 1.5rem 4rem", borderRadius: "30px", width: "100%", maxWidth: "500px", margin: "0 auto", position: "relative",
+              border: "1px solid var(--border-light)", boxShadow: "0 -20px 50px rgba(0,0,0,0.3)", animation: "slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards"
             }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <polyline points="19 12 12 19 5 12"></polyline>
-              </svg>
+            <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+              <div style={{ width: "60px", height: "6px", background: "var(--border-light)", borderRadius: "10px", margin: "0 auto 1.5rem" }}></div>
+              <h3 style={{ fontSize: "1.8rem", fontWeight: 800 }}>{iosModalText.title}</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.1rem" }}>{iosModalText.subtitle}</p>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "1.2rem", padding: "1.2rem", background: "var(--bg-card)", borderRadius: "16px" }}>
+              <div style={{ width: "45px", height: "45px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "900", fontSize: "1.3rem", flexShrink: 0 }}>1</div>
+              <p style={{ fontSize: "1.1rem", fontWeight: 500 }}>{iosModalText.step1} <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ display: "inline", verticalAlign: "middle", margin: "0 6px", color: "var(--gold)" }}><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> {iosModalText.step1b}</p>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "2.5rem", padding: "1.2rem", background: "var(--bg-card)", borderRadius: "16px" }}>
+              <div style={{ width: "45px", height: "45px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "900", fontSize: "1.3rem", flexShrink: 0 }}>2</div>
+              <p style={{ fontSize: "1.1rem", fontWeight: 500 }}>{iosModalText.step2} <strong>{iosModalText.step2b}</strong> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ display: "inline", verticalAlign: "middle", marginLeft: "8px" }}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></p>
+            </div>
+            <button onClick={() => setShowIOSModal(false)} style={{ width: "100%", padding: "1rem", background: "transparent", color: "var(--gold)", fontWeight: "800", border: "none", fontSize: "1.1rem", cursor: "pointer", textDecoration: "underline" }}>{iosModalText.close}</button>
+            <div style={{ position: "absolute", bottom: "-40px", left: "50%", marginLeft: "-25px", animation: "bounceDown 2s infinite" }}>
+              <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
             </div>
           </div>
         </div>
@@ -383,8 +291,10 @@ export default function Navbar() {
   );
 }
 
-// Inline Styles
-const dropdownItemStyle = { padding: "1rem 1.5rem", color: "var(--text-main)", fontSize: "0.95rem", transition: "background 0.2s", display: "block", textDecoration: "none" };
-const fabActionStyle = { display: "flex", alignItems: "center", gap: "1rem", background: "transparent", border: "none", cursor: "pointer", textDecoration: "none", flexDirection: "row" };
-const fabLabelStyle = { backgroundColor: "var(--bg-page)", color: "var(--text-main)", padding: "0.5rem 1rem", borderRadius: "8px", fontSize: "0.9rem", fontWeight: 600, boxShadow: "var(--shadow-sm)", border: "1px solid var(--border-light)" };
-const fabIconWrapperStyle = { width: "50px", height: "50px", borderRadius: "50%", backgroundColor: "var(--bg-card)", border: "1px solid var(--border-light)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", boxShadow: "var(--shadow-sm)" };
+const dropdownItemStyle = { 
+  padding: "0.8rem 1.5rem", color: "var(--text-main)", fontSize: "0.95rem", 
+  transition: "all 0.3s ease", display: "block", textDecoration: "none", fontWeight: 500 
+};
+const fabActionStyle = { display: "flex", alignItems: "center", gap: "1rem", background: "transparent", border: "none", cursor: "pointer", textDecoration: "none" };
+const fabLabelStyle = { backgroundColor: "var(--bg-page)", color: "var(--text-main)", padding: "0.6rem 1.2rem", borderRadius: "12px", fontSize: "0.95rem", fontWeight: 700, boxShadow: "0 4px 15px rgba(0,0,0,0.1)", border: "1px solid var(--border-light)" };
+const fabIconWrapperStyle = { width: "55px", height: "55px", borderRadius: "50%", backgroundColor: "var(--bg-page)", border: "1px solid var(--border-light)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem", boxShadow: "0 4px 15px rgba(0,0,0,0.1)" };

@@ -39,8 +39,6 @@ export default function HomeSpanish() {
 
   return (
     <>
-      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React. También se eliminó CinematicIntro para mantener la estabilidad total. */}
-      
       <Script 
         id="schema-org-home-es"
         type="application/ld+json" 
@@ -49,27 +47,9 @@ export default function HomeSpanish() {
 
       {/* 1. HERO SECTION (SPANISH) */}
       <header className="hero hero-index container fade-in">
-        <div className="hero-grid">
-          <div>
-            <h1 style={{ lineHeight: "1.15" }}>
-              Los 7 Pasos hacia la <br />
-              <span className="text-gold">Riqueza Duradera.</span>
-            </h1>
-            <p>
-              Como Asociada Financiera Senior de Experior Financial Group Inc.,
-              guío a mis clientes desde la complejidad financiera hacia un camino claro y práctico
-              para construir un legado. Establezca su fortaleza financiera en tan solo 90 días.
-            </p>
-            <div className="hero-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
-                Agendar una Consulta
-              </a>
-              <a href="#framework" className="btn-outline">
-                Explore el Plan
-              </a>
-            </div>
-          </div>
+        <div className="hero-grid" style={{ alignItems: "center" }}>
           
+          {/* INSTAGRAM FIRST - This makes it show at the top on mobile */}
           <div className="ig-container">
             <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
               <div style={{ padding: "16px" }}>
@@ -93,6 +73,38 @@ export default function HomeSpanish() {
             </blockquote>
             <Script async src="//www.instagram.com/embed.js" strategy="lazyOnload" />
           </div>
+
+          {/* TEXT CONTENT SECOND */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+            
+            {/* ELEGANT LOGO INJECTION */}
+            <div style={{ marginBottom: "1.5rem" }}>
+              <img 
+                src="/android-chrome-192x192.png" 
+                alt="Logo de Legacy in Motion" 
+                style={{ width: "110px", height: "auto", filter: "drop-shadow(0 10px 20px rgba(212, 175, 55, 0.15))" }} 
+              />
+            </div>
+
+            <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
+              Establezca Su <br />
+              <span className="text-gold">Fortaleza Financiera.</span>
+            </h1>
+            <p style={{ textAlign: "left", margin: "0 0 2.5rem 0", maxWidth: "600px" }}>
+              Como Asociada Financiera Senior de Experior Financial Group Inc.,
+              guío a mis clientes desde la complejidad financiera hacia un camino claro y práctico
+              para construir riqueza generacional.
+            </p>
+            <div className="hero-buttons" style={{ justifyContent: "flex-start" }}>
+              <a href="#consultation" className="btn-gold btn-pulse">
+                Agendar una Consulta
+              </a>
+              <a href="#framework" className="btn-outline">
+                Explore el Plan
+              </a>
+            </div>
+          </div>
+          
         </div>
       </header>
 
@@ -182,9 +194,9 @@ export default function HomeSpanish() {
       <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
         <div className="container fade-in">
           <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
-            &quot;El que observa el viento no sembrará; el que mira a las nubes no segará.&quot; <br />
+            &quot;Estas cosas os he hablado para que en mí tengáis paz. En el mundo tendréis aflicción; pero confiad, yo he vencido al mundo.&quot; <br />
             <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
-              – Eclesiastés 11:4
+              – Juan 16:33
             </span>
           </p>
         </div>
