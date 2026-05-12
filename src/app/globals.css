@@ -64,10 +64,7 @@ nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: var(--bg-
 .logo { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-main); font-weight: 700; letter-spacing: 1px; z-index: 1001; position: relative; }
 .nav-links { display: flex; gap: 2rem; align-items: center; font-weight: 500; font-size: 0.95rem; }
 .nav-links a:hover { color: var(--gold); }
-.dropdown-menu { opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.95); transform-origin: top center; transition: var(--transition); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 12px; border: 1px solid var(--border-light); box-shadow: var(--shadow-md); }
-.nav-dropdown-container:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-.dropdown-menu a { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important; }
-.dropdown-menu a:hover { background-color: var(--bg-card); color: var(--gold) !important; padding-left: 2.2rem !important; }
+/* Dropdown base styles handled in inline CSS within Navbar.jsx for dynamic interaction */
 .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1001; border: none; background: transparent; padding: 0.5rem; }
 .menu-toggle span { display: block; width: 30px; height: 2px; background-color: var(--text-main); transition: var(--transition); border-radius: 2px; transform-origin: center; }
 .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -82,7 +79,7 @@ footer p.footer-sub { color: #94a3b8; margin-bottom: 2rem; font-weight: 300; }
 .footer-links a { color: #cbd5e1; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
 .footer-links a:hover { color: #ffffff; transform: translateY(-2px); }
 
-/* === HERO SECTIONS (GRADIENT REMOVED COMPLETELY) === */
+/* === HERO SECTIONS === */
 .hero { min-height: auto; text-align: center; background: var(--bg-card); border-bottom: 1px solid var(--border-light); position: relative; z-index: 1; }
 .hero-index { min-height: 90vh; display: flex; align-items: center; text-align: left; }
 .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
@@ -147,7 +144,6 @@ footer p.footer-sub { color: #94a3b8; margin-bottom: 2rem; font-weight: 300; }
 .marquee-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(100%) opacity(0.5); transition: var(--transition); }
 .marquee-item img:hover { filter: grayscale(0%) opacity(1); transform: scale(1.05); }
 @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 2rem)); } }
-
 
 /* =========================================
    SOCIAL GOD CARDS & INTAKE PORTALS 
@@ -228,8 +224,10 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
   .menu-toggle { display: flex; }
   .nav-links { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; visibility: hidden; transform: translateY(-20px) scale(0.98); transition: var(--transition); font-size: 1.5rem; z-index: 1000; }
   .nav-links.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-  .dropdown-menu { position: static; box-shadow: none; border: none; background: transparent; padding: 0; margin-top: 1rem; width: 100%; text-align: center; display: none; }
-  .nav-dropdown-container:hover .dropdown-menu { display: flex; }
+  
+  /* CRITICAL FIX: Ensure dropdown display logic is handled exclusively by React State, not CSS Hover */
+  .dropdown-menu { border: none !important; box-shadow: none !important; background: transparent !important; }
+
   .hero-index { text-align: center; flex-direction: column; }
   .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
   .hero-index .hero-buttons { justify-content: center; }
@@ -249,7 +247,7 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
   .hero-buttons a { width: 100%; display: block; box-sizing: border-box; }
   .fwf-elegant-grid { grid-template-columns: 1fr; }
   .card, .story-card { padding: 2rem; }
-  .form-row { grid-template-columns: 1fr; gap: 0; } /* Modal inputs stack cleanly on mobile */
+  .form-row { grid-template-columns: 1fr; gap: 0; } 
 }
 
 /* =========================================
@@ -263,8 +261,8 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
 }
 
 .install-tip-box {
-  position: relative; /* Changed from absolute so it perfectly stacks below buttons */
-  margin-top: 4rem;   /* Creates a clean gap between buttons and this box */
+  position: relative; 
+  margin-top: 4rem; 
   z-index: 10;
   background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(15px);
