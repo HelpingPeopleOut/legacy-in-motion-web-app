@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next';
 
+export const dynamic = "force-static"; // <-- ADDED THIS LINE
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://test-legacy-in-motion-web-app.pages.dev'; // Change to https://www.legacyinmotion.org when you go live!
 
