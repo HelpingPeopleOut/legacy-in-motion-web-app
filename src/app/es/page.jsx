@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
-import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
 export default function HomeSpanish() {
@@ -40,11 +39,8 @@ export default function HomeSpanish() {
 
   return (
     <>
-      <CinematicIntro />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React. También se eliminó CinematicIntro para mantener la estabilidad total. */}
       
-      <title>Consultor Financiero en Los Ángeles y SGV | Legacy in Motion</title>
-      <meta name="description" content="Servicios expertos en planificación de jubilación, transferencias de pensiones y planificación patrimonial en Los Ángeles, Pasadena y el Valle de San Gabriel. Construya su fortaleza financiera." />
-      <meta name="keywords" content="Planificador de jubilación en Pasadena CA, Especialista en rollover de pensión y 401k cerca de mí, Servicios de planificación patrimonial Valle de San Gabriel, Seguro de vida con beneficios en vida Los Ángeles, Consultor financiero cerca de mí" />
       <Script 
         id="schema-org-home-es"
         type="application/ld+json" 
@@ -169,7 +165,7 @@ export default function HomeSpanish() {
       </section>
 
       {/* 5. SERVICES DIRECTORY */}
-      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)", paddingBottom: "8rem" }}>
+      <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Experiencia Financiera Integral</h2>
           <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>Diseñamos estrategias personalizadas a través de cada pilar de la generación de riqueza, asegurando que no haya vacíos en su fortaleza financiera.</p>
@@ -179,6 +175,18 @@ export default function HomeSpanish() {
             <div className="service-category"><h3>Legado y Familia</h3><ul><li>Planificación Patrimonial</li><li>Fideicomisos y Testamentos</li><li>Cuentas de Inversión para Niños</li><li>Transferencia de Riqueza</li></ul></div>
             <div className="service-category"><h3>Negocios y Efectivo</h3><ul><li>Seguridad Empresarial</li><li>Seguro de Persona Clave</li><li>Bonificación Ejecutiva</li><li>Eliminación de Deuda</li></ul></div>
           </div>
+        </div>
+      </section>
+
+      {/* 6. BIBLE VERSE CAPSTONE (SPANISH) */}
+      <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
+        <div className="container fade-in">
+          <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
+            &quot;El que observa el viento no sembrará; el que mira a las nubes no segará.&quot; <br />
+            <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
+              – Eclesiastés 11:4
+            </span>
+          </p>
         </div>
       </section>
     </>

@@ -29,8 +29,7 @@ export default function RequestCallbackPage() {
 
   return (
     <>
-      <title>Install App & Request Callback | Legacy in Motion</title>
-      <meta name="description" content="Install the Legacy in Motion web app for exclusive tools, or request a callback from our experts." />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
 
       {/* HERO SECTION - FOCUSED ON APP */}
       <section className="hero fade-in" style={{ padding: "10rem 0 4rem 0", background: "var(--bg-card)" }}>

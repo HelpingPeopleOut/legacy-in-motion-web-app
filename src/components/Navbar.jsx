@@ -14,9 +14,8 @@ export default function Navbar() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstall, setShowInstall] = useState(false);
   
-  // VIP App Installed & Welcome State
+  // VIP App Installed State
   const [isAppInstalled, setIsAppInstalled] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   
   // iOS Detection State
   const [isIOS, setIsIOS] = useState(false);
@@ -47,68 +46,28 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const checkPWAStatus = () => {
-      // 1. BULLETPROOF cross-platform detection (Catches Standalone, Fullscreen, Minimal-UI, iOS, and Android)
-      const isCurrentlyStandalone = 
-        window.matchMedia('(display-mode: standalone)').matches ||
-        window.matchMedia('(display-mode: fullscreen)').matches ||
-        window.matchMedia('(display-mode: minimal-ui)').matches ||
-        window.navigator.standalone === true ||
-        document.referrer.includes('android-app://');
-      
-      setIsAppInstalled(isCurrentlyStandalone);
+    // 1. Detect if the app is ALREADY installed (running as standalone PWA)
+    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    setIsAppInstalled(isStandalone);
 
-      // Trigger the VIP Welcome Modal if it's their first time opening the installed app
-      if (isCurrentlyStandalone) {
-        const hasSeenWelcome = localStorage.getItem("legacyAppWelcomeShown");
-        if (!hasSeenWelcome) {
-          setShowWelcomeModal(true);
-        }
-      }
-
-      // 2. Detect Apple Device
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
-      
-      if (isAppleDevice && !isCurrentlyStandalone) {
-        setIsIOS(true);
-        setShowInstall(true); // Always show the install button on iOS if not installed
-      }
-    };
-
-    checkPWAStatus();
+    // 2. Detect Apple Device
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isAppleDevice = /iphone|ipad|ipod/.test(userAgent);
+    
+    if (isAppleDevice && !isStandalone) {
+      setIsIOS(true);
+      setShowInstall(true); // Always show the install button on iOS if not installed
+    }
 
     // 3. Listen for Android/Desktop native install prompt
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
-      
-      // Dynamic fallback check
-      const isCurrentlyStandalone = 
-        window.matchMedia('(display-mode: standalone)').matches ||
-        window.matchMedia('(display-mode: fullscreen)').matches ||
-        window.matchMedia('(display-mode: minimal-ui)').matches ||
-        window.navigator.standalone === true;
-
-      if (!isCurrentlyStandalone) {
-        setShowInstall(true); 
-      }
-    };
-
-    const handleAppInstalled = () => {
-      setIsAppInstalled(true);
-      setShowInstall(false);
-      setShowWelcomeModal(true);
+      if (!isStandalone) setShowInstall(true); 
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    // Listen for the exact moment the app is successfully installed!
-    window.addEventListener("appinstalled", handleAppInstalled);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
+    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
   }, []);
 
   const handleInstallClick = async () => {
@@ -119,26 +78,17 @@ export default function Navbar() {
       return;
     }
 
-    // If it's Android/Desktop, trigger the native automatic prompt
+    // If it's Android, trigger the native automatic prompt (1-click install)
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setDeferredPrompt(null);
       setShowInstall(false);
+      // Once they accept, they are considered installed!
       setIsAppInstalled(true);
-      
-      // Instantly trigger the VIP Welcome Modal as a "Thank You"
-      setShowWelcomeModal(true);
     }
     setIsFabOpen(false);
-  };
-
-  const closeWelcomeModal = () => {
-    setShowWelcomeModal(false);
-    localStorage.setItem("legacyAppWelcomeShown", "true");
-    // Automatically pop open the toolbox to show them where it is!
-    setIsFabOpen(true);
   };
 
   const handleLanguageToggle = () => {
@@ -177,20 +127,6 @@ export default function Navbar() {
     close: isSpanish ? "Cerrar" : "Close"
   };
 
-  const welcomeText = {
-    title: isSpanish ? "¡Bienvenido a su Fortaleza!" : "Welcome to Your Fortress!",
-    body: isSpanish 
-      ? "Gracias por descargar la aplicación de Legacy in Motion. Como regalo de agradecimiento, hemos desbloqueado su Caja de Herramientas Premium. Sus calculadoras y rastreadores de riqueza ahora están activos."
-      : "Thank you for downloading the Legacy in Motion app. As a special thank you, we have officially unlocked your Premium Toolbox. Your wealth calculators and trackers are now fully active.",
-    futureTitle: isSpanish ? "El Futuro:" : "Looking Ahead:",
-    futureBody: isSpanish 
-      ? "Estaremos agregando nuevas herramientas financieras en futuras actualizaciones. Si tiene una solicitud o idea para la aplicación, por favor envíenos su sugerencia."
-      : "We will be pushing new interactive tools and strategies in future updates. If you have a professional feature request or idea, please let us know.",
-    btnStart: isSpanish ? "Desbloquear Mis Herramientas" : "Unlock My Tools",
-    btnSuggest: isSpanish ? "Enviar una Sugerencia" : "Send an App Suggestion",
-    pointText: isSpanish ? "Toque aquí para abrir" : "Tap here to open"
-  };
-
   const base = isSpanish ? "/es" : "";
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
   const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
@@ -198,15 +134,28 @@ export default function Navbar() {
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes bounceDown { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(15px); } 60% { transform: translateY(7px); } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
-        @keyframes strongPulseGlow { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.8); } 70% { box-shadow: 0 0 0 30px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        @keyframes slideUp {
+          from { transform: translateY(100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes bounceDown {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(15px); }
+          60% { transform: translateY(7px); }
+        }
+        @keyframes pulseGlow {
+          0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+          70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
       `}} />
 
       {/* UPGRADED STICKY NAV */}
       <nav style={{ 
-        position: "sticky", top: 0, zIndex: 990, width: "100%",
+        position: "sticky", 
+        top: 0, 
+        zIndex: 990, 
+        width: "100%",
         background: scrolled ? "rgba(255, 255, 255, 0.95)" : "var(--bg-page)",
         backdropFilter: scrolled ? "blur(10px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border-light)" : "1px solid transparent",
@@ -224,22 +173,49 @@ export default function Navbar() {
           <div className={`nav-links ${isOpen ? "active" : ""}`}>
             <Link href={`${base}/`} onClick={closeMenu} style={{ whiteSpace: "nowrap" }}>{navText.home}</Link>
             
-            <div className="nav-dropdown-container" onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)} style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}>
+            {/* UPGRADED SMOOTH DROPDOWN CONTAINER WITH INVISIBLE HOVER BRIDGE */}
+            <div 
+              className="nav-dropdown-container" 
+              onMouseEnter={() => setIsServicesOpen(true)} 
+              onMouseLeave={() => setIsServicesOpen(false)} 
+              style={{ position: "relative", cursor: "pointer", whiteSpace: "nowrap" }}
+            >
               <span onClick={() => setIsServicesOpen(!isServicesOpen)} style={{ fontWeight: 500, display: "flex", alignItems: "center", gap: "6px", height: "100%", padding: "10px 0" }}>
                 {navText.services}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}>
+                <svg 
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s ease" }}
+                >
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
               </span>
 
+              {/* INVISIBLE HOVER BRIDGE WRAPPER */}
               <div style={{ 
-                position: isOpen ? "relative" : "absolute", top: isOpen ? "0" : "100%", left: 0, paddingTop: isOpen ? "0" : "1rem", 
-                display: isOpen && !isServicesOpen ? "none" : "block", minWidth: "280px", zIndex: 100, 
-                opacity: isOpen ? 1 : (isServicesOpen ? 1 : 0), visibility: isOpen ? "visible" : (isServicesOpen ? "visible" : "hidden"),
-                transform: isOpen ? "none" : (isServicesOpen ? "translateY(0)" : "translateY(15px)"), transition: "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s",
+                position: isOpen ? "relative" : "absolute", 
+                top: isOpen ? "0" : "100%", 
+                left: 0, 
+                paddingTop: isOpen ? "0" : "1rem", /* <-- This connects the button to the menu invisibly */
+                display: isOpen && !isServicesOpen ? "none" : "block", 
+                minWidth: "280px", 
+                zIndex: 100, 
+                opacity: isOpen ? 1 : (isServicesOpen ? 1 : 0),
+                visibility: isOpen ? "visible" : (isServicesOpen ? "visible" : "hidden"),
+                transform: isOpen ? "none" : (isServicesOpen ? "translateY(0)" : "translateY(15px)"),
+                transition: "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s",
                 pointerEvents: isOpen ? "auto" : (isServicesOpen ? "auto" : "none")
               }}>
-                <div className="dropdown-menu" style={{ backgroundColor: "var(--bg-page)", boxShadow: isOpen ? "none" : "var(--shadow-md)", border: isOpen ? "none" : "1px solid var(--border-light)", borderRadius: "12px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                
+                {/* ACTUAL DROPDOWN VISUAL BOX */}
+                <div className="dropdown-menu" style={{
+                  backgroundColor: "var(--bg-page)", 
+                  boxShadow: isOpen ? "none" : "var(--shadow-md)", 
+                  border: isOpen ? "none" : "1px solid var(--border-light)", 
+                  borderRadius: "12px", 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  overflow: "hidden"
+                }}>
                   {isSpanish ? (
                     <>
                       <Link href="/es/planificacion-de-jubilacion-los-angeles" onClick={closeMenu} style={dropdownItemStyle}>Planificación de Jubilación</Link>
@@ -264,6 +240,7 @@ export default function Navbar() {
                     </>
                   )}
                 </div>
+
               </div>
             </div>
 
@@ -287,19 +264,6 @@ export default function Navbar() {
       {/* ==================================================== */}
       <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem" }}>
         
-        {/* Animated Arrow pointing to the FAB when Welcome Modal is open */}
-        {showWelcomeModal && (
-          <div style={{ position: "absolute", bottom: "80px", right: "0px", display: "flex", flexDirection: "column", alignItems: "center", animation: "bounceDown 1.5s infinite", pointerEvents: "none", width: "max-content" }}>
-            <div style={{ background: "var(--gold)", color: "#000", padding: "0.4rem 0.8rem", borderRadius: "12px", fontWeight: "bold", fontSize: "0.85rem", marginBottom: "8px", boxShadow: "0 4px 10px rgba(0,0,0,0.3)" }}>
-              {welcomeText.pointText}
-            </div>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <polyline points="19 12 12 19 5 12"></polyline>
-            </svg>
-          </div>
-        )}
-
         <div style={{
           display: "flex", flexDirection: "column", gap: "0.5rem",
           opacity: isFabOpen ? 1 : 0, visibility: isFabOpen ? "visible" : "hidden",
@@ -319,7 +283,7 @@ export default function Navbar() {
           {isAppInstalled && (
             <Link href={toolboxRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
               <span style={fabLabelStyle}>{navText.openToolbox}</span>
-              <div style={{...fabIconWrapperStyle, background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
+              <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2s infinite", background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
             </Link>
           )}
           
@@ -332,15 +296,14 @@ export default function Navbar() {
 
         <button 
           onClick={() => setIsFabOpen(!isFabOpen)}
+          className="btn-pulse"
           style={{
             width: "60px", height: "60px", borderRadius: "50%",
             backgroundColor: "var(--gold)", color: "white",
             border: "none", cursor: "pointer", display: "flex",
             alignItems: "center", justifyContent: "center",
             boxShadow: "var(--shadow-md)", transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-            transform: isFabOpen ? "rotate(45deg)" : "rotate(0deg)",
-            // If the welcome modal is open, flash the FAB intensely to draw their eye
-            animation: showWelcomeModal ? "strongPulseGlow 2s infinite" : "none"
+            transform: isFabOpen ? "rotate(45deg)" : "rotate(0deg)"
           }}
           aria-label="Quick Actions"
         >
@@ -352,45 +315,25 @@ export default function Navbar() {
       </div>
 
       {/* ==================================================== */}
-      {/* ENTERPRISE VIP APP WELCOME / THANK YOU MODAL         */}
-      {/* ==================================================== */}
-      {showWelcomeModal && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 999998, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)", padding: "1.5rem" }}>
-          <div style={{ background: "var(--bg-dark)", borderRadius: "24px", border: "1px solid var(--gold)", maxWidth: "550px", width: "100%", padding: "3rem 2.5rem", textAlign: "center", boxShadow: "0 20px 50px rgba(0,0,0,0.5)", animation: "slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}>
-            
-            <div style={{ width: "72px", height: "72px", background: "rgba(212, 175, 55, 0.1)", border: "1px solid rgba(212, 175, 55, 0.3)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem", color: "var(--gold)" }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            </div>
-            
-            <h2 style={{ fontSize: "2.2rem", color: "#ffffff", marginBottom: "1rem", lineHeight: "1.2" }}>{welcomeText.title}</h2>
-            <p style={{ fontSize: "1.1rem", color: "#cccccc", marginBottom: "1.5rem", lineHeight: "1.6" }}>{welcomeText.body}</p>
-            
-            <div style={{ background: "rgba(255,255,255,0.05)", padding: "1.5rem", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", marginBottom: "2.5rem", textAlign: "left" }}>
-              <p style={{ fontSize: "0.95rem", color: "#aaaaaa", margin: 0 }}>
-                <strong style={{ color: "var(--gold)" }}>{welcomeText.futureTitle}</strong> {welcomeText.futureBody}
-              </p>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <button onClick={closeWelcomeModal} className="btn-gold btn-pulse" style={{ padding: "1.2rem", fontSize: "1.1rem", width: "100%", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "bold" }}>
-                {welcomeText.btnStart}
-              </button>
-              
-              {/* Professional App Suggestion Link (Routes directly to the Contact Form) */}
-              <Link href={contactRoute} onClick={() => { setShowWelcomeModal(false); localStorage.setItem("legacyAppWelcomeShown", "true"); }} style={{ padding: "1rem", fontSize: "1rem", width: "100%", background: "transparent", color: "#aaaaaa", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "12px", cursor: "pointer", textDecoration: "none", fontWeight: "600", transition: "all 0.2s" }}>
-                {welcomeText.btnSuggest}
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ==================================================== */}
       {/* ADVANCED iOS INSTALLATION BOTTOM SHEET               */}
       {/* ==================================================== */}
       {showIOSModal && (
-        <div onClick={() => setShowIOSModal(false)} style={{ position: "fixed", inset: 0, zIndex: 999999, display: "flex", flexDirection: "column", justifyContent: "flex-end", background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", padding: "1rem" }}>
-          <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--bg-page)", padding: "2.5rem 1.5rem 4rem 1.5rem", borderRadius: "24px 24px 24px 24px", width: "100%", maxWidth: "500px", margin: "0 auto", position: "relative", border: "1px solid var(--border-light)", boxShadow: "0 -10px 40px rgba(0,0,0,0.2)", animation: "slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}>
+        <div 
+          onClick={() => setShowIOSModal(false)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 99999, display: "flex", flexDirection: "column", justifyContent: "flex-end",
+            background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", padding: "1rem"
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()} 
+            style={{
+              background: "var(--bg-page)", padding: "2.5rem 1.5rem 4rem 1.5rem", borderRadius: "24px 24px 24px 24px", 
+              width: "100%", maxWidth: "500px", margin: "0 auto", position: "relative",
+              border: "1px solid var(--border-light)", boxShadow: "0 -10px 40px rgba(0,0,0,0.2)",
+              animation: "slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards"
+            }}
+          >
             <div style={{ textAlign: "center", marginBottom: "2rem" }}>
               <div style={{ width: "50px", height: "5px", background: "var(--border-light)", borderRadius: "10px", margin: "0 auto 1.5rem auto" }}></div>
               <h3 style={{ fontSize: "1.8rem", color: "var(--text-main)", marginBottom: "0.5rem" }}>{iosModalText.title}</h3>
@@ -399,17 +342,39 @@ export default function Navbar() {
             
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
               <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>1</div>
-              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>{iosModalText.step1} <svg style={{ display: "inline", verticalAlign: "middle", margin: "0 4px", color: "var(--gold)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> {iosModalText.step1b}</p>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
+                {iosModalText.step1} 
+                <svg style={{ display: "inline", verticalAlign: "middle", margin: "0 4px", color: "var(--gold)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> 
+                {iosModalText.step1b}
+              </p>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem", padding: "1rem", background: "var(--bg-card)", borderRadius: "12px" }}>
               <div style={{ width: "40px", height: "40px", background: "var(--gold)", color: "#000", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem", flexShrink: 0 }}>2</div>
-              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>{iosModalText.step2} <strong>{iosModalText.step2b}</strong> <svg style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px", color: "var(--text-main)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></p>
+              <p style={{ fontSize: "1.05rem", color: "var(--text-main)" }}>
+                {iosModalText.step2} <strong>{iosModalText.step2b}</strong> 
+                <svg style={{ display: "inline", verticalAlign: "middle", marginLeft: "6px", color: "var(--text-main)" }} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              </p>
             </div>
 
-            <button onClick={() => setShowIOSModal(false)} style={{ width: "100%", padding: "1rem", background: "transparent", color: "var(--text-muted)", fontWeight: "600", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", textDecoration: "underline" }}>{iosModalText.close}</button>
-            <div style={{ position: "absolute", bottom: "-35px", left: "50%", marginLeft: "-20px", animation: "bounceDown 2s infinite" }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+            <button 
+              onClick={() => setShowIOSModal(false)}
+              style={{
+                width: "100%", padding: "1rem", background: "transparent", color: "var(--text-muted)", fontWeight: "600",
+                border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", textDecoration: "underline"
+              }}
+            >
+              {iosModalText.close}
+            </button>
+
+            <div style={{
+              position: "absolute", bottom: "-35px", left: "50%", marginLeft: "-20px",
+              animation: "bounceDown 2s infinite"
+            }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
             </div>
           </div>
         </div>

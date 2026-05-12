@@ -29,8 +29,7 @@ export default function BusinessStrategiesPage() {
 
   return (
     <>
-      <title>Business Owner Financial Strategies | Legacy in Motion</title>
-      <meta name="description" content="Protect your company's future. Discover Key Person Insurance, Executive Bonus Plans, and Business Continuation strategies in Southern California." />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script id="schema-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}

@@ -31,10 +31,7 @@ export default function Thanks() {
 
   return (
     <>
-      {/* --- SEO PROTECTION --- */}
-      {/* This prevents Google from indexing your thank you page and ruining your SEO score */}
-      <title>Thank You | Legacy in Motion</title>
-      <meta name="robots" content="noindex, nofollow" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       
       <section 
         className="thanks-section fade-in" 

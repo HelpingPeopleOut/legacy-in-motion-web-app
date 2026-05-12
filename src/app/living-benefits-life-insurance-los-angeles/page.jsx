@@ -49,16 +49,12 @@ export default function LALivingBenefitsPage() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Life Insurance with Living Benefits in Los Angeles | Legacy in Motion</title>
-      <meta name="description" content="Protect your family from medical bankruptcy. We specialize in Living Benefits life insurance, critical illness coverage, and mortgage protection in Los Angeles." />
-      <meta name="keywords" content="Living benefits life insurance Los Angeles, Critical illness coverage Pasadena, Mortgage protection SGV, Best life insurance California, Financial protection families" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-en-living-benefits"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>

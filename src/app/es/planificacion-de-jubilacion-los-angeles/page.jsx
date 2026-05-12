@@ -49,16 +49,12 @@ export default function SpanishRetirementPage() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Planificación de Jubilación y Rollover de 401(k) en Los Ángeles | Legacy in Motion</title>
-      <meta name="description" content="Proteja sus ahorros de jubilación de las caídas del mercado. Especialistas en transferencias de 401(k), pensiones y Anualidades Indexadas Fijas en California." />
-      <meta name="keywords" content="Planificación de jubilación Los Angeles, Rollover de 401k en español, Proteger dinero del mercado, Anualidades indexadas fijas California, Asesor financiero hispano" />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script 
         id="schema-es-retirement"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>

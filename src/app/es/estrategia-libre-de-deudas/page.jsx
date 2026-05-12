@@ -29,8 +29,7 @@ export default function EstrategiaLibreDeDeudasPage() {
 
   return (
     <>
-      <title>Estrategia para Eliminar Deudas | Legacy in Motion</title>
-      <meta name="description" content="Deje de ahogarse en deudas. Descubra nuestras estrategias de flujo de efectivo para pagar préstamos más rápido mientras construye riqueza libre de impuestos." />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script id="schema-deudas-es" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}

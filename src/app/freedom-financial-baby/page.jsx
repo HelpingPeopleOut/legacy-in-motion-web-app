@@ -49,16 +49,12 @@ export default function FreedomFinancialBaby() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Generational Wealth for Kids | Freedom Financial Baby | Los Angeles</title>
-      <meta name="description" content="Discover how to build generational wealth for your child. We help LA and SGV families set up children's investment accounts leveraging compound interest and tax advantages." />
-      <meta name="keywords" content="How to build generational wealth for a baby, Children's investment accounts Los Angeles, Life insurance for kids compound interest, Tax free wealth transfer strategies" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-freedom-baby"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} 
       />
-      {/* -------------------- */}
 
       <header className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">

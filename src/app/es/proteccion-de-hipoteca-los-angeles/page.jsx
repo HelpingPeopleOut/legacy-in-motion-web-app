@@ -29,8 +29,7 @@ export default function ProteccionHipotecaPage() {
 
   return (
     <>
-      <title>Seguro de Protección de Hipoteca en Los Ángeles | Legacy in Motion</title>
-      <meta name="description" content="Proteja el mayor activo de su familia. Descubra el seguro de protección hipotecaria con beneficios en vida para pagar su casa si ocurre lo impensable." />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script id="schema-hipoteca-es" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}

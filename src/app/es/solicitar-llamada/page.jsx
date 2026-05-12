@@ -29,8 +29,7 @@ export default function SolicitarLlamadaPage() {
 
   return (
     <>
-      <title>Instalar App y Solicitar Llamada | Legacy in Motion</title>
-      <meta name="description" content="Instale la aplicación de Legacy in Motion para herramientas exclusivas, o solicite una llamada de nuestros expertos." />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
 
       {/* HERO SECTION - FOCUSED ON APP */}
       <section className="hero fade-in" style={{ padding: "10rem 0 4rem 0", background: "var(--bg-card)" }}>

@@ -29,11 +29,7 @@ export default function MissionSpanish() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Nuestra Misión | Educación Financiera y Consultoría Los Ángeles</title>
-      <meta name="description" content="Legacy in Motion se dedica a eliminar el analfabetismo financiero. Empoderamos a las familias y dueños de negocios en Los Ángeles y el SGV con educación financiera experta." />
-      <meta name="keywords" content="Educación financiera Los Ángeles, Educación financiera SGV, Conviértase en asesor financiero Los Ángeles, Planificación financiera comunidades desatendidas, Misión de Legacy in Motion" />
-      {/* -------------------- */}
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
 
       <header className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">
@@ -46,7 +42,6 @@ export default function MissionSpanish() {
             el control de su futuro financiero.
           </p>
           <div className="hero-buttons">
-            {/* Actualizado a #consultation para coincidir con el GlobalLeadForm */}
             <a href="#consultation" className="btn-gold btn-pulse">
               Inicie su Viaje Financiero
             </a>

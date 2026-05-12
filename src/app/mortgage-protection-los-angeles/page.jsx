@@ -29,8 +29,7 @@ export default function MortgageProtectionPage() {
 
   return (
     <>
-      <title>Mortgage Protection Insurance Los Angeles | Legacy in Motion</title>
-      <meta name="description" content="Protect your family's biggest asset. Discover mortgage protection life insurance with living benefits to pay off your home if the unthinkable happens." />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script id="schema-mortgage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}

@@ -48,16 +48,12 @@ export default function FuturoFinancieroInfantil() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Riqueza Generacional para Niños | Freedom Financial Baby | Los Ángeles</title>
-      <meta name="description" content="Descubra cómo construir riqueza generacional para su hijo. Ayudamos a familias en Los Ángeles y el SGV a establecer cuentas de inversión aprovechando el interés compuesto." />
-      <meta name="keywords" content="Cómo construir riqueza generacional para un bebé, Cuentas de inversión para niños Los Ángeles, Seguro de vida para niños interés compuesto, Estrategias de transferencia de riqueza libres de impuestos" />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script 
         id="schema-freedom-baby-es"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} 
       />
-      {/* -------------------- */}
 
       <header className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">

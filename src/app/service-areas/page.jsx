@@ -48,8 +48,7 @@ export default function ServiceAreasDirectory() {
 
   return (
     <>
-      <title>Areas We Serve | Financial Planner in Los Angeles & SGV</title>
-      <meta name="description" content="Legacy in Motion provides top-tier wealth building, retirement planning, and estate protection across Pasadena, the San Gabriel Valley, and Greater Los Angeles." />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-regional-hub"
         type="application/ld+json" 

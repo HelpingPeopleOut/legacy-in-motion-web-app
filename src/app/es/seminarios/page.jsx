@@ -45,16 +45,12 @@ export default function SeminariosSpanish() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Seminarios Corporativos de Bienestar Financiero Los Ángeles | Legacy in Motion</title>
-      <meta name="description" content="Organice seminarios profesionales de educación financiera para empleados. Los temas incluyen eliminación de deudas, construcción de crédito y estrategias de crecimiento." />
-      <meta name="keywords" content="Seminarios corporativos de bienestar financiero Los Ángeles, Programas de educación financiera para empleados SGV, Educación financiera para empresas, Seminarios financieros en español" />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React. */}
       <Script 
         id="schema-seminars-es"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(seminarSchema) }} 
       />
-      {/* -------------------- */}
 
       <header
         className="hero fade-in"

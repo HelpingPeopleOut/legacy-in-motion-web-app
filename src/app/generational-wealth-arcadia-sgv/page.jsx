@@ -49,16 +49,12 @@ export default function ArcadiaGenerationalWealthPage() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Generational Wealth Planning in Arcadia & SGV | Legacy in Motion</title>
-      <meta name="description" content="Build and protect generational wealth in Arcadia, San Marino, and the SGV. We specialize in tax-free inheritance, children's trust accounts, and legacy protection." />
-      <meta name="keywords" content="Generational wealth Arcadia, Wealth transfer San Marino, Childrens investment accounts SGV, Tax-free inheritance California, Legacy planning Azusa" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-sgv-wealth"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>

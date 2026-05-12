@@ -264,20 +264,31 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
 
 .install-tip-box {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 2rem;
   z-index: 10;
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 16px;
   padding: 1.2rem;
   width: 90%;
-  max-width: 400px;
+  max-width: 450px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
   animation: tipFadeUp 1.5s ease forwards;
   animation-delay: 2.5s;
   opacity: 0;
+}
+
+/* Prevent overlapping on short mobile screens (like iPhone SE) */
+@media (max-height: 780px) {
+  .install-tip-box {
+    position: relative;
+    bottom: auto;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+  }
 }
 
 /* From Global Lead Form */

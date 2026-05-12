@@ -48,16 +48,12 @@ export default function LAEstateBusinessPage() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Estate Planning & Business Strategy Los Angeles | Legacy in Motion</title>
-      <meta name="description" content="Avoid California probate and protect your company. We specialize in trusts, key person insurance, and executive bonus plans in Los Angeles and Santa Monica." />
-      <meta name="keywords" content="Estate planner Los Angeles, Avoid probate California, Key Person Insurance Santa Monica, Executive Bonus Plans LA, Living Trusts Beverly Hills" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-la-estate-business"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>

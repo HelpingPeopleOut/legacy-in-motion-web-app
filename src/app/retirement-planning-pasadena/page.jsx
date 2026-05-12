@@ -54,16 +54,12 @@ export default function PasadenaRetirementPillar() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Retirement Planning in Pasadena & San Gabriel Valley | Legacy in Motion</title>
-      <meta name="description" content="Expert retirement planning for Pasadena and SGV residents. Learn how to protect your CalPERS pension, rollover your 401(k), and build tax-free wealth." />
-      <meta name="keywords" content="Retirement planning Pasadena, CalPERS pension protection, 401(k) rollover San Gabriel Valley, Fixed Index Annuities California, Financial advisor Pasadena" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
       <Script 
         id="schema-pasadena-retirement"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>

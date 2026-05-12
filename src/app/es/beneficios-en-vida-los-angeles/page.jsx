@@ -49,16 +49,12 @@ export default function SpanishLivingBenefitsPage() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Seguros de Vida con Beneficios en Vida en Los Ángeles | Legacy in Motion</title>
-      <meta name="description" content="Proteja a su familia de la bancarrota médica. Especialistas en Seguros de Vida con Beneficios en Vida en Los Ángeles y el Valle de San Gabriel." />
-      <meta name="keywords" content="Seguro de vida Los Angeles, Beneficios en vida California, Planificación financiera para hispanos, Protección familiar SGV, Seguro de vida en español" />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script 
         id="schema-es-living-benefits"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
       />
-      {/* -------------------- */}
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>

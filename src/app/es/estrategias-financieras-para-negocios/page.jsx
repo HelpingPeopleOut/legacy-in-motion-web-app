@@ -29,8 +29,7 @@ export default function EstrategiasDeNegocioPage() {
 
   return (
     <>
-      <title>Estrategias Financieras para Dueños de Negocios | Legacy in Motion</title>
-      <meta name="description" content="Proteja el futuro de su empresa. Descubra el Seguro de Persona Clave, Planes de Bonificación Ejecutiva y estrategias de continuidad comercial." />
+      {/* CORRECCIÓN CRÍTICA: Se eliminaron las etiquetas ilegales <title> y <meta> del componente cliente para evitar el error 418 de hidratación de React */}
       <Script id="schema-negocios-es" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}

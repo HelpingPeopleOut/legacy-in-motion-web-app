@@ -31,11 +31,7 @@ export default function Mission() {
 
   return (
     <>
-      {/* --- SEO METADATA --- */}
-      <title>Our Mission | Financial Education & Consulting Los Angeles</title>
-      <meta name="description" content="Legacy in Motion is dedicated to eliminating financial illiteracy. We empower families and business owners in Los Angeles and the SGV with expert financial education." />
-      <meta name="keywords" content="Financial education Los Angeles, Financial literacy SGV, Become a financial advisor Los Angeles, Financial planning underserved communities, Legacy in Motion mission" />
-      {/* -------------------- */}
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
 
       <header className="hero fade-in" style={{ padding: "14rem 0 8rem 0" }}>
         <div className="container">
