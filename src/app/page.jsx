@@ -43,9 +43,7 @@ export default function Home() {
     <>
       <CinematicIntro />
 
-      <title>Financial Consultant in Los Angeles & SGV | Legacy in Motion</title>
-      <meta name="description" content="Expert retirement planning, pension rollovers, and estate planning services across Los Angeles, Pasadena, and the San Gabriel Valley. Build your financial fortress." />
-      <meta name="keywords" content="Retirement planner in Pasadena CA, Pension and 401k rollover specialist near me, Estate planning services San Gabriel Valley, Life insurance living benefits Los Angeles, Financial consultant near me" />
+      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash that was freezing the CinematicIntro */}
       <Script 
         id="schema-org-home"
         type="application/ld+json" 
