@@ -6,7 +6,7 @@ import styles from "@/app/page.module.css";
 
 export default function CinematicIntro() {
   const [stage, setStage] = useState("trapped"); 
-  const [shouldRender, setShouldRender] = useState(false);
+  const [shouldRender, setShouldRender] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
@@ -20,6 +20,7 @@ export default function CinematicIntro() {
       setShouldRender(true);
       document.body.style.overflow = "hidden";
     } else {
+      setShouldRender(false);
       sessionStorage.setItem("introPlayed", "true"); 
     }
     
@@ -47,8 +48,14 @@ export default function CinematicIntro() {
     }
   };
 
-  // Prevent ANY rendering until the client checks session storage
-  if (!isClient || !shouldRender) return null;
+  // SSR SAFETY: If the server is rendering this, output a static black screen.
+  // This completely eliminates the "flash" of the homepage content.
+  if (!isClient) {
+    return <div style={{ position: "fixed", inset: 0, zIndex: 999999, background: "#000000" }} />;
+  }
+
+  // If we are on the client and they already saw the intro, remove it from the DOM entirely.
+  if (!shouldRender) return null;
 
   return (
     <div className={`${styles.introOverlay} ${stage === "hidden" ? styles.hidden : ""}`}>
@@ -58,8 +65,22 @@ export default function CinematicIntro() {
       {/* The Breakthrough Light that shatters the darkness */}
       <div className={`${styles.lightBreakthrough} ${stage === "breakthrough" ? styles.active : ""}`}></div>
 
-      {/* The Word */}
+      {/* The Word & Welcome Header */}
       <div className={styles.verseContainer}>
+        <h2 style={{ 
+          color: 'var(--gold)', 
+          fontSize: '0.95rem', 
+          textTransform: 'uppercase', 
+          letterSpacing: '4px', 
+          marginBottom: '2rem', 
+          opacity: 0, 
+          animation: 'fadeInRef 2.5s ease forwards',
+          fontFamily: 'var(--font-heading, "Playfair Display", serif)',
+          fontWeight: 600
+        }}>
+          Welcome to Legacy in Motion
+        </h2>
+
         <p className={styles.verseText}>
           &quot;But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.&quot;
         </p>
