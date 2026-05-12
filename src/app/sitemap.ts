@@ -1,9 +1,7 @@
 import { MetadataRoute } from 'next';
 
-export const dynamic = "force-static"; // <-- ADDED THIS LINE
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://test-legacy-in-motion-web-app.pages.dev'; // Change to https://www.legacyinmotion.org when you go live!
+  const baseUrl = 'https://www.legacy-in-motion.org'; // <-- CORRECT DOMAIN
 
   // Every single high-value page on the website
   const routes = [
@@ -12,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/mission',
     '/freedom-financial-baby',
     '/workshops',
-    '/toolbox', // <-- ADDED: English Toolbox
+    '/toolbox',
     '/retirement-planning-pasadena',
     '/estate-business-planning-los-angeles',
     '/generational-wealth-arcadia-sgv',
@@ -28,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/es/mision',
     '/es/futuro-financiero-infantil',
     '/es/seminarios',
-    '/es/herramientas', // <-- ADDED: Spanish Toolbox
+    '/es/herramientas',
     '/es/planificacion-de-jubilacion-los-angeles',
     '/es/beneficios-en-vida-los-angeles',
     // New Spanish Lead Funnels
