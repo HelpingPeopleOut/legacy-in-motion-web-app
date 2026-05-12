@@ -40,6 +40,33 @@ export default function Home() {
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{__html: `
+        .hero-action-buttons {
+          display: flex;
+          flex-direction: row;
+          gap: 1.5rem;
+          justify-content: flex-start;
+          align-items: center;
+          margin-top: 1rem;
+        }
+        .hero-action-buttons a {
+          min-width: 220px;
+          white-space: nowrap;
+        }
+        
+        @media (max-width: 768px) {
+          .hero-action-buttons {
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+          }
+          .hero-action-buttons a {
+            width: 100%;
+            display: block;
+          }
+        }
+      `}} />
+
       <CinematicIntro />
 
       <script 
@@ -47,11 +74,10 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
 
-      {/* 1. HERO SECTION */}
       <header className="hero hero-index fade-in">
         <div className="container hero-grid" style={{ alignItems: "center" }}>
           
-          {/* INSTAGRAM FIRST - This makes it show at the top on mobile */}
+          {/* INSTAGRAM FIRST */}
           <div className="ig-container">
             <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
               <div style={{ padding: "16px" }}>
@@ -78,25 +104,19 @@ export default function Home() {
           {/* TEXT CONTENT SECOND */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
             
-            {/* ELEGANT LOGO INJECTION */}
-            <div style={{ marginBottom: "1.5rem" }}>
-              <img 
-                src="/android-chrome-192x192.png" 
-                alt="Legacy in Motion Logo" 
-                style={{ width: "110px", height: "auto", filter: "drop-shadow(0 10px 20px rgba(212, 175, 55, 0.15))" }} 
-              />
-            </div>
+            {/* The redundant image tag was removed from here to clean up the layout! */}
 
             <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
               Establish Your <br />
               <span className="text-gold">Financial Fortress.</span>
             </h1>
-            <p style={{ textAlign: "left", margin: "0 0 2.5rem 0", maxWidth: "600px" }}>
+            <p style={{ textAlign: "left", margin: "0 0 2rem 0", maxWidth: "600px" }}>
               As a Senior Financial Associate with Experior Financial Group Inc.,
               I guide clients from financial complexity to a clear, actionable path
               for building generational wealth.
             </p>
-            <div className="hero-buttons" style={{ justifyContent: "flex-start" }}>
+            
+            <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
                 Schedule a Consultation
               </a>
@@ -104,19 +124,19 @@ export default function Home() {
                 Explore the Blueprint
               </a>
             </div>
+
           </div>
           
         </div>
       </header>
 
-      {/* 2. THE BLUEPRINT (SOLUTIONS) */}
+      {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
           <p style={{ marginBottom: "4rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem", fontSize: "1.1rem" }}>
             A comprehensive strategy combining personal asset protection, tax-advantaged growth, and robust business structuring to ensure your legacy endures.
           </p>
-
           <div className="fwf-elegant-grid">
             <article className="fwf-elegant-item"><span className="step-number">Step 01</span><h3>Cash Flow & Debt Elimination</h3><p>Budgeting and cash flow analysis to build healthier money habits and eliminate debt efficiently.</p></article>
             <article className="fwf-elegant-item"><span className="step-number">Step 02</span><h3>Emergency Fund Planning</h3><p>Establish 3-6 months of liquid reserves in High-Yield Savings Accounts to outpace inflation.</p></article>
@@ -135,26 +155,10 @@ export default function Home() {
           <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Proven Financial Transformations</h2>
           <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>Financial success isn&apos;t theoretical. Here is how we&apos;ve implemented these exact strategies to secure families&apos; futures.</p>
           <div className="card-grid">
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.</p>
-            </article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Overwhelming Debt Eliminated</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;I worked with a young couple drowning in $60,000 of credit card and personal loan debt. Within 18 months, they had paid off over half their debt and were saving for their first home.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Customized Debt Elimination Strategies & Cash Flow Analysis.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Unmanaged Pension Rollovers</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A 34-year-old federal employee rolled a previous TSP into a Fixed Indexed Annuity. This simplified his retirement planning and increased his projected retirement income by thousands.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> 401(k) Rollovers & Fixed Indexed Annuities.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protection During Illness</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A father discovered his employer life insurance wasn&apos;t enough. We set up a policy with living benefits. A year later, a cancer diagnosis triggered payouts that covered treatment costs.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Term Life Insurance with Critical Illness Coverage.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Avoiding Probate</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;A blended family came to me unsure how to divide assets. We connected them with an estate attorney to coordinate trusts and wills. Now their legacy is protected.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solution:</span> Estate Planning Strategies, Trusts, and Wills Guidance.</p></article>
           </div>
         </div>
       </section>
@@ -202,7 +206,6 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Instagram lazy load script moved to bottom of body to prevent layout blocking */}
       <script async src="//www.instagram.com/embed.js" />
     </>
   );

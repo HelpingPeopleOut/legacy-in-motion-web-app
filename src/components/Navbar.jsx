@@ -27,7 +27,6 @@ export default function Navbar() {
     setIsServicesOpen(false);
   };
 
-  // Lock body scroll and hide FAB when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -37,14 +36,12 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
-  // Detect Scrolling
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // PWA & Install Detection
   useEffect(() => {
     const isStandalone = window.navigator.standalone || (typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches);
     setIsAppInstalled(isStandalone);
@@ -135,25 +132,32 @@ export default function Navbar() {
       <style dangerouslySetInnerHTML={{__html: `
         .elite-nav-container { position: sticky; top: 0; z-index: 9990; width: 100%; transition: all 0.4s ease; }
         .elite-nav-container.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-light); box-shadow: 0 4px 30px rgba(0,0,0,0.03); }
-        .elite-nav-inner { display: flex; justify-content: space-between; align-items: center; height: 85px; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .elite-brand { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; font-weight: 800; letter-spacing: 2px; font-size: 1.25rem; color: var(--text-main); z-index: 10000; }
+        .elite-nav-inner { display: flex; justify-content: space-between; align-items: center; height: 85px; max-width: 1300px; margin: 0 auto; padding: 0 2rem; gap: 1rem; }
+        
+        /* TYPOGRAPHY FIX: No wrapping, perfectly sized for 1 line */
+        .elite-brand { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; font-weight: 700; letter-spacing: 1.5px; font-size: 1.15rem; color: var(--text-main); z-index: 10000; font-family: var(--font-heading); white-space: nowrap; }
         
         /* --- DESKTOP NAV --- */
-        .elite-desktop-menu { display: flex; align-items: center; gap: 2.5rem; }
-        .elite-nav-link { color: var(--text-main); font-weight: 600; text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+        .elite-desktop-menu { display: flex; align-items: center; gap: 2rem; flex-shrink: 0; }
+        
+        .elite-nav-link { color: var(--text-main); font-weight: 500; font-family: var(--font-body); text-decoration: none; font-size: 0.95rem; letter-spacing: 0.5px; transition: color 0.3s; white-space: nowrap; }
         .elite-nav-link:hover { color: var(--gold); }
+        
         .elite-dropdown-wrapper { position: relative; cursor: pointer; height: 85px; display: flex; align-items: center; }
-        .elite-dropdown-trigger { background: none; border: none; font-size: 0.95rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer; font-family: inherit; }
+        .elite-dropdown-trigger { background: none; border: none; font-size: 0.95rem; font-weight: 500; font-family: var(--font-body); letter-spacing: 0.5px; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
         .elite-dropdown-trigger:hover { color: var(--gold); }
+        
         .elite-dropdown-panel { position: absolute; top: 80px; left: -20px; width: 300px; background: var(--bg-page); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); padding: 0.5rem 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; }
         .elite-dropdown-wrapper:hover .elite-dropdown-panel { opacity: 1; visibility: visible; transform: translateY(0); }
-        .elite-dropdown-item { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
+        .elite-dropdown-item { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; font-family: var(--font-body); }
         .elite-dropdown-item:hover { background: var(--bg-card); color: var(--gold); padding-left: 2rem; }
         
-        .elite-lang-btn { border: 2px solid var(--gold); color: var(--gold); padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; }
+        .elite-lang-btn { border: 2px solid var(--gold); color: var(--gold); padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; font-family: var(--font-body); white-space: nowrap; }
         .elite-lang-btn:hover { background: var(--gold); color: #fff; }
-        .elite-cta-btn { background: var(--gold); color: #fff; padding: 0.8rem 1.8rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        
+        .elite-cta-btn { background: var(--gold); color: #fff; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; font-family: var(--font-body); white-space: nowrap; }
         .elite-cta-btn:hover { background: var(--text-main); transform: translateY(-2px); }
+        
         .elite-hamburger { display: none; background: none; border: none; cursor: pointer; z-index: 10000; padding: 0.5rem; }
 
         /* --- MOBILE NAV OVERLAY --- */
@@ -162,16 +166,14 @@ export default function Navbar() {
         .elite-mobile-header { display: flex; justify-content: space-between; align-items: center; height: 85px; padding: 0 2rem; border-bottom: 1px solid var(--border-light); }
         .elite-mobile-content { padding: 3rem 2rem; display: flex; flex-direction: column; gap: 2rem; }
         
-        /* EXACT MOBILE ALIGNMENT */
-        .elite-mobile-link { font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; text-align: left; display: block; }
+        .elite-mobile-link { font-size: 1.8rem; font-weight: 600; font-family: var(--font-heading); color: var(--text-main); text-decoration: none; text-align: left; display: block; }
+        .elite-mobile-accordion-btn { font-size: 1.8rem; font-weight: 600; font-family: var(--font-heading); color: var(--text-main); background: none; border: none; display: flex; justify-content: space-between; width: 100%; align-items: center; cursor: pointer; padding: 0; text-align: left; }
         
-        /* MOBILE ACCORDION (PUSH-DOWN) */
-        .elite-mobile-accordion-btn { font-size: 1.5rem; font-weight: 700; color: var(--text-main); background: none; border: none; display: flex; justify-content: space-between; width: 100%; align-items: center; cursor: pointer; padding: 0; font-family: inherit; text-align: left; }
         .elite-mobile-accordion-wrapper { overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); width: 100%; }
         .elite-mobile-accordion-inner { display: flex; flex-direction: column; gap: 1.2rem; padding: 1.5rem 0 0.5rem 1.2rem; border-left: 3px solid var(--gold); margin-left: 0.5rem; margin-top: 0.5rem; }
-        .elite-mobile-sublink { font-size: 1.1rem; color: var(--text-muted); text-decoration: none; font-weight: 500; display: block; }
+        .elite-mobile-sublink { font-size: 1.1rem; color: var(--text-muted); text-decoration: none; font-weight: 500; font-family: var(--font-body); display: block; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
           .elite-desktop-menu { display: none; }
           .elite-hamburger { display: block; }
           .elite-nav-inner { padding: 0 1.5rem; }
@@ -183,14 +185,10 @@ export default function Navbar() {
         @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
       `}} />
 
-      {/* ==================================================== */}
-      {/* 1. STICKY TOP NAVBAR (Desktop & Mobile Header)       */}
-      {/* ==================================================== */}
       <nav className={`elite-nav-container ${scrolled ? "scrolled" : ""}`}>
         <div className="elite-nav-inner">
           <Link href={base || "/"} className="elite-brand" onClick={closeMenu}>
             <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" style={{ width: "45px", height: "45px", objectFit: "contain", filter: "drop-shadow(0 4px 6px rgba(212, 175, 55, 0.2))" }} />
-            <span style={{ display: "none" }} className="mobile-show">LEGACY IN MOTION</span>
             <span className="desktop-show" style={{ display: "inline-block" }}>LEGACY IN MOTION</span>
           </Link>
 
@@ -247,7 +245,7 @@ export default function Navbar() {
       </nav>
 
       {/* ==================================================== */}
-      {/* 2. PREMIUM MOBILE MENU (True Push-Down Accordion)    */}
+      {/* 2. PREMIUM MOBILE MENU                               */}
       {/* ==================================================== */}
       <div className={`elite-mobile-overlay ${isOpen ? "open" : ""}`}>
         <div className="elite-mobile-header">
@@ -262,14 +260,12 @@ export default function Navbar() {
         <div className="elite-mobile-content">
           <Link href={`${base}/`} className="elite-mobile-link" onClick={closeMenu}>{navText.home}</Link>
           
-          {/* PERFECT ALIGNED ACCORDION */}
           <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <button className="elite-mobile-accordion-btn" onClick={() => setIsServicesOpen(!isServicesOpen)}>
               {navText.services}
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "0.3s" }}><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             
-            {/* Smooth Push-Down Wrapper using maxHeight */}
             <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "500px" : "0" }}>
               <div className="elite-mobile-accordion-inner">
                 {isSpanish ? (
@@ -300,7 +296,6 @@ export default function Navbar() {
           <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className="elite-mobile-link" onClick={closeMenu}>{navText.baby}</Link>
           <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className="elite-mobile-link" onClick={closeMenu}>{navText.workshops}</Link>
           
-          {/* MOBILE FOOTER BUTTONS */}
           <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-cta-btn" style={{ background: "transparent", border: "2px solid var(--gold)", color: "var(--gold)", textAlign: "center" }}>
               {isSpanish ? "SWITCH TO ENGLISH" : "CAMBIAR A ESPAÑOL"}

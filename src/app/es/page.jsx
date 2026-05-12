@@ -39,7 +39,6 @@ export default function HomeSpanish() {
 
   return (
     <>
-      {/* SCOPED CSS FOR PERFECT HERO ALIGNMENT */}
       <style dangerouslySetInnerHTML={{__html: `
         .hero-action-buttons {
           display: flex;
@@ -51,9 +50,9 @@ export default function HomeSpanish() {
         }
         .hero-action-buttons a {
           min-width: 220px;
+          white-space: nowrap;
         }
         
-        /* Mobile/Small Tablet Breakpoint */
         @media (max-width: 768px) {
           .hero-action-buttons {
             flex-direction: column;
@@ -73,11 +72,10 @@ export default function HomeSpanish() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
 
-      {/* 1. HERO SECTION (SPANISH) */}
       <header className="hero hero-index container fade-in">
         <div className="hero-grid" style={{ alignItems: "center" }}>
           
-          {/* INSTAGRAM FIRST - This makes it show at the top on mobile */}
+          {/* INSTAGRAM FIRST */}
           <div className="ig-container">
             <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
               <div style={{ padding: "16px" }}>
@@ -105,19 +103,7 @@ export default function HomeSpanish() {
           {/* TEXT CONTENT SECOND */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
             
-            {/* ELEGANT & ENLARGED LOGO INJECTION */}
-            <div style={{ marginBottom: "1.5rem" }}>
-              <img 
-                src="/android-chrome-512x512.png" 
-                alt="Logo de Legacy in Motion" 
-                style={{ 
-                  width: "clamp(130px, 18vw, 240px)", // Fluid sizing: huge on desktop, scales down cleanly for mobile
-                  height: "auto", 
-                  filter: "drop-shadow(0 15px 30px rgba(212, 175, 55, 0.25))",
-                  display: "block"
-                }} 
-              />
-            </div>
+            {/* The redundant image tag was removed from here to clean up the layout! */}
 
             <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
               Establezca Su <br />
@@ -129,7 +115,6 @@ export default function HomeSpanish() {
               para construir riqueza generacional.
             </p>
             
-            {/* NEW BUTTON LAYOUT BLOCK */}
             <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
                 Agendar una Consulta
@@ -144,14 +129,13 @@ export default function HomeSpanish() {
         </div>
       </header>
 
-      {/* 2. THE BLUEPRINT (SOLUTIONS FIRST) */}
+      {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Su Plan de Riqueza de 7 Pasos</h2>
           <p style={{ marginBottom: "4rem", color: "var(--text-muted)", maxWidth: "700px", margin: "0 auto 4rem", fontSize: "1.1rem" }}>
             Una estrategia integral que combina la protección de activos personales, el crecimiento con ventajas fiscales y una estructuración comercial sólida para garantizar que su legado perdure.
           </p>
-
           <div className="fwf-elegant-grid">
             <article className="fwf-elegant-item"><span className="step-number">Paso 01</span><h3>Flujo de Efectivo y Deudas</h3><p>Análisis de presupuesto y flujo de efectivo para construir hábitos financieros más saludables y eliminar deudas de manera eficiente.</p></article>
             <article className="fwf-elegant-item"><span className="step-number">Paso 02</span><h3>Fondo de Emergencia</h3><p>Establecer de 3 a 6 meses de reservas líquidas en Cuentas de Ahorro de Alto Rendimiento para superar la inflación.</p></article>
@@ -170,26 +154,10 @@ export default function HomeSpanish() {
           <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Transformaciones Comprobadas</h2>
           <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>El éxito financiero no es teórico. Así es como hemos implementado estas estrategias exactas para asegurar el futuro de las familias.</p>
           <div className="card-grid">
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Deuda Abrumadora Eliminada</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Trabajé con una pareja joven que se ahogaba en $60,000 de deudas de tarjetas de crédito. En 18 meses, habían pagado más de la mitad de su deuda y estaban ahorrando para su primera casa.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Estrategias de Eliminación de Deudas y Análisis de Flujo de Efectivo.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Rollovers Sin Gestión</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Un empleado federal transfirió un TSP anterior a una Anualidad Indexada Fija. Esto simplificó su planificación e incrementó sus ingresos proyectados en miles de dólares.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Rollovers de 401(k) y Anualidades Indexadas Fijas.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protección Durante Enfermedad</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Establecimos una póliza con beneficios en vida para un padre. Un año después, un diagnóstico de cáncer desencadenó pagos que cubrieron los costos del tratamiento.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Seguro de Vida a Término con Cobertura de Enfermedades Críticas.</p>
-            </article>
-            <article className="card story-card">
-              <h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Evitar Disputas Familiares</h4>
-              <p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Los conectamos con un abogado especializado para coordinar fideicomisos y testamentos. Ahora su legado está protegido y se han evitado posibles disputas.&quot;</p>
-              <p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Orientación sobre Fideicomisos y Testamentos.</p>
-            </article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Deuda Abrumadora Eliminada</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Trabajé con una pareja joven que se ahogaba en $60,000 de deudas de tarjetas de crédito. En 18 meses, habían pagado más de la mitad de su deuda y estaban ahorrando para su primera casa.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Estrategias de Eliminación de Deudas y Análisis de Flujo de Efectivo.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Rollovers Sin Gestión</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Un empleado federal transfirió un TSP anterior a una Anualidad Indexada Fija. Esto simplificó su planificación e incrementó sus ingresos proyectados en miles de dólares.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Rollovers de 401(k) y Anualidades Indexadas Fijas.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protección Durante Enfermedad</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Establecimos una póliza con beneficios en vida para un padre. Un año después, un diagnóstico de cáncer desencadenó pagos que cubrieron los costos del tratamiento.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Seguro de Vida a Término con Cobertura de Enfermedades Críticas.</p></article>
+            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Evitar Disputas Familiares</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Los conectamos con un abogado especializado para coordinar fideicomisos y testamentos. Ahora su legado está protegido y se han evitado posibles disputas.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Orientación sobre Fideicomisos y Testamentos.</p></article>
           </div>
         </div>
       </section>
