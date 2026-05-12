@@ -39,6 +39,34 @@ export default function HomeSpanish() {
 
   return (
     <>
+      {/* SCOPED CSS FOR PERFECT HERO ALIGNMENT */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .hero-action-buttons {
+          display: flex;
+          flex-direction: row;
+          gap: 1.5rem;
+          justify-content: flex-start;
+          align-items: center;
+          margin-top: 1rem;
+        }
+        .hero-action-buttons a {
+          min-width: 220px;
+        }
+        
+        /* Mobile/Small Tablet Breakpoint */
+        @media (max-width: 768px) {
+          .hero-action-buttons {
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+          }
+          .hero-action-buttons a {
+            width: 100%;
+            display: block;
+          }
+        }
+      `}} />
+
       <Script 
         id="schema-org-home-es"
         type="application/ld+json" 
@@ -77,12 +105,17 @@ export default function HomeSpanish() {
           {/* TEXT CONTENT SECOND */}
           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
             
-            {/* ELEGANT LOGO INJECTION */}
+            {/* ELEGANT & ENLARGED LOGO INJECTION */}
             <div style={{ marginBottom: "1.5rem" }}>
               <img 
-                src="/android-chrome-192x192.png" 
+                src="/android-chrome-512x512.png" 
                 alt="Logo de Legacy in Motion" 
-                style={{ width: "110px", height: "auto", filter: "drop-shadow(0 10px 20px rgba(212, 175, 55, 0.15))" }} 
+                style={{ 
+                  width: "clamp(130px, 18vw, 240px)", // Fluid sizing: huge on desktop, scales down cleanly for mobile
+                  height: "auto", 
+                  filter: "drop-shadow(0 15px 30px rgba(212, 175, 55, 0.25))",
+                  display: "block"
+                }} 
               />
             </div>
 
@@ -90,12 +123,14 @@ export default function HomeSpanish() {
               Establezca Su <br />
               <span className="text-gold">Fortaleza Financiera.</span>
             </h1>
-            <p style={{ textAlign: "left", margin: "0 0 2.5rem 0", maxWidth: "600px" }}>
+            <p style={{ textAlign: "left", margin: "0 0 2rem 0", maxWidth: "600px" }}>
               Como Asociada Financiera Senior de Experior Financial Group Inc.,
               guío a mis clientes desde la complejidad financiera hacia un camino claro y práctico
               para construir riqueza generacional.
             </p>
-            <div className="hero-buttons" style={{ justifyContent: "flex-start" }}>
+            
+            {/* NEW BUTTON LAYOUT BLOCK */}
+            <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
                 Agendar una Consulta
               </a>
@@ -103,6 +138,7 @@ export default function HomeSpanish() {
                 Explore el Plan
               </a>
             </div>
+
           </div>
           
         </div>
