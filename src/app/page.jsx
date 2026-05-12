@@ -42,7 +42,6 @@ export default function Home() {
     <>
       <CinematicIntro />
 
-      {/* CRITICAL FIX: Standard script tag used for JSON-LD to prevent hydration crashes */}
       <script 
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
@@ -50,28 +49,9 @@ export default function Home() {
 
       {/* 1. HERO SECTION */}
       <header className="hero hero-index fade-in">
-        <div className="container hero-grid">
-          <div>
-            <h1 style={{ lineHeight: "1.15" }}>
-              The 7-Steps to <br />
-              <span className="text-gold">Enduring Wealth.</span>
-            </h1>
-            <p>
-              As a Senior Financial Associate with Experior Financial Group Inc.,
-              I guide clients from financial complexity to a clear, actionable path
-              for building a legacy. Establish your financial fortress in as little
-              as 90 days.
-            </p>
-            <div className="hero-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
-                Schedule a Consultation
-              </a>
-              <a href="#framework" className="btn-outline">
-                Explore the Blueprint
-              </a>
-            </div>
-          </div>
+        <div className="container hero-grid" style={{ alignItems: "center" }}>
           
+          {/* INSTAGRAM FIRST - This makes it show at the top on mobile */}
           <div className="ig-container">
             <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
               <div style={{ padding: "16px" }}>
@@ -94,10 +74,32 @@ export default function Home() {
               </div>
             </blockquote>
           </div>
+
+          {/* TEXT CONTENT SECOND - Removed the redundant '7-steps' phrasing */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
+            <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
+              Establish Your <br />
+              <span className="text-gold">Financial Fortress.</span>
+            </h1>
+            <p style={{ textAlign: "left", margin: "0 0 2.5rem 0", maxWidth: "600px" }}>
+              As a Senior Financial Associate with Experior Financial Group Inc.,
+              I guide clients from financial complexity to a clear, actionable path
+              for building generational wealth.
+            </p>
+            <div className="hero-buttons" style={{ justifyContent: "flex-start" }}>
+              <a href="#consultation" className="btn-gold btn-pulse">
+                Schedule a Consultation
+              </a>
+              <a href="#framework" className="btn-outline">
+                Explore the Blueprint
+              </a>
+            </div>
+          </div>
+          
         </div>
       </header>
 
-      {/* 2. THE BLUEPRINT (SOLUTIONS FIRST) */}
+      {/* 2. THE BLUEPRINT (SOLUTIONS) */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
