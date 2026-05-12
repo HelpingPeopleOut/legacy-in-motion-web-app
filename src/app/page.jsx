@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 
@@ -43,9 +42,8 @@ export default function Home() {
     <>
       <CinematicIntro />
 
-      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash that was freezing the CinematicIntro */}
-      <Script 
-        id="schema-org-home"
+      {/* CRITICAL FIX: Standard script tag used for JSON-LD to prevent hydration crashes */}
+      <script 
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
@@ -95,7 +93,6 @@ export default function Home() {
                 </a>
               </div>
             </blockquote>
-            <Script async src="//www.instagram.com/embed.js" strategy="lazyOnload" />
           </div>
         </div>
       </header>
@@ -192,6 +189,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+      
+      {/* Instagram lazy load script moved to bottom of body to prevent layout blocking */}
+      <script async src="//www.instagram.com/embed.js" />
     </>
   );
 }
