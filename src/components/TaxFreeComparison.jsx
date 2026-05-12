@@ -80,12 +80,13 @@ const styles = {
   input: { width: "100%", padding: "1rem", borderRadius: "12px", border: "none", background: "rgba(0,0,0,0.03)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)", fontSize: "1.1rem", color: "var(--text-main)", outline: "none", transition: "all 0.3s ease" },
   slider: { flexGrow: 1, accentColor: "var(--gold)", cursor: "pointer", height: "8px", borderRadius: "4px" },
   sliderValue: { fontSize: "1.5rem", fontWeight: "bold", color: "var(--text-main)", minWidth: "60px", textAlign: "right" },
-  resultGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginTop: "1rem" },
-  redBox: { background: "linear-gradient(145deg, #2a0a0a 0%, #1a0000 100%)", border: "1px solid rgba(255, 77, 77, 0.3)", padding: "1.5rem", borderRadius: "16px", textAlign: "center" },
-  goldBox: { background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", border: "1px solid var(--gold)", padding: "1.5rem", borderRadius: "16px", textAlign: "center" },
+  /* FIXED RESPONSIVENESS */
+  resultGrid: { display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "1rem" },
+  redBox: { flex: "1 1 140px", background: "linear-gradient(145deg, #2a0a0a 0%, #1a0000 100%)", border: "1px solid rgba(255, 77, 77, 0.3)", padding: "1.5rem 1rem", borderRadius: "16px", textAlign: "center" },
+  goldBox: { flex: "1 1 140px", background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", border: "1px solid var(--gold)", padding: "1.5rem 1rem", borderRadius: "16px", textAlign: "center" },
   redLabel: { color: "#ff8080", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.75rem", marginBottom: "0.5rem", fontWeight: "600" },
   goldLabel: { color: "#a0a0a0", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.75rem", marginBottom: "0.5rem", fontWeight: "600" },
-  redValue: { fontSize: "1.8rem", color: "#ff4d4d", fontWeight: "800" },
-  goldValue: { fontSize: "1.8rem", color: "var(--gold)", fontWeight: "800" },
+  redValue: { fontSize: "clamp(1.4rem, 5vw, 1.8rem)", color: "#ff4d4d", fontWeight: "800", wordBreak: "break-word" },
+  goldValue: { fontSize: "clamp(1.4rem, 5vw, 1.8rem)", color: "var(--gold)", fontWeight: "800", wordBreak: "break-word" },
   infoText: { fontSize: "0.95rem", color: "var(--text-muted)", marginTop: "2rem", textAlign: "center", fontStyle: "italic" }
 };

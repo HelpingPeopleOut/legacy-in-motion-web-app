@@ -79,10 +79,11 @@ const styles = {
   title: { fontSize: "1.5rem", color: "var(--text-main)", margin: 0 },
   desc: { fontSize: "0.9rem", color: "var(--text-muted)", margin: 0 },
   body: { padding: "2rem", display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "space-between", gap: "2rem" },
-  inputGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" },
+  /* FIXED RESPONSIVENESS */
+  inputGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 140px), 1fr))", gap: "1rem" },
   label: { display: "block", color: "var(--text-muted)", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginBottom: "0.5rem" },
   input: { width: "100%", padding: "1rem", borderRadius: "12px", border: "none", background: "rgba(0,0,0,0.03)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)", fontSize: "1.1rem", color: "var(--text-main)", outline: "none", transition: "all 0.3s ease" },
-  resultBox: { background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", padding: "2.5rem", borderRadius: "16px", textAlign: "center", border: "1px solid rgba(212, 175, 55, 0.2)", boxShadow: "0 10px 30px rgba(0,0,0,0.1)" },
+  resultBox: { background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", padding: "2.5rem 1.5rem", borderRadius: "16px", textAlign: "center", border: "1px solid rgba(212, 175, 55, 0.2)", boxShadow: "0 10px 30px rgba(0,0,0,0.1)" },
   resultLabel: { color: "#a0a0a0", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: "600" },
-  mainValue: { fontSize: "2.8rem", color: "var(--gold)", fontWeight: "800", lineHeight: "1", textShadow: "0 0 20px rgba(212, 175, 55, 0.3)" }
+  mainValue: { fontSize: "clamp(2rem, 8vw, 2.8rem)", color: "var(--gold)", fontWeight: "800", lineHeight: "1", textShadow: "0 0 20px rgba(212, 175, 55, 0.3)", wordBreak: "break-word" }
 };
