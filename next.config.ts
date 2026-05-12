@@ -8,7 +8,9 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // <-- FIX: Generates the 'out' folder for Cloudflare Pages
   images: {
+    unoptimized: true, // <-- FIX: Required by Next.js when using output: 'export'
     remotePatterns: [
       {
         protocol: 'https',
