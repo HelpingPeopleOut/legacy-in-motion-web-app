@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.legacy-in-motion.org'; // <-- CORRECT DOMAIN
+// This line tells Next.js to generate this as a static XML file during the build
+export const dynamic = 'force-static'; 
 
-  // Every single high-value page on the website
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://www.legacy-in-motion.org';
+
   const routes = [
     '',
     '/request-callback',
@@ -16,12 +18,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/generational-wealth-arcadia-sgv',
     '/living-benefits-life-insurance-los-angeles',
     '/service-areas',
-    // New English Lead Funnels
     '/debt-free-wealth-strategy',
     '/mortgage-protection-los-angeles',
     '/business-owner-financial-strategies',
-    
-    // Spanish Routes
     '/es',
     '/es/mision',
     '/es/futuro-financiero-infantil',
@@ -29,7 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/es/herramientas',
     '/es/planificacion-de-jubilacion-los-angeles',
     '/es/beneficios-en-vida-los-angeles',
-    // New Spanish Lead Funnels
     '/es/estrategia-libre-de-deudas',
     '/es/proteccion-de-hipoteca-los-angeles',
     '/es/estrategias-financieras-para-negocios',
