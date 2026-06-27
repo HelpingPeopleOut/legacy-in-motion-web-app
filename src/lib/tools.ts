@@ -34,7 +34,7 @@ export const TOOL_AUDIENCE_META: Record<
     label: "For advisors",
     shortLabel: "Advisors",
     description:
-      "Use in appointments and follow-ups — needs analysis, comparisons, and client prep.",
+      "Advisor Pro ($15/mo or $100/yr) — client premium tools plus meeting prep, What-If modeling, and upcoming releases.",
   },
   other: {
     label: "Workshops & learning",

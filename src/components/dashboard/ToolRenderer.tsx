@@ -52,7 +52,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
           access.reason === "premium"
             ? PRODUCTS.PREMIUM_MONTHLY.priceLabel
             : access.reason === "hybrid"
-              ? "Advisor+"
+              ? PRODUCTS.PREMIUM_HYBRID.priceLabel
               : tool.productKey === "LEGACY_VAULT"
                 ? "$99"
                 : "$49"

@@ -42,7 +42,7 @@ const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
   if (tool.access === "one_time")
     return { label: tool.productKey === "HLV_REPORT" ? "$49" : "$99", className: "locked" };
   if (tool.access === "premium") return { label: "Premium", className: "locked" };
-  return { label: "Advisor+", className: "locked" };
+  return { label: "Advisor Pro", className: "locked" };
 };
 
 function ToolCard({ tool, user }: { tool: ToolDefinition; user: UserWithPurchases | null }) {

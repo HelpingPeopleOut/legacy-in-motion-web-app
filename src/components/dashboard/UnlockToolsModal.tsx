@@ -22,6 +22,14 @@ const PREMIUM_FEATURES = [
   "New premium tools as we add them",
 ];
 
+const ADVISOR_FEATURES = [
+  "Everything in Premium Client — vital signs, emergency fund, policy ladder & more",
+  "What-If Scenario Modeler for client meetings",
+  "Secure Document Hub & client messenger",
+  "Workshop calculators & retirement forecaster",
+  "New advisor tools as we release them",
+];
+
 function shouldShowModal(): boolean {
   if (typeof window === "undefined" || isPreviewUnlockAll()) return false;
   try {
@@ -109,6 +117,82 @@ export function UnlockToolsOffer({
 
       <p className="text-center text-xs text-[var(--color-portal-muted)]">
         Secure checkout via Stripe · One-time tools (HLV report, Legacy Vault) sold separately on{" "}
+        <Link href="/dashboard/billing" className="font-semibold text-[var(--color-portal-gold)] underline">
+          Plans & Billing
+        </Link>
+      </p>
+    </div>
+  );
+}
+
+export function UnlockAdvisorOffer({
+  signedIn = true,
+  compact = false,
+}: {
+  signedIn?: boolean;
+  compact?: boolean;
+}) {
+  const monthly = PRODUCTS.PREMIUM_HYBRID;
+  const annual = PRODUCTS.ADVISOR_ANNUAL;
+
+  return (
+    <div className={compact ? "space-y-4" : "space-y-5"}>
+      {!compact && (
+        <div className="text-center">
+          <p className="portal-hub-eyebrow mb-2 justify-center">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden />
+            Advisor Pro
+          </p>
+          <h2 className="font-serif text-xl font-semibold text-[var(--color-portal-text)] md:text-2xl">
+            Full client toolkit plus advisor workspace
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-sm text-[var(--color-portal-muted)]">
+            Use the same premium tools your clients see, plus advisor-grade features for meetings,
+            follow-ups, and new releases.
+          </p>
+        </div>
+      )}
+
+      <ul className={`grid gap-2 text-sm text-[var(--color-portal-text)] ${compact ? "" : "sm:grid-cols-2"}`}>
+        {ADVISOR_FEATURES.map((feature) => (
+          <li key={feature} className="flex items-start gap-2">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-portal-accent)]" aria-hidden />
+            {feature}
+          </li>
+        ))}
+      </ul>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="portal-unlock-plan">
+          <p className="portal-unlock-plan-label">Monthly</p>
+          <p className="portal-unlock-plan-price">{monthly.priceLabel}</p>
+          <p className="portal-unlock-plan-note">Cancel anytime</p>
+          {signedIn ? (
+            <CheckoutButton productKey="PREMIUM_HYBRID" label={`Subscribe — ${monthly.priceLabel}`} />
+          ) : (
+            <Link href="/login/sign-in" className="portal-btn-primary w-full text-center text-sm">
+              Sign in to subscribe
+            </Link>
+          )}
+        </div>
+
+        <div className="portal-unlock-plan portal-unlock-plan--featured">
+          <span className="portal-unlock-plan-badge">Best value</span>
+          <p className="portal-unlock-plan-label">Annual</p>
+          <p className="portal-unlock-plan-price">{annual.priceLabel}</p>
+          <p className="portal-unlock-plan-note">Flat $100/year · save vs. monthly</p>
+          {signedIn ? (
+            <CheckoutButton productKey="ADVISOR_ANNUAL" label={`Subscribe — ${annual.priceLabel}`} />
+          ) : (
+            <Link href="/login/sign-in" className="portal-btn-primary w-full text-center text-sm">
+              Sign in to subscribe
+            </Link>
+          )}
+        </div>
+      </div>
+
+      <p className="text-center text-xs text-[var(--color-portal-muted)]">
+        Clients can subscribe separately for $5/mo or $50/yr on{" "}
         <Link href="/dashboard/billing" className="font-semibold text-[var(--color-portal-gold)] underline">
           Plans & Billing
         </Link>

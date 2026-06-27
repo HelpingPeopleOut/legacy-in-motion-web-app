@@ -13,25 +13,32 @@ export type AccessResult =
 
 type UserWithPurchases = User & { purchases: Purchase[] };
 
-export function hasActivePremium(user: UserWithPurchases): boolean {
+const CLIENT_PREMIUM_TIERS = new Set(["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"]);
+const ADVISOR_PRO_TIERS = new Set(["PREMIUM_HYBRID", "ADVISOR_ANNUAL"]);
+
+export function hasAdvisorAccess(user: UserWithPurchases): boolean {
+  if (!hasActiveSubscription(user)) return false;
+  return ADVISOR_PRO_TIERS.has(user.subscriptionTier);
+}
+
+/** @deprecated Use hasAdvisorAccess */
+export function hasHybridAccess(user: UserWithPurchases): boolean {
+  return hasAdvisorAccess(user);
+}
+
+function hasActiveSubscription(user: UserWithPurchases): boolean {
   if (user.subscriptionStatus !== "ACTIVE" && user.subscriptionStatus !== "TRIALING") {
     return false;
   }
   if (user.subscriptionPeriodEnd && user.subscriptionPeriodEnd < new Date()) {
     return false;
   }
-  return (
-    user.subscriptionTier === "PREMIUM_MONTHLY" ||
-    user.subscriptionTier === "PREMIUM_ANNUAL" ||
-    user.subscriptionTier === "PREMIUM_HYBRID"
-  );
+  return true;
 }
 
-export function hasHybridAccess(user: UserWithPurchases): boolean {
-  return (
-    hasActivePremium(user) &&
-    user.subscriptionTier === "PREMIUM_HYBRID"
-  );
+export function hasActivePremium(user: UserWithPurchases): boolean {
+  if (!hasActiveSubscription(user)) return false;
+  return CLIENT_PREMIUM_TIERS.has(user.subscriptionTier) || ADVISOR_PRO_TIERS.has(user.subscriptionTier);
 }
 
 export function hasPurchase(user: UserWithPurchases, productKey: ProductKey): boolean {
@@ -66,17 +73,17 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
   }
 
   if (tool.access === "hybrid") {
-    if (hasHybridAccess(user)) return { allowed: true };
+    if (hasAdvisorAccess(user)) return { allowed: true };
     return {
       allowed: false,
       reason: "hybrid",
       productKey: "PREMIUM_HYBRID",
-      message: "Premium + Advisor Access unlocks What-If modeling and the Secure Portal.",
+      message:
+        "Advisor Pro unlocks client premium tools, advisor features, and upcoming releases — from $15/month or $100/year.",
     };
   }
 
   if (tool.access === "one_time" && tool.productKey) {
-    // Human Life Value: free to calculate, paywall only for PDF export
     if (tool.slug === "human-life-value") {
       return { allowed: true };
     }

@@ -116,6 +116,7 @@ async function syncSubscription(userId: string, subscription: Stripe.Subscriptio
 
 function mapPriceToTier(priceId?: string): SubscriptionTier {
   if (priceId === process.env.STRIPE_PRICE_PREMIUM_HYBRID) return "PREMIUM_HYBRID";
+  if (priceId === process.env.STRIPE_PRICE_ADVISOR_ANNUAL) return "ADVISOR_ANNUAL";
   if (priceId === process.env.STRIPE_PRICE_PREMIUM_ANNUAL) return "PREMIUM_ANNUAL";
   if (priceId === process.env.STRIPE_PRICE_PREMIUM_MONTHLY) return "PREMIUM_MONTHLY";
   return "FREE";

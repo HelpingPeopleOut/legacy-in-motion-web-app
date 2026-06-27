@@ -1,6 +1,6 @@
 import Link from "next/link";
 import CheckoutButton from "./CheckoutButton";
-import { UnlockToolsOffer } from "./UnlockToolsModal";
+import { UnlockToolsOffer, UnlockAdvisorOffer } from "./UnlockToolsModal";
 import type { ProductKey } from "@prisma/client";
 import { Lock } from "lucide-react";
 
@@ -22,6 +22,7 @@ export default function Paywall({
   reason,
 }: PaywallProps) {
   const isPremium = reason === "premium";
+  const isAdvisor = reason === "hybrid";
 
   return (
     <div className="portal-card relative overflow-hidden p-8 md:p-10">
@@ -43,6 +44,8 @@ export default function Paywall({
 
         {isPremium ? (
           <UnlockToolsOffer signedIn compact />
+        ) : isAdvisor ? (
+          <UnlockAdvisorOffer signedIn compact />
         ) : (
           <div className="text-center">
             <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

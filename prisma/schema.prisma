@@ -51,6 +51,7 @@ enum SubscriptionTier {
   PREMIUM_MONTHLY
   PREMIUM_ANNUAL
   PREMIUM_HYBRID
+  ADVISOR_ANNUAL
 }
 
 // ─── One-time purchases & Stripe events ─────────────────────────────────────
@@ -60,7 +61,8 @@ enum ProductKey {
   LEGACY_VAULT        // Digital Legacy Vault — $99
   PREMIUM_MONTHLY
   PREMIUM_ANNUAL
-  PREMIUM_HYBRID
+  PREMIUM_HYBRID      // Advisor Pro monthly — $15/mo
+  ADVISOR_ANNUAL      // Advisor Pro annual — $100/yr
 }
 
 model Purchase {
