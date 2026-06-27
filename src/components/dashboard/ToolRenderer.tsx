@@ -100,7 +100,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
 
   return (
     <div className="space-y-6">
-      <div className={calculatorWrapper}>
+      <div className={`portal-calculator-host ${calculatorWrapper}`}>
         {tool.slug === "human-life-value" && <DIMECalculator />}
         {tool.slug === "term-vs-permanent" && <TaxFreeComparison />}
         {tool.slug === "retirement-forecaster" && <WealthCalculator />}

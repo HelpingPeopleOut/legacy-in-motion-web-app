@@ -1,4 +1,5 @@
 import "./dashboard.css";
+import "../responsive.css";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import LocalTestBanner from "@/components/dashboard/LocalTestBanner";
 import { isLocalTestMode } from "@/lib/app-env";

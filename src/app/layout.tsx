@@ -1,13 +1,15 @@
 import "./globals.css";
+import "./responsive.css";
 import SiteChrome from "@/components/SiteChrome";
 import { isLocalTestMode } from "@/lib/app-env";
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#000000",
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
+  themeColor: "#ffffff",
 };
 
 export const metadata = {

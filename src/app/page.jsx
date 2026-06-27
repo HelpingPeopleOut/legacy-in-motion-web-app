@@ -42,26 +42,6 @@ export default function Home() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
-        .hero-action-buttons {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 1rem;
-          justify-content: flex-start;
-          align-items: center;
-          margin-top: 1.5rem;
-        }
-        .hero-action-buttons a {
-          min-width: 200px;
-          white-space: nowrap;
-        }
-        @media (max-width: 768px) {
-          .hero-action-buttons { flex-direction: column; width: 100%; }
-          .hero-action-buttons a { width: 100%; display: block; }
-        }
-      `}} />
-
       <CinematicIntro />
 
       <script 

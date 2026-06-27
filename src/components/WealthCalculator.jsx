@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 export default function WealthCalculator() {
   const pathname = usePathname() || "";
   const isEs = pathname.startsWith("/es");
+  const isPortal = pathname.startsWith("/dashboard");
 
   const [initialAmount, setInitialAmount] = useState(5000);
   const [monthlyContribution, setMonthlyContribution] = useState(500);
@@ -82,19 +83,19 @@ export default function WealthCalculator() {
           </div>
         </div>
 
-        <div style={styles.resultCol}>
+        <div style={isPortal ? styles.resultColPortal : styles.resultCol}>
           <div style={styles.mainResultBox}>
-            <p style={styles.resultLabel}>{t.future}</p>
-            <div style={styles.mainValue}>{formatCurrency(results.futureValue)}</div>
+            <p style={isPortal ? styles.resultLabelPortal : styles.resultLabel}>{t.future}</p>
+            <div style={isPortal ? styles.mainValuePortal : styles.mainValue}>{formatCurrency(results.futureValue)}</div>
           </div>
           <div style={styles.subResultGrid}>
-            <div style={styles.subBox}>
-              <p style={styles.subLabel}>{t.invested}</p>
-              <p style={styles.subValue}>{formatCurrency(results.totalInvested)}</p>
+            <div style={isPortal ? styles.subBoxPortal : styles.subBox}>
+              <p style={isPortal ? styles.subLabelPortal : styles.subLabel}>{t.invested}</p>
+              <p style={isPortal ? styles.subValuePortal : styles.subValue}>{formatCurrency(results.totalInvested)}</p>
             </div>
-            <div style={styles.subBox}>
-              <p style={styles.subLabel}>{t.earned}</p>
-              <p style={{...styles.subValue, color: "var(--gold)"}}>{formatCurrency(results.totalInterest)}</p>
+            <div style={isPortal ? styles.subBoxPortal : styles.subBox}>
+              <p style={isPortal ? styles.subLabelPortal : styles.subLabel}>{t.earned}</p>
+              <p style={{...(isPortal ? styles.subValuePortal : styles.subValue), color: "var(--gold)"}}>{formatCurrency(results.totalInterest)}</p>
             </div>
           </div>
           <button style={styles.actionButton} onClick={() => window.location.href = t.contactRoute}>
@@ -120,12 +121,18 @@ const styles = {
   slider: { width: "100%", accentColor: "var(--gold)", cursor: "pointer", height: "6px", borderRadius: "4px" },
   sliderValue: { textAlign: "right", fontSize: "1.1rem", fontWeight: "bold", color: "var(--gold)", marginTop: "0.5rem" },
   resultCol: { background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", padding: "2.5rem 2rem", display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid var(--border-light)" },
+  resultColPortal: { background: "linear-gradient(145deg, #faf8f3 0%, #f5f0e6 100%)", padding: "2.5rem 2rem", display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid rgba(184, 148, 31, 0.15)" },
   mainResultBox: { textAlign: "center", marginBottom: "2rem" },
   resultLabel: { color: "#a0a0a0", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: "600" },
+  resultLabelPortal: { color: "#6b6560", textTransform: "uppercase", letterSpacing: "2px", fontSize: "0.85rem", marginBottom: "0.5rem", fontWeight: "600" },
   mainValue: { fontSize: "3.2rem", color: "#ffffff", fontWeight: "800", lineHeight: "1", textShadow: "0 0 30px rgba(212, 175, 55, 0.4)" },
+  mainValuePortal: { fontSize: "clamp(2rem, 8vw, 3.2rem)", color: "var(--gold)", fontWeight: "800", lineHeight: "1" },
   subResultGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "2rem" },
   subBox: { background: "rgba(255,255,255,0.05)", padding: "1.5rem", borderRadius: "16px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" },
+  subBoxPortal: { background: "#fff", padding: "1.5rem", borderRadius: "16px", textAlign: "center", border: "1px solid rgba(184, 148, 31, 0.15)" },
   subLabel: { fontSize: "0.75rem", color: "#888", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "0.5rem" },
+  subLabelPortal: { fontSize: "0.75rem", color: "#6b6560", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "0.5rem" },
   subValue: { fontSize: "1.3rem", fontWeight: "bold", color: "#fff" },
+  subValuePortal: { fontSize: "1.3rem", fontWeight: "bold", color: "#1a1a1a" },
   actionButton: { width: "100%", padding: "1rem", background: "var(--gold)", color: "#000", border: "none", borderRadius: "12px", fontSize: "1rem", fontWeight: "bold", cursor: "pointer", textTransform: "uppercase", letterSpacing: "1px", transition: "transform 0.2s" }
 };

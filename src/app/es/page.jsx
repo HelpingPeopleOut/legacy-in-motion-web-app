@@ -40,59 +40,7 @@ export default function HomeSpanish() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{__html: `
-        .hero-action-buttons {
-          display: flex;
-          flex-direction: row;
-          gap: 1.5rem;
-          justify-content: flex-start;
-          align-items: center;
-          margin-top: 1rem;
-        }
-        .hero-action-buttons a {
-          min-width: 220px;
-          white-space: nowrap;
-        }
-        
-        .hero-intro-story p {
-          text-align: left;
-          margin: 0 0 1rem 0;
-          max-width: 600px;
-          font-size: 1.05rem;
-          line-height: 1.65;
-          color: var(--text-muted);
-          font-weight: 300;
-        }
-        .hero-intro-story p.hero-intro-closing {
-          color: var(--text-main);
-          font-weight: 400;
-          margin-bottom: 1.25rem;
-        }
-        .hero-intro-story p.hero-credential {
-          font-size: 0.9rem;
-          color: var(--gold);
-          font-weight: 600;
-          letter-spacing: 0.5px;
-          margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-          .hero-action-buttons {
-            flex-direction: column;
-            width: 100%;
-            gap: 1rem;
-          }
-          .hero-action-buttons a {
-            width: 100%;
-            display: block;
-          }
-          .hero-intro-story p {
-            font-size: 1rem;
-          }
-        }
-      `}} />
-
-      <Script 
+      <Script
         id="schema-org-home-es"
         type="application/ld+json" 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 

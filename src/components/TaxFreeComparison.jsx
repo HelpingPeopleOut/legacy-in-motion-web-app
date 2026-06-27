@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 export default function TaxFreeComparison() {
   const pathname = usePathname() || "";
   const isEs = pathname.startsWith("/es");
+  const isPortal = pathname.startsWith("/dashboard");
 
   const [savings, setSavings] = useState(250000);
   const [taxRate, setTaxRate] = useState(30);
@@ -56,8 +57,8 @@ export default function TaxFreeComparison() {
             <div style={styles.redValue}>-{formatCurrency(taxLoss)}</div>
           </div>
           
-          <div style={styles.goldBox}>
-            <p style={styles.goldLabel}>{t.keep}</p>
+          <div style={isPortal ? styles.goldBoxPortal : styles.goldBox}>
+            <p style={isPortal ? styles.goldLabelPortal : styles.goldLabel}>{t.keep}</p>
             <div style={styles.goldValue}>{formatCurrency(keepAmount)}</div>
           </div>
         </div>
@@ -84,8 +85,10 @@ const styles = {
   resultGrid: { display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "1rem" },
   redBox: { flex: "1 1 140px", background: "linear-gradient(145deg, #2a0a0a 0%, #1a0000 100%)", border: "1px solid rgba(255, 77, 77, 0.3)", padding: "1.5rem 1rem", borderRadius: "16px", textAlign: "center" },
   goldBox: { flex: "1 1 140px", background: "linear-gradient(145deg, #1a1a1a 0%, #000000 100%)", border: "1px solid var(--gold)", padding: "1.5rem 1rem", borderRadius: "16px", textAlign: "center" },
+  goldBoxPortal: { flex: "1 1 140px", background: "linear-gradient(145deg, #faf8f3 0%, #f5f0e6 100%)", border: "1px solid rgba(184, 148, 31, 0.35)", padding: "1.5rem 1rem", borderRadius: "16px", textAlign: "center" },
   redLabel: { color: "#ff8080", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.75rem", marginBottom: "0.5rem", fontWeight: "600" },
   goldLabel: { color: "#a0a0a0", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.75rem", marginBottom: "0.5rem", fontWeight: "600" },
+  goldLabelPortal: { color: "#6b6560", textTransform: "uppercase", letterSpacing: "1px", fontSize: "0.75rem", marginBottom: "0.5rem", fontWeight: "600" },
   redValue: { fontSize: "clamp(1.4rem, 5vw, 1.8rem)", color: "#ff4d4d", fontWeight: "800", wordBreak: "break-word" },
   goldValue: { fontSize: "clamp(1.4rem, 5vw, 1.8rem)", color: "var(--gold)", fontWeight: "800", wordBreak: "break-word" },
   infoText: { fontSize: "0.95rem", color: "var(--text-muted)", marginTop: "2rem", textAlign: "center", fontStyle: "italic" }

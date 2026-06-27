@@ -34,7 +34,7 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
         <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-portal-gold)]">
           Your financial toolkit
         </p>
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-[var(--color-portal-text)]">
+        <h1 className="portal-hub-title font-serif text-3xl font-semibold tracking-tight text-[var(--color-portal-text)]">
           Fix problems. Track progress. Protect your family.
         </h1>
         <p className="mt-2 max-w-2xl text-[var(--color-portal-muted)]">
