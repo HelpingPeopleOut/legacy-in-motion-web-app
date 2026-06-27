@@ -1,119 +1,181 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, type ToolDefinition } from "@/lib/tools";
 import { canAccessTool, hasActivePremium, hasPurchase } from "@/lib/access";
+import { isPreviewUnlockAll } from "@/lib/preview-access";
 import type { User, Purchase } from "@prisma/client";
 import { ToolIcon } from "./DashboardShell";
-import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Wrench } from "lucide-react";
 
 type UserWithPurchases = User & { purchases: Purchase[] };
 
-const accessBadge = (tool: (typeof TOOLS)[0], user: UserWithPurchases | null) => {
+type CategoryFilter = "all" | ToolDefinition["category"];
+
+const FILTERS: { key: CategoryFilter; label: string }[] = [
+  { key: "all", label: "All tools" },
+  { key: "analyzer", label: "Analyzers" },
+  { key: "tracker", label: "Trackers" },
+  { key: "simulator", label: "Simulators" },
+  { key: "portal", label: "Vault & Portal" },
+];
+
+const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
+  if (isPreviewUnlockAll()) {
+    return { label: "Preview", className: "preview" };
+  }
   const access = canAccessTool(user, tool);
   if (access.allowed) {
-    if (tool.access === "free")
-      return { label: "Free", className: "bg-emerald-50 text-emerald-700 border-emerald-200" };
-    return { label: "Unlocked", className: "bg-[var(--color-portal-gold-light)] text-[var(--color-portal-gold)] border-amber-200" };
+    if (tool.access === "free") return { label: "Free", className: "free" };
+    return { label: "Unlocked", className: "unlocked" };
   }
   if (tool.access === "one_time")
-    return {
-      label: tool.productKey === "HLV_REPORT" ? "$49" : "$99",
-      className: "bg-amber-50 text-amber-800 border-amber-200",
-    };
-  if (tool.access === "premium")
-    return { label: "Premium", className: "bg-sky-50 text-sky-800 border-sky-200" };
-  return { label: "Advisor+", className: "bg-violet-50 text-violet-800 border-violet-200" };
+    return { label: tool.productKey === "HLV_REPORT" ? "$49" : "$99", className: "locked" };
+  if (tool.access === "premium") return { label: "Premium", className: "locked" };
+  return { label: "Advisor+", className: "locked" };
 };
 
 export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
+  const [category, setCategory] = useState<CategoryFilter>("all");
+  const [search, setSearch] = useState("");
+  const preview = isPreviewUnlockAll();
   const premium = user ? hasActivePremium(user) : false;
 
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return TOOLS.filter((tool) => {
+      const matchCat = category === "all" || tool.category === category;
+      const matchSearch =
+        !q ||
+        tool.name.toLowerCase().includes(q) ||
+        tool.description.toLowerCase().includes(q) ||
+        tool.category.includes(q);
+      return matchCat && matchSearch;
+    });
+  }, [category, search]);
+
+  const unlockedCount = TOOLS.filter((t) => canAccessTool(user, t).allowed).length;
+
   return (
-    <div>
-      <div className="mb-8">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-portal-gold)]">
-          Your financial toolkit
+    <>
+      <div className="portal-hub-hero">
+        <p className="portal-hub-eyebrow">
+          <Sparkles className="h-3.5 w-3.5" aria-hidden />
+          Financial command center
         </p>
-        <h1 className="portal-hub-title font-serif text-3xl font-semibold tracking-tight text-[var(--color-portal-text)]">
-          Fix problems. Track progress. Protect your family.
+        <h1 className="portal-hub-title">
+          Your complete wealth toolkit
         </h1>
-        <p className="mt-2 max-w-2xl text-[var(--color-portal-muted)]">
-          Pick a tool below to get clarity on debt, coverage, retirement, and legacy — then book a free
-          call when you&apos;re ready for a personalized plan.
-          {premium ? " Your Premium plan is active." : ""}
+        <p className="portal-hub-sub">
+          Analyze coverage, eliminate debt, forecast retirement, and protect your legacy — all in one secure client workspace.
+          {preview && " Preview mode: every tool is unlocked for testing."}
+          {!preview && premium && " Your Premium plan is active."}
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {TOOLS.map((tool) => {
-          const badge = accessBadge(tool, user);
-          const locked = !canAccessTool(user, tool).allowed && tool.slug !== "human-life-value";
-
-          return (
-            <Link
-              key={tool.slug}
-              href={`/dashboard/tools/${tool.slug}`}
-              className={cn(
-                "portal-card group flex flex-col p-5 transition duration-200",
-                locked && "opacity-95"
-              )}
-            >
-              <div className="mb-4 flex items-start justify-between gap-2">
-                <div
-                  className="flex h-11 w-11 items-center justify-center rounded-xl"
-                  style={{ background: "var(--color-portal-gold-light)", color: "var(--color-portal-gold)" }}
-                >
-                  <ToolIcon name={tool.icon} className="h-5 w-5" />
-                </div>
-                <span
-                  className={cn(
-                    "rounded-full border px-2.5 py-0.5 text-xs font-semibold",
-                    badge.className
-                  )}
-                >
-                  {badge.label}
-                </span>
-              </div>
-              <h2 className="mb-1 font-semibold text-[var(--color-portal-text)] group-hover:text-[var(--color-portal-gold)]">
-                {tool.name}
-              </h2>
-              <p className="mb-4 flex-1 text-sm leading-relaxed text-[var(--color-portal-muted)] line-clamp-2">
-                {tool.description}
-              </p>
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-portal-gold)]">
-                Open tool
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-          );
-        })}
+      <div className="portal-stats-row">
+        <div className="portal-stat-card">
+          <div className="portal-stat-value gold">{TOOLS.length}</div>
+          <div className="portal-stat-label">Total tools</div>
+        </div>
+        <div className="portal-stat-card">
+          <div className="portal-stat-value accent">{preview ? TOOLS.length : unlockedCount}</div>
+          <div className="portal-stat-label">{preview ? "Unlocked (preview)" : "Unlocked"}</div>
+        </div>
+        <div className="portal-stat-card">
+          <div className="portal-stat-value">{TOOLS.filter((t) => t.access === "free").length}</div>
+          <div className="portal-stat-label">Always free</div>
+        </div>
+        <div className="portal-stat-card">
+          <div className="portal-stat-value">{TOOLS.filter((t) => t.category === "simulator").length}</div>
+          <div className="portal-stat-label">Simulators</div>
+        </div>
       </div>
-    </div>
+
+      <div className="mb-4 md:hidden">
+        <input
+          type="search"
+          placeholder="Search tools…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full rounded-xl border border-[var(--color-portal-border)] bg-white px-4 py-3 text-sm outline-none focus:border-[var(--color-portal-gold)] focus:ring-2 focus:ring-[rgba(166,124,0,0.12)]"
+          aria-label="Search tools"
+        />
+      </div>
+
+      <div className="portal-filter-bar" role="tablist" aria-label="Filter tools by category">
+        {FILTERS.map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={category === key}
+            className={`portal-filter-chip${category === key ? " active" : ""}`}
+            onClick={() => setCategory(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="portal-empty portal-card">
+          <Wrench aria-hidden />
+          <p>No tools match your search. Try a different term or category.</p>
+        </div>
+      ) : (
+        <div className="portal-tools-grid">
+          {filtered.map((tool) => {
+            const badge = accessBadge(tool, user);
+            return (
+              <Link
+                key={tool.slug}
+                href={`/dashboard/tools/${tool.slug}`}
+                className="portal-card portal-tool-card group"
+              >
+                <div className="portal-tool-card-header">
+                  <div className="portal-tool-icon">
+                    <ToolIcon name={tool.icon} className="h-5 w-5" />
+                  </div>
+                  <span className={`portal-tool-badge ${badge.className}`}>{badge.label}</span>
+                </div>
+                <h2 className="portal-tool-name">{tool.name}</h2>
+                <p className="portal-tool-desc">{tool.description}</p>
+                <div className="portal-tool-footer">
+                  <span className="portal-tool-category">{tool.category}</span>
+                  <span className="portal-tool-cta">
+                    Open
+                    <ArrowRight aria-hidden />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </>
   );
 }
 
 export function UserStatusBanner({ user }: { user: UserWithPurchases }) {
+  const preview = isPreviewUnlockAll();
   const premium = hasActivePremium(user);
   const vault = hasPurchase(user, "LEGACY_VAULT");
   const hlv = hasPurchase(user, "HLV_REPORT");
 
+  if (preview) return null;
+
   return (
-    <div className="mb-8 grid gap-3 sm:grid-cols-3">
+    <div className="portal-stats-row mb-6">
       {[
-        { label: "Premium plan", active: premium },
-        { label: "HLV report", active: hlv },
-        { label: "Legacy vault", active: vault },
+        { label: "Premium plan", active: premium, value: premium ? "Active" : "—" },
+        { label: "HLV report", active: hlv, value: hlv ? "Owned" : "—" },
+        { label: "Legacy vault", active: vault, value: vault ? "Owned" : "—" },
       ].map((item) => (
-        <div key={item.label} className="portal-card px-4 py-3.5 text-sm">
-          <span className="text-[var(--color-portal-muted)]">{item.label}</span>
-          <span
-            className={cn(
-              "ml-2 font-semibold",
-              item.active ? "text-[var(--color-portal-accent)]" : "text-[var(--color-portal-muted)]"
-            )}
-          >
-            {item.active ? "Active" : "Not yet"}
-          </span>
+        <div key={item.label} className="portal-stat-card">
+          <div className={`portal-stat-value${item.active ? " accent" : ""}`}>{item.value}</div>
+          <div className="portal-stat-label">{item.label}</div>
         </div>
       ))}
     </div>

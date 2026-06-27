@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 import HomePathwayPanel from "@/components/HomePathwayPanel";
+import TransformationStories from "@/components/TransformationStories";
 
 export default function HomeSpanish() {
   useEffect(() => {
@@ -86,19 +87,8 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      {/* 3. PROVEN TRANSFORMATIONS */}
-      <section id="stories" className="stories fade-in" style={{ background: "var(--bg-card)" }}>
-        <div className="container">
-          <h2 className="text-center" style={{ fontSize: "2.8rem", marginBottom: "1rem" }}>Transformaciones Comprobadas</h2>
-          <p className="text-center text-muted" style={{ maxWidth: "600px", margin: "0 auto 3rem", fontSize: "1.1rem" }}>El éxito financiero no es teórico. Así es como hemos implementado estas estrategias exactas para asegurar el futuro de las familias.</p>
-          <div className="card-grid">
-            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Deuda Abrumadora Eliminada</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Trabajé con una pareja joven que se ahogaba en $60,000 de deudas de tarjetas de crédito. En 18 meses, habían pagado más de la mitad de su deuda y estaban ahorrando para su primera casa.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Estrategias de Eliminación de Deudas y Análisis de Flujo de Efectivo.</p></article>
-            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Rollovers Sin Gestión</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Un empleado federal transfirió un TSP anterior a una Anualidad Indexada Fija. Esto simplificó su planificación e incrementó sus ingresos proyectados en miles de dólares.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Rollovers de 401(k) y Anualidades Indexadas Fijas.</p></article>
-            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Protección Durante Enfermedad</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Establecimos una póliza con beneficios en vida para un padre. Un año después, un diagnóstico de cáncer desencadenó pagos que cubrieron los costos del tratamiento.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Seguro de Vida a Término con Cobertura de Enfermedades Críticas.</p></article>
-            <article className="card story-card"><h4 style={{ fontSize: "1.4rem", marginBottom: "1rem" }}>Evitar Disputas Familiares</h4><p className="story" style={{ fontStyle: "italic", color: "var(--text-muted)", marginBottom: "1.5rem", fontSize: "1.05rem", lineHeight: "1.6" }}>&quot;Los conectamos con un abogado especializado para coordinar fideicomisos y testamentos. Ahora su legado está protegido y se han evitado posibles disputas.&quot;</p><p className="solution" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-main)" }}><span className="text-gold">Solución:</span> Orientación sobre Fideicomisos y Testamentos.</p></article>
-          </div>
-        </div>
-      </section>
+      {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
+      <TransformationStories locale="es" />
 
       {/* 4. REQUEST A CALLBACK FORM (SPANISH) */}
       <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>

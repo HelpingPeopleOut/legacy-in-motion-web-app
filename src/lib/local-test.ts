@@ -28,9 +28,9 @@ export async function getLocalTestScenario(): Promise<LocalTestScenario> {
         return value;
       }
     } catch {
-      // cookies() unavailable during static generation — default free
+      // cookies() unavailable during static generation — default all for preview QA
     }
-    return "free";
+    return "all";
   }
 
   const cookieStore = await cookies();

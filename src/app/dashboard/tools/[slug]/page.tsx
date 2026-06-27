@@ -33,16 +33,21 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const hlvReportAccess = canDownloadHlvReport(user);
 
   return (
-    <div>
-      <Link
-        href="/dashboard"
-        className="mb-6 inline-block text-sm text-[var(--color-portal-muted)] hover:text-[var(--color-portal-gold)]"
-      >
+    <div className="portal-tool-page-header">
+      <Link href="/dashboard" className="portal-tool-back">
         ← Back to Tool Hub
       </Link>
-      <h1 className="portal-tool-title mb-2 font-serif text-2xl font-semibold text-[var(--color-portal-text)]">{tool.name}</h1>
-      <p className="mb-8 max-w-2xl text-[var(--color-portal-muted)]">{tool.description}</p>
-      <ToolRenderer tool={tool} access={access} hlvReportAccess={hlvReportAccess} />
+      <div className="portal-tool-meta">
+        <span className="portal-tool-category-pill">{tool.category}</span>
+        {tool.access !== "free" && (
+          <span className="portal-tool-badge preview">{tool.access.replace("_", " ")}</span>
+        )}
+      </div>
+      <h1 className="portal-tool-title portal-hub-title">{tool.name}</h1>
+      <p className="portal-hub-sub mb-0">{tool.description}</p>
+      <div className="mt-8">
+        <ToolRenderer tool={tool} access={access} hlvReportAccess={hlvReportAccess} />
+      </div>
     </div>
   );
 }

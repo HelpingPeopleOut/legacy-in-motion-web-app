@@ -1,5 +1,6 @@
 import type { ProductKey, Purchase, User } from "@prisma/client";
 import { getToolBySlug, type ToolDefinition } from "./tools";
+import { isPreviewUnlockAll } from "./preview-access";
 
 export type AccessResult =
   | { allowed: true }
@@ -38,6 +39,10 @@ export function hasPurchase(user: UserWithPurchases, productKey: ProductKey): bo
 }
 
 export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefinition): AccessResult {
+  if (isPreviewUnlockAll()) {
+    return { allowed: true };
+  }
+
   if (tool.access === "free") {
     return { allowed: true };
   }
@@ -88,6 +93,10 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
 }
 
 export function canDownloadHlvReport(user: UserWithPurchases | null): AccessResult {
+  if (isPreviewUnlockAll()) {
+    return { allowed: true };
+  }
+
   if (!user) {
     return { allowed: false, reason: "auth", message: "Sign in to download your report." };
   }

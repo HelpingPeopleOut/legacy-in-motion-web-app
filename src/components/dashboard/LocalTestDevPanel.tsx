@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { LocalTestScenario } from "@/lib/local-test-shared";
 import { scenarioLabel } from "@/lib/local-test-shared";
+import { isPreviewUnlockAll } from "@/lib/preview-access";
 
 const SCENARIOS: LocalTestScenario[] = ["free", "premium", "one_time", "hybrid", "all"];
 const isStaticTest = process.env.NEXT_PUBLIC_LOCAL_TEST_MODE === "true";
@@ -15,6 +16,7 @@ function setScenarioCookie(scenario: LocalTestScenario) {
 export default function LocalTestDevPanel() {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
+  const previewAll = isPreviewUnlockAll();
 
   async function simulate(scenario: LocalTestScenario) {
     setLoading(scenario);
@@ -36,21 +38,21 @@ export default function LocalTestDevPanel() {
   }
 
   return (
-    <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50/80 p-5">
-      <h2 className="mb-1 text-sm font-semibold uppercase tracking-wider text-amber-900">
-        Preview mode
-      </h2>
-      <p className="mb-4 text-xs text-amber-800/90">
-        Switch client tiers to preview paywalls and unlocked tools. No real charges.
+    <div className="portal-dev-panel">
+      <h2>Preview mode — tier simulator</h2>
+      <p>
+        {previewAll
+          ? "All tools are unlocked by default. Switch tiers below to preview paywalls and billing states."
+          : "Switch client tiers to preview paywalls and unlocked tools. No real charges."}
       </p>
-      <div className="flex flex-wrap gap-2">
+      <div className="portal-dev-chips">
         {SCENARIOS.map((scenario) => (
           <button
             key={scenario}
             type="button"
             disabled={loading !== null}
             onClick={() => simulate(scenario)}
-            className="rounded-lg border border-amber-200 bg-white px-3 py-1.5 text-xs font-medium text-amber-900 shadow-sm hover:border-amber-400 disabled:opacity-50"
+            className="portal-dev-chip"
           >
             {loading === scenario ? "…" : scenarioLabel(scenario)}
           </button>

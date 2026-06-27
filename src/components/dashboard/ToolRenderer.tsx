@@ -5,6 +5,7 @@ import Paywall from "@/components/dashboard/Paywall";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
 import type { ToolDefinition } from "@/lib/tools";
 import type { AccessResult } from "@/lib/access";
+import { isPreviewUnlockAll } from "@/lib/preview-access";
 
 const DIMECalculator = dynamic(() => import("@/components/DIMECalculator"), { ssr: false });
 const TaxFreeComparison = dynamic(() => import("@/components/TaxFreeComparison"), { ssr: false });
@@ -76,7 +77,11 @@ interface ToolRendererProps {
 }
 
 export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRendererProps) {
-  if (!access.allowed) {
+  const preview = isPreviewUnlockAll();
+  const allowed = preview || access.allowed;
+  const hlvAllowed = preview || hlvReportAccess.allowed;
+
+  if (!allowed) {
     return (
       <Paywall
         title={tool.name}
@@ -118,7 +123,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
       {tool.slug === "human-life-value" && (
         <div className="portal-card p-6">
           <h3 className="mb-2 font-semibold text-[var(--color-portal-text)]">Family Financial Security Report (PDF)</h3>
-          {hlvReportAccess.allowed ? (
+          {hlvAllowed ? (
             <p className="text-sm text-[var(--color-portal-accent)]">Report unlocked — PDF download coming soon.</p>
           ) : (
             <>
