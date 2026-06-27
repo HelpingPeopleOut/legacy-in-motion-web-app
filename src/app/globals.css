@@ -18,6 +18,9 @@
   --shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
   --shadow-md: 0 12px 30px rgba(0,0,0,0.06);
   --shadow-gold: 0 15px 35px var(--glow-color);
+  --layout-max: 75rem;
+  --layout-gutter: clamp(1rem, 2.5vw, 2rem);
+  --layout-readable: 50rem;
 }
 
 /* === RESET & BASE === */
@@ -30,10 +33,20 @@ ul { list-style: none; }
 section { scroll-margin-top: 100px; position: relative; }
 
 /* === UTILITIES === */
-.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.container {
+  width: 100%;
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding-left: var(--layout-gutter);
+  padding-right: var(--layout-gutter);
+}
 .text-gold { color: var(--gold); }
 .text-center { text-align: center; }
-.content-wrapper { max-width: 800px; margin: 0 auto; }
+.content-wrapper {
+  width: 100%;
+  max-width: var(--layout-readable);
+  margin: 0 auto;
+}
 
 /* === ENTERPRISE ANIMATIONS === */
 .fade-in { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
@@ -159,7 +172,7 @@ footer .footer-disclaimer {
 .hero { min-height: auto; text-align: center; background: var(--bg-card); border-bottom: 1px solid var(--border-light); position: relative; z-index: 1; }
 .hero-index { min-height: auto; display: flex; align-items: center; text-align: left; padding-top: calc(var(--site-nav-height, 4.5rem) + 2.5rem) !important; padding-bottom: 4rem !important; }
 .hero-premium { background: linear-gradient(180deg, #ffffff 0%, #f7f6f3 100%); }
-.hero-premium-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; max-width: 1200px; }
+.hero-premium-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; width: 100%; max-width: 100%; }
 .hero-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
 .hero-premium h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.12; text-align: left; margin: 0 0 1.25rem; max-width: none; }
 .hero-intro-lead { font-size: 1.1rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1rem; font-weight: 400; }
@@ -613,7 +626,8 @@ footer .footer-disclaimer {
 @media (min-width: 1025px) {
   .fwf-elegant-grid {
     grid-template-columns: repeat(12, 1fr);
-    max-width: 1200px;
+    max-width: var(--layout-max);
+    width: 100%;
     gap: 1.5rem;
   }
 

@@ -370,3 +370,70 @@ textarea,
     transition: none !important;
   }
 }
+
+/* ─── Desktop edge-to-edge (1280px+) ─────────────────────────────────────── */
+
+@media (min-width: 1280px) {
+  :root {
+    --layout-max: none;
+    --layout-gutter: clamp(1.25rem, 2.75vw, 3.5rem);
+    --layout-readable: none;
+  }
+
+  html {
+    font-size: 106.25%;
+  }
+
+  body {
+    line-height: 1.75;
+  }
+
+  .hero-premium h1 {
+    font-size: clamp(2.35rem, 3.2vw, 3.75rem);
+  }
+
+  .hero-intro-lead,
+  .hero-intro-story p {
+    font-size: 1.125rem;
+  }
+
+  .fwf-elegant-section h2 {
+    font-size: 3.1rem;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .advisor-section-header h2 {
+    font-size: clamp(2.25rem, 3vw, 3rem);
+  }
+
+  .services-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .portal-calculator-host {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --layout-gutter: clamp(1.5rem, 3vw, 4rem);
+  }
+
+  html {
+    font-size: 112.5%;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .portal-tools-grid {
+    gap: 1.5rem;
+  }
+}
