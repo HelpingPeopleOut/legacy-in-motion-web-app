@@ -1,0 +1,22 @@
+/* TEAM */
+Advisor: Nelly Lara — Senior Financial Associate
+Firm: Legacy in Motion (Experior Financial Group Inc.)
+Location: Pasadena, CA, USA
+Contact: (626) 203-7652 | https://www.legacyinmotion.org
+
+/* AI & SEARCH DISCOVERY */
+LLMs (EN): https://www.legacyinmotion.org/llms.txt
+LLMs (ES): https://www.legacyinmotion.org/llms-es.txt
+Enterprise profile: https://www.legacyinmotion.org/enterprise-profile.json
+Locations (EN): https://www.legacyinmotion.org/locations
+Locations (ES): https://www.legacyinmotion.org/es/locations
+Quick links: https://www.legacyinmotion.org/links
+
+/* SOCIAL */
+Facebook: https://www.facebook.com/nelly.lara.509
+Instagram: https://www.instagram.com/money_withnelz
+TikTok: https://www.tiktok.com/@laranell14
+
+/* SITE */
+Last updated: 2026-06-27
+Standards: HTML5, Schema.org JSON-LD, llms.txt

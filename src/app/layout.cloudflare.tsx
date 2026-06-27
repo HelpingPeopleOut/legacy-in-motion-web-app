@@ -1,6 +1,7 @@
 import "./globals.css";
 import "./responsive.css";
 import SiteChrome from "@/components/SiteChrome";
+import RootOrganizationSchema from "@/components/seo/RootOrganizationSchema";
 
 // Static export layout — no Clerk (used only during Cloudflare Pages build)
 export const viewport = {
@@ -13,6 +14,7 @@ export const viewport = {
 };
 
 export const metadata = {
+  metadataBase: new URL("https://www.legacyinmotion.org"),
   title: "Legacy in Motion | Wealth & Estate Planning",
   description:
     "Expert financial consulting in Los Angeles & the San Gabriel Valley. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
@@ -31,8 +33,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
         <link rel="manifest" href="/site.webmanifest?v=3" />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs Context" />
+        <link rel="alternate" type="text/plain" href="/llms-es.txt" hrefLang="es" title="LLMs Context (Spanish)" />
+        <link rel="alternate" type="application/json" href="/enterprise-profile.json" title="Enterprise AI Profile" />
+        <link rel="alternate" type="application/json" href="/ai-plugin.json" title="AI Plugin Manifest" />
+        <link rel="author" type="text/plain" href="/humans.txt" title="humans.txt" />
       </head>
       <body>
+        <RootOrganizationSchema />
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

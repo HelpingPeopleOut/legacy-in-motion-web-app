@@ -85,6 +85,9 @@ export default function ServiceAreasDirectory() {
                 Specialized planning for Pasadena, Arcadia, Azusa, Baldwin Park, Covina, and surrounding SGV communities. Focus areas include CalPERS management and generational wealth.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <Link href="/locations/california/pasadena" className="btn-outline" style={{ width: "100%", display: "block" }}>
+                  Pasadena Hub (New)
+                </Link>
                 <Link href="/retirement-planning-pasadena" className="btn-outline" style={{ width: "100%", display: "block" }}>
                   Retirement Hub (Pasadena)
                 </Link>
@@ -101,6 +104,9 @@ export default function ServiceAreasDirectory() {
                 Serving the heart of LA through Santa Monica and the Westside. Focus areas include high-net-worth estate planning, living benefits, and executive bonuses.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <Link href="/locations/california/los-angeles" className="btn-outline" style={{ width: "100%", display: "block" }}>
+                  Los Angeles Hub (New)
+                </Link>
                 <Link href="/estate-business-planning-los-angeles" className="btn-outline" style={{ width: "100%", display: "block" }}>
                   Estate & Business Hub (LA)
                 </Link>
@@ -126,6 +132,11 @@ export default function ServiceAreasDirectory() {
               </div>
             </article>
           </div>
+          <p className="text-center" style={{ marginTop: "2.5rem" }}>
+            <Link href="/locations" className="btn-gold" style={{ display: "inline-block", padding: "0.85rem 1.5rem" }}>
+              Browse All US Location Pages →
+            </Link>
+          </p>
         </div>
       </section>
 

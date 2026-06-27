@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NELLY_SOCIAL } from "@/lib/nelly-links";
 
 export default function Footer() {
   // Grab the current URL path to detect language
@@ -26,6 +27,8 @@ export default function Footer() {
     areasLabel: isSpanish ? "Áreas de Servicio" : "Areas We Serve",
     call: isSpanish ? "Llamar" : "Call",
     book: isSpanish ? "Agendar una Asesoría" : "Book a Consultation",
+    quickLinks: isSpanish ? "Enlaces Rápidos" : "Quick Links",
+    follow: isSpanish ? "Síguenos" : "Follow Nelly",
     disclaimer: isSpanish 
       ? "Aviso legal: La información proporcionada en este sitio web es solo para fines educativos y no constituye asesoramiento financiero, legal o fiscal. La educación financiera y la planificación financiera a largo plazo deben adaptarse a las circunstancias individuales. Consulte con un profesional con licencia sobre su situación específica antes de tomar decisiones de inversión." 
       : "Disclaimer: The information provided on this website is for educational purposes only and does not constitute financial, legal, or tax advice. Financial education and long-term financial planning should be tailored to individual circumstances. Please consult with a licensed professional regarding your specific situation before making investment decisions."
@@ -93,6 +96,24 @@ export default function Footer() {
             <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
               <a href="tel:626-203-7652" style={{ color: "var(--text-muted)", textDecoration: "none" }}>{text.call}: (626) 203-7652</a>
               <Link href={`${base}/#consultation`} style={{ color: "var(--text-muted)", textDecoration: "none" }}>{text.book}</Link>
+              <Link href={`${base}/links`} style={{ color: "var(--gold)", textDecoration: "none", fontWeight: 600 }}>{text.quickLinks}</Link>
+            </div>
+            <div className="footer-social-row" style={{ marginTop: "1.25rem" }}>
+              <p style={{ color: "var(--gold)", fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "0.65rem" }}>{text.follow}</p>
+              <div style={{ display: "flex", gap: "0.65rem", flexWrap: "wrap" }}>
+                {NELLY_SOCIAL.map((social) => (
+                  <a
+                    key={social.id}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-btn"
+                    aria-label={isSpanish ? social.labelEs : social.label}
+                  >
+                    {isSpanish ? social.labelEs : social.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 

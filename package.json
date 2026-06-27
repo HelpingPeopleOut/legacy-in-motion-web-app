@@ -9,6 +9,7 @@
     "build": "node scripts/build-router.mjs",
     "build:next": "next build --webpack",
     "build:pages": "node scripts/build-cloudflare-pages.mjs",
+    "generate:ai-signals": "node scripts/generate-ai-signals.mjs",
     "start": "next start",
     "lint": "eslint",
     "db:generate": "prisma generate",

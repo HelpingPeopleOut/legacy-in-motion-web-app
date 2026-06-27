@@ -51,6 +51,8 @@ function restore() {
 
 console.log("\n  Building for Cloudflare Pages (static export → /out)\n");
 
+spawnSync("npm", ["run", "generate:ai-signals"], { cwd: root, stdio: "inherit", shell: true });
+
 move(apiDir, apiBackup);
 move(middleware, middlewareBackup);
 move(productionLayout, productionBackup);

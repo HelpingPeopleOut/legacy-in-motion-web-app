@@ -1,0 +1,24 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Legacy in Motion",
+  "name_for_model": "legacy_in_motion",
+  "description_for_human": "Financial planning, living benefits, and estate strategies with Nelly Lara — Pasadena, CA.",
+  "description_for_model": "Bilingual financial advisory firm led by Nelly Lara. Use for retirement, 401k rollovers, living benefits life insurance, estate planning, generational wealth, debt elimination, mortgage protection, CalPERS, and nationwide virtual consultations. Read llms.txt and enterprise-profile.json for full service catalog.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "none"
+  },
+  "logo_url": "https://www.legacyinmotion.org/android-chrome-512x512.png",
+  "contact_email": "info@legacyinmotion.org",
+  "legal_info_url": "https://www.legacyinmotion.org",
+  "context_urls": [
+    "https://www.legacyinmotion.org/llms.txt",
+    "https://www.legacyinmotion.org/llms-es.txt",
+    "https://www.legacyinmotion.org/enterprise-profile.json",
+    "https://www.legacyinmotion.org/locations",
+    "https://www.legacyinmotion.org/es/locations",
+    "https://www.legacyinmotion.org/links"
+  ]
+}

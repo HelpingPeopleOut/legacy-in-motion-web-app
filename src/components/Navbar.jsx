@@ -108,6 +108,7 @@ export default function Navbar() {
     baby: isSpanish ? "Futuro Infantil" : "Freedom Baby", 
     workshops: isSpanish ? "Seminarios" : "Workshops",
     book: isSpanish ? "Agendar Consulta" : "Request Consultation",
+    quickLinks: isSpanish ? "Enlaces" : "Quick Links",
     installApp: isSpanish ? "Instalar Herramientas" : "Install Toolbox",
     openToolbox: isSpanish ? "Abrir Herramientas" : "Workshop Toolbox"
   };
@@ -126,6 +127,7 @@ export default function Navbar() {
 
   const base = isSpanish ? "/es" : "";
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
+  const quickLinksRoute = isSpanish ? "/es/links" : "/links";
   const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
   const homeRoute = base || "/";
 
@@ -158,6 +160,18 @@ export default function Navbar() {
         { href: "/debt-free-wealth-strategy", label: "Debt Elimination" },
       ];
 
+  const locationLinks = isSpanish
+    ? [
+        { href: "/es/locations/california/pasadena", label: "Pasadena, CA" },
+        { href: "/es/locations/california/los-angeles", label: "Los Ángeles, CA" },
+        { href: "/es/locations", label: "Todas las Ubicaciones" },
+      ]
+    : [
+        { href: "/locations/california/pasadena", label: "Pasadena, CA" },
+        { href: "/locations/california/los-angeles", label: "Los Angeles, CA" },
+        { href: "/locations", label: "All US Locations" },
+      ];
+
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
@@ -185,6 +199,14 @@ export default function Navbar() {
                   {serviceLinks.map((item) => (
                     <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
                   ))}
+                  {locationLinks.length > 0 && (
+                    <>
+                      <div className="elite-dropdown-divider" />
+                      {locationLinks.map((item) => (
+                        <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                      ))}
+                    </>
+                  )}
                   <div className="elite-dropdown-divider" />
                   <Link href="/service-areas" className="elite-dropdown-item highlight">
                     {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
@@ -195,6 +217,7 @@ export default function Navbar() {
               <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")}>{navText.mission}</Link>
               <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")}>{navText.baby}</Link>
               <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")}>{navText.workshops}</Link>
+              <Link href={quickLinksRoute} className={linkClass(quickLinksRoute, "highlight-link")}>{navText.quickLinks}</Link>
               <Link href="/dashboard" className={linkClass("/dashboard", "portal")}>
                 {isSpanish ? "Portal Cliente" : "Client Portal"}
               </Link>
@@ -233,6 +256,7 @@ export default function Navbar() {
               <Link href={isSpanish ? "/es/mision" : "/mission"} className={mobileLinkClass(isSpanish ? "/es/mision" : "/mission")} onClick={closeMenu}>{navText.mission}</Link>
               <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={mobileLinkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} onClick={closeMenu}>{navText.baby}</Link>
               <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={mobileLinkClass(isSpanish ? "/es/seminarios" : "/workshops")} onClick={closeMenu}>{navText.workshops}</Link>
+              <Link href={quickLinksRoute} className={mobileLinkClass(quickLinksRoute, "highlight")} onClick={closeMenu}>{navText.quickLinks}</Link>
               <Link href="/dashboard" className={mobileLinkClass("/dashboard", "portal")} onClick={closeMenu}>
                 {isSpanish ? "Portal Cliente" : "Client Portal"}
               </Link>
@@ -255,6 +279,9 @@ export default function Navbar() {
                 {serviceLinks.map((item) => (
                   <Link key={item.href} href={item.href} className="elite-mobile-sublink" onClick={closeMenu}>{item.label}</Link>
                 ))}
+                {locationLinks.map((item) => (
+                  <Link key={item.href} href={item.href} className="elite-mobile-sublink highlight" onClick={closeMenu}>{item.label}</Link>
+                ))}
                 <Link href="/service-areas" className="elite-mobile-sublink highlight" onClick={closeMenu}>
                   {isSpanish ? "Ver Áreas de Servicio →" : "View Service Areas →"}
                 </Link>
@@ -271,10 +298,24 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ==================================================== */}
-      {/* 3. FLOATING ACTION MENU & iOS MODAL                  */}
-      {/* ==================================================== */}
-      <div style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9980, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem", opacity: isOpen ? 0 : 1, pointerEvents: isOpen ? "none" : "auto", transition: "opacity 0.3s ease" }}>
+      {/* Sticky mobile consultation CTA */}
+      <div className={`mobile-sticky-cta${isOpen ? " hidden" : ""}`} aria-hidden={isOpen}>
+        <a href="tel:6262037652" className="mobile-sticky-cta__call">
+          {isSpanish ? "Llamar" : "Call"}
+        </a>
+        <Link href={quickLinksRoute} className="mobile-sticky-cta__links">
+          {isSpanish ? "Enlaces" : "Links"}
+        </Link>
+        <Link href={contactRoute} className="mobile-sticky-cta__book">
+          {navText.book}
+        </Link>
+      </div>
+
+      {/* Floating action menu */}
+      <div
+        className={`nav-fab-container${isOpen ? " nav-fab-container--hidden" : ""}`}
+        style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9980, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem", transition: "opacity 0.3s ease" }}
+      >
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", opacity: isFabOpen ? 1 : 0, visibility: isFabOpen ? "visible" : "hidden", transform: isFabOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)", transformOrigin: "bottom right" }}>
           {showInstall && !isAppInstalled && (
             <button onClick={handleInstallClick} style={fabActionStyle}>
@@ -291,6 +332,10 @@ export default function Navbar() {
           <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
             <span style={fabLabelStyle}>{navText.book}</span>
             <div style={fabIconWrapperStyle}>📞</div>
+          </Link>
+          <Link href={quickLinksRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+            <span style={fabLabelStyle}>{navText.quickLinks}</span>
+            <div style={fabIconWrapperStyle}>🔗</div>
           </Link>
         </div>
 
