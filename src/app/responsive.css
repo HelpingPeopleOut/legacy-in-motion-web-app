@@ -368,29 +368,11 @@ textarea,
   }
 }
 
-/* Navbar mobile polish */
+/* Navbar mobile polish — legacy overrides handled in navbar.css */
 @media (max-width: 640px) {
-  .elite-mobile-link {
-    font-size: 1.45rem !important;
-  }
-
-  .elite-mobile-content {
-    padding-bottom: calc(2rem + var(--safe-bottom)) !important;
-  }
-
   .elite-nav-inner {
-    height: 72px;
-    padding: 0 max(1rem, var(--safe-left)) 0 max(1rem, var(--safe-right));
-  }
-
-  .elite-brand {
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-  }
-
-  .elite-brand img {
-    width: 38px !important;
-    height: 38px !important;
+    padding-left: max(1rem, var(--safe-left));
+    padding-right: max(1rem, var(--safe-right));
   }
 }
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import "./navbar.css";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -126,190 +127,147 @@ export default function Navbar() {
   const base = isSpanish ? "/es" : "";
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
   const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
+  const homeRoute = base || "/";
+
+  const isActive = (href) => {
+    if (href === "/" || href === "/es" || href === homeRoute) {
+      return pathname === href || pathname === homeRoute;
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const linkClass = (href, extra = "") =>
+    `elite-nav-link${isActive(href) ? " active" : ""}${extra ? ` ${extra}` : ""}`;
+
+  const mobileLinkClass = (href, extra = "") =>
+    `elite-mobile-link${isActive(href) ? " active" : ""}${extra ? ` ${extra}` : ""}`;
+
+  const serviceLinks = isSpanish
+    ? [
+        { href: "/es/planificacion-de-jubilacion-los-angeles", label: "Planificación de Jubilación" },
+        { href: "/es/beneficios-en-vida-los-angeles", label: "Seguros con Beneficios en Vida" },
+        { href: "/es/estrategia-libre-de-deudas", label: "Estrategia Libre de Deudas" },
+        { href: "/es/proteccion-de-hipoteca-los-angeles", label: "Protección de Hipoteca" },
+        { href: "/es/estrategias-financieras-para-negocios", label: "Estrategias para Negocios" },
+      ]
+    : [
+        { href: "/retirement-planning-pasadena", label: "Retirement & Rollovers" },
+        { href: "/estate-business-planning-los-angeles", label: "Estate & Business Planning" },
+        { href: "/generational-wealth-arcadia-sgv", label: "Generational Wealth" },
+        { href: "/living-benefits-life-insurance-los-angeles", label: "Living Benefits" },
+        { href: "/debt-free-wealth-strategy", label: "Debt Elimination" },
+      ];
 
   return (
     <>
       <style dangerouslySetInnerHTML={{__html: `
-        .elite-nav-container { position: sticky; top: 0; z-index: 9990; width: 100%; transition: all 0.4s ease; }
-        .elite-nav-container.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-light); box-shadow: 0 4px 30px rgba(0,0,0,0.03); }
-        .elite-nav-inner { display: flex; justify-content: space-between; align-items: center; height: 85px; max-width: 1300px; margin: 0 auto; padding: 0 2rem; gap: 1rem; }
-        
-        /* TYPOGRAPHY FIX: No wrapping, perfectly sized for 1 line */
-        .elite-brand { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; font-weight: 700; letter-spacing: 1.5px; font-size: 1.15rem; color: var(--text-main); z-index: 10000; font-family: var(--font-heading); white-space: nowrap; }
-        
-        /* --- DESKTOP NAV --- */
-        .elite-desktop-menu { display: flex; align-items: center; gap: 2rem; flex-shrink: 0; }
-        
-        .elite-nav-link { color: var(--text-main); font-weight: 500; font-family: var(--font-body); text-decoration: none; font-size: 0.95rem; letter-spacing: 0.5px; transition: color 0.3s; white-space: nowrap; }
-        .elite-nav-link:hover { color: var(--gold); }
-        
-        .elite-dropdown-wrapper { position: relative; cursor: pointer; height: 85px; display: flex; align-items: center; }
-        .elite-dropdown-trigger { background: none; border: none; font-size: 0.95rem; font-weight: 500; font-family: var(--font-body); letter-spacing: 0.5px; color: var(--text-main); display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
-        .elite-dropdown-trigger:hover { color: var(--gold); }
-        
-        .elite-dropdown-panel { position: absolute; top: 80px; left: -20px; width: 300px; background: var(--bg-page); border: 1px solid var(--border-light); border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); padding: 0.5rem 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; }
-        .elite-dropdown-wrapper:hover .elite-dropdown-panel { opacity: 1; visibility: visible; transform: translateY(0); }
-        .elite-dropdown-item { display: block; padding: 0.8rem 1.5rem; color: var(--text-main); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; font-family: var(--font-body); }
-        .elite-dropdown-item:hover { background: var(--bg-card); color: var(--gold); padding-left: 2rem; }
-        
-        .elite-lang-btn { border: 2px solid var(--gold); color: var(--gold); padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; font-family: var(--font-body); white-space: nowrap; }
-        .elite-lang-btn:hover { background: var(--gold); color: #fff; }
-        
-        .elite-cta-btn { background: var(--gold); color: #fff; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; font-family: var(--font-body); white-space: nowrap; }
-        .elite-cta-btn:hover { background: var(--text-main); transform: translateY(-2px); }
-        
-        .elite-hamburger { display: none; background: none; border: none; cursor: pointer; z-index: 10000; padding: 0.5rem; }
-
-        /* --- MOBILE NAV OVERLAY --- */
-        .elite-mobile-overlay { position: fixed; inset: 0; background: var(--bg-page); z-index: 9995; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto; }
-        .elite-mobile-overlay.open { transform: translateX(0); }
-        .elite-mobile-header { display: flex; justify-content: space-between; align-items: center; height: 85px; padding: 0 2rem; border-bottom: 1px solid var(--border-light); }
-        .elite-mobile-content { padding: 3rem 2rem; display: flex; flex-direction: column; gap: 2rem; }
-        
-        .elite-mobile-link { font-size: 1.8rem; font-weight: 600; font-family: var(--font-heading); color: var(--text-main); text-decoration: none; text-align: left; display: block; }
-        .elite-mobile-accordion-btn { font-size: 1.8rem; font-weight: 600; font-family: var(--font-heading); color: var(--text-main); background: none; border: none; display: flex; justify-content: space-between; width: 100%; align-items: center; cursor: pointer; padding: 0; text-align: left; }
-        
-        .elite-mobile-accordion-wrapper { overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); width: 100%; }
-        .elite-mobile-accordion-inner { display: flex; flex-direction: column; gap: 1.2rem; padding: 1.5rem 0 0.5rem 1.2rem; border-left: 3px solid var(--gold); margin-left: 0.5rem; margin-top: 0.5rem; }
-        .elite-mobile-sublink { font-size: 1.1rem; color: var(--text-muted); text-decoration: none; font-weight: 500; font-family: var(--font-body); display: block; }
-
-        @media (max-width: 1050px) {
-          .elite-desktop-menu { display: none; }
-          .elite-hamburger { display: block; }
-          .elite-nav-inner { padding: 0 1.5rem; }
-          .elite-mobile-header { padding: 0 1.5rem; }
-          .elite-mobile-content { padding: 2.5rem 1.5rem; gap: 1.8rem;}
-        }
         @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes bounceDown { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(15px); } 60% { transform: translateY(7px); } }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
       `}} />
 
       <nav className={`elite-nav-container ${scrolled ? "scrolled" : ""}`}>
         <div className="elite-nav-inner">
-          <Link href={base || "/"} className="elite-brand" onClick={closeMenu}>
-            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" style={{ width: "45px", height: "45px", objectFit: "contain", filter: "drop-shadow(0 4px 6px rgba(212, 175, 55, 0.2))" }} />
-            <span className="desktop-show" style={{ display: "inline-block" }}>LEGACY IN MOTION</span>
+          <Link href={homeRoute} className="elite-brand" onClick={closeMenu}>
+            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
+            <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
 
-          {/* DESKTOP MENU */}
           <div className="elite-desktop-menu">
-            <Link href={`${base}/`} className="elite-nav-link">{navText.home}</Link>
-            
-            <div className="elite-dropdown-wrapper">
-              <button className="elite-dropdown-trigger">
-                {navText.services} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </button>
-              <div className="elite-dropdown-panel">
-                {isSpanish ? (
-                  <>
-                    <Link href="/es/planificacion-de-jubilacion-los-angeles" className="elite-dropdown-item">Planificación de Jubilación</Link>
-                    <Link href="/es/beneficios-en-vida-los-angeles" className="elite-dropdown-item">Seguros con Beneficios en Vida</Link>
-                    <Link href="/es/estrategia-libre-de-deudas" className="elite-dropdown-item">Estrategia Libre de Deudas</Link>
-                    <Link href="/es/proteccion-de-hipoteca-los-angeles" className="elite-dropdown-item">Protección de Hipoteca</Link>
-                    <Link href="/es/estrategias-financieras-para-negocios" className="elite-dropdown-item">Estrategias para Negocios</Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/retirement-planning-pasadena" className="elite-dropdown-item">Retirement & Rollovers</Link>
-                    <Link href="/estate-business-planning-los-angeles" className="elite-dropdown-item">Estate & Business Planning</Link>
-                    <Link href="/generational-wealth-arcadia-sgv" className="elite-dropdown-item">Generational Wealth</Link>
-                    <Link href="/living-benefits-life-insurance-los-angeles" className="elite-dropdown-item">Living Benefits</Link>
-                    <Link href="/debt-free-wealth-strategy" className="elite-dropdown-item">Debt Elimination</Link>
-                  </>
-                )}
-                <div style={{ borderTop: "1px solid var(--border-light)", margin: "0.5rem 0" }}></div>
-                <Link href="/service-areas" className="elite-dropdown-item" style={{ color: "var(--gold)", fontWeight: 700 }}>
-                  {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
-                </Link>
+            <div className="elite-nav-links">
+              <Link href={homeRoute} className={linkClass(homeRoute)}>{navText.home}</Link>
+
+              <div className="elite-dropdown-wrapper">
+                <button type="button" className="elite-dropdown-trigger" aria-haspopup="true">
+                  {navText.services}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden><polyline points="6 9 12 15 18 9" /></svg>
+                </button>
+                <div className="elite-dropdown-panel">
+                  {serviceLinks.map((item) => (
+                    <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                  ))}
+                  <div className="elite-dropdown-divider" />
+                  <Link href="/service-areas" className="elite-dropdown-item highlight">
+                    {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
+                  </Link>
+                </div>
               </div>
+
+              <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")}>{navText.mission}</Link>
+              <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")}>{navText.baby}</Link>
+              <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")}>{navText.workshops}</Link>
+              <Link href="/dashboard" className={linkClass("/dashboard", "portal")}>
+                {isSpanish ? "Portal Cliente" : "Client Portal"}
+              </Link>
             </div>
 
-            <Link href={isSpanish ? "/es/mision" : "/mission"} className="elite-nav-link">{navText.mission}</Link>
-            <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className="elite-nav-link">{navText.baby}</Link>
-            <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className="elite-nav-link">{navText.workshops}</Link>
-            <Link href="/dashboard" className="elite-nav-link" style={{ color: "var(--gold)" }}>
-              {isSpanish ? "Portal Cliente" : "Client Portal"}
-            </Link>
-            
-            <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
-              {isSpanish ? "EN" : "ES"}
-            </Link>
-
-            <Link href={contactRoute} className="elite-cta-btn">
-              {navText.book}
-            </Link>
+            <div className="elite-nav-actions">
+              <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
+                {isSpanish ? "EN" : "ES"}
+              </Link>
+              <Link href={contactRoute} className="elite-cta-btn">{navText.book}</Link>
+            </div>
           </div>
 
-          <button className="elite-hamburger" onClick={() => setIsOpen(true)}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          <button type="button" className="elite-hamburger" onClick={() => setIsOpen(true)} aria-label="Open menu">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2.5" strokeLinecap="round" aria-hidden><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
         </div>
       </nav>
 
-      {/* ==================================================== */}
-      {/* 2. PREMIUM MOBILE MENU                               */}
-      {/* ==================================================== */}
-      <div className={`elite-mobile-overlay ${isOpen ? "open" : ""}`}>
+      <div className={`elite-mobile-overlay ${isOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigation menu">
         <div className="elite-mobile-header">
-          <Link href={base || "/"} className="elite-brand" onClick={closeMenu}>
-            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" style={{ width: "45px", height: "45px", objectFit: "contain" }} />
+          <Link href={homeRoute} className="elite-brand" onClick={closeMenu}>
+            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
+            <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
-          <button className="elite-hamburger" onClick={closeMenu}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <button type="button" className="elite-hamburger" onClick={closeMenu} aria-label="Close menu">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--text-main)" strokeWidth="2.5" strokeLinecap="round" aria-hidden><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
         </div>
 
-        <div className="elite-mobile-content">
-          <Link href={`${base}/`} className="elite-mobile-link" onClick={closeMenu}>{navText.home}</Link>
-          
-          <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
-            <button className="elite-mobile-accordion-btn" onClick={() => setIsServicesOpen(!isServicesOpen)}>
-              {navText.services}
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "0.3s" }}><polyline points="6 9 12 15 18 9"></polyline></svg>
+        <div className="elite-mobile-scroll">
+          <div className="elite-mobile-section">
+            <p className="elite-mobile-section-label">{isSpanish ? "Navegar" : "Navigate"}</p>
+            <div className="elite-mobile-links">
+              <Link href={homeRoute} className={mobileLinkClass(homeRoute)} onClick={closeMenu}>{navText.home}</Link>
+              <Link href={isSpanish ? "/es/mision" : "/mission"} className={mobileLinkClass(isSpanish ? "/es/mision" : "/mission")} onClick={closeMenu}>{navText.mission}</Link>
+              <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={mobileLinkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} onClick={closeMenu}>{navText.baby}</Link>
+              <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={mobileLinkClass(isSpanish ? "/es/seminarios" : "/workshops")} onClick={closeMenu}>{navText.workshops}</Link>
+              <Link href="/dashboard" className={mobileLinkClass("/dashboard", "portal")} onClick={closeMenu}>
+                {isSpanish ? "Portal Cliente" : "Client Portal"}
+              </Link>
+            </div>
+          </div>
+
+          <div className="elite-mobile-section">
+            <p className="elite-mobile-section-label">{navText.services}</p>
+            <button
+              type="button"
+              className={`elite-mobile-accordion-btn${isServicesOpen ? " open" : ""}`}
+              onClick={() => setIsServicesOpen(!isServicesOpen)}
+              aria-expanded={isServicesOpen}
+            >
+              {isSpanish ? "Ver todos los servicios" : "Browse all services"}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "0.25s" }} aria-hidden><polyline points="6 9 12 15 18 9" /></svg>
             </button>
-            
-            <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "500px" : "0" }}>
+            <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "520px" : "0" }}>
               <div className="elite-mobile-accordion-inner">
-                {isSpanish ? (
-                  <>
-                    <Link href="/es/planificacion-de-jubilacion-los-angeles" className="elite-mobile-sublink" onClick={closeMenu}>Planificación de Jubilación</Link>
-                    <Link href="/es/beneficios-en-vida-los-angeles" className="elite-mobile-sublink" onClick={closeMenu}>Seguros con Beneficios</Link>
-                    <Link href="/es/estrategia-libre-de-deudas" className="elite-mobile-sublink" onClick={closeMenu}>Libre de Deudas</Link>
-                    <Link href="/es/proteccion-de-hipoteca-los-angeles" className="elite-mobile-sublink" onClick={closeMenu}>Protección de Hipoteca</Link>
-                    <Link href="/es/estrategias-financieras-para-negocios" className="elite-mobile-sublink" onClick={closeMenu}>Estrategias de Negocios</Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/retirement-planning-pasadena" className="elite-mobile-sublink" onClick={closeMenu}>Retirement & Rollovers</Link>
-                    <Link href="/estate-business-planning-los-angeles" className="elite-mobile-sublink" onClick={closeMenu}>Estate & Business</Link>
-                    <Link href="/generational-wealth-arcadia-sgv" className="elite-mobile-sublink" onClick={closeMenu}>Generational Wealth</Link>
-                    <Link href="/living-benefits-life-insurance-los-angeles" className="elite-mobile-sublink" onClick={closeMenu}>Living Benefits</Link>
-                    <Link href="/debt-free-wealth-strategy" className="elite-mobile-sublink" onClick={closeMenu}>Debt Elimination</Link>
-                  </>
-                )}
-                <Link href="/service-areas" className="elite-mobile-sublink" style={{ color: "var(--gold)", fontWeight: 700 }} onClick={closeMenu}>
+                {serviceLinks.map((item) => (
+                  <Link key={item.href} href={item.href} className="elite-mobile-sublink" onClick={closeMenu}>{item.label}</Link>
+                ))}
+                <Link href="/service-areas" className="elite-mobile-sublink highlight" onClick={closeMenu}>
                   {isSpanish ? "Ver Áreas de Servicio →" : "View Service Areas →"}
                 </Link>
               </div>
             </div>
           </div>
+        </div>
 
-          <Link href={isSpanish ? "/es/mision" : "/mission"} className="elite-mobile-link" onClick={closeMenu}>{navText.mission}</Link>
-          <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className="elite-mobile-link" onClick={closeMenu}>{navText.baby}</Link>
-          <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className="elite-mobile-link" onClick={closeMenu}>{navText.workshops}</Link>
-          <Link href="/dashboard" className="elite-mobile-link" onClick={closeMenu} style={{ color: "var(--gold)" }}>
-            {isSpanish ? "Portal Cliente" : "Client Portal"}
+        <div className="elite-mobile-footer">
+          <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
+            {isSpanish ? "Switch to English" : "Cambiar a Español"}
           </Link>
-          
-          <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-cta-btn" style={{ background: "transparent", border: "2px solid var(--gold)", color: "var(--gold)", textAlign: "center" }}>
-              {isSpanish ? "SWITCH TO ENGLISH" : "CAMBIAR A ESPAÑOL"}
-            </Link>
-            <Link href={contactRoute} className="elite-cta-btn" style={{ textAlign: "center", padding: "1.2rem" }} onClick={closeMenu}>
-              {navText.book}
-            </Link>
-          </div>
+          <Link href={contactRoute} className="elite-cta-btn" onClick={closeMenu}>{navText.book}</Link>
         </div>
       </div>
 
