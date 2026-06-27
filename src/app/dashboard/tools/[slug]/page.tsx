@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getToolBySlug, TOOLS } from "@/lib/tools";
+import {
+  TOOL_AUDIENCE_META,
+  TOOL_CATEGORY_LABELS,
+  getToolBySlug,
+  TOOLS,
+} from "@/lib/tools";
 import { getToolAccess, canDownloadHlvReport } from "@/lib/access";
 import { ensureDbUser } from "@/lib/user";
 import ToolRenderer from "@/components/dashboard/ToolRenderer";
@@ -38,7 +43,10 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
         ← Back to Tool Hub
       </Link>
       <div className="portal-tool-meta">
-        <span className="portal-tool-category-pill">{tool.category}</span>
+        <span className="portal-tool-category-pill">{TOOL_AUDIENCE_META[tool.audience].label}</span>
+        <span className="portal-tool-category-pill portal-tool-category-pill--muted">
+          {TOOL_CATEGORY_LABELS[tool.category]}
+        </span>
         {tool.access !== "free" && (
           <span className="portal-tool-badge preview">{tool.access.replace("_", " ")}</span>
         )}

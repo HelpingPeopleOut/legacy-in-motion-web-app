@@ -61,7 +61,7 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
       allowed: false,
       reason: "premium",
       productKey: "PREMIUM_MONTHLY",
-      message: "Upgrade to Premium Client to unlock ongoing tracking and dashboards.",
+      message: "Upgrade to Premium to unlock ongoing tracking and dashboards — from $5/month.",
     };
   }
 

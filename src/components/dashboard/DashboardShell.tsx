@@ -17,9 +17,11 @@ import {
   Calculator,
   Clock,
   Zap,
+  ClipboardCheck,
+  GraduationCap,
   Home,
-  ExternalLink,
   Phone,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +38,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   zap: Zap,
   calculator: Calculator,
   clock: Clock,
+  users: Users,
+  clipboard: ClipboardCheck,
+  graduation: GraduationCap,
+  "home-shield": Home,
 };
 
 export function ToolIcon({ name, className }: { name: string; className?: string }) {
@@ -46,7 +52,7 @@ export function ToolIcon({ name, className }: { name: string; className?: string
 const nav = [
   { href: "/dashboard", label: "Tool Hub", shortLabel: "Tools", icon: LayoutDashboard },
   { href: "/dashboard/billing", label: "Plans & Billing", shortLabel: "Billing", icon: CreditCard },
-  { href: "/#consultation", label: "Advisor Help", shortLabel: "Advisor", icon: ExternalLink, external: true },
+  { href: "/#consultation", label: "Advisor Help", shortLabel: "Advisor", icon: Phone, external: true },
 ];
 
 function ClerkUserButton() {
@@ -59,6 +65,33 @@ function isNavActive(pathname: string, href: string) {
   return pathname.startsWith(href);
 }
 
+function NavTab({
+  item,
+  pathname,
+}: {
+  item: (typeof nav)[number];
+  pathname: string;
+}) {
+  const active = !item.external && isNavActive(pathname, item.href);
+  const className = cn("portal-topbar-tab", active && "active");
+
+  if (item.external) {
+    return (
+      <a href={item.href} className={cn(className, "portal-topbar-tab--advisor")}>
+        <item.icon />
+        <span>{item.label}</span>
+      </a>
+    );
+  }
+
+  return (
+    <Link href={item.href} className={className}>
+      <item.icon />
+      <span>{item.label}</span>
+    </Link>
+  );
+}
+
 export default function DashboardShell({
   children,
   localTest = false,
@@ -66,88 +99,48 @@ export default function DashboardShell({
   children: React.ReactNode;
   localTest?: boolean;
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   return (
     <div className="portal-root">
       <header className="portal-topbar">
-        <Link href="/dashboard" className="portal-topbar-mobile-brand">
+        <Link href="/dashboard" className="portal-topbar-brand">
           <span className="portal-sidebar-logo">LM</span>
-          <span>
+          <span className="portal-topbar-brand-text">
             <span className="portal-sidebar-sub">Legacy in Motion</span>
             <span className="portal-sidebar-title">Client Portal</span>
           </span>
         </Link>
 
+        {/* Desktop / tablet landscape — tabs live in the header, not a sidebar */}
+        <nav className="portal-topbar-nav" aria-label="Portal sections">
+          {nav.map((item) => (
+            <NavTab key={item.href} item={item} pathname={pathname} />
+          ))}
+        </nav>
+
         <div className="portal-topbar-actions">
-          <Link href="/" className="portal-btn-ghost hidden md:inline-flex">
+          {localTest && <span className="portal-preview-pill hidden sm:inline-flex">Preview</span>}
+          <Link href="/" className="portal-btn-ghost portal-topbar-site-link" title="Back to main site">
             <Home className="h-4 w-4" />
-            Site
+            <span className="hidden lg:inline">Main site</span>
           </Link>
-          <Link href="/#consultation" className="portal-btn-primary portal-header-cta-mobile">
-            <Phone className="h-3.5 w-3.5" />
-            Call
-          </Link>
-          <Link href="/#consultation" className="portal-btn-primary hidden text-xs md:inline-flex">
-            Book free call
-          </Link>
-          {localTest ? (
-            <span className="portal-preview-pill hidden sm:inline-flex">Preview</span>
-          ) : (
-            <span className="hidden sm:block">
+          {!localTest && (
+            <span className="portal-topbar-user">
               <ClerkUserButton />
             </span>
           )}
         </div>
       </header>
 
-      <div className="portal-app-frame">
-        <aside className="portal-sidebar portal-aside-nav" aria-label="Portal sidebar">
-          <div className="portal-sidebar-brand">
-            <span className="portal-sidebar-logo">LM</span>
-            <div>
-              <div className="portal-sidebar-sub">Legacy in Motion</div>
-              <div className="portal-sidebar-title">Client Portal</div>
-            </div>
-          </div>
+      <main className="portal-main">
+        <div className="portal-main-inner">{children}</div>
+      </main>
 
-          <nav className="flex flex-col gap-0.5">
-            {nav.slice(0, 2).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "portal-nav-link",
-                  isNavActive(pathname ?? "", item.href) && "active"
-                )}
-              >
-                <item.icon />
-                {item.label}
-              </Link>
-            ))}
-            <a href="/#consultation" className="portal-nav-link">
-              <ExternalLink />
-              Get advisor help
-            </a>
-          </nav>
-
-          <div className="portal-sidebar-footer">
-            {localTest && <span className="portal-preview-pill">All tools unlocked</span>}
-            <Link href="/" className="portal-nav-link mt-2">
-              <Home />
-              Back to main site
-            </Link>
-          </div>
-        </aside>
-
-        <main className="portal-main">
-          <div className="portal-main-inner">{children}</div>
-        </main>
-      </div>
-
+      {/* Mobile / tablet portrait — bottom tab bar (keeps top header minimal) */}
       <nav className="portal-mobile-nav" aria-label="Portal navigation">
         {nav.map((item) => {
-          const active = !item.external && isNavActive(pathname ?? "", item.href);
+          const active = !item.external && isNavActive(pathname, item.href);
           const className = cn(active && "active");
           if (item.external) {
             return (

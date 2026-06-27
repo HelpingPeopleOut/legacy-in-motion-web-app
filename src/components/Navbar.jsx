@@ -94,7 +94,6 @@ export default function Navbar() {
 
   // --- BILINGUAL TEXT ---
   const navText = {
-    home: isSpanish ? "Inicio" : "Home",
     services: isSpanish ? "Servicios" : "Services",
     mission: isSpanish ? "Misión" : "Mission",
     baby: isSpanish ? "Futuro Infantil" : "Freedom Baby", 
@@ -120,6 +119,7 @@ export default function Navbar() {
   const base = isSpanish ? "/es" : "";
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
   const quickLinksRoute = isSpanish ? "/es/links" : "/links";
+  const isHome = pathname === "/" || pathname === "/es";
   const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
   const homeRoute = base || "/";
 
@@ -173,46 +173,48 @@ export default function Navbar() {
 
       <nav className={`elite-nav-container ${scrolled ? "scrolled" : ""}`}>
         <div className="elite-nav-inner">
-          <Link href={homeRoute} className="elite-brand" onClick={closeMenu}>
+          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu}>
             <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
             <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
 
           <div className="elite-desktop-menu">
             <div className="elite-nav-links">
-              <Link href={homeRoute} className={linkClass(homeRoute)}>{navText.home}</Link>
-
-              <div className="elite-dropdown-wrapper">
-                <button type="button" className="elite-dropdown-trigger" aria-haspopup="true">
-                  {navText.services}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden><polyline points="6 9 12 15 18 9" /></svg>
-                </button>
-                <div className="elite-dropdown-panel">
-                  {serviceLinks.map((item) => (
-                    <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
-                  ))}
-                  {locationLinks.length > 0 && (
-                    <>
-                      <div className="elite-dropdown-divider" />
-                      {locationLinks.map((item) => (
-                        <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
-                      ))}
-                    </>
-                  )}
-                  <div className="elite-dropdown-divider" />
-                  <Link href="/service-areas" className="elite-dropdown-item highlight">
-                    {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
-                  </Link>
+              <div className="elite-nav-cluster elite-nav-cluster--primary">
+                <div className="elite-dropdown-wrapper">
+                  <button type="button" className="elite-dropdown-trigger" aria-haspopup="true">
+                    {navText.services}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden><polyline points="6 9 12 15 18 9" /></svg>
+                  </button>
+                  <div className="elite-dropdown-panel">
+                    {serviceLinks.map((item) => (
+                      <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                    ))}
+                    {locationLinks.length > 0 && (
+                      <>
+                        <div className="elite-dropdown-divider" />
+                        {locationLinks.map((item) => (
+                          <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                        ))}
+                      </>
+                    )}
+                    <div className="elite-dropdown-divider" />
+                    <Link href="/service-areas" className="elite-dropdown-item highlight">
+                      {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
+                    </Link>
+                  </div>
                 </div>
+
+                <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")}>{navText.mission}</Link>
+                <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")}>{navText.baby}</Link>
+                <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")}>{navText.workshops}</Link>
               </div>
 
-              <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")}>{navText.mission}</Link>
-              <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")}>{navText.baby}</Link>
-              <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")}>{navText.workshops}</Link>
-              <Link href={quickLinksRoute} className={linkClass(quickLinksRoute, "highlight-link")}>{navText.quickLinks}</Link>
-              <Link href="/dashboard" className={linkClass("/dashboard", "portal")}>
-                {isSpanish ? "Portal Cliente" : "Client Portal"}
-              </Link>
+              <div className="elite-nav-cluster elite-nav-cluster--secondary">
+                <Link href="/dashboard" className={linkClass("/dashboard", "portal")}>
+                  {isSpanish ? "Portal Cliente" : "Client Portal"}
+                </Link>
+              </div>
             </div>
 
             <div className="elite-nav-actions">
@@ -231,7 +233,7 @@ export default function Navbar() {
 
       <div className={`elite-mobile-overlay ${isOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigation menu">
         <div className="elite-mobile-header">
-          <Link href={homeRoute} className="elite-brand" onClick={closeMenu}>
+          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu}>
             <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
             <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
@@ -241,14 +243,29 @@ export default function Navbar() {
         </div>
 
         <div className="elite-mobile-scroll">
+          <div className={`elite-mobile-quick-actions${isHome ? " elite-mobile-quick-actions--home" : ""}`}>
+            <a href="tel:6262037652" className="elite-mobile-quick-btn elite-mobile-quick-btn--call" onClick={closeMenu}>
+              <span aria-hidden>📞</span>
+              {isSpanish ? "Llamar" : "Call"}
+            </a>
+            {!isHome && (
+              <Link href={quickLinksRoute} className="elite-mobile-quick-btn elite-mobile-quick-btn--links" onClick={closeMenu}>
+                <span aria-hidden>🔗</span>
+                {navText.quickLinks}
+              </Link>
+            )}
+            <Link href={contactRoute} className={`elite-mobile-quick-btn elite-mobile-quick-btn--book${isHome ? " elite-mobile-quick-btn--book-wide" : ""}`} onClick={closeMenu}>
+              <span aria-hidden>✦</span>
+              {isSpanish ? "Consulta" : "Book"}
+            </Link>
+          </div>
+
           <div className="elite-mobile-section">
-            <p className="elite-mobile-section-label">{isSpanish ? "Navegar" : "Navigate"}</p>
+            <p className="elite-mobile-section-label">{isSpanish ? "Explorar" : "Explore"}</p>
             <div className="elite-mobile-links">
-              <Link href={homeRoute} className={mobileLinkClass(homeRoute)} onClick={closeMenu}>{navText.home}</Link>
               <Link href={isSpanish ? "/es/mision" : "/mission"} className={mobileLinkClass(isSpanish ? "/es/mision" : "/mission")} onClick={closeMenu}>{navText.mission}</Link>
               <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={mobileLinkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} onClick={closeMenu}>{navText.baby}</Link>
               <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={mobileLinkClass(isSpanish ? "/es/seminarios" : "/workshops")} onClick={closeMenu}>{navText.workshops}</Link>
-              <Link href={quickLinksRoute} className={mobileLinkClass(quickLinksRoute, "highlight")} onClick={closeMenu}>{navText.quickLinks}</Link>
               <Link href="/dashboard" className={mobileLinkClass("/dashboard", "portal")} onClick={closeMenu}>
                 {isSpanish ? "Portal Cliente" : "Client Portal"}
               </Link>
@@ -291,19 +308,21 @@ export default function Navbar() {
       </div>
 
       {/* Sticky mobile consultation CTA */}
-      <div className={`mobile-sticky-cta${isOpen ? " hidden" : ""}`} aria-hidden={isOpen}>
+      <div className={`mobile-sticky-cta${isOpen ? " hidden" : ""}${isHome ? " mobile-sticky-cta--home" : ""}`} aria-hidden={isOpen}>
         <a href="tel:6262037652" className="mobile-sticky-cta__call">
           {isSpanish ? "Llamar" : "Call"}
         </a>
-        <Link href={quickLinksRoute} className="mobile-sticky-cta__links">
-          {isSpanish ? "Enlaces" : "Links"}
-        </Link>
+        {!isHome && (
+          <Link href={quickLinksRoute} className="mobile-sticky-cta__links">
+            {isSpanish ? "Enlaces" : "Links"}
+          </Link>
+        )}
         <Link href={contactRoute} className="mobile-sticky-cta__book">
           {navText.book}
         </Link>
       </div>
 
-      {/* Floating action menu */}
+      {/* Floating action menu — desktop only (mobile uses sticky bar) */}
       <div
         className={`nav-fab-container${isOpen ? " nav-fab-container--hidden" : ""}`}
         style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9980, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem", transition: "opacity 0.3s ease" }}
@@ -324,10 +343,6 @@ export default function Navbar() {
           <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
             <span style={fabLabelStyle}>{navText.book}</span>
             <div style={fabIconWrapperStyle}>📞</div>
-          </Link>
-          <Link href={quickLinksRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
-            <span style={fabLabelStyle}>{navText.quickLinks}</span>
-            <div style={fabIconWrapperStyle}>🔗</div>
           </Link>
         </div>
 

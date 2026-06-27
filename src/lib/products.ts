@@ -38,9 +38,9 @@ export const PRODUCTS: Record<string, ProductConfig> = {
   PREMIUM_MONTHLY: {
     key: "PREMIUM_MONTHLY",
     name: "Premium Client (Monthly)",
-    description: "Financial Vital Signs, Policy Tracker, Retirement Forecaster & Emergency Fund tools.",
-    priceLabel: "$15/mo",
-    priceCents: 1500,
+    description: "Unlock premium trackers and dashboards to get your financials in check.",
+    priceLabel: "$5/mo",
+    priceCents: 500,
     billingMode: "subscription",
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
     unlocks: [
@@ -53,9 +53,9 @@ export const PRODUCTS: Record<string, ProductConfig> = {
   PREMIUM_ANNUAL: {
     key: "PREMIUM_ANNUAL",
     name: "Premium Client (Annual)",
-    description: "All Premium tools — save vs. monthly billing.",
-    priceLabel: "$150/yr",
-    priceCents: 15000,
+    description: "All Premium tools — best value vs. monthly billing.",
+    priceLabel: "$50/yr",
+    priceCents: 5000,
     billingMode: "subscription",
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
     unlocks: [

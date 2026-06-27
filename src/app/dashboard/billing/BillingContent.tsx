@@ -80,11 +80,14 @@ export default function BillingContent() {
       <section className="mb-10">
         <h2 className="mb-4 text-lg font-semibold text-[var(--color-portal-text)]">Premium subscriptions</h2>
         <div className="portal-pricing-grid cols-3">
-          {subscriptions.map((p, i) => (
+          {subscriptions.map((p) => (
             <div
               key={p.key}
-              className={`portal-card portal-pricing-card${i === 0 ? " featured" : ""}`}
+              className={`portal-card portal-pricing-card${p.key === "PREMIUM_ANNUAL" ? " featured" : ""}`}
             >
+              {p.key === "PREMIUM_ANNUAL" && (
+                <span className="portal-unlock-plan-badge mb-2 inline-block">Best value</span>
+              )}
               <h3 className="font-semibold text-[var(--color-portal-text)]">{p.name}</h3>
               <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{p.description}</p>
               <p className="portal-pricing-price">{p.priceLabel}</p>

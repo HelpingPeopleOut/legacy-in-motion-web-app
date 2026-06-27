@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
+import HomeQuickLinksDock from "@/components/HomeQuickLinksDock";
 
 const PORTAL_PREFIXES = ["/dashboard", "/login", "/sign-up"];
 
@@ -19,6 +20,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     <>
       <Navbar />
       <main>{children}</main>
+      <HomeQuickLinksDock />
       <TrustedPartners />
       <Footer />
     </>

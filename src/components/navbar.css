@@ -2,6 +2,10 @@
    SITE NAVBAR — desktop, tablet, mobile
    ============================================================================= */
 
+:root {
+  --site-nav-height: 4.5rem;
+}
+
 .elite-nav-container {
   position: sticky;
   top: 0;
@@ -9,47 +13,56 @@
   width: 100%;
   transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
   border-bottom: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
 }
 
 .elite-nav-container.scrolled {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(255, 255, 255, 0.97);
   border-bottom-color: var(--border-light);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
 
 .elite-nav-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  height: 4.5rem;
-  max-width: 76rem;
+  gap: 0.75rem 1rem;
+  height: var(--site-nav-height);
+  max-width: 80rem;
   margin: 0 auto;
   padding: 0 clamp(1rem, 3vw, 2rem);
 }
 
-/* Brand */
+@media (min-width: 1100px) {
+  .elite-nav-inner {
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  }
+}
+
+/* Brand — sole home control; no separate "Home" link */
 .elite-brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
+  gap: 0.65rem;
   min-width: 0;
+  max-width: 100%;
   text-decoration: none;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  letter-spacing: 0.06em;
+  font-size: clamp(0.72rem, 1.2vw, 0.95rem);
   color: var(--text-main);
   z-index: 10000;
   font-family: var(--font-heading);
   white-space: nowrap;
+  grid-column: 1;
+  justify-self: start;
 }
 
 .elite-brand img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.35rem;
+  height: 2.35rem;
   object-fit: contain;
   flex-shrink: 0;
   filter: drop-shadow(0 4px 6px rgba(212, 175, 55, 0.2));
@@ -57,38 +70,66 @@
 
 .elite-brand-text {
   display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 520px) {
   .elite-brand-text {
     display: inline;
   }
 }
 
-/* ─── Desktop menu ──────────────────────────────────────────────────────── */
+.elite-brand--active .elite-brand-text {
+  color: var(--gold);
+}
+
+@media (min-width: 1100px) and (max-width: 1240px) {
+  .elite-brand-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* ─── Desktop / large tablet landscape ─────────────────────────────────── */
 
 .elite-desktop-menu {
   display: none;
   align-items: center;
-  flex: 1;
   justify-content: flex-end;
-  gap: 0;
+  gap: 0.75rem;
   min-width: 0;
+  grid-column: 2 / -1;
 }
 
 @media (min-width: 1100px) {
   .elite-desktop-menu {
     display: flex;
+    grid-column: 2 / 4;
   }
 }
 
 .elite-nav-links {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  flex-wrap: nowrap;
   gap: 0.125rem;
-  margin-right: 1.25rem;
-  padding-right: 1.25rem;
-  border-right: 1px solid var(--border-light);
+  min-width: 0;
+  padding: 0 0.5rem;
+}
+
+.elite-nav-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.elite-nav-cluster--secondary {
+  padding-left: 0.5rem;
+  margin-left: 0.25rem;
+  border-left: 1px solid var(--border-light);
 }
 
 .elite-nav-link {
@@ -294,6 +335,8 @@
   cursor: pointer;
   z-index: 10000;
   transition: background 0.15s;
+  grid-column: 2;
+  justify-self: end;
 }
 
 .elite-hamburger:hover {
@@ -339,7 +382,68 @@
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 1.5rem clamp(1rem, 3vw, 1.5rem) 1rem;
+  padding: 1rem clamp(1rem, 3vw, 1.5rem) 1rem;
+}
+
+.elite-mobile-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.elite-mobile-quick-actions--home {
+  grid-template-columns: 1fr 1.35fr;
+}
+
+.elite-mobile-quick-btn--book-wide {
+  grid-column: span 1;
+}
+
+.elite-mobile-quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 4rem;
+  padding: 0.65rem 0.35rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.elite-mobile-quick-btn:active {
+  transform: scale(0.98);
+}
+
+.elite-mobile-quick-btn--call {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+}
+
+.elite-mobile-quick-btn--links {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--gold);
+}
+
+.elite-mobile-quick-btn--book {
+  background: var(--gold);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+.elite-mobile-quick-btn span:first-child {
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .elite-mobile-section {
@@ -493,20 +597,39 @@
 }
 
 @media (max-width: 640px) {
+  :root {
+    --site-nav-height: 4rem;
+  }
+
   .elite-nav-inner,
   .elite-mobile-header {
-    height: 4rem;
+    height: var(--site-nav-height);
   }
 
   .elite-brand img {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.1rem;
+    height: 2.1rem;
   }
 
   .elite-mobile-link,
   .elite-mobile-accordion-btn {
     font-size: 1.05rem;
     min-height: 2.75rem;
+  }
+}
+
+/* Tablet portrait — compact sticky labels */
+@media (max-width: 1023px) {
+  .mobile-sticky-cta__book {
+    font-size: 0.82rem;
+    padding: 0 0.35rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .elite-brand-text {
+    display: inline;
+    max-width: 12rem;
   }
 }
 
@@ -551,6 +674,10 @@
     touch-action: manipulation;
   }
 
+  .mobile-sticky-cta--home {
+    grid-template-columns: 1fr 1.5fr;
+  }
+
   .mobile-sticky-cta__call {
     border: 1px solid var(--border-light);
     color: var(--text-main);
@@ -570,8 +697,13 @@
     box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
   }
 
+  /* Sticky bar replaces FAB on mobile/tablet */
   .nav-fab-container {
-    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px)) !important;
+    display: none !important;
+  }
+
+  main {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

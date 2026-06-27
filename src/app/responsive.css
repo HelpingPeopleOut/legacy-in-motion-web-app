@@ -89,7 +89,7 @@ textarea,
   }
 
   .hero-index {
-    padding-top: calc(7.5rem + var(--safe-top)) !important;
+    padding-top: calc(var(--site-nav-height, 4.5rem) + 2rem) !important;
     padding-bottom: 3rem !important;
   }
 }
@@ -209,10 +209,6 @@ textarea,
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .fwf-elegant-item:nth-child(5) {
-    grid-column-start: auto;
-  }
-
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -250,23 +246,16 @@ textarea,
   overflow-x: hidden;
 }
 
+/* Portal layout — bottom tabs on small screens, header tabs on desktop */
 @media (max-width: 1023px) {
-  .portal-sidebar {
-    display: none !important;
-  }
-
   .portal-main {
-    padding-bottom: calc(5rem + var(--safe-bottom));
+    padding-bottom: calc(4.75rem + var(--safe-bottom, 0px));
   }
 }
 
 @media (min-width: 1024px) {
   .portal-mobile-nav {
     display: none !important;
-  }
-
-  .portal-main {
-    padding-bottom: 2rem;
   }
 }
 
@@ -288,10 +277,6 @@ textarea,
 }
 
 @media (max-width: 1023px) {
-  .portal-aside-nav {
-    display: none;
-  }
-
   .portal-mobile-nav {
     display: flex;
     position: fixed;
@@ -314,7 +299,7 @@ textarea,
     align-items: center;
     justify-content: center;
     gap: 0.2rem;
-    min-height: 3.25rem;
+    min-height: 3rem;
     padding: 0.35rem 0.25rem;
     font-size: 0.65rem;
     font-weight: 600;
@@ -330,21 +315,8 @@ textarea,
   }
 
   .portal-mobile-nav a svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .portal-header-cta-mobile {
-    display: inline-flex !important;
-    font-size: 0.7rem !important;
-    padding: 0.5rem 0.65rem !important;
-    min-height: 2.25rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .portal-header-cta-mobile {
-    display: none !important;
+    width: 1.2rem;
+    height: 1.2rem;
   }
 }
 

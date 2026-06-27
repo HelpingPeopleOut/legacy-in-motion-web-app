@@ -1,21 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import {
+  calculateHlv,
+  formatUsd,
+  loadHlvInputs,
+  saveHlvInputs,
+} from "@/lib/hlv";
 
 export default function DIMECalculator() {
   const pathname = usePathname() || "";
   const isEs = pathname.startsWith("/es");
   const isPortal = pathname.startsWith("/dashboard");
 
-  const [debt, setDebt] = useState(15000);
-  const [income, setIncome] = useState(60000);
-  const [years, setYears] = useState(10);
-  const [mortgage, setMortgage] = useState(350000);
-  const [education, setEducation] = useState(50000);
+  const [inputs, setInputs] = useState(() => loadHlvInputs());
 
-  const totalCoverage = Number(debt) + (Number(income) * Number(years)) + Number(mortgage) + Number(education);
-  const formatCurrency = (num) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+  useEffect(() => {
+    setInputs(loadHlvInputs());
+  }, []);
+
+  const update = (patch) => {
+    setInputs((prev) => {
+      const next = { ...prev, ...patch };
+      saveHlvInputs(next);
+      return next;
+    });
+  };
+
+  const breakdown = calculateHlv(inputs);
 
   const t = {
     title: isEs ? "Método D.I.M.E." : "D.I.M.E. Method",
@@ -25,7 +38,10 @@ export default function DIMECalculator() {
     years: isEs ? "Años a Reemplazar" : "Years to Replace",
     mortgage: isEs ? "Saldo de Hipoteca" : "Mortgage Balance",
     edu: isEs ? "Educación (Fondos)" : "Education (College Funds)",
-    rec: isEs ? "Cobertura Recomendada" : "Recommended Coverage"
+    rec: isEs ? "Cobertura Recomendada" : "Recommended Coverage",
+    syncNote: isEs
+      ? "Los valores se sincronizan con su informe PDF en el portal."
+      : "Values sync to your Family Security Report PDF in the portal.",
   };
 
   return (
@@ -37,6 +53,11 @@ export default function DIMECalculator() {
         <div>
           <h3 style={styles.title}>{t.title}</h3>
           <p style={styles.desc}>{t.desc}</p>
+          {isPortal && (
+            <p style={{ ...styles.desc, marginTop: "0.35rem", fontSize: "0.8rem", color: "var(--color-portal-gold, var(--gold))" }}>
+              {t.syncNote}
+            </p>
+          )}
         </div>
       </div>
 
@@ -44,29 +65,29 @@ export default function DIMECalculator() {
         <div style={styles.inputGrid}>
           <div style={{ gridColumn: "1 / -1" }}>
             <label style={styles.label}><strong>D</strong> - {t.debt}</label>
-            <input type="number" value={debt} onChange={(e) => setDebt(e.target.value)} style={styles.input} />
+            <input type="number" value={inputs.debt} onChange={(e) => update({ debt: Number(e.target.value) })} style={styles.input} />
           </div>
           <div>
             <label style={styles.label}><strong>I</strong> - {t.income}</label>
-            <input type="number" value={income} onChange={(e) => setIncome(e.target.value)} style={styles.input} />
+            <input type="number" value={inputs.income} onChange={(e) => update({ income: Number(e.target.value) })} style={styles.input} />
           </div>
           <div>
             <label style={styles.label}>{t.years}</label>
-            <input type="number" value={years} onChange={(e) => setYears(e.target.value)} style={styles.input} />
+            <input type="number" value={inputs.years} onChange={(e) => update({ years: Number(e.target.value) })} style={styles.input} />
           </div>
           <div style={{ gridColumn: "1 / -1" }}>
             <label style={styles.label}><strong>M</strong> - {t.mortgage}</label>
-            <input type="number" value={mortgage} onChange={(e) => setMortgage(e.target.value)} style={styles.input} />
+            <input type="number" value={inputs.mortgage} onChange={(e) => update({ mortgage: Number(e.target.value) })} style={styles.input} />
           </div>
           <div style={{ gridColumn: "1 / -1" }}>
             <label style={styles.label}><strong>E</strong> - {t.edu}</label>
-            <input type="number" value={education} onChange={(e) => setEducation(e.target.value)} style={styles.input} />
+            <input type="number" value={inputs.education} onChange={(e) => update({ education: Number(e.target.value) })} style={styles.input} />
           </div>
         </div>
 
         <div style={isPortal ? styles.resultBoxPortal : styles.resultBox}>
           <p style={isPortal ? styles.resultLabelPortal : styles.resultLabel}>{t.rec}</p>
-          <div style={styles.mainValue}>{formatCurrency(totalCoverage)}</div>
+          <div style={styles.mainValue}>{formatUsd(breakdown.total)}</div>
         </div>
       </div>
     </div>
@@ -80,7 +101,6 @@ const styles = {
   title: { fontSize: "1.5rem", color: "var(--text-main)", margin: 0 },
   desc: { fontSize: "0.9rem", color: "var(--text-muted)", margin: 0 },
   body: { padding: "2rem", display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "space-between", gap: "2rem" },
-  /* FIXED RESPONSIVENESS */
   inputGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 140px), 1fr))", gap: "1rem" },
   label: { display: "block", color: "var(--text-muted)", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "1px", fontWeight: "600", marginBottom: "0.5rem" },
   input: { width: "100%", padding: "1rem", borderRadius: "12px", border: "none", background: "rgba(0,0,0,0.03)", boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)", fontSize: "1.1rem", color: "var(--text-main)", outline: "none", transition: "all 0.3s ease" },

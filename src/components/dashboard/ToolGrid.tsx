@@ -2,24 +2,33 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { TOOLS, type ToolDefinition } from "@/lib/tools";
+import {
+  TOOLS,
+  TOOL_AUDIENCE_META,
+  TOOL_CATEGORY_LABELS,
+  groupToolsByAudience,
+  type ToolAudience,
+  type ToolDefinition,
+} from "@/lib/tools";
 import { canAccessTool, hasActivePremium, hasPurchase } from "@/lib/access";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import type { User, Purchase } from "@prisma/client";
 import { ToolIcon } from "./DashboardShell";
 import { ArrowRight, Sparkles, Wrench } from "lucide-react";
+import UnlockToolsModal, { UnlockToolsBanner } from "./UnlockToolsModal";
 
 type UserWithPurchases = User & { purchases: Purchase[] };
 
-type CategoryFilter = "all" | ToolDefinition["category"];
+type AudienceFilter = "all" | ToolAudience;
 
-const FILTERS: { key: CategoryFilter; label: string }[] = [
+const FILTERS: { key: AudienceFilter; label: string }[] = [
   { key: "all", label: "All tools" },
-  { key: "analyzer", label: "Analyzers" },
-  { key: "tracker", label: "Trackers" },
-  { key: "simulator", label: "Simulators" },
-  { key: "portal", label: "Vault & Portal" },
+  { key: "customer", label: TOOL_AUDIENCE_META.customer.shortLabel },
+  { key: "agent", label: TOOL_AUDIENCE_META.agent.shortLabel },
+  { key: "other", label: TOOL_AUDIENCE_META.other.shortLabel },
 ];
+
+const AUDIENCE_ORDER: ToolAudience[] = ["customer", "agent", "other"];
 
 const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
   if (isPreviewUnlockAll()) {
@@ -36,8 +45,31 @@ const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
   return { label: "Advisor+", className: "locked" };
 };
 
+function ToolCard({ tool, user }: { tool: ToolDefinition; user: UserWithPurchases | null }) {
+  const badge = accessBadge(tool, user);
+  return (
+    <Link href={`/dashboard/tools/${tool.slug}`} className="portal-card portal-tool-card group">
+      <div className="portal-tool-card-header">
+        <div className="portal-tool-icon">
+          <ToolIcon name={tool.icon} className="h-5 w-5" />
+        </div>
+        <span className={`portal-tool-badge ${badge.className}`}>{badge.label}</span>
+      </div>
+      <h2 className="portal-tool-name">{tool.name}</h2>
+      <p className="portal-tool-desc">{tool.description}</p>
+      <div className="portal-tool-footer">
+        <span className="portal-tool-category">{TOOL_CATEGORY_LABELS[tool.category]}</span>
+        <span className="portal-tool-cta">
+          Open
+          <ArrowRight aria-hidden />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
-  const [category, setCategory] = useState<CategoryFilter>("all");
+  const [audience, setAudience] = useState<AudienceFilter>("all");
   const [search, setSearch] = useState("");
   const preview = isPreviewUnlockAll();
   const premium = user ? hasActivePremium(user) : false;
@@ -45,30 +77,35 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return TOOLS.filter((tool) => {
-      const matchCat = category === "all" || tool.category === category;
+      const matchAudience = audience === "all" || tool.audience === audience;
       const matchSearch =
         !q ||
         tool.name.toLowerCase().includes(q) ||
         tool.description.toLowerCase().includes(q) ||
-        tool.category.includes(q);
-      return matchCat && matchSearch;
+        tool.category.includes(q) ||
+        TOOL_AUDIENCE_META[tool.audience].label.toLowerCase().includes(q);
+      return matchAudience && matchSearch;
     });
-  }, [category, search]);
+  }, [audience, search]);
+
+  const grouped = useMemo(() => groupToolsByAudience(filtered), [filtered]);
 
   const unlockedCount = TOOLS.filter((t) => canAccessTool(user, t).allowed).length;
+  const byAudience = groupToolsByAudience();
 
   return (
     <>
+      <UnlockToolsModal user={user} />
+      <UnlockToolsBanner user={user} />
       <div className="portal-hub-hero">
         <p className="portal-hub-eyebrow">
           <Sparkles className="h-3.5 w-3.5" aria-hidden />
           Financial command center
         </p>
-        <h1 className="portal-hub-title">
-          Your complete wealth toolkit
-        </h1>
+        <h1 className="portal-hub-title">Your complete wealth toolkit</h1>
         <p className="portal-hub-sub">
-          Analyze coverage, eliminate debt, forecast retirement, and protect your legacy — all in one secure client workspace.
+          Tools organized for clients, advisors, and workshops — analyze coverage, eliminate debt,
+          forecast retirement, and protect your legacy.
           {preview && " Preview mode: every tool is unlocked for testing."}
           {!preview && premium && " Your Premium plan is active."}
         </p>
@@ -80,16 +117,16 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
           <div className="portal-stat-label">Total tools</div>
         </div>
         <div className="portal-stat-card">
+          <div className="portal-stat-value">{byAudience.customer.length}</div>
+          <div className="portal-stat-label">For clients</div>
+        </div>
+        <div className="portal-stat-card">
+          <div className="portal-stat-value">{byAudience.agent.length}</div>
+          <div className="portal-stat-label">For advisors</div>
+        </div>
+        <div className="portal-stat-card">
           <div className="portal-stat-value accent">{preview ? TOOLS.length : unlockedCount}</div>
           <div className="portal-stat-label">{preview ? "Unlocked (preview)" : "Unlocked"}</div>
-        </div>
-        <div className="portal-stat-card">
-          <div className="portal-stat-value">{TOOLS.filter((t) => t.access === "free").length}</div>
-          <div className="portal-stat-label">Always free</div>
-        </div>
-        <div className="portal-stat-card">
-          <div className="portal-stat-value">{TOOLS.filter((t) => t.category === "simulator").length}</div>
-          <div className="portal-stat-label">Simulators</div>
         </div>
       </div>
 
@@ -104,15 +141,15 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
         />
       </div>
 
-      <div className="portal-filter-bar" role="tablist" aria-label="Filter tools by category">
+      <div className="portal-filter-bar" role="tablist" aria-label="Filter tools by audience">
         {FILTERS.map(({ key, label }) => (
           <button
             key={key}
             type="button"
             role="tab"
-            aria-selected={category === key}
-            className={`portal-filter-chip${category === key ? " active" : ""}`}
-            onClick={() => setCategory(key)}
+            aria-selected={audience === key}
+            className={`portal-filter-chip${audience === key ? " active" : ""}`}
+            onClick={() => setAudience(key)}
           >
             {label}
           </button>
@@ -122,36 +159,36 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
       {filtered.length === 0 ? (
         <div className="portal-empty portal-card">
           <Wrench aria-hidden />
-          <p>No tools match your search. Try a different term or category.</p>
+          <p>No tools match your search. Try a different term or filter.</p>
+        </div>
+      ) : audience === "all" ? (
+        <div className="portal-tool-sections">
+          {AUDIENCE_ORDER.map((key) => {
+            const tools = grouped[key];
+            if (tools.length === 0) return null;
+            const meta = TOOL_AUDIENCE_META[key];
+            return (
+              <section key={key} className="portal-tool-section" aria-labelledby={`section-${key}`}>
+                <div className="portal-tool-section-header">
+                  <h2 id={`section-${key}`} className="portal-tool-section-title">
+                    {meta.label}
+                  </h2>
+                  <p className="portal-tool-section-desc">{meta.description}</p>
+                </div>
+                <div className="portal-tools-grid">
+                  {tools.map((tool) => (
+                    <ToolCard key={tool.slug} tool={tool} user={user} />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
       ) : (
         <div className="portal-tools-grid">
-          {filtered.map((tool) => {
-            const badge = accessBadge(tool, user);
-            return (
-              <Link
-                key={tool.slug}
-                href={`/dashboard/tools/${tool.slug}`}
-                className="portal-card portal-tool-card group"
-              >
-                <div className="portal-tool-card-header">
-                  <div className="portal-tool-icon">
-                    <ToolIcon name={tool.icon} className="h-5 w-5" />
-                  </div>
-                  <span className={`portal-tool-badge ${badge.className}`}>{badge.label}</span>
-                </div>
-                <h2 className="portal-tool-name">{tool.name}</h2>
-                <p className="portal-tool-desc">{tool.description}</p>
-                <div className="portal-tool-footer">
-                  <span className="portal-tool-category">{tool.category}</span>
-                  <span className="portal-tool-cta">
-                    Open
-                    <ArrowRight aria-hidden />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          {filtered.map((tool) => (
+            <ToolCard key={tool.slug} tool={tool} user={user} />
+          ))}
         </div>
       )}
     </>

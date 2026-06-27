@@ -36,7 +36,7 @@ const pathwaysEn = [
     icon: Home,
     label: "I worry about my mortgage",
     hint: "Protection strategies",
-    href: "/mortgage-protection-los-angeles",
+    href: "/dashboard/tools/mortgage-protection",
   },
   {
     icon: FileHeart,
