@@ -287,6 +287,110 @@ footer p.footer-sub { color: #94a3b8; margin-bottom: 2rem; font-weight: 300; }
   }
 }
 
+/* Story photo — shown when visitor reads Nelly's full story */
+.hero-story-expanded {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-story-expanded {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2rem;
+    align-items: start;
+  }
+}
+
+.hero-story-expanded-text {
+  min-width: 0;
+}
+
+.hero-story-photo {
+  margin: 0;
+}
+
+.hero-story-photo-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 3 / 4;
+  max-height: 420px;
+}
+
+.hero-story-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-story-photo figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Financial education — full-width feature */
+.advisor-education-card {
+  margin: 0 0 2.5rem;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.advisor-education-img-wrap {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-card);
+}
+
+@media (min-width: 768px) {
+  .advisor-education-img-wrap {
+    aspect-ratio: 21 / 9;
+  }
+}
+
+.advisor-education-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.advisor-education-card figcaption {
+  padding: 1rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.5;
+  border-top: 1px solid var(--border-light);
+  background: linear-gradient(180deg, #fff 0%, var(--bg-card) 100%);
+}
+
+.advisor-team-header {
+  margin-bottom: 1rem;
+}
+
+.advisor-team-header .advisor-gallery-label {
+  margin-bottom: 0.35rem;
+}
+
+.advisor-team-sub {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 36rem;
+}
+
 .advisor-featured-card {
   margin: 0;
   background: #fff;

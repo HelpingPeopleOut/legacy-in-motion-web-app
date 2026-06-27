@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { advisorStoryPhoto } from "@/lib/advisor-media";
 
 const copy = {
   en: {
@@ -19,7 +20,6 @@ const copy = {
     ],
     closing:
       "Because financial freedom isn't just about making money. It's about protecting your family, creating stability, and giving future generations opportunities you may never have had yourself.",
-    whyBold: "That's why I do what I do today.",
   },
   es: {
     lead: "A los 14 años mi familia perdió nuestro hogar en la crisis financiera. Vi cómo el estrés financiero puede quebrar la confianza, las relaciones y todo un hogar — y por eso hoy ayudo a las familias a construir seguridad financiera real.",
@@ -36,13 +36,13 @@ const copy = {
     ],
     closing:
       "Porque la libertad financiera no se trata solo de ganar dinero. Se trata de proteger a su familia, crear estabilidad y dar a las futuras generaciones oportunidades que usted quizás nunca tuvo.",
-    whyBold: "Por eso hago lo que hago hoy.",
   },
 };
 
 export default function HomeStorySection({ locale = "en" }) {
   const [expanded, setExpanded] = useState(false);
   const t = copy[locale] ?? copy.en;
+  const isEs = locale === "es";
 
   return (
     <div className="hero-intro-story">
@@ -59,21 +59,35 @@ export default function HomeStorySection({ locale = "en" }) {
           <ChevronDown size={18} />
         </button>
       ) : (
-        <>
-          {t.expanded.map((paragraph, i) => (
-            <p key={i}>{i === 4 ? <strong>{paragraph}</strong> : paragraph}</p>
-          ))}
-          <p className="hero-intro-closing">{t.closing}</p>
-          <button
-            type="button"
-            className="hero-story-toggle"
-            onClick={() => setExpanded(false)}
-            aria-expanded={true}
-          >
-            {t.showLess}
-            <ChevronDown size={18} style={{ transform: "rotate(180deg)" }} />
-          </button>
-        </>
+        <div className="hero-story-expanded">
+          <div className="hero-story-expanded-text">
+            {t.expanded.map((paragraph, i) => (
+              <p key={i}>{i === 4 ? <strong>{paragraph}</strong> : paragraph}</p>
+            ))}
+            <p className="hero-intro-closing">{t.closing}</p>
+            <button
+              type="button"
+              className="hero-story-toggle"
+              onClick={() => setExpanded(false)}
+              aria-expanded={true}
+            >
+              {t.showLess}
+              <ChevronDown size={18} style={{ transform: "rotate(180deg)" }} />
+            </button>
+          </div>
+
+          <figure className="hero-story-photo">
+            <div className="hero-story-photo-frame">
+              <img
+                src={advisorStoryPhoto.src}
+                alt={advisorStoryPhoto.alt[isEs ? "es" : "en"]}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption>{advisorStoryPhoto.caption[isEs ? "es" : "en"]}</figcaption>
+          </figure>
+        </div>
       )}
 
       <p className="hero-credential">{t.credential}</p>

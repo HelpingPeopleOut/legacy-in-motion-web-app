@@ -22,7 +22,9 @@ export default function AdvisorHeroPhoto({ locale = "en" }) {
         <p className="advisor-hero-photo-title">
           {isEs ? "Asociada Financiera Senior" : "Senior Financial Associate"}
         </p>
-        <p className="advisor-hero-photo-org">Experior Financial Group Inc.</p>
+        <p className="advisor-hero-photo-org">
+          {isEs ? "Retrato profesional · Experior Financial Group Inc." : "Professional portfolio · Experior Financial Group Inc."}
+        </p>
       </div>
     </div>
   );

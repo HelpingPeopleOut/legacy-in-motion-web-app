@@ -1,82 +1,89 @@
+/** Professional portfolio headshot — hero & business profile */
 export const advisorHeadshot = {
   src: "/images/nelly/nelly-professional.jpg",
   alt: {
-    en: "Nelly Lara Cruz, Senior Financial Associate at Legacy in Motion",
-    es: "Nelly Lara Cruz, Asociada Financiera Senior en Legacy in Motion",
+    en: "Nelly Lara Cruz — professional business portrait, Senior Financial Associate",
+    es: "Nelly Lara Cruz — retrato profesional de negocios, Asociada Financiera Senior",
+  },
+  caption: {
+    en: "Your dedicated financial associate",
+    es: "Su asociada financiera dedicada",
   },
 };
 
-export const advisorFeatured = [
-  {
-    src: "/images/nelly/gallery-05.jpg",
-    alt: {
-      en: "Nelly Lara Cruz recognized as Elite Honor Graduate, Class of 2025",
-      es: "Nelly Lara Cruz reconocida como Graduada de Honor Elite, Clase 2025",
-    },
-    caption: {
-      en: "Elite Honor Graduate · Sr. Financial Associate · Class of 2025",
-      es: "Graduada de Honor Elite · Asociada Financiera Sr. · Clase 2025",
-    },
+/** Educating audiences about personal finance */
+export const advisorEducation = {
+  src: "/images/nelly/gallery-05.jpg",
+  alt: {
+    en: "Nelly Lara Cruz presenting financial education — Elite Honor Graduate, Class of 2025",
+    es: "Nelly Lara Cruz presentando educación financiera — Graduada de Honor Elite, Clase 2025",
   },
-  {
-    src: "/images/nelly/gallery-06.jpg",
-    alt: {
-      en: "Nelly Lara Cruz, financial educator and advisor",
-      es: "Nelly Lara Cruz, educadora y asesora financiera",
-    },
-    caption: {
-      en: "Dedicated to financial education for every family",
-      es: "Dedicada a la educación financiera para cada familia",
-    },
+  caption: {
+    en: "Educating families on how money really works — Elite Honor Graduate · Sr. Financial Associate · Class of 2025",
+    es: "Educando a familias sobre cómo funciona el dinero — Graduada de Honor Elite · Asociada Financiera Sr. · Clase 2025",
   },
-];
+};
 
-export const advisorGallery = [
+/** Shown when visitors read Nelly's personal story */
+export const advisorStoryPhoto = {
+  src: "/images/nelly/gallery-06.jpg",
+  alt: {
+    en: "Nelly Lara Cruz — financial advisor helping families build legacy and security",
+    es: "Nelly Lara Cruz — asesora financiera ayudando a familias a construir legado y seguridad",
+  },
+  caption: {
+    en: "The advisor behind your financial plan",
+    es: "La asesora detrás de su plan financiero",
+  },
+};
+
+/** Nelly and her Experior Financial Group team */
+export const advisorTeamGallery = [
   {
     src: "/images/nelly/gallery-01.jpg",
     alt: {
-      en: "Legacy in Motion advisory team — professional collaboration",
-      es: "Equipo asesor de Legacy in Motion — colaboración profesional",
+      en: "Nelly Lara Cruz with Legacy in Motion advisory team",
+      es: "Nelly Lara Cruz con el equipo asesor de Legacy in Motion",
     },
     caption: {
-      en: "Trusted advisor partnerships",
-      es: "Alianzas de confianza",
+      en: "Nelly & her advisory leadership team",
+      es: "Nelly y su equipo de liderazgo asesor",
     },
     layout: "wide",
   },
   {
     src: "/images/nelly/gallery-02.jpg",
     alt: {
-      en: "Experior Financial Group team at a professional event",
-      es: "Equipo de Experior Financial Group en un evento profesional",
+      en: "Experior Financial Group team — Nelly Lara Cruz and colleagues",
+      es: "Equipo de Experior Financial Group — Nelly Lara Cruz y colegas",
     },
     caption: {
-      en: "Our Experior Financial Group team",
-      es: "Nuestro equipo Experior Financial Group",
+      en: "Our full Experior Financial Group team",
+      es: "Nuestro equipo completo de Experior Financial Group",
     },
     layout: "tall",
   },
   {
     src: "/images/nelly/gallery-03.jpg",
     alt: {
-      en: "Nelly Lara Cruz at DIAMOND leadership conference",
-      es: "Nelly Lara Cruz en la conferencia de liderazgo DIAMOND",
+      en: "Nelly Lara Cruz and team at DIAMOND leadership conference",
+      es: "Nelly Lara Cruz y equipo en la conferencia de liderazgo DIAMOND",
     },
     caption: {
-      en: "DIAMOND leadership conference",
-      es: "Conferencia de liderazgo DIAMOND",
+      en: "Team at DIAMOND leadership conference",
+      es: "Equipo en la conferencia de liderazgo DIAMOND",
     },
     layout: "normal",
   },
   {
     src: "/images/nelly/gallery-04.jpg",
     alt: {
-      en: "Nelly Lara Cruz at World Financial Group industry event",
-      es: "Nelly Lara Cruz en evento de la industria World Financial Group",
+      en: "Nelly Lara Cruz and team at industry recognition event",
+      es: "Nelly Lara Cruz y equipo en evento de reconocimiento de la industria",
     },
     caption: {
-      en: "Industry events & community",
-      es: "Eventos de la industria y comunidad",
+      en: "Industry recognition & team achievements",
+      es: "Reconocimiento de la industria y logros del equipo",
     },
     layout: "normal",
   },
