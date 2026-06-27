@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 import HomePathwayPanel from "@/components/HomePathwayPanel";
+import HomeStorySection from "@/components/HomeStorySection";
 import TransformationStories from "@/components/TransformationStories";
+import AdvisorHeroPhoto from "@/components/AdvisorHeroPhoto";
+import MeetAdvisorSection from "@/components/MeetAdvisorSection";
 
 export default function HomeSpanish() {
   useEffect(() => {
@@ -54,11 +57,10 @@ export default function HomeSpanish() {
             <h1>
               Resuelva Sus Problemas Financieros — <span className="text-gold">No Solo Venda Productos.</span>
             </h1>
-            <p className="hero-intro-lead">
-              A los 14 años perdí mi hogar en la crisis financiera. Hoy ayudo a familias a construir
-              seguridad real — con educación simple, protección y un plan claro.
-            </p>
-            <p className="hero-credential">Asociada Financiera Senior · Experior Financial Group Inc.</p>
+            <AdvisorHeroPhoto locale="es" />
+
+            <HomeStorySection locale="es" />
+
             <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">Consulta Gratuita</a>
               <a href="/dashboard" className="btn-outline">Portal de Herramientas</a>
@@ -86,6 +88,8 @@ export default function HomeSpanish() {
           </div>
         </div>
       </section>
+
+      <MeetAdvisorSection locale="es" />
 
       {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="es" />

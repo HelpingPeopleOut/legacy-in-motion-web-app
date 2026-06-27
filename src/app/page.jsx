@@ -6,6 +6,8 @@ import GlobalLeadForm from "@/components/GlobalLeadForm";
 import HomePathwayPanel from "@/components/HomePathwayPanel";
 import HomeStorySection from "@/components/HomeStorySection";
 import TransformationStories from "@/components/TransformationStories";
+import AdvisorHeroPhoto from "@/components/AdvisorHeroPhoto";
+import MeetAdvisorSection from "@/components/MeetAdvisorSection";
 
 export default function Home() {
   useEffect(() => {
@@ -58,6 +60,8 @@ export default function Home() {
               Get Your Financial Problems <span className="text-gold">Solved — Not Sold.</span>
             </h1>
 
+            <AdvisorHeroPhoto locale="en" />
+
             <HomeStorySection />
 
             <div className="hero-action-buttons">
@@ -95,6 +99,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <MeetAdvisorSection locale="en" />
 
       {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="en" />
