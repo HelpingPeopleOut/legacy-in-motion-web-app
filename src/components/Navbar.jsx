@@ -228,6 +228,9 @@ export default function Navbar() {
             <Link href={isSpanish ? "/es/mision" : "/mission"} className="elite-nav-link">{navText.mission}</Link>
             <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className="elite-nav-link">{navText.baby}</Link>
             <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className="elite-nav-link">{navText.workshops}</Link>
+            <Link href="/dashboard" className="elite-nav-link" style={{ color: "var(--gold)" }}>
+              {isSpanish ? "Portal Cliente" : "Client Portal"}
+            </Link>
             
             <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
               {isSpanish ? "EN" : "ES"}
@@ -295,6 +298,9 @@ export default function Navbar() {
           <Link href={isSpanish ? "/es/mision" : "/mission"} className="elite-mobile-link" onClick={closeMenu}>{navText.mission}</Link>
           <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className="elite-mobile-link" onClick={closeMenu}>{navText.baby}</Link>
           <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className="elite-mobile-link" onClick={closeMenu}>{navText.workshops}</Link>
+          <Link href="/dashboard" className="elite-mobile-link" onClick={closeMenu} style={{ color: "var(--gold)" }}>
+            {isSpanish ? "Portal Cliente" : "Client Portal"}
+          </Link>
           
           <div style={{ marginTop: "1rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
             <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-cta-btn" style={{ background: "transparent", border: "2px solid var(--gold)", color: "var(--gold)", textAlign: "center" }}>

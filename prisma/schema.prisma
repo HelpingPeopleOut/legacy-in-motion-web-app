@@ -1,0 +1,214 @@
+// Legacy in Motion — Client SaaS Platform Schema
+// Run: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth (synced from Clerk via webhook) ───────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  imageUrl  String?
+
+  stripeCustomerId String? @unique
+
+  subscriptionStatus       SubscriptionStatus @default(NONE)
+  subscriptionTier         SubscriptionTier   @default(FREE)
+  subscriptionPeriodEnd    DateTime?
+  stripeSubscriptionId     String?            @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  purchases         Purchase[]
+  financialProfile  FinancialProfile?
+  policies          Policy[]
+  vaultItems        VaultItem[]
+  documents         SecureDocument[]
+  messages          Message[]
+  toolSessions      ToolSession[]
+}
+
+enum SubscriptionStatus {
+  NONE
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM_MONTHLY
+  PREMIUM_ANNUAL
+  PREMIUM_HYBRID
+}
+
+// ─── One-time purchases & Stripe events ─────────────────────────────────────
+
+enum ProductKey {
+  HLV_REPORT          // Human Life Value PDF — $49
+  LEGACY_VAULT        // Digital Legacy Vault — $99
+  PREMIUM_MONTHLY
+  PREMIUM_ANNUAL
+  PREMIUM_HYBRID
+}
+
+model Purchase {
+  id                    String     @id @default(cuid())
+  userId                String
+  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productKey            ProductKey
+  stripePaymentIntentId String?    @unique
+  stripeCheckoutId      String?    @unique
+  amountCents           Int
+  currency              String     @default("usd")
+  purchasedAt           DateTime   @default(now())
+
+  @@index([userId, productKey])
+}
+
+model StripeEvent {
+  id          String   @id
+  type        String
+  processedAt DateTime @default(now())
+}
+
+// ─── Financial profile (shared across tools) ────────────────────────────────
+
+model FinancialProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  annualIncome       Int?
+  monthlyExpenses    Int?
+  totalDebt          Int?
+  mortgageBalance    Int?
+  liquidSavings      Int?
+  retirementAccounts Int?
+  educationFundGoal  Int?
+  yearsToReplace     Int?     @default(10)
+  dependents         Int?     @default(0)
+
+  plaidAccessToken String? // encrypted at app layer before storage
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Policy Ladder Tracker (Feature 3B) ─────────────────────────────────────
+
+model Policy {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  carrier      String
+  policyType   String    // term, whole, iul, etc.
+  faceAmount   Int?
+  premiumCents Int?
+  premiumDue   DateTime?
+  expiresAt    DateTime?
+  notes        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ─── Legacy Vault (Feature 2B) ──────────────────────────────────────────────
+
+enum VaultCategory {
+  LIFE_INSURANCE
+  WILL_TRUST
+  BANK_ACCOUNT
+  RETIREMENT
+  REAL_ESTATE
+  BENEFICIARY
+  OTHER
+}
+
+model VaultItem {
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    VaultCategory
+  title       String
+  institution String?
+  accountRef  String?       // last-4 or masked reference
+  notes       String?
+  hasDocument Boolean       @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ─── Secure Portal (Feature 4B) ─────────────────────────────────────────────
+
+model SecureDocument {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName     String
+  fileKey      String   // S3/R2 object key
+  mimeType     String
+  sizeBytes    Int
+  uploadedAt   DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  body      String
+  fromUser  Boolean  @default(true)
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ─── Tool session data (calculator inputs / results) ────────────────────────
+
+enum ToolSlug {
+  HUMAN_LIFE_VALUE
+  LEGACY_VAULT
+  TERM_VS_PERMANENT
+  FINANCIAL_VITAL_SIGNS
+  POLICY_LADDER
+  RETIREMENT_FORECASTER
+  EMERGENCY_FUND
+  WHAT_IF_SCENARIOS
+  SECURE_PORTAL
+  DEBT_FREEDOM
+  RULE_OF_72
+  COST_OF_WAITING
+}
+
+model ToolSession {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  toolSlug  ToolSlug
+  inputData Json?
+  resultData Json?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([userId, toolSlug])
+  @@index([userId])
+}

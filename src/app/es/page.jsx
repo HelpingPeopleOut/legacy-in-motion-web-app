@@ -53,6 +53,28 @@ export default function HomeSpanish() {
           white-space: nowrap;
         }
         
+        .hero-intro-story p {
+          text-align: left;
+          margin: 0 0 1rem 0;
+          max-width: 600px;
+          font-size: 1.05rem;
+          line-height: 1.65;
+          color: var(--text-muted);
+          font-weight: 300;
+        }
+        .hero-intro-story p.hero-intro-closing {
+          color: var(--text-main);
+          font-weight: 400;
+          margin-bottom: 1.25rem;
+        }
+        .hero-intro-story p.hero-credential {
+          font-size: 0.9rem;
+          color: var(--gold);
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          margin-bottom: 1.5rem;
+        }
+
         @media (max-width: 768px) {
           .hero-action-buttons {
             flex-direction: column;
@@ -62,6 +84,9 @@ export default function HomeSpanish() {
           .hero-action-buttons a {
             width: 100%;
             display: block;
+          }
+          .hero-intro-story p {
+            font-size: 1rem;
           }
         }
       `}} />
@@ -101,20 +126,37 @@ export default function HomeSpanish() {
           </div>
 
           {/* TEXT CONTENT SECOND */}
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
-            
-            {/* The redundant image tag was removed from here to clean up the layout! */}
+          <div className="hero-intro-content" style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
 
             <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
               Establezca Su <br />
               <span className="text-gold">Fortaleza Financiera.</span>
             </h1>
-            <p style={{ textAlign: "left", margin: "0 0 2rem 0", maxWidth: "600px" }}>
-              Como Asociada Financiera Senior de Experior Financial Group Inc.,
-              guío a mis clientes desde la complejidad financiera hacia un camino claro y práctico
-              para construir riqueza generacional.
-            </p>
-            
+
+            <div className="hero-intro-story">
+              <p>A los 14 años, mi familia perdió nuestra casa durante la crisis financiera.</p>
+              <p>
+                Mi padre perdió su negocio, y vi de primera mano cómo la dificultad financiera puede afectar todo — no solo el dinero, sino la confianza, las relaciones, la salud mental y la estabilidad de toda una familia.
+              </p>
+              <p>
+                Años después, después de luchar contra años de depresión ligada al estrés y las pérdidas financieras, a mi padre le diagnosticaron cáncer en etapa 4.
+              </p>
+              <p>Esas experiencias cambiaron la dirección de mi vida para siempre.</p>
+              <p>
+                Me hicieron darme cuenta de que a la mayoría de las familias trabajadoras nunca se les enseña realmente cómo funciona el dinero, cómo proteger lo que construyen, cómo los impuestos afectan su futuro, o cómo crear seguridad financiera a largo plazo.
+              </p>
+              <p><strong>Por eso hago lo que hago hoy.</strong></p>
+              <p>
+                Mi misión es ayudar a familias, propietarios de vivienda, padres, profesionales y dueños de negocios a construir bases financieras más sólidas mediante educación simple, protección patrimonial, orientación para la jubilación y planificación enfocada en el legado.
+              </p>
+              <p className="hero-intro-closing">
+                Porque la libertad financiera no se trata solo de ganar dinero. Se trata de proteger a su familia, crear estabilidad y dar a las generaciones futuras oportunidades que usted quizás nunca tuvo.
+              </p>
+              <p className="hero-credential">
+                Asociada Financiera Senior · Experior Financial Group Inc.
+              </p>
+            </div>
+
             <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
                 Agendar una Consulta

@@ -54,6 +54,28 @@ export default function Home() {
           white-space: nowrap;
         }
         
+        .hero-intro-story p {
+          text-align: left;
+          margin: 0 0 1rem 0;
+          max-width: 600px;
+          font-size: 1.05rem;
+          line-height: 1.65;
+          color: var(--text-muted);
+          font-weight: 300;
+        }
+        .hero-intro-story p.hero-intro-closing {
+          color: var(--text-main);
+          font-weight: 400;
+          margin-bottom: 1.25rem;
+        }
+        .hero-intro-story p.hero-credential {
+          font-size: 0.9rem;
+          color: var(--gold);
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          margin-bottom: 1.5rem;
+        }
+
         @media (max-width: 768px) {
           .hero-action-buttons {
             flex-direction: column;
@@ -63,6 +85,9 @@ export default function Home() {
           .hero-action-buttons a {
             width: 100%;
             display: block;
+          }
+          .hero-intro-story p {
+            font-size: 1rem;
           }
         }
       `}} />
@@ -102,20 +127,37 @@ export default function Home() {
           </div>
 
           {/* TEXT CONTENT SECOND */}
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
-            
-            {/* The redundant image tag was removed from here to clean up the layout! */}
+          <div className="hero-intro-content" style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
 
             <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
               Establish Your <br />
               <span className="text-gold">Financial Fortress.</span>
             </h1>
-            <p style={{ textAlign: "left", margin: "0 0 2rem 0", maxWidth: "600px" }}>
-              As a Senior Financial Associate with Experior Financial Group Inc.,
-              I guide clients from financial complexity to a clear, actionable path
-              for building generational wealth.
-            </p>
-            
+
+            <div className="hero-intro-story">
+              <p>At 14 years old, my family lost our home during the financial crisis.</p>
+              <p>
+                My father lost his business, and I saw firsthand how financial hardship can impact everything — not just money, but confidence, relationships, mental health, and the stability of an entire family.
+              </p>
+              <p>
+                Years later, after battling years of depression tied to financial stress and loss, my father was diagnosed with stage 4 cancer.
+              </p>
+              <p>Those experiences changed the direction of my life forever.</p>
+              <p>
+                They made me realize that most hardworking families are never truly taught how money works, how to protect what they build, how taxes affect their future, or how to create long-term financial security.
+              </p>
+              <p><strong>That&apos;s why I do what I do today.</strong></p>
+              <p>
+                My mission is to help families, homeowners, parents, professionals, and business owners build stronger financial foundations through simple education, wealth protection, retirement guidance, and legacy-focused planning.
+              </p>
+              <p className="hero-intro-closing">
+                Because financial freedom isn&apos;t just about making money. It&apos;s about protecting your family, creating stability, and giving future generations opportunities you may never have had yourself.
+              </p>
+              <p className="hero-credential">
+                Senior Financial Associate · Experior Financial Group Inc.
+              </p>
+            </div>
+
             <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
                 Schedule a Consultation

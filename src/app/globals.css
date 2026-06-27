@@ -81,7 +81,7 @@ footer p.footer-sub { color: #94a3b8; margin-bottom: 2rem; font-weight: 300; }
 
 /* === HERO SECTIONS === */
 .hero { min-height: auto; text-align: center; background: var(--bg-card); border-bottom: 1px solid var(--border-light); position: relative; z-index: 1; }
-.hero-index { min-height: 90vh; display: flex; align-items: center; text-align: left; }
+.hero-index { min-height: auto; display: flex; align-items: center; text-align: left; padding-top: 10rem !important; padding-bottom: 5rem !important; }
 .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 .hero h1 { font-size: 3.8rem; margin-bottom: 1.5rem; word-break: break-word; max-width: 900px; margin-left: auto; margin-right: auto; letter-spacing: -0.5px; }
 .hero-index h1 { margin-left: 0; margin-right: 0; }

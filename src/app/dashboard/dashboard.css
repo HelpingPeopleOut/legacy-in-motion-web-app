@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --color-portal-bg: #0a0a0b;
+  --color-portal-card: #141416;
+  --color-portal-border: #2a2a2e;
+  --color-portal-gold: #c9a227;
+  --color-portal-muted: #9ca3af;
+}

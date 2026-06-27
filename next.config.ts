@@ -1,16 +1,19 @@
 // @ts-expect-error
 import withPWAInit from 'next-pwa';
 
+const isCfPages = process.env.CF_PAGES === '1';
+
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development', // Disables in dev mode so it doesn't cache heavily while you code
+  disable: process.env.NODE_ENV === 'development',
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // <-- FIX: Generates the 'out' folder for Cloudflare Pages
+  // Cloudflare Pages serves static files from /out
+  ...(isCfPages ? { output: 'export' as const } : {}),
   images: {
-    unoptimized: true, // <-- FIX: Required by Next.js when using output: 'export'
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

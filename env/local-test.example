@@ -1,0 +1,15 @@
+# =============================================================================
+# LOCAL TEST SANDBOX — copy to local-test/.env (gitignored, never committed)
+# =============================================================================
+# Run once:  npm run local:init
+# Start app: npm run dev:local
+#
+# This mode requires NO Clerk, NO Stripe, and NO PostgreSQL.
+# =============================================================================
+
+LOCAL_TEST_MODE=true
+NEXT_PUBLIC_LOCAL_TEST_MODE=true
+MOCK_BILLING=true
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Do NOT add real production keys here. This folder stays on your machine only.
