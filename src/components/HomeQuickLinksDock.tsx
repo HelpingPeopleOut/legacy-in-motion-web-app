@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Link2, Phone, X } from "lucide-react";
 import {
   NELLY_ON_SITE_ACTIONS,
+  NELLY_ON_SITE_PATHS,
   NELLY_QUICK_FORMS,
   NELLY_SOCIAL,
 } from "@/lib/nelly-links";
@@ -48,10 +49,10 @@ export default function HomeQuickLinksDock() {
     close: isSpanish ? "Cerrar" : "Close",
   };
 
-  const linksHub = isSpanish ? NELLY_ON_SITE_ACTIONS.linksHubEs : NELLY_ON_SITE_ACTIONS.linksHub;
+  const linksHub = isSpanish ? NELLY_ON_SITE_PATHS.linksHubEs : NELLY_ON_SITE_PATHS.linksHub;
   const consultation = isSpanish
-    ? NELLY_ON_SITE_ACTIONS.consultationEs
-    : NELLY_ON_SITE_ACTIONS.consultation;
+    ? NELLY_ON_SITE_PATHS.consultationEs
+    : NELLY_ON_SITE_PATHS.consultation;
 
   const featuredForms = NELLY_QUICK_FORMS.slice(0, 3);
 

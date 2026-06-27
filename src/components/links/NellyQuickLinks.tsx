@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { advisorHeadshot } from "@/lib/advisor-media";
 import { BUSINESS } from "@/lib/business";
-import { NELLY_ON_SITE_ACTIONS, NELLY_QUICK_FORMS, NELLY_SOCIAL } from "@/lib/nelly-links";
+import {
+  NELLY_ON_SITE_ACTIONS,
+  NELLY_ON_SITE_PATHS,
+  NELLY_QUICK_FORMS,
+  NELLY_SOCIAL,
+} from "@/lib/nelly-links";
 
 type NellyQuickLinksProps = {
   locale?: "en" | "es";
@@ -33,7 +38,9 @@ function SocialIcon({ network }: { network: "facebook" | "instagram" | "tiktok" 
 
 export default function NellyQuickLinks({ locale = "en" }: NellyQuickLinksProps) {
   const isSpanish = locale === "es";
-  const consultationHref = isSpanish ? NELLY_ON_SITE_ACTIONS.consultationEs : NELLY_ON_SITE_ACTIONS.consultation;
+  const consultationHref = isSpanish
+    ? NELLY_ON_SITE_PATHS.consultationEs
+    : NELLY_ON_SITE_PATHS.consultation;
 
   return (
     <div className="nelly-linkhub">

@@ -83,13 +83,21 @@ export const NELLY_QUICK_FORMS: QuickFormLink[] = [
   },
 ];
 
+/** Relative paths for in-app navigation (avoids cross-host / SSL issues). */
+export const NELLY_ON_SITE_PATHS = {
+  consultation: "/request-callback",
+  consultationEs: "/es/solicitar-llamada",
+  linksHub: "/links",
+  linksHubEs: "/es/links",
+} as const;
+
 export const NELLY_ON_SITE_ACTIONS = {
-  consultation: buildSiteUrl("/request-callback"),
-  consultationEs: buildSiteUrl("/es/solicitar-llamada"),
+  consultation: buildSiteUrl(NELLY_ON_SITE_PATHS.consultation),
+  consultationEs: buildSiteUrl(NELLY_ON_SITE_PATHS.consultationEs),
   phone: `tel:${BUSINESS.phone.replace(/\D/g, "")}`,
   phoneDisplay: BUSINESS.phoneDisplay,
-  linksHub: buildSiteUrl("/links"),
-  linksHubEs: buildSiteUrl("/es/links"),
+  linksHub: buildSiteUrl(NELLY_ON_SITE_PATHS.linksHub),
+  linksHubEs: buildSiteUrl(NELLY_ON_SITE_PATHS.linksHubEs),
 } as const;
 
 export function getSocialUrls(): string[] {
