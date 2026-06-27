@@ -32,7 +32,7 @@ env.NODE_ENV = "development";
 
 console.log("\n  LOCAL TEST SANDBOX — mock auth & billing, not for deployment\n");
 
-const child = spawn("npx", ["next", "dev"], {
+const child = spawn("npx", ["next", "dev", "--webpack"], {
   cwd: root,
   env,
   stdio: "inherit",

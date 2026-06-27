@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 import HomePathwayPanel from "@/components/HomePathwayPanel";
 import HomeStorySection from "@/components/HomeStorySection";
@@ -33,25 +32,8 @@ export default function Home() {
     });
   }, []);
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialService",
-    "name": "Legacy in Motion",
-    "url": "https://www.legacyinmotion.org",
-    "logo": "https://www.legacyinmotion.org/android-chrome-512x512.png",
-    "description": "Expert financial consulting. Specializing in Retirement Planning, Life Insurance with Living Benefits, and Estate Planning.",
-    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"]
-  };
-
   return (
     <>
-      <CinematicIntro />
-
-      <script 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
-      />
-
       <header className="hero hero-index hero-premium fade-in">
         <div className="container hero-premium-grid">
           <div className="hero-intro-content">
@@ -133,18 +115,6 @@ export default function Home() {
             <div className="service-category"><h3>Legacy & Family</h3><ul><li>Estate Planning & Trusts</li><li>Legacy Planning</li><li>Children&apos;s Investment Accounts</li><li>Wealth Transfer Strategies</li></ul></div>
             <div className="service-category"><h3>Business & Cash Flow</h3><ul><li>Business Financial Safety Nets</li><li>Key Person Insurance</li><li>Executive Bonus Plans</li><li>Debt Elimination Strategies</li></ul></div>
           </div>
-        </div>
-      </section>
-
-      {/* 6. BIBLE VERSE CAPSTONE */}
-      <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
-        <div className="container fade-in">
-          <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
-            &quot;I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.&quot; <br />
-            <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
-              – John 16:33
-            </span>
-          </p>
         </div>
       </section>
     </>

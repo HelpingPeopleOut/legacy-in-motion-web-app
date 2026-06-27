@@ -125,18 +125,6 @@ export default function HomeSpanish() {
           </div>
         </div>
       </section>
-
-      {/* 6. BIBLE VERSE CAPSTONE (SPANISH) */}
-      <section style={{ paddingBottom: "4rem", background: "var(--bg-page)" }}>
-        <div className="container fade-in">
-          <p className="text-center" style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: "1.6rem", color: "var(--text-main)", maxWidth: "800px", margin: "0 auto", lineHeight: "1.4" }}>
-            &quot;Estas cosas os he hablado para que en mí tengáis paz. En el mundo tendréis aflicción; pero confiad, yo he vencido al mundo.&quot; <br />
-            <span style={{ fontSize: "0.9rem", color: "var(--gold)", display: "block", marginTop: "1rem", fontFamily: "var(--font-body)", fontStyle: "normal", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
-              – Juan 16:33
-            </span>
-          </p>
-        </div>
-      </section>
     </>
   );
 }

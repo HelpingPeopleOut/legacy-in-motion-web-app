@@ -82,13 +82,6 @@ export default function Navbar() {
     setIsFabOpen(false);
   };
 
-  const handleLanguageToggle = () => {
-    closeMenu();
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("introPlayed", "true");
-    }
-  };
-
   const getToggleUrl = () => {
     let targetPath = "/";
     if (isSpanish) {
@@ -96,8 +89,7 @@ export default function Navbar() {
     } else {
       targetPath = `/es${pathname === "/" ? "" : pathname}`;
     }
-    targetPath = targetPath.replace(/\/+/g, '/');
-    return `${targetPath}${targetPath.includes('?') ? '&' : '?'}skipIntro=true`;
+    return targetPath.replace(/\/+/g, "/");
   };
 
   // --- BILINGUAL TEXT ---
@@ -224,7 +216,7 @@ export default function Navbar() {
             </div>
 
             <div className="elite-nav-actions">
-              <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
+              <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn">
                 {isSpanish ? "EN" : "ES"}
               </Link>
               <Link href={contactRoute} className="elite-cta-btn">{navText.book}</Link>
@@ -291,7 +283,7 @@ export default function Navbar() {
         </div>
 
         <div className="elite-mobile-footer">
-          <Link href={getToggleUrl()} onClick={handleLanguageToggle} className="elite-lang-btn">
+          <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn">
             {isSpanish ? "Switch to English" : "Cambiar a Español"}
           </Link>
           <Link href={contactRoute} className="elite-cta-btn" onClick={closeMenu}>{navText.book}</Link>

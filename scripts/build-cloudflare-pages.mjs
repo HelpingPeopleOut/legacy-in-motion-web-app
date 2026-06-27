@@ -51,6 +51,12 @@ function restore() {
 
 console.log("\n  Building for Cloudflare Pages (static export → /out)\n");
 
+// Avoid stale dev type validators referencing moved API routes
+const nextCache = path.join(root, ".next");
+if (fs.existsSync(nextCache)) {
+  fs.rmSync(nextCache, { recursive: true, force: true });
+}
+
 spawnSync("npm", ["run", "generate:ai-signals"], { cwd: root, stdio: "inherit", shell: true });
 
 move(apiDir, apiBackup);

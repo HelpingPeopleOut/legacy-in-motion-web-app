@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const REEL_URL =
   "https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&utm_campaign=loading";
 
 export default function InstagramEmbed({ className = "" }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const loadEmbed = () => {
       if (typeof window !== "undefined" && window.instgrm?.Embeds) {
@@ -32,7 +30,7 @@ export default function InstagramEmbed({ className = "" }) {
   }, []);
 
   return (
-    <div ref={containerRef} className={`ig-embed-wrap ${className}`}>
+    <div className={`ig-embed-wrap ${className}`}>
       <blockquote
         className="instagram-media"
         data-instgrm-permalink={REEL_URL}

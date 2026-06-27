@@ -31,7 +31,11 @@ export default function Footer() {
     follow: isSpanish ? "Síguenos" : "Follow Nelly",
     disclaimer: isSpanish 
       ? "Aviso legal: La información proporcionada en este sitio web es solo para fines educativos y no constituye asesoramiento financiero, legal o fiscal. La educación financiera y la planificación financiera a largo plazo deben adaptarse a las circunstancias individuales. Consulte con un profesional con licencia sobre su situación específica antes de tomar decisiones de inversión." 
-      : "Disclaimer: The information provided on this website is for educational purposes only and does not constitute financial, legal, or tax advice. Financial education and long-term financial planning should be tailored to individual circumstances. Please consult with a licensed professional regarding your specific situation before making investment decisions."
+      : "Disclaimer: The information provided on this website is for educational purposes only and does not constitute financial, legal, or tax advice. Financial education and long-term financial planning should be tailored to individual circumstances. Please consult with a licensed professional regarding your specific situation before making investment decisions.",
+    verse: isSpanish
+      ? "Estas cosas os he hablado para que en mí tengáis paz. En el mundo tendréis aflicción; pero confiad, yo he vencido al mundo."
+      : "I have told you these things, so that in me you may have peace. In this world you will have trouble. But take heart! I have overcome the world.",
+    verseRef: isSpanish ? "Juan 16:33" : "John 16:33",
   };
 
   return (
@@ -119,6 +123,41 @@ export default function Footer() {
 
         </div>
         {/* ------------------------------------------- */}
+
+        <div
+          className="footer-verse"
+          style={{
+            borderTop: "1px solid var(--border-light)",
+            padding: "2.5rem 0 2rem",
+            maxWidth: "720px",
+            margin: "0 auto",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontStyle: "italic",
+              fontSize: "clamp(1.05rem, 2.5vw, 1.35rem)",
+              color: "var(--text-main)",
+              lineHeight: 1.55,
+              margin: "0 0 1rem",
+            }}
+          >
+            &ldquo;{text.verse}&rdquo;
+          </p>
+          <p
+            style={{
+              fontSize: "0.8rem",
+              color: "var(--gold)",
+              textTransform: "uppercase",
+              letterSpacing: "3px",
+              fontWeight: 600,
+              margin: 0,
+            }}
+          >
+            – {text.verseRef}
+          </p>
+        </div>
 
         <div style={{ borderTop: "1px solid var(--border-light)", padding: "2rem 0 0 0" }}>
           <p
