@@ -22,6 +22,7 @@ import {
   Home,
   Phone,
   Users,
+  ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -49,31 +50,28 @@ export function ToolIcon({ name, className }: { name: string; className?: string
   return <Icon className={className} />;
 }
 
-const nav = [
-  { href: "/dashboard", label: "Tool Hub", shortLabel: "Tools", icon: LayoutDashboard },
-  { href: "/dashboard/billing", label: "Plans & Billing", shortLabel: "Billing", icon: CreditCard },
-  { href: "/#consultation", label: "Advisor Help", shortLabel: "Advisor", icon: Phone, external: true },
-];
+type NavItem = {
+  href: string;
+  label: string;
+  shortLabel: string;
+  icon: React.ComponentType<{ className?: string }>;
+  external?: boolean;
+  siteHome?: boolean;
+};
 
-function ClerkUserButton() {
-  const { UserButton } = require("@clerk/nextjs");
-  return <UserButton />;
+function isNavActive(pathname: string, item: NavItem) {
+  if (item.siteHome) return false;
+  if (item.href === "/dashboard") return pathname === "/dashboard";
+  return pathname.startsWith(item.href);
 }
 
-function isNavActive(pathname: string, href: string) {
-  if (href === "/dashboard") return pathname === "/dashboard";
-  return pathname.startsWith(href);
-}
-
-function NavTab({
-  item,
-  pathname,
-}: {
-  item: (typeof nav)[number];
-  pathname: string;
-}) {
-  const active = !item.external && isNavActive(pathname, item.href);
-  const className = cn("portal-topbar-tab", active && "active");
+function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
+  const active = !item.external && !item.siteHome && isNavActive(pathname, item);
+  const className = cn(
+    "portal-topbar-tab",
+    active && "active",
+    item.siteHome && "portal-topbar-tab--home"
+  );
 
   if (item.external) {
     return (
@@ -92,6 +90,11 @@ function NavTab({
   );
 }
 
+function ClerkUserButton() {
+  const { UserButton } = require("@clerk/nextjs");
+  return <UserButton />;
+}
+
 export default function DashboardShell({
   children,
   localTest = false,
@@ -100,6 +103,28 @@ export default function DashboardShell({
   localTest?: boolean;
 }) {
   const pathname = usePathname() ?? "";
+  const isSpanish = pathname.startsWith("/es");
+  const homeHref = isSpanish ? "/es" : "/";
+  const consultationHref = isSpanish ? "/es#consultation" : "/#consultation";
+
+  const nav: NavItem[] = [
+    {
+      href: homeHref,
+      label: isSpanish ? "Inicio" : "Home",
+      shortLabel: isSpanish ? "Inicio" : "Home",
+      icon: Home,
+      siteHome: true,
+    },
+    { href: "/dashboard", label: "Tool Hub", shortLabel: "Tools", icon: LayoutDashboard },
+    { href: "/dashboard/billing", label: "Plans & Billing", shortLabel: "Billing", icon: CreditCard },
+    {
+      href: consultationHref,
+      label: isSpanish ? "Ayuda" : "Advisor Help",
+      shortLabel: isSpanish ? "Asesor" : "Advisor",
+      icon: Phone,
+      external: true,
+    },
+  ];
 
   return (
     <div className="portal-root">
@@ -121,9 +146,13 @@ export default function DashboardShell({
 
         <div className="portal-topbar-actions">
           {localTest && <span className="portal-preview-pill hidden sm:inline-flex">Preview</span>}
-          <Link href="/" className="portal-btn-ghost portal-topbar-site-link" title="Back to main site">
-            <Home className="h-4 w-4" />
-            <span className="hidden lg:inline">Main site</span>
+          <Link
+            href={homeHref}
+            className="portal-btn-secondary portal-topbar-home-btn hidden sm:inline-flex"
+            title={isSpanish ? "Volver al sitio principal" : "Back to main website"}
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+            <span>{isSpanish ? "Sitio principal" : "Main site"}</span>
           </Link>
           {!localTest && (
             <span className="portal-topbar-user">
@@ -140,8 +169,8 @@ export default function DashboardShell({
       {/* Mobile / tablet portrait — bottom tab bar (keeps top header minimal) */}
       <nav className="portal-mobile-nav" aria-label="Portal navigation">
         {nav.map((item) => {
-          const active = !item.external && isNavActive(pathname, item.href);
-          const className = cn(active && "active");
+          const active = !item.external && !item.siteHome && isNavActive(pathname, item);
+          const className = cn(active && "active", item.siteHome && "portal-mobile-nav-home");
           if (item.external) {
             return (
               <a key={item.href} href={item.href} className={className}>

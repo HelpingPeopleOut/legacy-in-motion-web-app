@@ -39,9 +39,14 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
 
   return (
     <div className="portal-tool-page-header">
-      <Link href="/dashboard" className="portal-tool-back">
-        ← Back to Tool Hub
-      </Link>
+      <div className="portal-tool-back-row">
+        <Link href="/dashboard" className="portal-tool-back">
+          ← Back to Tool Hub
+        </Link>
+        <Link href="/" className="portal-tool-back">
+          ← Main site
+        </Link>
+      </div>
       <div className="portal-tool-meta">
         <span className="portal-tool-category-pill">{TOOL_AUDIENCE_META[tool.audience].label}</span>
         <span className="portal-tool-category-pill portal-tool-category-pill--muted">

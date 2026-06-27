@@ -204,6 +204,18 @@
   background: #dceede;
 }
 
+.portal-topbar-tab--home {
+  color: var(--color-portal-text);
+  background: var(--color-portal-bg);
+  border: 1px solid var(--color-portal-border);
+}
+
+.portal-topbar-tab--home:hover {
+  border-color: var(--color-portal-gold);
+  color: var(--color-portal-gold);
+  background: var(--color-portal-gold-light);
+}
+
 .portal-preview-pill {
   display: inline-flex;
   align-items: center;
@@ -295,8 +307,22 @@
   align-items: center;
 }
 
-.portal-topbar-site-link span {
-  margin-left: 0.15rem;
+.portal-mobile-nav-home {
+  color: var(--color-portal-text);
+  font-weight: 700;
+}
+
+.portal-topbar-home-btn {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  gap: 0.35rem;
+}
+
+.portal-topbar-home-btn svg {
+  flex-shrink: 0;
 }
 
 /* ─── Cards & buttons ───────────────────────────────────────────────────── */
@@ -666,6 +692,14 @@
 
 .portal-tool-page-header {
   margin-bottom: 1.5rem;
+}
+
+.portal-tool-back-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .portal-tool-back {
