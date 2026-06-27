@@ -120,6 +120,7 @@ export default function Navbar() {
   const contactRoute = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
   const quickLinksRoute = isSpanish ? "/es/links" : "/links";
   const isHome = pathname === "/" || pathname === "/es";
+  const isLinksHub = pathname === "/links" || pathname === "/es/links";
   const toolboxRoute = isSpanish ? "/es/herramientas" : "/toolbox";
   const homeRoute = base || "/";
 
@@ -323,6 +324,7 @@ export default function Navbar() {
       </div>
 
       {/* Floating action menu — desktop only (mobile uses sticky bar) */}
+      {!isLinksHub && (
       <div
         className={`nav-fab-container${isOpen ? " nav-fab-container--hidden" : ""}`}
         style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9980, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem", transition: "opacity 0.3s ease" }}
@@ -350,6 +352,7 @@ export default function Navbar() {
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
       </div>
+      )}
 
       {showIOSModal && (
         <div onClick={() => setShowIOSModal(false)} style={{ position: "fixed", inset: 0, zIndex: 100000, display: "flex", flexDirection: "column", justifyContent: "flex-end", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", padding: "1rem" }}>

@@ -11,6 +11,7 @@ const PORTAL_PREFIXES = ["/dashboard", "/login", "/sign-up"];
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
   const isPortal = PORTAL_PREFIXES.some((p) => pathname.startsWith(p));
+  const isLinksHub = pathname === "/links" || pathname === "/es/links";
 
   if (isPortal) {
     return <>{children}</>;
@@ -19,10 +20,10 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Navbar />
-      <main>{children}</main>
-      <HomeQuickLinksDock />
-      <TrustedPartners />
-      <Footer />
+      <main className={isLinksHub ? "main--linkhub" : undefined}>{children}</main>
+      {!isLinksHub && <HomeQuickLinksDock />}
+      {!isLinksHub && <TrustedPartners />}
+      {!isLinksHub && <Footer />}
     </>
   );
 }

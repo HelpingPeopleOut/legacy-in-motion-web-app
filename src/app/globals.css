@@ -933,12 +933,18 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
 
 /* Nelly quick links hub (Linktree-style) */
 .nelly-linkhub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   min-height: 70vh;
-  padding: 7rem 1rem 4rem;
+  padding: 6.5rem 1rem 3rem;
+  box-sizing: border-box;
   background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-page) 35%);
 }
 .nelly-linkhub-inner {
-  max-width: 480px;
+  width: 100%;
+  max-width: 420px;
   margin: 0 auto;
 }
 .nelly-linkhub-header {
@@ -1058,6 +1064,10 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
 .nelly-linkhub-footer {
   text-align: center;
   margin-top: 2rem;
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
   color: var(--text-muted);
   font-size: 0.85rem;
 }
@@ -1068,11 +1078,11 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
 
 @media (min-width: 768px) {
   .nelly-linkhub {
-    padding: 8rem 1.5rem 5rem;
+    padding: 7.5rem 1.5rem 4rem;
   }
 
   .nelly-linkhub-inner {
-    max-width: 540px;
+    max-width: 440px;
   }
 
   .nelly-linkhub-avatar {
@@ -1081,25 +1091,11 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
   }
 }
 
-@media (min-width: 1100px) {
-  .nelly-linkhub-inner {
-    max-width: 680px;
-  }
-
-  .nelly-linkhub-nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem 1rem;
-    align-items: stretch;
-  }
-
-  .nelly-linkhub-section-label {
-    grid-column: 1 / -1;
-  }
-
-  .nelly-linkhub-card {
-    height: 100%;
-  }
+main.main--linkhub {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
 }
 
 /* Homepage floating quick links dock */
