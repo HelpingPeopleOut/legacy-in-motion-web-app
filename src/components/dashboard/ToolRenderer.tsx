@@ -16,7 +16,7 @@ const CostOfWaiting = dynamic(() => import("@/components/CostOfWaiting"), { ssr:
 
 function LegacyVaultPlaceholder() {
   return (
-    <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6 text-[var(--color-portal-muted)]">
+    <div className="portal-card p-6 text-[var(--color-portal-muted)]">
       <p className="mb-4">Digital inventory for policies, wills, bank accounts, and beneficiary instructions.</p>
       <ul className="list-inside list-disc space-y-2 text-sm">
         <li>Life insurance policies & policy numbers</li>
@@ -31,7 +31,7 @@ function LegacyVaultPlaceholder() {
 
 function VitalSignsPlaceholder() {
   return (
-    <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6">
+    <div className="portal-card p-6">
       <p className="text-[var(--color-portal-muted)]">
         Net worth, liquidity, debt-to-income, and coverage metrics. Plaid bank sync — Phase 2.
       </p>
@@ -41,7 +41,7 @@ function VitalSignsPlaceholder() {
 
 function PolicyLadderPlaceholder() {
   return (
-    <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6">
+    <div className="portal-card p-6">
       <p className="text-[var(--color-portal-muted)]">
         Add multiple policies, track premium due dates, and get lapse alerts — Phase 2.
       </p>
@@ -51,7 +51,7 @@ function PolicyLadderPlaceholder() {
 
 function WhatIfPlaceholder() {
   return (
-    <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6">
+    <div className="portal-card p-6">
       <p className="text-[var(--color-portal-muted)]">
         Model home purchases, new children, or early retirement — Phase 2.
       </p>
@@ -61,7 +61,7 @@ function WhatIfPlaceholder() {
 
 function SecurePortalPlaceholder() {
   return (
-    <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6">
+    <div className="portal-card p-6">
       <p className="text-[var(--color-portal-muted)]">
         Encrypted document uploads and advisor messaging — Phase 2.
       </p>
@@ -116,10 +116,10 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
       </div>
 
       {tool.slug === "human-life-value" && (
-        <div className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-6">
-          <h3 className="mb-2 font-semibold">Family Financial Security Report (PDF)</h3>
+        <div className="portal-card p-6">
+          <h3 className="mb-2 font-semibold text-[var(--color-portal-text)]">Family Financial Security Report (PDF)</h3>
           {hlvReportAccess.allowed ? (
-            <p className="text-sm text-emerald-400">Report unlocked — PDF generation coming in Phase 2.</p>
+            <p className="text-sm text-[var(--color-portal-accent)]">Report unlocked — PDF download coming soon.</p>
           ) : (
             <>
               <p className="mb-4 text-sm text-[var(--color-portal-muted)]">{hlvReportAccess.message}</p>
@@ -130,13 +130,13 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
       )}
 
       {tool.advisorCta && (
-        <div className="rounded-xl border border-[var(--color-portal-gold)]/30 bg-[var(--color-portal-gold)]/5 p-4 text-center">
+        <div className="rounded-xl border border-amber-200 bg-[var(--color-portal-gold-light)] p-5 text-center">
           <p className="text-sm text-[var(--color-portal-muted)]">{tool.advisorCta}</p>
           <a
             href="/#consultation"
-            className="mt-2 inline-block text-sm font-semibold text-[var(--color-portal-gold)] hover:underline"
+            className="portal-btn-primary mt-3 inline-flex text-sm"
           >
-            Schedule your strategy session →
+            Schedule your free strategy session
           </a>
         </div>
       )}

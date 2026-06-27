@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import HomePathwayPanel from "@/components/HomePathwayPanel";
 
 export default function HomeSpanish() {
   useEffect(() => {
@@ -97,77 +98,24 @@ export default function HomeSpanish() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
 
-      <header className="hero hero-index container fade-in">
-        <div className="hero-grid" style={{ alignItems: "center" }}>
-          
-          {/* INSTAGRAM FIRST */}
-          <div className="ig-container">
-            <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
-              <div style={{ padding: "16px" }}>
-                <a href="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" style={{ background: "#FFFFFF", lineHeight: 0, padding: "0 0", textAlign: "center", textDecoration: "none", width: "100%" }} target="_blank" rel="noopener noreferrer">
-                  <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <div style={{ backgroundColor: "#F4F4F4", borderRadius: "50%", flexGrow: 0, height: "40px", marginRight: "14px", width: "40px" }}></div>
-                    <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "center" }}>
-                      <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", flexGrow: 0, height: "14px", marginBottom: "6px", width: "100px" }}></div>
-                      <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", flexGrow: 0, height: "14px", width: "60px" }}></div>
-                    </div>
-                  </div>
-                  <div style={{ padding: "19% 0" }}></div>
-                  <div style={{ paddingTop: "8px" }}>
-                    <div style={{ color: "#3897f0", fontFamily: "Arial,sans-serif", fontSize: "14px", fontStyle: "normal", fontWeight: 550, lineHeight: "18px" }}>
-                      Ver esta publicación en Instagram
-                    </div>
-                  </div>
-                  <div style={{ padding: "12.5% 0" }}></div>
-                </a>
-              </div>
-            </blockquote>
-            <Script async src="//www.instagram.com/embed.js" strategy="lazyOnload" />
-          </div>
-
-          {/* TEXT CONTENT SECOND */}
-          <div className="hero-intro-content" style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
-
-            <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
-              Establezca Su <br />
-              <span className="text-gold">Fortaleza Financiera.</span>
+      <header className="hero hero-index hero-premium fade-in">
+        <div className="container hero-premium-grid">
+          <div className="hero-intro-content">
+            <p className="hero-eyebrow">Legacy in Motion · Asesoría Financiera</p>
+            <h1>
+              Resuelva Sus Problemas Financieros — <span className="text-gold">No Solo Venda Productos.</span>
             </h1>
-
-            <div className="hero-intro-story">
-              <p>A los 14 años, mi familia perdió nuestra casa durante la crisis financiera.</p>
-              <p>
-                Mi padre perdió su negocio, y vi de primera mano cómo la dificultad financiera puede afectar todo — no solo el dinero, sino la confianza, las relaciones, la salud mental y la estabilidad de toda una familia.
-              </p>
-              <p>
-                Años después, después de luchar contra años de depresión ligada al estrés y las pérdidas financieras, a mi padre le diagnosticaron cáncer en etapa 4.
-              </p>
-              <p>Esas experiencias cambiaron la dirección de mi vida para siempre.</p>
-              <p>
-                Me hicieron darme cuenta de que a la mayoría de las familias trabajadoras nunca se les enseña realmente cómo funciona el dinero, cómo proteger lo que construyen, cómo los impuestos afectan su futuro, o cómo crear seguridad financiera a largo plazo.
-              </p>
-              <p><strong>Por eso hago lo que hago hoy.</strong></p>
-              <p>
-                Mi misión es ayudar a familias, propietarios de vivienda, padres, profesionales y dueños de negocios a construir bases financieras más sólidas mediante educación simple, protección patrimonial, orientación para la jubilación y planificación enfocada en el legado.
-              </p>
-              <p className="hero-intro-closing">
-                Porque la libertad financiera no se trata solo de ganar dinero. Se trata de proteger a su familia, crear estabilidad y dar a las generaciones futuras oportunidades que usted quizás nunca tuvo.
-              </p>
-              <p className="hero-credential">
-                Asociada Financiera Senior · Experior Financial Group Inc.
-              </p>
-            </div>
-
+            <p className="hero-intro-lead">
+              A los 14 años perdí mi hogar en la crisis financiera. Hoy ayudo a familias a construir
+              seguridad real — con educación simple, protección y un plan claro.
+            </p>
+            <p className="hero-credential">Asociada Financiera Senior · Experior Financial Group Inc.</p>
             <div className="hero-action-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
-                Agendar una Consulta
-              </a>
-              <a href="#framework" className="btn-outline">
-                Explore el Plan
-              </a>
+              <a href="#consultation" className="btn-gold btn-pulse">Consulta Gratuita</a>
+              <a href="/dashboard" className="btn-outline">Portal de Herramientas</a>
             </div>
-
           </div>
-          
+          <HomePathwayPanel locale="es" />
         </div>
       </header>
 

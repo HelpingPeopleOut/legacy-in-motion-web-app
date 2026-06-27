@@ -28,20 +28,25 @@ export default function BillingContent() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-semibold">Billing & Upgrades</h1>
+      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-portal-gold)]">
+        Plans & billing
+      </p>
+      <h1 className="mb-2 font-serif text-2xl font-semibold text-[var(--color-portal-text)]">
+        Upgrade your toolkit
+      </h1>
       <p className="mb-8 max-w-xl text-[var(--color-portal-muted)]">
-        Manage subscriptions, one-time tool unlocks, and payment methods via Stripe.
+        Unlock premium dashboards, reports, and advisor tools. Manage payment methods securely through Stripe.
       </p>
 
       {success && (
-        <div className="mb-6 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-400">
+        <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
           {searchParams.get("mock") === "1"
             ? "Mock purchase applied — tier updated (local test only, no charge)."
             : "Payment successful — your access will update momentarily."}
         </div>
       )}
       {canceled && (
-        <div className="mb-6 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-400">
+        <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
           Checkout canceled. You can upgrade anytime.
         </div>
       )}
@@ -52,7 +57,7 @@ export default function BillingContent() {
           {oneTime.map((p) => (
             <div
               key={p.key}
-              className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-5"
+              className="portal-card p-5"
             >
               <h3 className="font-semibold">{p.name}</h3>
               <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{p.description}</p>
@@ -70,7 +75,7 @@ export default function BillingContent() {
           {subscriptions.map((p) => (
             <div
               key={p.key}
-              className="rounded-xl border border-[var(--color-portal-border)] bg-[var(--color-portal-card)] p-5"
+              className="portal-card p-5"
             >
               <h3 className="font-semibold">{p.name}</h3>
               <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{p.description}</p>
@@ -88,7 +93,7 @@ export default function BillingContent() {
           type="button"
           onClick={openPortal}
           disabled={portalLoading}
-          className="rounded-lg border border-[var(--color-portal-border)] px-5 py-2.5 text-sm hover:border-[var(--color-portal-gold)] disabled:opacity-60"
+          className="portal-btn-secondary disabled:opacity-60"
         >
           {portalLoading ? "Opening…" : "Open Stripe Customer Portal"}
         </button>

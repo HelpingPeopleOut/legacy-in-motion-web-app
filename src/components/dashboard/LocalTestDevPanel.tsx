@@ -36,13 +36,12 @@ export default function LocalTestDevPanel() {
   }
 
   return (
-    <div className="mb-8 rounded-xl border border-amber-500/40 bg-amber-500/10 p-5">
-      <h2 className="mb-1 text-sm font-semibold uppercase tracking-wider text-amber-400">
-        Local test controls
+    <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50/80 p-5">
+      <h2 className="mb-1 text-sm font-semibold uppercase tracking-wider text-amber-900">
+        Preview mode
       </h2>
-      <p className="mb-4 text-xs text-amber-200/80">
-        Switch client tiers instantly — mock billing only, no Stripe or real charges.
-        {isStaticTest ? " (Static test site — uses browser cookies.)" : ""}
+      <p className="mb-4 text-xs text-amber-800/90">
+        Switch client tiers to preview paywalls and unlocked tools. No real charges.
       </p>
       <div className="flex flex-wrap gap-2">
         {SCENARIOS.map((scenario) => (
@@ -51,7 +50,7 @@ export default function LocalTestDevPanel() {
             type="button"
             disabled={loading !== null}
             onClick={() => simulate(scenario)}
-            className="rounded-lg border border-amber-500/30 bg-black/30 px-3 py-1.5 text-xs font-medium text-amber-100 hover:border-amber-400 disabled:opacity-50"
+            className="rounded-lg border border-amber-200 bg-white px-3 py-1.5 text-xs font-medium text-amber-900 shadow-sm hover:border-amber-400 disabled:opacity-50"
           >
             {loading === scenario ? "…" : scenarioLabel(scenario)}
           </button>

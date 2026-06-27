@@ -49,12 +49,9 @@ export default function CheckoutButton({ productKey, label, className }: Checkou
       type="button"
       onClick={handleCheckout}
       disabled={loading}
-      className={
-        className ??
-        "rounded-lg bg-[var(--color-portal-gold)] px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 disabled:opacity-60"
-      }
+      className={className ?? "portal-btn-primary disabled:opacity-60"}
     >
-      {loading ? "Redirecting…" : isLocalTestClient ? `${label} (test)` : label}
+      {loading ? "Redirecting…" : isLocalTestClient ? `${label} (preview)` : label}
     </button>
   );
 }

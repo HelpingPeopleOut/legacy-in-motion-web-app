@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import CinematicIntro from "@/components/CinematicIntro";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import HomePathwayPanel from "@/components/HomePathwayPanel";
+import HomeStorySection from "@/components/HomeStorySection";
 
 export default function Home() {
   useEffect(() => {
@@ -44,51 +46,19 @@ export default function Home() {
         .hero-action-buttons {
           display: flex;
           flex-direction: row;
-          gap: 1.5rem;
+          flex-wrap: wrap;
+          gap: 1rem;
           justify-content: flex-start;
           align-items: center;
-          margin-top: 1rem;
+          margin-top: 1.5rem;
         }
         .hero-action-buttons a {
-          min-width: 220px;
+          min-width: 200px;
           white-space: nowrap;
         }
-        
-        .hero-intro-story p {
-          text-align: left;
-          margin: 0 0 1rem 0;
-          max-width: 600px;
-          font-size: 1.05rem;
-          line-height: 1.65;
-          color: var(--text-muted);
-          font-weight: 300;
-        }
-        .hero-intro-story p.hero-intro-closing {
-          color: var(--text-main);
-          font-weight: 400;
-          margin-bottom: 1.25rem;
-        }
-        .hero-intro-story p.hero-credential {
-          font-size: 0.9rem;
-          color: var(--gold);
-          font-weight: 600;
-          letter-spacing: 0.5px;
-          margin-bottom: 1.5rem;
-        }
-
         @media (max-width: 768px) {
-          .hero-action-buttons {
-            flex-direction: column;
-            width: 100%;
-            gap: 1rem;
-          }
-          .hero-action-buttons a {
-            width: 100%;
-            display: block;
-          }
-          .hero-intro-story p {
-            font-size: 1rem;
-          }
+          .hero-action-buttons { flex-direction: column; width: 100%; }
+          .hero-action-buttons a { width: 100%; display: block; }
         }
       `}} />
 
@@ -99,76 +69,30 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
       />
 
-      <header className="hero hero-index fade-in">
-        <div className="container hero-grid" style={{ alignItems: "center" }}>
-          
-          {/* INSTAGRAM FIRST */}
-          <div className="ig-container">
-            <blockquote className="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style={{ background: "#FFF", border: 0, margin: 0, padding: 0, width: "100%" }}>
-              <div style={{ padding: "16px" }}>
-                <a href="https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&amp;utm_campaign=loading" style={{ background: "#FFFFFF", lineHeight: 0, padding: "0 0", textAlign: "center", textDecoration: "none", width: "100%" }} target="_blank" rel="noopener noreferrer">
-                  <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <div style={{ backgroundColor: "#F4F4F4", borderRadius: "50%", flexGrow: 0, height: "40px", marginRight: "14px", width: "40px" }}></div>
-                    <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "center" }}>
-                      <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", flexGrow: 0, height: "14px", marginBottom: "6px", width: "100px" }}></div>
-                      <div style={{ backgroundColor: "#F4F4F4", borderRadius: "4px", flexGrow: 0, height: "14px", width: "60px" }}></div>
-                    </div>
-                  </div>
-                  <div style={{ padding: "19% 0" }}></div>
-                  <div style={{ paddingTop: "8px" }}>
-                    <div style={{ color: "#3897f0", fontFamily: "Arial,sans-serif", fontSize: "14px", fontStyle: "normal", fontWeight: 550, lineHeight: "18px" }}>
-                      View this post on Instagram
-                    </div>
-                  </div>
-                  <div style={{ padding: "12.5% 0" }}></div>
-                </a>
-              </div>
-            </blockquote>
-          </div>
-
-          {/* TEXT CONTENT SECOND */}
-          <div className="hero-intro-content" style={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%" }}>
-
-            <h1 style={{ lineHeight: "1.15", textAlign: "left", margin: "0 0 1.5rem 0" }}>
-              Establish Your <br />
-              <span className="text-gold">Financial Fortress.</span>
+      <header className="hero hero-index hero-premium fade-in">
+        <div className="container hero-premium-grid">
+          <div className="hero-intro-content">
+            <p className="hero-eyebrow">Legacy in Motion · Financial Advisory</p>
+            <h1>
+              Get Your Financial Problems <span className="text-gold">Solved — Not Sold.</span>
             </h1>
 
-            <div className="hero-intro-story">
-              <p>At 14 years old, my family lost our home during the financial crisis.</p>
-              <p>
-                My father lost his business, and I saw firsthand how financial hardship can impact everything — not just money, but confidence, relationships, mental health, and the stability of an entire family.
-              </p>
-              <p>
-                Years later, after battling years of depression tied to financial stress and loss, my father was diagnosed with stage 4 cancer.
-              </p>
-              <p>Those experiences changed the direction of my life forever.</p>
-              <p>
-                They made me realize that most hardworking families are never truly taught how money works, how to protect what they build, how taxes affect their future, or how to create long-term financial security.
-              </p>
-              <p><strong>That&apos;s why I do what I do today.</strong></p>
-              <p>
-                My mission is to help families, homeowners, parents, professionals, and business owners build stronger financial foundations through simple education, wealth protection, retirement guidance, and legacy-focused planning.
-              </p>
-              <p className="hero-intro-closing">
-                Because financial freedom isn&apos;t just about making money. It&apos;s about protecting your family, creating stability, and giving future generations opportunities you may never have had yourself.
-              </p>
-              <p className="hero-credential">
-                Senior Financial Associate · Experior Financial Group Inc.
-              </p>
-            </div>
+            <HomeStorySection />
 
             <div className="hero-action-buttons">
               <a href="#consultation" className="btn-gold btn-pulse">
-                Schedule a Consultation
+                Free Strategy Call
               </a>
-              <a href="#framework" className="btn-outline">
-                Explore the Blueprint
+              <a href="/dashboard" className="btn-outline">
+                Client Tools Portal
+              </a>
+              <a href="#framework" className="btn-outline btn-ghost">
+                7-Step Blueprint
               </a>
             </div>
-
           </div>
-          
+
+          <HomePathwayPanel />
         </div>
       </header>
 
@@ -247,8 +171,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-      
-      <script async src="//www.instagram.com/embed.js" />
     </>
   );
 }

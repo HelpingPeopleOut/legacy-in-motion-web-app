@@ -40,7 +40,7 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
       >
         ← Back to Tool Hub
       </Link>
-      <h1 className="mb-2 text-2xl font-semibold">{tool.name}</h1>
+      <h1 className="mb-2 font-serif text-2xl font-semibold text-[var(--color-portal-text)]">{tool.name}</h1>
       <p className="mb-8 max-w-2xl text-[var(--color-portal-muted)]">{tool.description}</p>
       <ToolRenderer tool={tool} access={access} hlvReportAccess={hlvReportAccess} />
     </div>

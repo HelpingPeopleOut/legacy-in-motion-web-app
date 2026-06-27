@@ -1,9 +1,75 @@
 @import "tailwindcss";
 
 @theme {
-  --color-portal-bg: #0a0a0b;
-  --color-portal-card: #141416;
-  --color-portal-border: #2a2a2e;
-  --color-portal-gold: #c9a227;
-  --color-portal-muted: #9ca3af;
+  --color-portal-bg: #f7f6f3;
+  --color-portal-surface: #ffffff;
+  --color-portal-card: #ffffff;
+  --color-portal-border: #e8e4dc;
+  --color-portal-gold: #b8941f;
+  --color-portal-gold-light: #f5efd9;
+  --color-portal-text: #1a1a1a;
+  --color-portal-muted: #5c5c5c;
+  --color-portal-accent: #2d6a4f;
+  --font-portal-serif: "Playfair Display", Georgia, serif;
+  --font-portal-sans: "Inter", system-ui, sans-serif;
+  --shadow-portal: 0 4px 24px rgba(26, 26, 26, 0.06);
+  --shadow-portal-lg: 0 12px 40px rgba(26, 26, 26, 0.08);
+}
+
+.portal-root {
+  font-family: var(--font-portal-sans);
+  color: var(--color-portal-text);
+  background: var(--color-portal-bg);
+  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(212, 175, 55, 0.08), transparent);
+}
+
+.portal-card {
+  background: var(--color-portal-card);
+  border: 1px solid var(--color-portal-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-portal);
+}
+
+.portal-card:hover {
+  box-shadow: var(--shadow-portal-lg);
+  border-color: rgba(184, 148, 31, 0.35);
+}
+
+.portal-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #c9a227 0%, #b8941f 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(184, 148, 31, 0.25);
+}
+
+.portal-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(184, 148, 31, 0.35);
+}
+
+.portal-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-portal-border);
+  background: var(--color-portal-surface);
+  color: var(--color-portal-text);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.portal-btn-secondary:hover {
+  border-color: var(--color-portal-gold);
+  background: var(--color-portal-gold-light);
 }

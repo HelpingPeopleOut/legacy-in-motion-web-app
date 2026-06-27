@@ -17,6 +17,8 @@ import {
   Calculator,
   Clock,
   Zap,
+  Home,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,7 +44,7 @@ export function ToolIcon({ name, className }: { name: string; className?: string
 
 const nav = [
   { href: "/dashboard", label: "Tool Hub", icon: LayoutDashboard },
-  { href: "/dashboard/billing", label: "Billing", icon: CreditCard },
+  { href: "/dashboard/billing", label: "Plans & Billing", icon: CreditCard },
 ];
 
 function ClerkUserButton() {
@@ -60,19 +62,42 @@ export default function DashboardShell({
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-[var(--color-portal-bg)] text-white">
-      <header className="sticky top-0 z-50 border-b border-[var(--color-portal-border)] bg-[var(--color-portal-bg)]/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/dashboard" className="font-serif text-lg tracking-wide">
-            Legacy in Motion <span className="text-[var(--color-portal-gold)]">Client Portal</span>
+    <div className="portal-root min-h-screen">
+      <header className="sticky top-0 z-50 border-b border-[var(--color-portal-border)] bg-white/90 backdrop-blur-md shadow-sm">
+        <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between px-4 sm:px-6">
+          <Link href="/dashboard" className="flex items-center gap-2">
+            <span
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold text-white"
+              style={{ background: "linear-gradient(135deg, #c9a227, #b8941f)" }}
+            >
+              LM
+            </span>
+            <span className="hidden sm:block">
+              <span className="block text-xs font-medium uppercase tracking-wider text-[var(--color-portal-muted)]">
+                Legacy in Motion
+              </span>
+              <span className="block font-serif text-base font-semibold text-[var(--color-portal-text)]">
+                Client Portal
+              </span>
+            </span>
           </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="hidden text-sm text-[var(--color-portal-muted)] hover:text-white sm:block">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="hidden items-center gap-1 text-sm text-[var(--color-portal-muted)] hover:text-[var(--color-portal-gold)] sm:flex"
+            >
+              <Home className="h-4 w-4" />
               Main site
             </Link>
+            <Link
+              href="/#consultation"
+              className="portal-btn-primary hidden text-xs sm:inline-flex"
+            >
+              Book free call
+            </Link>
             {localTest ? (
-              <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-xs text-amber-300">
-                Test Client
+              <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800">
+                Preview
               </span>
             ) : (
               <ClerkUserButton />
@@ -81,27 +106,36 @@ export default function DashboardShell({
         </div>
       </header>
 
-      <div className="mx-auto flex max-w-7xl gap-8 px-4 py-8 sm:px-6">
-        <aside className="hidden w-52 shrink-0 md:block">
-          <nav className="space-y-1">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition",
-                  pathname === item.href
-                    ? "bg-[var(--color-portal-gold)]/15 text-[var(--color-portal-gold)]"
-                    : "text-[var(--color-portal-muted)] hover:bg-[var(--color-portal-card)] hover:text-white"
-                )}
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          <aside className="lg:w-56 lg:shrink-0">
+            <nav className="portal-card flex flex-row gap-1 p-1.5 lg:flex-col lg:gap-0.5 lg:p-2">
+              {nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition lg:flex-none lg:justify-start",
+                    pathname === item.href
+                      ? "bg-[var(--color-portal-gold-light)] text-[var(--color-portal-gold)]"
+                      : "text-[var(--color-portal-muted)] hover:bg-[var(--color-portal-bg)] hover:text-[var(--color-portal-text)]"
+                  )}
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              ))}
+              <a
+                href="/#consultation"
+                className="mt-0 flex flex-1 items-center justify-center gap-2 rounded-lg border border-dashed border-[var(--color-portal-border)] px-3 py-2.5 text-sm text-[var(--color-portal-muted)] transition hover:border-[var(--color-portal-gold)] hover:text-[var(--color-portal-gold)] lg:mt-2 lg:flex-none lg:justify-start"
               >
-                <item.icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </aside>
-        <main className="min-w-0 flex-1">{children}</main>
+                <ExternalLink className="h-4 w-4" />
+                Get advisor help
+              </a>
+            </nav>
+          </aside>
+          <main className="min-w-0 flex-1">{children}</main>
+        </div>
       </div>
     </div>
   );
