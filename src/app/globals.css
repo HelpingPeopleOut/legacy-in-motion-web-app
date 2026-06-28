@@ -170,7 +170,7 @@ footer .footer-disclaimer {
 
 /* === HERO SECTIONS === */
 .hero { min-height: auto; text-align: center; background: var(--bg-card); border-bottom: 1px solid var(--border-light); position: relative; z-index: 1; }
-.hero-index { min-height: auto; display: flex; align-items: center; text-align: left; padding-top: calc(var(--site-nav-height, 4.5rem) + 2.5rem) !important; padding-bottom: 4rem !important; }
+.hero-index { min-height: auto; display: flex; align-items: flex-start; text-align: left; padding-top: calc(var(--site-nav-height, 4.5rem) + 1rem) !important; padding-bottom: 3.5rem !important; }
 .hero-premium { background: linear-gradient(180deg, #ffffff 0%, #f7f6f3 100%); }
 .hero-premium-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; width: 100%; max-width: 100%; }
 .hero-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
@@ -1422,6 +1422,14 @@ main.main--linkhub {
 }
 
 @media (min-width: 1024px) {
+  /* Keep dock off the left hero photo on desktop — sit left of the FAB */
+  .home-quick-links-dock {
+    left: auto;
+    right: calc(5.75rem + env(safe-area-inset-right, 0px));
+    bottom: clamp(1.25rem, 2.5vw, 2rem);
+    align-items: flex-end;
+  }
+
   .home-quick-links-panel {
     width: min(360px, calc(100vw - 3rem));
   }

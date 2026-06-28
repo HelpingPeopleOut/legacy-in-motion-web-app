@@ -222,9 +222,14 @@ textarea,
     align-items: start;
   }
 
+  .hero-index {
+    padding-top: calc(var(--site-nav-height, 4.5rem) + 0.65rem) !important;
+    padding-bottom: 3rem !important;
+  }
+
   .home-pathway-panel {
     position: sticky;
-    top: calc(6rem + var(--safe-top));
+    top: calc(5.25rem + var(--safe-top));
   }
 }
 
