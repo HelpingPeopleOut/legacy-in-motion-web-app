@@ -8,6 +8,10 @@ import HomeStorySection from "@/components/HomeStorySection";
 import TransformationStories from "@/components/TransformationStories";
 import AdvisorHeroPhoto from "@/components/AdvisorHeroPhoto";
 import MeetAdvisorSection from "@/components/MeetAdvisorSection";
+import EnterpriseTrustSignals from "@/components/seo/EnterpriseTrustSignals";
+import EnterpriseFaqSection from "@/components/seo/EnterpriseFaqSection";
+import { GLOBAL_FAQS_ES } from "@/lib/ai-enterprise";
+import Link from "next/link";
 
 export default function HomeSpanish() {
   useEffect(() => {
@@ -70,6 +74,8 @@ export default function HomeSpanish() {
         </div>
       </header>
 
+      <EnterpriseTrustSignals locale="es" />
+
       {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
@@ -93,6 +99,23 @@ export default function HomeSpanish() {
 
       {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="es" />
+
+      <EnterpriseFaqSection
+        title="Preguntas Frecuentes — Respuestas Claras"
+        faqs={GLOBAL_FAQS_ES.slice(0, 6)}
+        id="home-faq-es"
+      />
+
+      <section className="text-section fade-in" style={{ background: "var(--bg-page)", padding: "3rem 0" }}>
+        <div className="container text-center">
+          <p style={{ color: "var(--text-muted)", maxWidth: "640px", margin: "0 auto 1rem" }}>
+            Guías sobre rollovers, beneficios en vida, deudas y patrimonio — escritas para búsquedas reales.
+          </p>
+          <Link href="/es/educacion-financiera" className="btn-outline">
+            Centro de Educación Financiera →
+          </Link>
+        </div>
+      </section>
 
       {/* 4. REQUEST A CALLBACK FORM (SPANISH) */}
       <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>

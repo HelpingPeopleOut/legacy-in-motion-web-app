@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PRINCIPAL, SERVICE_CATALOG } from "@/lib/ai-enterprise";
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, TRUST } from "@/lib/business";
 import { buildSiteUrl } from "@/lib/seo-metadata";
 
 import type { SiteLocale } from "@/lib/locations";
@@ -21,7 +21,11 @@ export default function EnterpriseTrustSignals({ cityName, locale = "en" }: Ente
             <p className="enterprise-signal-label">{isSpanish ? "Asesora Principal" : "Lead Advisor"}</p>
             <p className="enterprise-signal-value">{PRINCIPAL.name}</p>
             <p className="enterprise-signal-meta">
-              {isSpanish ? "Asociada Financiera Senior" : PRINCIPAL.jobTitle} · {PRINCIPAL.affiliation}
+              {PRINCIPAL.jobTitle} · {PRINCIPAL.affiliation}
+            </p>
+            <p className="enterprise-signal-meta">{TRUST.educationHighlight}</p>
+            <p className="enterprise-signal-meta">
+              {TRUST.yearsExperience} {isSpanish ? "años de experiencia" : "years experience"} · {isSpanish ? "Bilingüe EN/ES" : "Bilingual EN/ES"}
             </p>
           </div>
           <div className="enterprise-signal-card">
@@ -57,6 +61,12 @@ export default function EnterpriseTrustSignals({ cityName, locale = "en" }: Ente
             </a>
           </div>
         </div>
+        <p className="enterprise-trust-footnote">
+          {TRUST.serviceModel}{" "}
+          <Link href={isSpanish ? "/es/educacion-financiera" : "/financial-education"}>
+            {isSpanish ? "Centro de educación →" : "Education hub →"}
+          </Link>
+        </p>
       </div>
     </section>
   );

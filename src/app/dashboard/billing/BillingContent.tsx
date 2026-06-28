@@ -3,7 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
-import { PRODUCTS } from "@/lib/products";
+import StripeFeeNotice from "@/components/dashboard/StripeFeeNotice";
+import { PRODUCTS, getCheckoutTotalLabel, getProcessingFeeLabel } from "@/lib/products";
 import { Check } from "lucide-react";
 
 function PricingCard({
@@ -24,6 +25,10 @@ function PricingCard({
       <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{product.description}</p>
       <p className="portal-pricing-price">{product.priceLabel}</p>
       <p className="portal-pricing-period">{period}</p>
+      <p className="portal-pricing-checkout-total">{getCheckoutTotalLabel(product)}</p>
+      {getProcessingFeeLabel(product) && (
+        <p className="portal-pricing-fee-note">{getProcessingFeeLabel(product)}</p>
+      )}
       {features && features.length > 0 && (
         <ul className="mt-4 flex-1 space-y-2 text-sm text-[var(--color-portal-muted)]">
           {features.map((feature) => (
@@ -84,9 +89,36 @@ export default function BillingContent() {
         <h1 className="portal-hub-title">Upgrade your financial toolkit</h1>
         <p className="portal-hub-sub">
           Clients unlock premium trackers from $5/month. Advisors get the full client workspace plus
-          advisor tools from $15/month or $100/year flat.
+          advisor tools from $15/month or $100/year flat. Totals at checkout include card processing so
+          Legacy in Motion receives the listed price.
         </p>
       </div>
+
+      <StripeFeeNotice className="mb-8 max-w-2xl" />
+
+      <section className="portal-card mb-10 overflow-x-auto p-5">
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-[var(--color-portal-muted)]">
+          Full price list
+        </h2>
+        <table className="portal-pricing-table w-full text-left text-sm">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>List price</th>
+              <th>~Customer pays</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.values(PRODUCTS).map((p) => (
+              <tr key={p.key}>
+                <td>{p.name}</td>
+                <td>{p.priceLabel}</td>
+                <td>{getCheckoutTotalLabel(p)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
 
       {success && (
         <div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
@@ -110,6 +142,10 @@ export default function BillingContent() {
               <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{p.description}</p>
               <p className="portal-pricing-price">{p.priceLabel}</p>
               <p className="portal-pricing-period">Lifetime access</p>
+              <p className="portal-pricing-checkout-total">{getCheckoutTotalLabel(p)}</p>
+              {getProcessingFeeLabel(p) && (
+                <p className="portal-pricing-fee-note">{getProcessingFeeLabel(p)}</p>
+              )}
               <ul className="mt-4 flex-1 space-y-2 text-sm text-[var(--color-portal-muted)]">
                 <li className="flex items-start gap-2">
                   <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-portal-accent)]" />

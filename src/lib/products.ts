@@ -1,4 +1,10 @@
 import type { ProductKey } from "@prisma/client";
+import {
+  formatCheckoutEstimate,
+  formatUsdFromCents,
+  calculateCustomerTotalCents,
+  STRIPE_FEE_DISCLOSURE_SHORT,
+} from "./stripe-fees";
 
 export type BillingMode = "one_time" | "subscription";
 
@@ -9,6 +15,8 @@ export interface ProductConfig {
   priceLabel: string;
   priceCents: number;
   billingMode: BillingMode;
+  /** Recurring interval when billingMode is subscription */
+  subscriptionInterval?: "month" | "year";
   stripePriceId: string | undefined;
   /** Tools unlocked by this product */
   unlocks: string[];
@@ -57,6 +65,7 @@ export const PRODUCTS: Record<string, ProductConfig> = {
     priceLabel: "$5/mo",
     priceCents: 500,
     billingMode: "subscription",
+    subscriptionInterval: "month",
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
     unlocks: [...CLIENT_PREMIUM_UNLOCKS],
   },
@@ -67,6 +76,7 @@ export const PRODUCTS: Record<string, ProductConfig> = {
     priceLabel: "$50/yr",
     priceCents: 5000,
     billingMode: "subscription",
+    subscriptionInterval: "year",
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
     unlocks: [...CLIENT_PREMIUM_UNLOCKS],
   },
@@ -78,6 +88,7 @@ export const PRODUCTS: Record<string, ProductConfig> = {
     priceLabel: "$15/mo",
     priceCents: 1500,
     billingMode: "subscription",
+    subscriptionInterval: "month",
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_HYBRID,
     unlocks: [...ADVISOR_PRO_UNLOCKS],
   },
@@ -89,6 +100,7 @@ export const PRODUCTS: Record<string, ProductConfig> = {
     priceLabel: "$100/yr",
     priceCents: 10000,
     billingMode: "subscription",
+    subscriptionInterval: "year",
     stripePriceId: process.env.STRIPE_PRICE_ADVISOR_ANNUAL,
     unlocks: [...ADVISOR_PRO_UNLOCKS],
   },
@@ -100,3 +112,22 @@ export function getProductByKey(key: ProductKey): ProductConfig | undefined {
 
 export const CLIENT_SUBSCRIPTION_KEYS = ["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"] as const;
 export const ADVISOR_SUBSCRIPTION_KEYS = ["PREMIUM_HYBRID", "ADVISOR_ANNUAL"] as const;
+
+/** Customer-facing total including pass-through processing fee */
+export function getCheckoutTotalLabel(product: ProductConfig): string {
+  const suffix =
+    product.billingMode === "subscription"
+      ? product.subscriptionInterval === "year"
+        ? "/yr"
+        : "/mo"
+      : "";
+  return formatCheckoutEstimate(product.priceCents, suffix);
+}
+
+export function getProcessingFeeLabel(product: ProductConfig): string {
+  const fee = calculateCustomerTotalCents(product.priceCents) - product.priceCents;
+  if (fee <= 0) return "";
+  return `+${formatUsdFromCents(fee)} processing`;
+}
+
+export { STRIPE_FEE_DISCLOSURE_SHORT };

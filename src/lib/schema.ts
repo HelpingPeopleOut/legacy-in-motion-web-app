@@ -1,4 +1,4 @@
-import { BUSINESS } from "@/lib/business";
+import { ADVISOR_HEADSHOT_URL, BUSINESS, TRUST } from "@/lib/business";
 import {
   GLOBAL_FAQS,
   PRINCIPAL,
@@ -124,9 +124,18 @@ export function buildOrganizationSchema(): JsonLd {
         knowsLanguage: PRINCIPAL.languages,
         telephone: BUSINESS.phone,
         url: buildSiteUrl("/links"),
-        image: BUSINESS.logo,
+        image: buildSiteUrl(ADVISOR_HEADSHOT_URL),
         sameAs: getSocialUrls(),
-        description: `${PRINCIPAL.name} is a ${PRINCIPAL.jobTitle} with ${PRINCIPAL.affiliation}, leading ${BUSINESS.name} — a bilingual financial planning practice focused on retirement, living benefits, estate planning, and generational wealth.`,
+        hasCredential: PRINCIPAL.credentials.map((name) => ({
+          "@type": "EducationalOccupationalCredential",
+          name,
+          credentialCategory: "Professional qualification",
+        })),
+        alumniOf: {
+          "@type": "Organization",
+          name: TRUST.affiliation,
+        },
+        description: `${PRINCIPAL.name} is a ${PRINCIPAL.jobTitle} with ${PRINCIPAL.affiliation}, leading ${BUSINESS.name} — a bilingual, education-first financial planning practice focused on retirement, living benefits, estate planning, and generational wealth. ${TRUST.educationHighlight}.`,
       },
       {
         "@type": ["LocalBusiness", "FinancialService"],

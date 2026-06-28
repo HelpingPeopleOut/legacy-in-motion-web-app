@@ -9,7 +9,6 @@ export default function TrustedPartners() {
 
   // Translations
   const title = isSpanish ? "Nuestros Socios de Confianza" : "Our Trusted Partners";
-  const engineeredBy = isSpanish ? "Aplicación Web Diseñada y Optimizada por:" : "Enterprise Web App Engineered by:";
 
   // Array of objects for better SEO alt tags
   const partners = [
@@ -51,53 +50,6 @@ export default function TrustedPartners() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* HPO.CENTER DIGITAL PARTNER BADGE */}
-        <div 
-          className="hpo-badge"
-          style={{ 
-            textAlign: "center", 
-            borderTop: "1px solid var(--border-light)", 
-            paddingTop: "3rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <span style={{ 
-            color: "var(--text-muted)", 
-            fontSize: "0.85rem", 
-            textTransform: "uppercase", 
-            letterSpacing: "2px", 
-            marginBottom: "1rem",
-            fontWeight: 500
-          }}>
-            {engineeredBy}
-          </span>
-          
-          <a 
-            href="https://www.hpo.center" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", transition: "transform 0.3s ease" }}
-            onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-            onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-          >
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              fontFamily: "var(--font-heading)",
-              fontSize: "2rem",
-              fontWeight: 800,
-              color: "var(--text-main)",
-              letterSpacing: "-1px"
-            }}>
-              HPO<span style={{ color: "var(--gold)" }}>.Center</span>
-            </div>
-          </a>
         </div>
 
       </div>

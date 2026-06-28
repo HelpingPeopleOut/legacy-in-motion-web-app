@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Check, Sparkles, X } from "lucide-react";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, getCheckoutTotalLabel, getProcessingFeeLabel, STRIPE_FEE_DISCLOSURE_SHORT } from "@/lib/products";
 import { hasActivePremium } from "@/lib/access";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import type { Purchase, User } from "@prisma/client";
@@ -90,7 +90,8 @@ export function UnlockToolsOffer({
         <div className="portal-unlock-plan">
           <p className="portal-unlock-plan-label">Monthly</p>
           <p className="portal-unlock-plan-price">{monthly.priceLabel}</p>
-          <p className="portal-unlock-plan-note">Cancel anytime</p>
+          <p className="portal-unlock-plan-checkout">{getCheckoutTotalLabel(monthly)}</p>
+          <p className="portal-unlock-plan-note">Cancel anytime · {STRIPE_FEE_DISCLOSURE_SHORT}</p>
           {signedIn ? (
             <CheckoutButton productKey="PREMIUM_MONTHLY" label={`Unlock — ${monthly.priceLabel}`} />
           ) : (
@@ -104,7 +105,8 @@ export function UnlockToolsOffer({
           <span className="portal-unlock-plan-badge">Best value</span>
           <p className="portal-unlock-plan-label">Annual</p>
           <p className="portal-unlock-plan-price">{annual.priceLabel}</p>
-          <p className="portal-unlock-plan-note">Save $10 vs. monthly</p>
+          <p className="portal-unlock-plan-checkout">{getCheckoutTotalLabel(annual)}</p>
+          <p className="portal-unlock-plan-note">Save $10 vs. monthly · {getProcessingFeeLabel(annual)}</p>
           {signedIn ? (
             <CheckoutButton productKey="PREMIUM_ANNUAL" label={`Unlock — ${annual.priceLabel}`} />
           ) : (
@@ -116,7 +118,8 @@ export function UnlockToolsOffer({
       </div>
 
       <p className="text-center text-xs text-[var(--color-portal-muted)]">
-        Secure checkout via Stripe · One-time tools (HLV report, Legacy Vault) sold separately on{" "}
+        Secure checkout via Stripe · HLV report ({PRODUCTS.HLV_REPORT.priceLabel}) & Legacy Vault (
+        {PRODUCTS.LEGACY_VAULT.priceLabel}) on{" "}
         <Link href="/dashboard/billing" className="font-semibold text-[var(--color-portal-gold)] underline">
           Plans & Billing
         </Link>
@@ -166,7 +169,8 @@ export function UnlockAdvisorOffer({
         <div className="portal-unlock-plan">
           <p className="portal-unlock-plan-label">Monthly</p>
           <p className="portal-unlock-plan-price">{monthly.priceLabel}</p>
-          <p className="portal-unlock-plan-note">Cancel anytime</p>
+          <p className="portal-unlock-plan-checkout">{getCheckoutTotalLabel(monthly)}</p>
+          <p className="portal-unlock-plan-note">Cancel anytime · {STRIPE_FEE_DISCLOSURE_SHORT}</p>
           {signedIn ? (
             <CheckoutButton productKey="PREMIUM_HYBRID" label={`Subscribe — ${monthly.priceLabel}`} />
           ) : (
@@ -180,7 +184,8 @@ export function UnlockAdvisorOffer({
           <span className="portal-unlock-plan-badge">Best value</span>
           <p className="portal-unlock-plan-label">Annual</p>
           <p className="portal-unlock-plan-price">{annual.priceLabel}</p>
-          <p className="portal-unlock-plan-note">Flat $100/year · save vs. monthly</p>
+          <p className="portal-unlock-plan-checkout">{getCheckoutTotalLabel(annual)}</p>
+          <p className="portal-unlock-plan-note">Flat $100/year · {getProcessingFeeLabel(annual)}</p>
           {signedIn ? (
             <CheckoutButton productKey="ADVISOR_ANNUAL" label={`Subscribe — ${annual.priceLabel}`} />
           ) : (

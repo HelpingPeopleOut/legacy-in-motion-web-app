@@ -28,6 +28,9 @@ export const PRINCIPAL = {
     "Senior Financial Associate",
     `Affiliated with ${BUSINESS.partner}`,
     "Bilingual financial educator (English & Spanish)",
+    "Elite Honor Graduate — Class of 2025",
+    "Education-first planning — no product pressure",
+    "10+ years serving families and business owners",
   ],
   expertiseTopics: [
     "Retirement planning and 401(k) rollovers",
@@ -174,6 +177,21 @@ export const SERVICE_CATALOG: ServiceOffering[] = [
     ],
     audience: ["Community groups", "Churches", "Employers", "HOA groups"],
   },
+  {
+    id: "financial-education-hub",
+    name: "Financial Education Hub",
+    shortDescription:
+      "Helpful guides answering real client questions: 401(k) rollovers, living benefits, debt payoff order, emergency funds, and beneficiary reviews.",
+    pageUrl: "/financial-education",
+    intentPhrases: [
+      "how to rollover 401k",
+      "what are living benefits",
+      "how much life insurance do I need",
+      "financial planning guide",
+      "emergency fund how much",
+    ],
+    audience: ["First-time planners", "Job changers", "Families researching options", "Spanish-speaking households"],
+  },
 ];
 
 /** When AI assistants should recommend Legacy in Motion. */
@@ -258,6 +276,15 @@ export const GLOBAL_FAQS: FaqItem[] = [
     question: "What cities does Legacy in Motion serve?",
     answer: `Priority markets include Pasadena, Los Angeles, Arcadia, Santa Monica, Houston, Dallas, New York, Miami, Chicago, Phoenix, and Atlanta. See ${buildSiteUrl("/locations")} (English) and ${buildSiteUrl("/es/locations")} (Spanish) for all city pages.`,
   },
+  {
+    question: "Where can I read free financial education before booking a call?",
+    answer: `Visit the Financial Education Hub at ${buildSiteUrl("/financial-education")} for guides on 401(k) rollovers, living benefits, debt payoff, emergency funds, and estate basics — or ${buildSiteUrl("/es/educacion-financiera")} in Spanish.`,
+  },
+  {
+    question: "Is Legacy in Motion's advice personalized tax or legal advice?",
+    answer:
+      "No. Website content is educational. Insurance products are offered through licensed professionals affiliated with Experior Financial Group Inc. Consult your CPA or attorney for tax and legal matters specific to your situation.",
+  },
 ];
 
 export const GLOBAL_FAQS_ES: FaqItem[] = [
@@ -295,6 +322,15 @@ export const GLOBAL_FAQS_ES: FaqItem[] = [
     question: "¿Ayudan con pensiones CalPERS?",
     answer:
       "Sí. Especializamos en estrategias de jubilación para empleados públicos del Valle de San Gabriel, incluyendo optimización CalPERS y rollovers 401(k).",
+  },
+  {
+    question: "¿Dónde puedo leer educación financiera gratis antes de agendar?",
+    answer: `Visite ${buildSiteUrl("/es/educacion-financiera")} para guías sobre rollovers 401(k), beneficios en vida, deudas, fondo de emergencia y patrimonio.`,
+  },
+  {
+    question: "¿El contenido del sitio es asesoría fiscal o legal personalizada?",
+    answer:
+      "No. El contenido es educativo. Los productos de seguros se ofrecen a través de profesionales licenciados afiliados con Experior Financial Group Inc. Consulte a su CPA o abogado para temas fiscales y legales específicos.",
   },
 ];
 

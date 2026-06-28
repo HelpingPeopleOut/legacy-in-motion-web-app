@@ -17,6 +17,7 @@ export default function Footer() {
     mission: isSpanish ? "Misión" : "Mission",
     baby: "Freedom Financial Baby",
     workshops: isSpanish ? "Talleres" : "Workshops",
+    education: isSpanish ? "Educación Financiera" : "Financial Education",
     companyLabel: isSpanish ? "Compañía" : "Company",
     servicesLabel: isSpanish ? "Nuestros Servicios" : "Our Expertise",
     contactLabel: isSpanish ? "Contacto" : "Contact",
@@ -48,6 +49,7 @@ export default function Footer() {
               <Link href={`${base}/mission`} className="footer-link">{text.mission}</Link>
               <Link href={`${base}/freedom-financial-baby`} className="footer-link">{text.baby}</Link>
               <Link href={`${base}/workshops`} className="footer-link">{text.workshops}</Link>
+              <Link href={isSpanish ? "/es/educacion-financiera" : "/financial-education"} className="footer-link">{text.education}</Link>
             </div>
           </div>
 
@@ -107,6 +109,35 @@ export default function Footer() {
         <div className="footer-verse">
           <p className="footer-verse-text">&ldquo;{text.verse}&rdquo;</p>
           <p className="footer-verse-ref">– {text.verseRef}</p>
+        </div>
+
+        <div className="footer-hpo-credit">
+          <p className="footer-hpo-label">
+            {isSpanish ? "Aplicación Web Diseñada y Optimizada por:" : "Enterprise Web App Engineered by:"}
+          </p>
+          <a
+            href="https://www.hpo.center"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-hpo-link"
+            aria-label="HPO.Center — Helping People Out"
+          >
+            <img
+              src="/images/hpo-center-logo.webp"
+              alt="HPO.Center"
+              width={56}
+              height={56}
+              className="footer-hpo-logo"
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="footer-hpo-text">
+              <span className="footer-hpo-name">
+                HPO<span className="footer-hpo-dot">.Center</span>
+              </span>
+              <span className="footer-hpo-tagline">Helping People Out</span>
+            </span>
+          </a>
         </div>
 
         <div className="footer-disclaimer-wrap">

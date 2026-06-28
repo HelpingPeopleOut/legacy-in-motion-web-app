@@ -1,0 +1,48 @@
+/*
+  Cloudflare Pages static asset caching — improves PageSpeed repeat visits & CDN efficiency.
+  https://developers.cloudflare.com/pages/configuration/headers/
+*/
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=604800
+
+/*.png
+  Cache-Control: public, max-age=604800
+
+/*.jpg
+  Cache-Control: public, max-age=604800
+
+/*.webp
+  Cache-Control: public, max-age=604800
+
+/*.svg
+  Cache-Control: public, max-age=604800
+
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+
+/llms.txt
+  Cache-Control: public, max-age=3600
+
+/llms-es.txt
+  Cache-Control: public, max-age=3600
+
+/enterprise-profile.json
+  Cache-Control: public, max-age=3600
+
+/ai-plugin.json
+  Cache-Control: public, max-age=3600
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600

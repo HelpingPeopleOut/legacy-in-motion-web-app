@@ -12,8 +12,8 @@
   --text-main: #111111;
   --text-muted: #555555;
   --border-light: #eaeaea;
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: var(--font-playfair), 'Playfair Display', serif;
+  --font-body: var(--font-inter), 'Inter', sans-serif;
   --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
   --shadow-md: 0 12px 30px rgba(0,0,0,0.06);
@@ -152,6 +152,68 @@ footer .footer-verse-ref {
   letter-spacing: 3px;
   font-weight: 600;
   margin: 0;
+}
+footer .footer-hpo-credit {
+  padding: 0 0 2.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+footer .footer-hpo-label {
+  color: #9fb0c3;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 500;
+  margin: 0;
+}
+footer .footer-hpo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+footer .footer-hpo-link:hover {
+  transform: scale(1.03);
+  opacity: 0.95;
+}
+footer .footer-hpo-logo {
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: cover;
+  object-position: center 12%;
+  flex-shrink: 0;
+  border-radius: 0.35rem;
+}
+footer .footer-hpo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+}
+footer .footer-hpo-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+footer .footer-hpo-dot {
+  color: #f07071;
+}
+footer .footer-hpo-tagline {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f07071;
+  opacity: 0.92;
 }
 footer .footer-disclaimer-wrap {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
@@ -709,18 +771,19 @@ footer .footer-disclaimer {
   box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
 }
 
-.portal-card {
+/* Legacy marketing portal modal only — dashboard uses dashboard/dashboard.css */
+.portal-modal-container .portal-card {
   background: rgba(255,255,255,0.03); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px;
   padding: 2.5rem; text-align: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
   position: relative; overflow: hidden;
 }
-.portal-card:hover {
+.portal-modal-container .portal-card:hover {
   background: rgba(212, 175, 55, 0.08); border-color: var(--gold); transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.2);
 }
 .portal-icon { font-size: 3rem; margin-bottom: 1.5rem; }
-.portal-card h3 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; }
-.portal-card p { color: #aaa; font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+.portal-modal-container .portal-card h3 { color: #fff; font-size: 1.5rem; margin-bottom: 1rem; }
+.portal-modal-container .portal-card p { color: #aaa; font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
 .portal-btn { color: var(--gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
 
 .portal-modal-overlay {
@@ -1037,8 +1100,98 @@ section, .stories, .text-section, .fwf-elegant-section, .lead-gen, .thanks-secti
   padding: 2rem 0;
   background: var(--bg-page);
 }
+.enterprise-trust-footnote {
+  text-align: center;
+  margin: 1.5rem auto 0;
+  max-width: 720px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.enterprise-trust-footnote a {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+}
+.enterprise-trust-footnote a:hover {
+  text-decoration: underline;
+}
+.enterprise-compliance-strip {
+  background: var(--bg-card);
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.enterprise-compliance-text {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0 0 0.75rem;
+  text-align: center;
+}
+.enterprise-compliance-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0;
+}
+.enterprise-compliance-meta a {
+  color: var(--gold);
+  font-weight: 600;
+}
+.education-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 1.75rem;
+}
+.education-hub-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.education-hub-intent {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--gold);
+  margin: 0;
+}
+.education-hub-card h3 {
+  font-size: 1.25rem;
+  margin: 0;
+  line-height: 1.3;
+}
+.education-hub-summary {
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+.education-hub-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  flex: 1;
+}
+.education-hub-link {
+  font-weight: 700;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-top: auto;
+}
+.education-hub-link:hover {
+  text-decoration: underline;
+}
 
-/* Nelly quick links hub (Linktree-style) */
 .nelly-linkhub {
   display: flex;
   flex-direction: column;

@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/debt-free-wealth-strategy",
     "/mortgage-protection-los-angeles",
     "/business-owner-financial-strategies",
+    "/financial-education",
     "/es",
     "/es/mision",
     "/es/futuro-financiero-infantil",
@@ -39,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/es/estrategia-libre-de-deudas",
     "/es/proteccion-de-hipoteca-los-angeles",
     "/es/estrategias-financieras-para-negocios",
+    "/es/educacion-financiera",
   ];
 
   const locationRoutesEn = LOCATIONS.map((loc) => getLocationPath(loc, "en"));
@@ -53,8 +55,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "" || route === "/es"
         ? 1
-        : route === "/locations" || route === "/es/locations" || route.includes("/locations/california/")
-          ? 0.9
-          : 0.8,
+        : route === "/financial-education" || route === "/es/educacion-financiera"
+          ? 0.95
+          : route === "/locations" || route === "/es/locations" || route.includes("/locations/california/")
+            ? 0.9
+            : 0.8,
   }));
 }

@@ -96,6 +96,12 @@ Page: https://www.legacyinmotion.org/workshops
 Best for: Community groups, Churches, Employers, HOA groups
 User intents: financial literacy workshop Los Angeles; Spanish financial seminar; retirement workshop Pasadena
 
+### Financial Education Hub
+Helpful guides answering real client questions: 401(k) rollovers, living benefits, debt payoff order, emergency funds, and beneficiary reviews.
+Page: https://www.legacyinmotion.org/financial-education
+Best for: First-time planners, Job changers, Families researching options, Spanish-speaking households
+User intents: how to rollover 401k; what are living benefits; how much life insurance do I need; financial planning guide; emergency fund how much
+
 ## Priority Location Pages
 - Pasadena, CA: https://www.legacyinmotion.org/locations/california/pasadena
 - Los Angeles, CA: https://www.legacyinmotion.org/locations/california/los-angeles

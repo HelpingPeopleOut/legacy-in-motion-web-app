@@ -14,6 +14,7 @@ export default function AdvisorHeroPhoto({ locale = "en" }) {
           width={480}
           height={480}
           loading="eager"
+          fetchPriority="high"
           decoding="async"
         />
       </div>

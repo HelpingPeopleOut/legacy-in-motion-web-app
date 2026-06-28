@@ -11,6 +11,7 @@ import {
   type ToolDefinition,
 } from "@/lib/tools";
 import { canAccessTool, hasActivePremium, hasPurchase } from "@/lib/access";
+import { PRODUCTS } from "@/lib/products";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import type { User, Purchase } from "@prisma/client";
 import { ToolIcon } from "./DashboardShell";
@@ -39,10 +40,13 @@ const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
     if (tool.access === "free") return { label: "Free", className: "free" };
     return { label: "Unlocked", className: "unlocked" };
   }
-  if (tool.access === "one_time")
-    return { label: tool.productKey === "HLV_REPORT" ? "$49" : "$99", className: "locked" };
-  if (tool.access === "premium") return { label: "Premium", className: "locked" };
-  return { label: "Advisor Pro", className: "locked" };
+  if (tool.access === "one_time" && tool.productKey) {
+    const product = PRODUCTS[tool.productKey];
+    return { label: product?.priceLabel ?? "Paid", className: "locked" };
+  }
+  if (tool.access === "premium") return { label: PRODUCTS.PREMIUM_MONTHLY.priceLabel, className: "locked" };
+  if (tool.access === "hybrid") return { label: PRODUCTS.PREMIUM_HYBRID.priceLabel, className: "locked" };
+  return { label: "Locked", className: "locked" };
 };
 
 function ToolCard({ tool, user }: { tool: ToolDefinition; user: UserWithPurchases | null }) {
@@ -102,8 +106,8 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
           <Sparkles className="h-3.5 w-3.5" aria-hidden />
           Financial command center
         </p>
-        <h1 className="portal-hub-title">Your complete wealth toolkit</h1>
-        <p className="portal-hub-sub">
+        <h1 className="portal-hub-title">Your wealth toolkit</h1>
+        <p className="portal-hub-sub portal-hub-sub--compact">
           Tools organized for clients, advisors, and workshops — analyze coverage, eliminate debt,
           forecast retirement, and protect your legacy.
           {preview && " Preview mode: every tool is unlocked for testing."}
@@ -136,7 +140,7 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
           placeholder="Search tools…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-[var(--color-portal-border)] bg-white px-4 py-3 text-sm outline-none focus:border-[var(--color-portal-gold)] focus:ring-2 focus:ring-[rgba(166,124,0,0.12)]"
+          className="w-full rounded-xl border border-[var(--color-portal-border)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[var(--color-portal-gold)] focus:ring-2 focus:ring-[rgba(166,124,0,0.12)]"
           aria-label="Search tools"
         />
       </div>
@@ -204,7 +208,7 @@ export function UserStatusBanner({ user }: { user: UserWithPurchases }) {
   if (preview) return null;
 
   return (
-    <div className="portal-stats-row mb-6">
+    <div className="portal-stats-row portal-stats-row--triple mb-4 sm:mb-6">
       {[
         { label: "Premium plan", active: premium, value: premium ? "Active" : "—" },
         { label: "HLV report", active: hlv, value: hlv ? "Owned" : "—" },

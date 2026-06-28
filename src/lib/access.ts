@@ -1,6 +1,7 @@
 import type { ProductKey, Purchase, User } from "@prisma/client";
 import { getToolBySlug, type ToolDefinition } from "./tools";
 import { isPreviewUnlockAll } from "./preview-access";
+import { PRODUCTS } from "./products";
 
 export type AccessResult =
   | { allowed: true }
@@ -68,7 +69,7 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
       allowed: false,
       reason: "premium",
       productKey: "PREMIUM_MONTHLY",
-      message: "Upgrade to Premium to unlock ongoing tracking and dashboards — from $5/month.",
+      message: `Upgrade to Premium to unlock ongoing tracking and dashboards — from ${PRODUCTS.PREMIUM_MONTHLY.priceLabel}.`,
     };
   }
 
@@ -78,8 +79,7 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
       allowed: false,
       reason: "hybrid",
       productKey: "PREMIUM_HYBRID",
-      message:
-        "Advisor Pro unlocks client premium tools, advisor features, and upcoming releases — from $15/month or $100/year.",
+      message: `Advisor Pro unlocks client premium tools, advisor features, and upcoming releases — from ${PRODUCTS.PREMIUM_HYBRID.priceLabel} or ${PRODUCTS.ADVISOR_ANNUAL.priceLabel}.`,
     };
   }
 
@@ -88,11 +88,12 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
       return { allowed: true };
     }
     if (hasPurchase(user, tool.productKey)) return { allowed: true };
+    const product = PRODUCTS[tool.productKey];
     return {
       allowed: false,
       reason: "one_time",
       productKey: tool.productKey,
-      message: `Unlock lifetime access with a one-time ${tool.productKey === "LEGACY_VAULT" ? "$99" : "$49"} purchase.`,
+      message: `Unlock lifetime access with a one-time ${product?.priceLabel ?? "purchase"}.`,
     };
   }
 
@@ -112,7 +113,7 @@ export function canDownloadHlvReport(user: UserWithPurchases | null): AccessResu
     allowed: false,
     reason: "one_time",
     productKey: "HLV_REPORT",
-    message: "Download the branded Family Financial Security Report for $49.",
+    message: `Download the branded Family Financial Security Report for ${PRODUCTS.HLV_REPORT.priceLabel}.`,
   };
 }
 

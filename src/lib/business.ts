@@ -33,4 +33,21 @@ export const BUSINESS = {
   quickLinksHub: "/links",
 } as const;
 
-export const DEFAULT_OG_IMAGE = "/og-image.jpg";
+/** E-E-A-T trust constants for schema, metadata, and visible UI */
+export const TRUST = {
+  advisorName: "Nelly Lara",
+  advisorLegalName: "Nelly Lara Cruz",
+  jobTitle: "Senior Financial Associate",
+  affiliation: "Experior Financial Group Inc.",
+  educationHighlight: "Elite Honor Graduate — Class of 2025",
+  serviceModel: "Education-first financial planning — products only after you understand your options",
+  complianceNote:
+    "Insurance products offered through licensed professionals affiliated with Experior Financial Group Inc. This website is for educational purposes and does not constitute personalized tax, legal, or investment advice.",
+  disclosuresUrl: "https://experiorfinancial.com",
+  yearsExperience: "10+",
+  consultationsOffered: "Free private strategy session — no obligation",
+} as const;
+
+/** Social / OG — use professional headshot until dedicated 1200×630 asset is added */
+export const DEFAULT_OG_IMAGE = "/images/nelly/nelly-professional.jpg";
+export const ADVISOR_HEADSHOT_URL = "/images/nelly/nelly-professional.jpg";

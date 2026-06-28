@@ -7,6 +7,10 @@ import HomeStorySection from "@/components/HomeStorySection";
 import TransformationStories from "@/components/TransformationStories";
 import AdvisorHeroPhoto from "@/components/AdvisorHeroPhoto";
 import MeetAdvisorSection from "@/components/MeetAdvisorSection";
+import EnterpriseTrustSignals from "@/components/seo/EnterpriseTrustSignals";
+import EnterpriseFaqSection from "@/components/seo/EnterpriseFaqSection";
+import { GLOBAL_FAQS } from "@/lib/ai-enterprise";
+import Link from "next/link";
 
 export default function Home() {
   useEffect(() => {
@@ -63,6 +67,8 @@ export default function Home() {
         </div>
       </header>
 
+      <EnterpriseTrustSignals locale="en" />
+
       {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
@@ -86,6 +92,23 @@ export default function Home() {
 
       {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="en" />
+
+      <EnterpriseFaqSection
+        title="Common Questions — Answered Clearly"
+        faqs={GLOBAL_FAQS.slice(0, 6)}
+        id="home-faq"
+      />
+
+      <section className="text-section fade-in" style={{ background: "var(--bg-page)", padding: "3rem 0" }}>
+        <div className="container text-center">
+          <p style={{ color: "var(--text-muted)", maxWidth: "640px", margin: "0 auto 1rem" }}>
+            Explore in-depth guides on rollovers, living benefits, debt payoff, and estate basics — written for real search questions.
+          </p>
+          <Link href="/financial-education" className="btn-outline">
+            Financial Education Hub →
+          </Link>
+        </div>
+      </section>
 
       {/* 4. REQUEST A CALLBACK FORM */}
       <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>

@@ -25,21 +25,21 @@ export default function Paywall({
   const isAdvisor = reason === "hybrid";
 
   return (
-    <div className="portal-card relative overflow-hidden p-8 md:p-10">
+    <div className="portal-card portal-paywall-card relative overflow-hidden p-5 sm:p-8 md:p-10">
       <div
         className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[var(--color-portal-gold-light)]/60 to-white/80"
         aria-hidden
       />
       <div className="relative z-10 mx-auto max-w-2xl">
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-portal-gold-light)] text-[var(--color-portal-gold)]">
-            <Lock className="h-5 w-5" />
+        <div className="mb-4 text-center sm:mb-6">
+          <div className="portal-paywall-icon mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-portal-gold-light)] text-[var(--color-portal-gold)] sm:mb-4 sm:h-12 sm:w-12">
+            <Lock className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
-          <div className="mb-3 inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-800">
+          <div className="mb-3 inline-flex rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider text-amber-800 sm:px-3 sm:py-1 sm:text-xs">
             Unlock full access
           </div>
-          <h3 className="mb-2 font-serif text-2xl font-semibold text-[var(--color-portal-text)]">{title}</h3>
-          <p className="text-[var(--color-portal-muted)]">{message}</p>
+          <h3 className="mb-2 font-serif text-xl font-semibold text-[var(--color-portal-text)] sm:text-2xl">{title}</h3>
+          <p className="text-sm text-[var(--color-portal-muted)] sm:text-base">{message}</p>
         </div>
 
         {isPremium ? (

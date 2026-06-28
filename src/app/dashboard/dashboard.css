@@ -34,6 +34,38 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Isolate client portal from legacy globals.css .portal-card rules */
+.portal-root .portal-card {
+  padding: 0;
+  text-align: left;
+  cursor: default;
+  background: var(--color-portal-card);
+  border: 1px solid var(--color-portal-border);
+  border-radius: var(--radius-portal-lg);
+  box-shadow: var(--shadow-portal);
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.portal-root .portal-card h1,
+.portal-root .portal-card h2,
+.portal-root .portal-card h3,
+.portal-root .portal-card p {
+  color: inherit;
+}
+
+.portal-root .portal-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-portal-lg);
+  border-color: rgba(166, 124, 0, 0.25);
+  background: var(--color-portal-card);
+}
+
+.portal-root .portal-tool-card:hover {
+  transform: translateY(-2px);
 }
 
 /* ─── Main content area ─────────────────────────────────────────────────── */
@@ -379,19 +411,6 @@
 }
 
 /* ─── Cards & buttons ───────────────────────────────────────────────────── */
-
-.portal-card {
-  background: var(--color-portal-card);
-  border: 1px solid var(--color-portal-border);
-  border-radius: var(--radius-portal-lg);
-  box-shadow: var(--shadow-portal);
-  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
-}
-
-.portal-card:hover {
-  box-shadow: var(--shadow-portal-lg);
-  border-color: rgba(166, 124, 0, 0.25);
-}
 
 .portal-btn-primary {
   display: inline-flex;
@@ -873,6 +892,45 @@
   color: var(--color-portal-muted);
 }
 
+.portal-pricing-checkout-total {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-portal-gold);
+  margin-top: 0.35rem;
+}
+
+.portal-pricing-fee-note {
+  font-size: 0.75rem;
+  color: var(--color-portal-muted);
+  margin-top: 0.15rem;
+}
+
+.portal-unlock-plan-checkout {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-portal-gold);
+  margin: 0.15rem 0;
+}
+
+.portal-pricing-table th,
+.portal-pricing-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-portal-border, #e8e4dc);
+}
+
+.portal-pricing-table th {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-portal-muted);
+  font-weight: 700;
+}
+
+.portal-pricing-table td:last-child {
+  font-weight: 600;
+  color: var(--color-portal-gold);
+}
+
 /* ─── Preview dev panel ─────────────────────────────────────────────────── */
 
 .portal-dev-panel {
@@ -1128,4 +1186,282 @@ textarea.legacy-vault-input {
 
 .portal-unlock-banner-text strong {
   color: var(--color-portal-gold);
+}
+
+/* ─── Mobile polish (client portal) ─────────────────────────────────────── */
+
+@media (max-width: 639px) {
+  .portal-root {
+    font-size: 0.875rem;
+  }
+
+  .portal-main {
+    padding: 0.65rem 0.75rem calc(4.35rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .portal-topbar {
+    min-height: 2.75rem;
+    padding: 0.28rem 0.65rem;
+    gap: 0.35rem 0.5rem;
+  }
+
+  .portal-sidebar-logo {
+    width: 1.65rem;
+    height: 1.65rem;
+    font-size: 0.55rem;
+    border-radius: 0.5rem;
+  }
+
+  .portal-sidebar-title {
+    font-size: 0.78rem;
+  }
+
+  .portal-sidebar-sub {
+    display: none;
+  }
+
+  .portal-topbar-actions {
+    gap: 0.25rem;
+  }
+
+  .portal-hub-hero {
+    margin-bottom: 1rem;
+  }
+
+  .portal-hub-eyebrow {
+    font-size: 0.625rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .portal-hub-title {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+
+  .portal-hub-sub {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    margin-top: 0.35rem;
+  }
+
+  .portal-stats-row {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .portal-stats-row--triple {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .portal-stat-card {
+    padding: 0.6rem 0.7rem;
+    min-width: 0;
+  }
+
+  .portal-stat-value {
+    font-size: 1.05rem;
+  }
+
+  .portal-stat-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+  }
+
+  .portal-filter-bar {
+    margin-bottom: 1rem;
+    gap: 0.4rem;
+  }
+
+  .portal-filter-chip {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
+    min-height: 2rem;
+  }
+
+  .portal-tool-card {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .portal-tool-card-header {
+    margin-bottom: 0.65rem;
+  }
+
+  .portal-tool-icon {
+    width: 2.15rem;
+    height: 2.15rem;
+    border-radius: 0.625rem;
+  }
+
+  .portal-tool-icon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .portal-tool-badge {
+    font-size: 0.625rem;
+    padding: 0.15rem 0.45rem;
+    max-width: 5.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .portal-tool-name {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .portal-tool-desc {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+
+  .portal-tool-footer {
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+  }
+
+  .portal-tool-sections {
+    gap: 1.5rem;
+  }
+
+  .portal-tool-section-title {
+    font-size: 0.95rem;
+  }
+
+  .portal-tool-section-desc {
+    font-size: 0.78rem;
+  }
+
+  .portal-tool-page-header {
+    margin-bottom: 1rem;
+  }
+
+  .portal-tool-page-header .mt-8 {
+    margin-top: 1.25rem !important;
+  }
+
+  .portal-tool-back-row {
+    gap: 0.35rem 0.75rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .portal-tool-back {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+    min-height: 2rem;
+  }
+
+  .portal-tool-title {
+    font-size: 1.3rem !important;
+  }
+
+  .portal-btn-primary,
+  .portal-btn-secondary {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.9rem;
+    min-height: 2.625rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  .portal-pricing-card {
+    padding: 1rem 1.05rem;
+  }
+
+  .portal-pricing-price {
+    font-size: 1.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .portal-pricing-checkout-total,
+  .portal-pricing-fee-note {
+    font-size: 0.72rem;
+  }
+
+  .portal-pricing-table th,
+  .portal-pricing-table td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .portal-unlock-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .portal-unlock-dialog {
+    max-width: none;
+    width: 100%;
+    max-height: min(88vh, 640px);
+    padding: 1rem 1rem 1.15rem;
+    border-radius: 1rem 1rem 0 0;
+    margin: 0;
+  }
+
+  .portal-unlock-plan {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .portal-unlock-plan-price {
+    font-size: 1.25rem;
+  }
+
+  .portal-unlock-plan-note,
+  .portal-unlock-plan-checkout {
+    font-size: 0.72rem;
+  }
+
+  .portal-unlock-banner {
+    padding: 0.7rem 0.85rem;
+    gap: 0.6rem;
+  }
+
+  .portal-unlock-banner-text {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .portal-unlock-banner .portal-btn-primary {
+    width: 100%;
+  }
+
+  .portal-paywall-card {
+    padding: 1.15rem 0.9rem !important;
+  }
+
+  .portal-paywall-card h3 {
+    font-size: 1.2rem !important;
+  }
+
+  .portal-paywall-card .portal-paywall-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .portal-dev-panel {
+    padding: 0.75rem 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .portal-empty {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .portal-hub-title {
+    font-size: 1.28rem;
+  }
+
+  .portal-stats-row:not(.portal-stats-row--triple) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .portal-stats-row:not(.portal-stats-row--triple) .portal-stat-card:last-child {
+    grid-column: 1 / -1;
+  }
 }
