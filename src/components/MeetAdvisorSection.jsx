@@ -51,7 +51,7 @@ export default function MeetAdvisorSection({ locale = "en" }) {
           <p className="advisor-gallery-label">{t.teamLabel}</p>
           <p className="advisor-team-sub">{t.teamSub}</p>
         </div>
-        <div className="advisor-gallery-grid">
+        <div className="advisor-gallery-grid advisor-gallery-grid--single">
           {advisorTeamGallery.map((item) => (
             <figure
               key={item.src}

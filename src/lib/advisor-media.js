@@ -51,40 +51,4 @@ export const advisorTeamGallery = [
     },
     layout: "wide",
   },
-  {
-    src: "/images/nelly/gallery-02.jpg",
-    alt: {
-      en: "Experior Financial Group team — Nelly Lara Cruz and colleagues",
-      es: "Equipo de Experior Financial Group — Nelly Lara Cruz y colegas",
-    },
-    caption: {
-      en: "Our full Experior Financial Group team",
-      es: "Nuestro equipo completo de Experior Financial Group",
-    },
-    layout: "tall",
-  },
-  {
-    src: "/images/nelly/gallery-03.jpg",
-    alt: {
-      en: "Nelly Lara Cruz and team at DIAMOND leadership conference",
-      es: "Nelly Lara Cruz y equipo en la conferencia de liderazgo DIAMOND",
-    },
-    caption: {
-      en: "Team at DIAMOND leadership conference",
-      es: "Equipo en la conferencia de liderazgo DIAMOND",
-    },
-    layout: "normal",
-  },
-  {
-    src: "/images/nelly/gallery-04.jpg",
-    alt: {
-      en: "Nelly Lara Cruz and team at industry recognition event",
-      es: "Nelly Lara Cruz y equipo en evento de reconocimiento de la industria",
-    },
-    caption: {
-      en: "Industry recognition & team achievements",
-      es: "Reconocimiento de la industria y logros del equipo",
-    },
-    layout: "normal",
-  },
 ];
