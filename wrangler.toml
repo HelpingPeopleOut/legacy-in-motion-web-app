@@ -1,13 +1,13 @@
 # Cloudflare Pages — test-legacy-in-motion-web-app.pages.dev
 # Production deploys from the staging branch (GitHub → Cloudflare)
 #
-# Dashboard build settings (Settings → Builds):
+# Dashboard build settings (Settings → Builds) — REQUIRED:
 #   Build command:        npm run build:pages
 #   Build output dir:     out
-#   Do NOT use the Next.js (next-on-pages) preset — this app is a static export.
+#   Do NOT use the Next.js (@cloudflare/next-on-pages) framework preset.
 #
-# Pages Functions (functions/) handle Stripe + Clerk webhooks on the same domain.
-# Set secrets in Cloudflare Dashboard → Workers & Pages → your project → Settings → Variables.
+# Stripe / Clerk / DATABASE_URL → set in Dashboard → Settings → Environment variables (Production).
+# Do NOT duplicate NEXT_PUBLIC_STRIPE_ENABLED or LOCAL_TEST_MODE here — they would override the dashboard.
 
 name = "test-legacy-in-motion-web-app"
 pages_build_output_dir = "out"
@@ -16,15 +16,4 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 CF_PAGES = "1"
-# Preview without Stripe keys — mock checkout + tier simulator
-LOCAL_TEST_MODE = "true"
-NEXT_PUBLIC_LOCAL_TEST_MODE = "true"
-NEXT_PUBLIC_STRIPE_ENABLED = "false"
 NEXT_PUBLIC_APP_URL = "https://test-legacy-in-motion-web-app.pages.dev"
-
-# When test Stripe products are ready, in Cloudflare Dashboard set:
-#   NEXT_PUBLIC_STRIPE_ENABLED = true
-#   LOCAL_TEST_MODE = false
-#   NEXT_PUBLIC_LOCAL_TEST_MODE = false
-# Plus encrypted secrets: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, all STRIPE_PRICE_*,
-# CLERK_SECRET_KEY, CLERK_WEBHOOK_SECRET, DATABASE_URL

@@ -1,6 +1,6 @@
 import type { ProductKey } from "@prisma/client";
 import type { LocalTestScenario } from "../../../src/lib/local-test-shared";
-import { PRODUCTS } from "../../../src/lib/products";
+import { isValidProductKey } from "../../../src/lib/product-keys";
 
 function productToScenario(productKey: ProductKey): LocalTestScenario {
   if (productKey === "HLV_REPORT" || productKey === "LEGACY_VAULT") return "one_time";
@@ -22,7 +22,7 @@ export async function onRequestPost(context: PagesContext) {
 
   const body = (await context.request.json()) as { productKey?: ProductKey };
   const productKey = body.productKey;
-  if (!productKey || !PRODUCTS[productKey]) {
+  if (!productKey || !isValidProductKey(productKey)) {
     return new Response(JSON.stringify({ error: "Invalid product" }), { status: 400 });
   }
 
