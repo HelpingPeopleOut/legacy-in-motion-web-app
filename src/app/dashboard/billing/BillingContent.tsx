@@ -55,7 +55,11 @@ export default function BillingContent() {
   async function openPortal() {
     setPortalLoading(true);
     try {
-      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      const stripeEnabled = process.env.NEXT_PUBLIC_STRIPE_ENABLED === "true";
+      const res = await fetch("/api/stripe/portal", {
+        method: "POST",
+        credentials: stripeEnabled ? "include" : "same-origin",
+      });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
       else alert(data.error ?? "Billing portal unavailable.");
@@ -64,9 +68,19 @@ export default function BillingContent() {
     }
   }
 
+  const fortress = PRODUCTS.FAMILY_FORTRESS;
   const oneTime = [PRODUCTS.HLV_REPORT, PRODUCTS.LEGACY_VAULT];
   const clientPlans = [PRODUCTS.PREMIUM_MONTHLY, PRODUCTS.PREMIUM_ANNUAL];
   const advisorPlans = [PRODUCTS.PREMIUM_HYBRID, PRODUCTS.ADVISOR_ANNUAL];
+
+  const fortressFeatures = [
+    "Everything in Premium Client Annual",
+    "Family Financial Security Report (branded PDF)",
+    "Digital Legacy & Vault — keep forever",
+    "Financial Vital Signs + Emergency Fund Builder",
+    "Policy Ladder + Tax-Free Retirement Forecaster",
+    "Save $69+ vs. buying each item separately",
+  ];
 
   const clientFeatures = [
     "Financial Vital Signs checkup",
@@ -132,6 +146,37 @@ export default function BillingContent() {
           Checkout canceled. You can upgrade anytime.
         </div>
       )}
+
+      <section className="mb-10">
+        <h2 className="mb-1 text-lg font-semibold text-[var(--color-portal-text)]">Best seller</h2>
+        <p className="mb-4 text-sm text-[var(--color-portal-muted)]">
+          The complete family toolkit — protection analysis, legacy organization, and year-round tracking in one plan.
+        </p>
+        <div className="portal-pricing-grid cols-1 max-w-xl">
+          <div className="portal-card portal-pricing-card featured">
+            <span className="portal-unlock-plan-badge mb-2 inline-block">Most popular</span>
+            <h3 className="font-semibold text-[var(--color-portal-text)]">{fortress.name}</h3>
+            <p className="mt-1 text-sm text-[var(--color-portal-muted)]">{fortress.description}</p>
+            <p className="portal-pricing-price">{fortress.priceLabel}</p>
+            <p className="portal-pricing-period">Billed annually · HLV + Vault kept even if you cancel later</p>
+            <p className="portal-pricing-checkout-total">{getCheckoutTotalLabel(fortress)}</p>
+            {getProcessingFeeLabel(fortress) && (
+              <p className="portal-pricing-fee-note">{getProcessingFeeLabel(fortress)}</p>
+            )}
+            <ul className="mt-4 flex-1 space-y-2 text-sm text-[var(--color-portal-muted)]">
+              {fortressFeatures.map((feature) => (
+                <li key={feature} className="flex items-start gap-2">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-portal-accent)]" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5">
+              <CheckoutButton productKey="FAMILY_FORTRESS" label={`Get Fortress — ${fortress.priceLabel}`} />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="mb-10">
         <h2 className="mb-4 text-lg font-semibold text-[var(--color-portal-text)]">One-time purchases</h2>

@@ -9,7 +9,9 @@ interface CheckoutButtonProps {
   className?: string;
 }
 
-const isLocalTestClient = process.env.NEXT_PUBLIC_LOCAL_TEST_MODE === "true";
+const stripeEnabled = process.env.NEXT_PUBLIC_STRIPE_ENABLED === "true";
+const isLocalTestClient =
+  !stripeEnabled && process.env.NEXT_PUBLIC_LOCAL_TEST_MODE === "true";
 
 export default function CheckoutButton({ productKey, label, className }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
@@ -24,6 +26,7 @@ export default function CheckoutButton({ productKey, label, className }: Checkou
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: stripeEnabled ? "include" : "same-origin",
         body: JSON.stringify({ productKey }),
       });
       const data = await res.json();

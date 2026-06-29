@@ -25,6 +25,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   shield: Shield,
@@ -187,6 +188,7 @@ export default function DashboardShell({
           );
         })}
       </nav>
+      <ScrollToTop variant="portal" />
     </div>
   );
 }

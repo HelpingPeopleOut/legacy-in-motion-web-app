@@ -6,6 +6,7 @@ import { PRODUCTS } from "@/lib/products";
 
 function productToScenario(productKey: ProductKey): LocalTestScenario {
   if (productKey === "HLV_REPORT" || productKey === "LEGACY_VAULT") return "one_time";
+  if (productKey === "FAMILY_FORTRESS") return "all";
   if (productKey === "PREMIUM_HYBRID" || productKey === "ADVISOR_ANNUAL") return "hybrid";
   if (productKey === "PREMIUM_MONTHLY" || productKey === "PREMIUM_ANNUAL") return "premium";
   return "free";

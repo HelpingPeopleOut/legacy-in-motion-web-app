@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustedPartners from "@/components/TrustedPartners";
 import HomeQuickLinksDock from "@/components/HomeQuickLinksDock";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const PORTAL_PREFIXES = ["/dashboard", "/login", "/sign-up"];
 
@@ -22,6 +23,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <Navbar />
       <main className={isLinksHub ? "main--linkhub" : undefined}>{children}</main>
       {!isLinksHub && <HomeQuickLinksDock />}
+      <ScrollToTop variant="site" />
       {!isLinksHub && <TrustedPartners />}
       {!isLinksHub && <Footer />}
     </>

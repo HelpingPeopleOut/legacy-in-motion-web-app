@@ -2,30 +2,31 @@
 
 **Prepared for:** HPO.Center (payment integration)  
 **Business:** Legacy in Motion — Nelly Lara, Senior Financial Associate  
-**Stack:** Stripe Checkout · Customer Portal · Webhooks · Clerk auth · PostgreSQL (Prisma)
+**Stack:** Stripe Checkout · Customer Portal · Webhooks · Clerk auth · PostgreSQL (Prisma) · **Cloudflare Pages Functions**
 
 ---
 
-## Important: hosting architecture
+## Hosting architecture
 
-| Surface | Host today | Stripe APIs |
-|--------|------------|-------------|
-| Marketing site (`/`, `/es`, pillar pages) | Cloudflare Pages (static) | No — lead forms only |
-| Client portal (`/dashboard`, `/login`, billing) | Needs **Node.js server** | **Yes** — checkout + webhooks |
+| Surface | Host | Stripe APIs |
+|--------|------|-------------|
+| Marketing + portal UI | **Cloudflare Pages** (static export → `/out`) | Via **Pages Functions** (`functions/`) |
+| Checkout, portal, webhooks | Same domain — `/api/stripe/*`, `/api/webhooks/*` | Yes |
 
-Cloudflare static export **removes** `/api/stripe/*` and `/api/webhooks/stripe`. For live payments, deploy the **full Next.js app** (with API routes) to **Vercel** (recommended), Railway, or Fly.io.
+The static build strips Next.js `src/app/api/*`, but Cloudflare **Pages Functions** in `functions/` serve the same routes at runtime. No separate Vercel deploy required.
 
-Suggested split:
+**Two phases for you (manual in Stripe Dashboard):**
 
-- **Cloudflare Pages** → marketing static export (`npm run build:pages`)
-- **Vercel** → `legacy-in-motion-portal` with `DATABASE_URL`, Clerk, Stripe env vars
-- Point `www.legacyinmotion.org/dashboard` to Vercel (reverse proxy or subdomain `app.legacyinmotion.org`)
+1. **Phase 1 — Test mode:** Create 6 test products → paste test `price_` IDs + `sk_test_` keys into Cloudflare secrets → test with card `4242 4242 4242 4242`
+2. **Phase 2 — Live mode:** Recreate the same 6 products in **Live** mode → new live `price_` IDs + `sk_live_` keys → new live webhook
+
+Until Phase 1 is complete, the site stays in **preview mode** (mock checkout, tier simulator).
 
 ---
 
 ## Product catalog (create exactly these in Stripe)
 
-Use **USD**. Prices below are what **Legacy in Motion receives** — the app adds a separate **“Payment processing”** line at checkout so **customers pay Stripe fees** (see [Fee pass-through](#fee-pass-through-customer-pays-stripe-fees)).
+Use **USD**. Prices below are what **Legacy in Motion receives** — the app adds a separate **“Payment processing”** line at checkout so **customers pay Stripe fees**.
 
 | App key | Stripe product name | Type | Amount | Billing |
 |---------|---------------------|------|--------|---------|
@@ -33,156 +34,119 @@ Use **USD**. Prices below are what **Legacy in Motion receives** — the app add
 | `LEGACY_VAULT` | Digital Legacy & Vault | One-time | **$99.00** | Single charge |
 | `PREMIUM_MONTHLY` | Premium Client (Monthly) | Recurring | **$5.00** | Monthly |
 | `PREMIUM_ANNUAL` | Premium Client (Annual) | Recurring | **$50.00** | Yearly |
+| `FAMILY_FORTRESS` | Family Financial Fortress Bundle | Recurring | **$129.00** | Yearly |
 | `PREMIUM_HYBRID` | Advisor Pro (Monthly) | Recurring | **$15.00** | Monthly |
 | `ADVISOR_ANNUAL` | Advisor Pro (Annual) | Recurring | **$100.00** | Yearly |
 
-### What each plan unlocks
-
-**Premium Client ($5/mo or $50/yr)**  
-Financial Vital Signs, Emergency Fund Builder, Policy Ladder, Tax-Free Retirement Forecaster
-
-**Advisor Pro ($15/mo or $100/yr)**  
-Everything in Premium Client **plus** What-If Scenario Modeler, Secure Document Hub, future advisor tools
-
-**One-time**  
-- HLV PDF branded report (`human-life-value` tool — calculator free, PDF paid)  
-- Digital Legacy & Vault lifetime access
+> Create products at the **list price** above. Do **not** inflate prices for fees — the app adds the processing line automatically.
 
 ---
 
-## Step-by-step: Stripe Dashboard
+## Phase 1 — Test mode (your steps)
 
-### 1. Create or access the Stripe account
+### 1. Stripe Dashboard (Test mode toggle ON)
 
-1. Go to [https://dashboard.stripe.com/register](https://dashboard.stripe.com/register) (or log in).
-2. Complete **business verification** for Legacy in Motion / Nelly Lara (legal entity, EIN or SSN, bank account for payouts).
-3. Start in **Test mode** (toggle top-right) until end-to-end testing passes.
+1. [dashboard.stripe.com](https://dashboard.stripe.com) → ensure **Test mode** (top-right).
+2. For each row in the catalog table: **Product catalog → + Add product** → set name, price, interval.
+3. Copy each **Price ID** (`price_xxxxxxxxxxxx`).
 
-### 2. Create products and prices
-
-For each row in the catalog table:
-
-1. **Product catalog → + Add product**
-2. **Name:** use exact Stripe product name from table.
-3. **Pricing:**
-   - One-time products → **One time** → amount in USD.
-   - Subscriptions → **Recurring** → interval **Monthly** or **Yearly** → amount in USD.
-4. Save and copy the **Price ID** (`price_xxxxxxxxxxxx`).
-
-> Do **not** inflate prices to cover fees. The app adds a second line item **“Payment processing”** at checkout.
-
-### 3. Map Price IDs to environment variables
-
-On the **portal host** (Vercel, etc.), set:
-
-```env
-STRIPE_SECRET_KEY=sk_test_...          # Developers → API keys
-STRIPE_WEBHOOK_SECRET=whsec_...        # From webhook step below
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-
-STRIPE_PRICE_HLV_REPORT=price_...
-STRIPE_PRICE_LEGACY_VAULT=price_...
-STRIPE_PRICE_PREMIUM_MONTHLY=price_...
-STRIPE_PRICE_PREMIUM_ANNUAL=price_...
-STRIPE_PRICE_PREMIUM_HYBRID=price_...
-STRIPE_PRICE_ADVISOR_ANNUAL=price_...
-
-# Fee pass-through (defaults shown — customer pays processing)
-STRIPE_PASS_FEES_TO_CUSTOMER=true
-STRIPE_FEE_PERCENT=0.029
-STRIPE_FEE_FIXED_CENTS=30
-```
-
-Copy from `.env.example` in the repo. **Never commit** live secret keys.
-
-### 4. Configure Customer Portal
+### 2. Customer Portal (test)
 
 1. **Settings → Billing → Customer portal**
 2. Enable: update payment method, view invoices, cancel subscription.
-3. **Return URL:** `https://YOUR_PORTAL_URL/dashboard/billing`
-4. Save.
+3. **Return URL:** `https://test-legacy-in-motion-web-app.pages.dev/dashboard/billing` (or your custom domain).
 
-### 5. Create webhook endpoint
+### 3. Webhook (test)
 
 1. **Developers → Webhooks → + Add endpoint**
-2. **URL:** `https://YOUR_PORTAL_URL/api/webhooks/stripe`
-3. **Events to listen for:**
+2. **URL:** `https://test-legacy-in-motion-web-app.pages.dev/api/webhooks/stripe`
+3. **Events:**
    - `checkout.session.completed`
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
    - `invoice.payment_failed`
 4. Copy **Signing secret** → `STRIPE_WEBHOOK_SECRET`
 
-**Local testing:** use Stripe CLI:
+### 4. Clerk webhook (if not already set)
 
-```bash
-stripe login
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-# Use the whsec_... from CLI output as STRIPE_WEBHOOK_SECRET locally
+1. Clerk Dashboard → Webhooks → add endpoint
+2. **URL:** `https://test-legacy-in-motion-web-app.pages.dev/api/webhooks/clerk`
+3. Events: `user.created`, `user.updated`, `user.deleted`
+4. Copy signing secret → `CLERK_WEBHOOK_SECRET`
+
+### 5. Cloudflare Pages secrets
+
+**Dashboard → Workers & Pages → test-legacy-in-motion-web-app → Settings → Environment variables**
+
+Set for **Production** (staging branch):
+
+**Plaintext (build + runtime):**
+
+| Variable | Value |
+|----------|-------|
+| `NEXT_PUBLIC_STRIPE_ENABLED` | `true` |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_test_...` |
+| `LOCAL_TEST_MODE` | `false` |
+| `NEXT_PUBLIC_LOCAL_TEST_MODE` | `false` |
+| `STRIPE_PAGES` | `1` *(optional — enables Stripe mode at build time)* |
+
+**Encrypted secrets:**
+
+```env
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+CLERK_SECRET_KEY=sk_test_...
+CLERK_WEBHOOK_SECRET=whsec_...
+DATABASE_URL=postgresql://...   # Neon serverless URL recommended
+
+STRIPE_PRICE_HLV_REPORT=price_...
+STRIPE_PRICE_LEGACY_VAULT=price_...
+STRIPE_PRICE_PREMIUM_MONTHLY=price_...
+STRIPE_PRICE_PREMIUM_ANNUAL=price_...
+STRIPE_PRICE_FAMILY_FORTRESS=price_...
+STRIPE_PRICE_PREMIUM_HYBRID=price_...
+STRIPE_PRICE_ADVISOR_ANNUAL=price_...
+
+STRIPE_PASS_FEES_TO_CUSTOMER=true
+STRIPE_FEE_PERCENT=0.029
+STRIPE_FEE_FIXED_CENTS=30
 ```
 
-### 6. Clerk + database (required for checkout)
+Redeploy the `staging` branch after saving variables.
 
-Checkout requires signed-in users synced to Postgres.
-
-| Variable | Purpose |
-|----------|---------|
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Google OAuth login |
-| `CLERK_SECRET_KEY` | Server auth |
-| `CLERK_WEBHOOK_SECRET` | User sync → `/api/webhooks/clerk` |
-| `DATABASE_URL` | PostgreSQL (Neon, Supabase, Vercel Postgres) |
-
-Run migrations on production DB:
+### 6. Database
 
 ```bash
 npx prisma migrate deploy
 ```
 
-### 7. Go live
+### 7. Test checkout
 
-1. Complete Stripe **activation** checklist.
+1. Sign in at `/login` (Google via Clerk).
+2. Go to `/dashboard/billing`.
+3. Subscribe to Premium Monthly ($5).
+4. Card: `4242 4242 4242 4242`, any future expiry/CVC.
+5. Confirm Checkout shows **two line items** (plan + Payment processing).
+6. After redirect, tools should unlock (webhook syncs tier to Postgres).
+
+---
+
+## Phase 2 — Live mode (after test passes)
+
+1. Complete Stripe **business verification** and bank account.
 2. Toggle Stripe to **Live mode**.
-3. Recreate products/prices in **live mode** (test `price_` IDs do not work in live).
-4. Update all env vars with **live** `sk_live_`, `pk_live_`, and live `price_` IDs.
-5. Create a **live** webhook endpoint with the same events.
-6. Run one real $5 test subscription and confirm:
-   - Checkout shows **two line items** (plan + Payment processing)
-   - Webhook fires → user `subscriptionTier` updates in DB
-   - Tools unlock in `/dashboard`
+3. **Recreate all 6 products/prices** in Live — test `price_` IDs do not work in live.
+4. In Cloudflare, replace secrets with live values:
+   - `sk_live_...`, `pk_live_...`, live `price_...` IDs
+   - New **live** webhook at same URL → new `whsec_...`
+5. Update `NEXT_PUBLIC_APP_URL` if using production domain (e.g. `https://www.legacyinmotion.org`).
+6. Run one real small subscription ($5) and confirm payout nets ~list price.
 
 ---
 
 ## Fee pass-through (customer pays Stripe fees)
 
-The app (`src/lib/stripe-fees.ts` + `src/lib/stripe.ts`) calculates a gross-up so Legacy in Motion **nets the listed price** after Stripe’s typical US card rate (**2.9% + $0.30** per charge).
-
-**Example — Premium Client Monthly ($5.00 base):**
-
-| Line item | Amount |
-|-----------|--------|
-| Premium Client (Monthly) | $5.00 |
-| Payment processing | ~$0.46 |
-| **Customer pays** | **~$5.46** |
-| **You receive (net)** | **~$5.00** |
-
-Annual and one-time purchases use the same formula on their base amounts.
-
-### Checkout display
-
-- Billing page shows **list price** + **“$X.XX at checkout”** total estimate.
-- Stripe Checkout shows **two line items** for transparency.
-
-### Disable pass-through (not recommended)
-
-Set `STRIPE_PASS_FEES_TO_CUSTOMER=false` — business absorbs Stripe fees.
-
-### Legal note
-
-Card surcharge rules vary by state and card network. California allows certain surcharges with disclosure requirements. Legacy in Motion should confirm compliance with their attorney; the app labels the fee **“Payment processing”** on the Stripe receipt.
-
----
-
-## Estimated customer totals (test mode reference)
+Formula: `ceil((base + 30¢) / (1 - 2.9%)) - base` for the fee line (configurable via env).
 
 | Product | List price | ~Total at checkout |
 |---------|------------|-------------------|
@@ -193,18 +157,33 @@ Card surcharge rules vary by state and card network. California allows certain s
 | Advisor Pro Monthly | $15.00/mo | ~$15.75/mo |
 | Advisor Pro Annual | $100.00/yr | ~$103.29/yr |
 
-*Exact cents may vary slightly; formula is `ceil((base + 30¢) / (1 - 2.9%)) - base` for the fee line.*
+Set `STRIPE_PASS_FEES_TO_CUSTOMER=false` to absorb fees (not recommended).
 
 ---
 
-## Test cards (Stripe test mode)
+## Local development
 
-| Card | Result |
-|------|--------|
-| `4242 4242 4242 4242` | Success |
-| `4000 0000 0000 9995` | Declined |
+**Full Next.js (recommended for API dev):**
 
-Use any future expiry, any CVC, any ZIP.
+```bash
+cp .env.example .env.local
+# Fill in Clerk, DATABASE_URL, Stripe test keys
+npm run dev
+```
+
+**Cloudflare Pages + Functions locally:**
+
+```bash
+cp .dev.vars.example .dev.vars
+npm run build:pages
+npx wrangler pages dev out
+```
+
+Stripe CLI for local webhooks:
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+```
 
 ---
 
@@ -212,40 +191,44 @@ Use any future expiry, any CVC, any ZIP.
 
 | Symptom | Fix |
 |---------|-----|
-| “Stripe price not configured” | Missing `STRIPE_PRICE_*` env var for that product |
-| Checkout works but access not granted | Webhook not reaching server; check `STRIPE_WEBHOOK_SECRET` and endpoint URL |
-| Portal button does nothing | User has no `stripeCustomerId` — complete one checkout first |
-| Fees not showing | `STRIPE_PASS_FEES_TO_CUSTOMER=false` or deploying static export without API routes |
-| Double subscriptions | User should use **Customer Portal** to cancel old plan before switching |
+| “Stripe price not configured” | Missing `STRIPE_PRICE_*` in Cloudflare secrets |
+| 401 on checkout | User not signed in; Clerk `CLERK_SECRET_KEY` missing on Functions |
+| Checkout works, no unlock | Webhook URL or `STRIPE_WEBHOOK_SECRET` wrong |
+| Still shows “(preview)” on buttons | `NEXT_PUBLIC_STRIPE_ENABLED` not `true` or rebuild needed |
+| Functions 500 on DB | Use Neon serverless `DATABASE_URL`; run `prisma migrate deploy` |
 
 ---
 
-## Files reference (for HPO developers)
+## Files reference
 
 | File | Role |
 |------|------|
-| `src/lib/products.ts` | Canonical prices and Stripe price ID mapping |
-| `src/lib/stripe-fees.ts` | Processing fee math |
-| `src/lib/stripe.ts` | Checkout session + fee line item |
-| `src/app/api/stripe/checkout/route.ts` | POST checkout |
-| `src/app/api/stripe/portal/route.ts` | Customer portal |
-| `src/app/api/webhooks/stripe/route.ts` | Subscription & purchase sync |
-| `src/app/dashboard/billing/BillingContent.tsx` | Pricing UI |
-| `prisma/schema.prisma` | `ProductKey`, `SubscriptionTier` enums |
+| `functions/api/stripe/checkout.ts` | CF Pages checkout |
+| `functions/api/stripe/portal.ts` | CF Pages billing portal |
+| `functions/api/webhooks/stripe.ts` | CF Stripe webhooks |
+| `functions/api/webhooks/clerk.ts` | CF Clerk user sync |
+| `src/lib/server/stripe-handlers.ts` | Shared Stripe logic |
+| `src/lib/products.ts` | UI prices + fee labels |
+| `wrangler.toml` | CF Pages config (`nodejs_compat`) |
+| `.dev.vars.example` | Local Functions secrets template |
 
 ---
 
-## Handoff checklist for HPO
+## Handoff checklist
 
-- [ ] Stripe account verified and bank linked  
-- [ ] 6 products + prices created (test mode)  
-- [ ] All 6 `STRIPE_PRICE_*` vars set on portal host  
-- [ ] Webhook endpoint live and `STRIPE_WEBHOOK_SECRET` set  
-- [ ] Customer Portal enabled  
-- [ ] Clerk Google OAuth + `DATABASE_URL` + Prisma migrate  
-- [ ] Portal deployed on Node host (not static-only Cloudflare)  
-- [ ] Test checkout: fee line visible, tier unlocks, portal opens  
-- [ ] Switch to live keys + live prices + live webhook  
-- [ ] Confirm Nelly receives **net list price** on first live payout  
+**Phase 1 (test) — you:**
+
+- [ ] 6 test products created in Stripe  
+- [ ] Test webhook + Clerk webhook pointing to Pages URL  
+- [ ] All env vars/secrets set in Cloudflare  
+- [ ] `NEXT_PUBLIC_STRIPE_ENABLED=true` + redeploy  
+- [ ] Test $5 subscription unlocks tools  
+
+**Phase 2 (live) — you:**
+
+- [ ] Stripe account activated  
+- [ ] 6 **live** products recreated  
+- [ ] Live keys + live webhook in Cloudflare  
+- [ ] One real purchase verified  
 
 **Questions:** HPO.Center — [https://www.hpo.center](https://www.hpo.center)

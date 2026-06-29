@@ -2,7 +2,8 @@
 // Run: npx prisma migrate dev --name init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -50,6 +51,7 @@ enum SubscriptionTier {
   FREE
   PREMIUM_MONTHLY
   PREMIUM_ANNUAL
+  FAMILY_FORTRESS
   PREMIUM_HYBRID
   ADVISOR_ANNUAL
 }
@@ -61,6 +63,7 @@ enum ProductKey {
   LEGACY_VAULT        // Digital Legacy Vault — $99
   PREMIUM_MONTHLY
   PREMIUM_ANNUAL
+  FAMILY_FORTRESS     // Best-seller bundle — $129/yr (Premium + HLV + Vault)
   PREMIUM_HYBRID      // Advisor Pro monthly — $15/mo
   ADVISOR_ANNUAL      // Advisor Pro annual — $100/yr
 }

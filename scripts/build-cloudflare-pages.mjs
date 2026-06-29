@@ -64,12 +64,16 @@ move(middleware, middlewareBackup);
 move(productionLayout, productionBackup);
 copyReplace(layoutCf, layout);
 
+const stripePages = process.env.STRIPE_PAGES === "1" || process.env.NEXT_PUBLIC_STRIPE_ENABLED === "true";
+
 const env = {
   ...process.env,
   CF_PAGES: "1",
-  LOCAL_TEST_MODE: "true",
-  NEXT_PUBLIC_LOCAL_TEST_MODE: "true",
-  NEXT_PUBLIC_APP_URL: "https://test-legacy-in-motion-web-app.pages.dev",
+  LOCAL_TEST_MODE: stripePages ? "false" : "true",
+  NEXT_PUBLIC_LOCAL_TEST_MODE: stripePages ? "false" : "true",
+  NEXT_PUBLIC_STRIPE_ENABLED: stripePages ? "true" : "false",
+  NEXT_PUBLIC_APP_URL:
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://test-legacy-in-motion-web-app.pages.dev",
 };
 
 const result = spawnSync("npx", ["next", "build", "--webpack"], {

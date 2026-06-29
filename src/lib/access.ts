@@ -14,8 +14,13 @@ export type AccessResult =
 
 type UserWithPurchases = User & { purchases: Purchase[] };
 
-const CLIENT_PREMIUM_TIERS = new Set(["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"]);
+const CLIENT_PREMIUM_TIERS = new Set(["PREMIUM_MONTHLY", "PREMIUM_ANNUAL", "FAMILY_FORTRESS"]);
 const ADVISOR_PRO_TIERS = new Set(["PREMIUM_HYBRID", "ADVISOR_ANNUAL"]);
+
+export function hasFortressBundle(user: UserWithPurchases): boolean {
+  if (!hasActiveSubscription(user)) return false;
+  return user.subscriptionTier === "FAMILY_FORTRESS";
+}
 
 export function hasAdvisorAccess(user: UserWithPurchases): boolean {
   if (!hasActiveSubscription(user)) return false;
@@ -88,6 +93,9 @@ export function canAccessTool(user: UserWithPurchases | null, tool: ToolDefiniti
       return { allowed: true };
     }
     if (hasPurchase(user, tool.productKey)) return { allowed: true };
+    if (hasFortressBundle(user) && (tool.productKey === "HLV_REPORT" || tool.productKey === "LEGACY_VAULT")) {
+      return { allowed: true };
+    }
     const product = PRODUCTS[tool.productKey];
     return {
       allowed: false,
@@ -108,12 +116,12 @@ export function canDownloadHlvReport(user: UserWithPurchases | null): AccessResu
   if (!user) {
     return { allowed: false, reason: "auth", message: "Sign in to download your report." };
   }
-  if (hasPurchase(user, "HLV_REPORT")) return { allowed: true };
+  if (hasPurchase(user, "HLV_REPORT") || hasFortressBundle(user)) return { allowed: true };
   return {
     allowed: false,
     reason: "one_time",
     productKey: "HLV_REPORT",
-    message: `Download the branded Family Financial Security Report for ${PRODUCTS.HLV_REPORT.priceLabel}.`,
+    message: `Download the branded Family Financial Security Report for ${PRODUCTS.HLV_REPORT.priceLabel} — or get it in the ${PRODUCTS.FAMILY_FORTRESS.name} (${PRODUCTS.FAMILY_FORTRESS.priceLabel}).`,
   };
 }
 

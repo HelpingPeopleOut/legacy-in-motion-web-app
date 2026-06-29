@@ -9,6 +9,7 @@ import AdvisorHeroPhoto from "@/components/AdvisorHeroPhoto";
 import MeetAdvisorSection from "@/components/MeetAdvisorSection";
 import EnterpriseTrustSignals from "@/components/seo/EnterpriseTrustSignals";
 import EnterpriseFaqSection from "@/components/seo/EnterpriseFaqSection";
+import AdvisorTeamAside from "@/components/AdvisorTeamAside";
 import { GLOBAL_FAQS } from "@/lib/ai-enterprise";
 import Link from "next/link";
 
@@ -97,6 +98,7 @@ export default function Home() {
         title="Common Questions — Answered Clearly"
         faqs={GLOBAL_FAQS.slice(0, 6)}
         id="home-faq"
+        aside={<AdvisorTeamAside locale="en" />}
       />
 
       <section className="text-section fade-in" style={{ background: "var(--bg-page)", padding: "3rem 0" }}>

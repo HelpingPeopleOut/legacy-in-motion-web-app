@@ -80,6 +80,18 @@ export const PRODUCTS: Record<string, ProductConfig> = {
     stripePriceId: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
     unlocks: [...CLIENT_PREMIUM_UNLOCKS],
   },
+  FAMILY_FORTRESS: {
+    key: "FAMILY_FORTRESS",
+    name: "Family Financial Fortress Bundle",
+    description:
+      "Our best-selling all-in-one plan — premium trackers, branded HLV security report, and Digital Legacy Vault. Save vs. buying separately.",
+    priceLabel: "$129/yr",
+    priceCents: 12900,
+    billingMode: "subscription",
+    subscriptionInterval: "year",
+    stripePriceId: process.env.STRIPE_PRICE_FAMILY_FORTRESS,
+    unlocks: [...CLIENT_PREMIUM_UNLOCKS, "human-life-value:pdf", "legacy-vault"],
+  },
   PREMIUM_HYBRID: {
     key: "PREMIUM_HYBRID",
     name: "Advisor Pro (Monthly)",
@@ -110,7 +122,13 @@ export function getProductByKey(key: ProductKey): ProductConfig | undefined {
   return PRODUCTS[key];
 }
 
-export const CLIENT_SUBSCRIPTION_KEYS = ["PREMIUM_MONTHLY", "PREMIUM_ANNUAL"] as const;
+export const CLIENT_SUBSCRIPTION_KEYS = ["PREMIUM_MONTHLY", "PREMIUM_ANNUAL", "FAMILY_FORTRESS"] as const;
+
+/** Standalone value if purchased separately (for savings messaging). */
+export const FAMILY_FORTRESS_STANDALONE_VALUE_CENTS =
+  PRODUCTS.HLV_REPORT.priceCents +
+  PRODUCTS.LEGACY_VAULT.priceCents +
+  PRODUCTS.PREMIUM_ANNUAL.priceCents;
 export const ADVISOR_SUBSCRIPTION_KEYS = ["PREMIUM_HYBRID", "ADVISOR_ANNUAL"] as const;
 
 /** Customer-facing total including pass-through processing fee */

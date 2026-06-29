@@ -1,7 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { createBillingPortalSession } from "@/lib/stripe";
-import { ensureDbUser } from "@/lib/user";
+import { prisma } from "@/lib/db";
+import { envFromProcess } from "@/lib/server/env";
+import { runBillingPortal } from "@/lib/server/stripe-handlers";
 
 export async function POST(req: Request) {
   try {
@@ -10,15 +11,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await ensureDbUser();
-    if (!user?.stripeCustomerId) {
-      return NextResponse.json({ error: "No billing account yet" }, { status: 400 });
-    }
-
-    const origin = req.headers.get("origin") ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-    const session = await createBillingPortalSession(user.stripeCustomerId, `${origin}/dashboard/billing`);
-
-    return NextResponse.json({ url: session.url });
+    const env = envFromProcess();
+    const result = await runBillingPortal(prisma, env, req, userId);
+    return NextResponse.json(result.body, { status: result.status });
   } catch (error) {
     console.error("[stripe/portal]", error);
     return NextResponse.json({ error: "Portal failed" }, { status: 500 });

@@ -18,5 +18,5 @@ Instagram: https://www.instagram.com/money_withnelz
 TikTok: https://www.tiktok.com/@laranell14
 
 /* SITE */
-Last updated: 2026-06-28
+Last updated: 2026-06-29
 Standards: HTML5, Schema.org JSON-LD, llms.txt
