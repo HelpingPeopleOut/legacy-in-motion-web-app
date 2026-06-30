@@ -4,13 +4,23 @@ import { Webhook } from "svix";
 import type { ServerEnv } from "./env";
 
 export async function requireClerkUserId(request: Request, env: ServerEnv): Promise<string | null> {
-  if (!env.CLERK_SECRET_KEY) return null;
-  const clerk = createClerkClient({ secretKey: env.CLERK_SECRET_KEY });
-  const state = await clerk.authenticateRequest(request, {
-    secretKey: env.CLERK_SECRET_KEY,
-  });
-  if (!state.isSignedIn) return null;
-  return state.toAuth().userId;
+  if (!env.CLERK_SECRET_KEY || !env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) return null;
+
+  try {
+    const clerk = createClerkClient({
+      secretKey: env.CLERK_SECRET_KEY,
+      publishableKey: env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    });
+    const state = await clerk.authenticateRequest(request, {
+      secretKey: env.CLERK_SECRET_KEY,
+      publishableKey: env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    });
+    if (!state.isSignedIn) return null;
+    return state.toAuth().userId;
+  } catch (error) {
+    console.error("[clerk] authenticateRequest failed", error);
+    return null;
+  }
 }
 
 export async function ensureDbUserFromClerk(
