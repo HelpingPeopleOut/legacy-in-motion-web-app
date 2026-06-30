@@ -9,6 +9,7 @@ import {
 import { getToolAccess, canDownloadHlvReport } from "@/lib/access";
 import { ensureDbUser } from "@/lib/user";
 import ToolRenderer from "@/components/dashboard/ToolRenderer";
+import { ToolIcon } from "@/components/dashboard/DashboardShell";
 
 export const dynamic = "force-static";
 
@@ -38,29 +39,43 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const hlvReportAccess = canDownloadHlvReport(user);
 
   return (
-    <div className="portal-tool-page-header">
-      <div className="portal-tool-back-row">
-        <Link href="/dashboard" className="portal-tool-back">
-          ← Back to Tool Hub
-        </Link>
-        <Link href="/" className="portal-tool-back">
-          ← Main site
-        </Link>
-      </div>
-      <div className="portal-tool-meta">
-        <span className="portal-tool-category-pill">{TOOL_AUDIENCE_META[tool.audience].label}</span>
-        <span className="portal-tool-category-pill portal-tool-category-pill--muted">
-          {TOOL_CATEGORY_LABELS[tool.category]}
+    <>
+      <nav className="portal-breadcrumb" aria-label="Breadcrumb">
+        <Link href="/dashboard">Tool Hub</Link>
+        <span className="portal-breadcrumb-sep" aria-hidden>
+          /
         </span>
-        {tool.access !== "free" && (
-          <span className="portal-tool-badge preview">{tool.access.replace("_", " ")}</span>
-        )}
-      </div>
-      <h1 className="portal-tool-title portal-hub-title">{tool.name}</h1>
-      <p className="portal-hub-sub mb-0">{tool.description}</p>
-      <div className="mt-8">
+        <span>{TOOL_AUDIENCE_META[tool.audience].shortLabel}</span>
+        <span className="portal-breadcrumb-sep" aria-hidden>
+          /
+        </span>
+        <span aria-current="page">{tool.name}</span>
+      </nav>
+
+      <header className="portal-tool-hero portal-fade-in">
+        <div className="portal-tool-hero-row">
+          <div className="portal-tool-hero-icon">
+            <ToolIcon name={tool.icon} className="h-6 w-6" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="portal-tool-meta mb-2">
+              <span className="portal-tool-category-pill">{TOOL_AUDIENCE_META[tool.audience].label}</span>
+              <span className="portal-tool-category-pill portal-tool-category-pill--muted">
+                {TOOL_CATEGORY_LABELS[tool.category]}
+              </span>
+              {tool.access !== "free" && (
+                <span className="portal-tool-badge preview">{tool.access.replace("_", " ")}</span>
+              )}
+            </div>
+            <h1 className="portal-hub-title mb-0 text-2xl md:text-3xl">{tool.name}</h1>
+            <p className="portal-hub-sub mb-0 mt-2 max-w-3xl">{tool.description}</p>
+          </div>
+        </div>
+      </header>
+
+      <div className="portal-fade-in portal-fade-in-delay-1">
         <ToolRenderer tool={tool} access={access} hlvReportAccess={hlvReportAccess} />
       </div>
-    </div>
+    </>
   );
 }

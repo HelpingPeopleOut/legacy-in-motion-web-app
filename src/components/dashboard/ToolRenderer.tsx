@@ -4,31 +4,43 @@ import dynamic from "next/dynamic";
 import Paywall from "@/components/dashboard/Paywall";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
 import PortalToolIntro from "@/components/dashboard/PortalToolIntro";
+import PortalWorkspace from "@/components/dashboard/ui/PortalWorkspace";
+import ToolLoadingSkeleton from "@/components/dashboard/ui/ToolLoadingSkeleton";
 import type { ToolDefinition } from "@/lib/tools";
 import type { AccessResult } from "@/lib/access";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import { PRODUCTS } from "@/lib/products";
 import { BarChart3, Calculator, Clock, Shield, TrendingUp } from "lucide-react";
+import type { ComponentType } from "react";
 
-const DIMECalculator = dynamic(() => import("@/components/DIMECalculator"), { ssr: false });
-const TaxFreeComparison = dynamic(() => import("@/components/TaxFreeComparison"), { ssr: false });
-const WealthCalculator = dynamic(() => import("@/components/WealthCalculator"), { ssr: false });
-const RuleOf72 = dynamic(() => import("@/components/RuleOf72"), { ssr: false });
-const CostOfWaiting = dynamic(() => import("@/components/CostOfWaiting"), { ssr: false });
-const LegacyVault = dynamic(() => import("@/components/dashboard/LegacyVault"), { ssr: false });
-const BeneficiaryChecklist = dynamic(() => import("@/components/dashboard/BeneficiaryChecklist"), { ssr: false });
-const AgentMeetingPrep = dynamic(() => import("@/components/dashboard/AgentMeetingPrep"), { ssr: false });
-const MortgageProtectionEst = dynamic(() => import("@/components/dashboard/MortgageProtectionEst"), { ssr: false });
-const CollegeFundingPlanner = dynamic(() => import("@/components/dashboard/CollegeFundingPlanner"), { ssr: false });
-const HlvReportPanel = dynamic(() => import("@/components/dashboard/HlvReportPanel"), { ssr: false });
-const FinancialVitalSigns = dynamic(() => import("@/components/dashboard/FinancialVitalSigns"), { ssr: false });
-const PolicyLadderTracker = dynamic(() => import("@/components/dashboard/PolicyLadderTracker"), { ssr: false });
-const WhatIfScenarios = dynamic(() => import("@/components/dashboard/WhatIfScenarios"), { ssr: false });
-const SecureDocumentHub = dynamic(() => import("@/components/dashboard/SecureDocumentHub"), { ssr: false });
-const EmergencyFundBuilder = dynamic(() => import("@/components/dashboard/EmergencyFundBuilder"), { ssr: false });
-const DebtFreedomPortal = dynamic(() => import("@/components/dashboard/DebtFreedomPortal"), { ssr: false });
+function portalDynamic<T extends ComponentType<unknown>>(
+  importer: () => Promise<{ default: T }>
+) {
+  return dynamic(importer, {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  });
+}
 
-const calcHost = "portal-calculator-host rounded-xl overflow-hidden [&_.card]:!shadow-none";
+const DIMECalculator = portalDynamic(() => import("@/components/DIMECalculator"));
+const TaxFreeComparison = portalDynamic(() => import("@/components/TaxFreeComparison"));
+const WealthCalculator = portalDynamic(() => import("@/components/WealthCalculator"));
+const RuleOf72 = portalDynamic(() => import("@/components/RuleOf72"));
+const CostOfWaiting = portalDynamic(() => import("@/components/CostOfWaiting"));
+const LegacyVault = portalDynamic(() => import("@/components/dashboard/LegacyVault"));
+const BeneficiaryChecklist = portalDynamic(() => import("@/components/dashboard/BeneficiaryChecklist"));
+const AgentMeetingPrep = portalDynamic(() => import("@/components/dashboard/AgentMeetingPrep"));
+const MortgageProtectionEst = portalDynamic(() => import("@/components/dashboard/MortgageProtectionEst"));
+const CollegeFundingPlanner = portalDynamic(() => import("@/components/dashboard/CollegeFundingPlanner"));
+const HlvReportPanel = portalDynamic(() => import("@/components/dashboard/HlvReportPanel"));
+const FinancialVitalSigns = portalDynamic(() => import("@/components/dashboard/FinancialVitalSigns"));
+const PolicyLadderTracker = portalDynamic(() => import("@/components/dashboard/PolicyLadderTracker"));
+const WhatIfScenarios = portalDynamic(() => import("@/components/dashboard/WhatIfScenarios"));
+const SecureDocumentHub = portalDynamic(() => import("@/components/dashboard/SecureDocumentHub"));
+const EmergencyFundBuilder = portalDynamic(() => import("@/components/dashboard/EmergencyFundBuilder"));
+const DebtFreedomPortal = portalDynamic(() => import("@/components/dashboard/DebtFreedomPortal"));
+
+const calcHost = "portal-calculator-host";
 
 interface ToolRendererProps {
   tool: ToolDefinition;
@@ -164,7 +176,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
         />
       )}
 
-      {renderTool()}
+      <PortalWorkspace>{renderTool()}</PortalWorkspace>
 
       {tool.slug === "human-life-value" && (
         <>
@@ -183,7 +195,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
       )}
 
       {tool.advisorCta && (
-        <div className="rounded-xl border border-amber-200 bg-[var(--color-portal-gold-light)] p-5 text-center">
+        <div className="portal-advisor-cta">
           <p className="text-sm text-[var(--color-portal-muted)]">{tool.advisorCta}</p>
           <a href="/#consultation" className="portal-btn-primary mt-3 inline-flex text-sm">
             Schedule your free strategy session

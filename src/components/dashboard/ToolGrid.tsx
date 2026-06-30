@@ -10,12 +10,23 @@ import {
   type ToolAudience,
   type ToolDefinition,
 } from "@/lib/tools";
-import { canAccessTool, hasActivePremium, hasPurchase } from "@/lib/access";
+import { canAccessTool, hasActivePremium } from "@/lib/access";
 import { PRODUCTS } from "@/lib/products";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import type { User, Purchase } from "@prisma/client";
 import { ToolIcon } from "./DashboardShell";
-import { ArrowRight, Sparkles, Wrench } from "lucide-react";
+import {
+  ArrowRight,
+  Briefcase,
+  GraduationCap,
+  LayoutGrid,
+  Search,
+  Sparkles,
+  Star,
+  Unlock,
+  Users,
+  Wrench,
+} from "lucide-react";
 import UnlockToolsModal, { UnlockToolsBanner } from "./UnlockToolsModal";
 
 type UserWithPurchases = User & { purchases: Purchase[] };
@@ -30,6 +41,40 @@ const FILTERS: { key: AudienceFilter; label: string }[] = [
 ];
 
 const AUDIENCE_ORDER: ToolAudience[] = ["customer", "agent", "other"];
+
+const FEATURED_SLUGS = [
+  "financial-vital-signs",
+  "legacy-vault",
+  "human-life-value",
+  "debt-freedom",
+] as const;
+
+const QUICK_PATHS = [
+  {
+    slug: "financial-vital-signs",
+    label: "Start here",
+    title: "2-minute financial checkup",
+    desc: "See emergency savings, debt pressure, and protection at a glance.",
+  },
+  {
+    slug: "debt-freedom",
+    label: "Popular",
+    title: "Debt payoff visualizer",
+    desc: "Map your path to zero credit card interest.",
+  },
+  {
+    slug: "legacy-vault",
+    label: "Protect",
+    title: "Digital legacy vault",
+    desc: "Policies, wills, and beneficiaries in one place.",
+  },
+  {
+    slug: "human-life-value",
+    label: "Advisor",
+    title: "Coverage needs analyzer",
+    desc: "D.I.M.E. method for exact protection amounts.",
+  },
+] as const;
 
 const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
   if (isPreviewUnlockAll()) {
@@ -49,10 +94,27 @@ const accessBadge = (tool: ToolDefinition, user: UserWithPurchases | null) => {
   return { label: "Locked", className: "locked" };
 };
 
-function ToolCard({ tool, user }: { tool: ToolDefinition; user: UserWithPurchases | null }) {
+function ToolCard({
+  tool,
+  user,
+  featured = false,
+  delay = 0,
+}: {
+  tool: ToolDefinition;
+  user: UserWithPurchases | null;
+  featured?: boolean;
+  delay?: number;
+}) {
   const badge = accessBadge(tool, user);
+  const unlocked = badge.className === "unlocked" || badge.className === "free" || badge.className === "preview";
+
   return (
-    <Link href={`/dashboard/tools/${tool.slug}`} className="portal-card portal-tool-card group">
+    <Link
+      href={`/dashboard/tools/${tool.slug}`}
+      className={`portal-card portal-tool-card group portal-fade-in${featured ? " portal-tool-card--featured" : ""}`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {featured && <span className="portal-tool-card-glow" aria-hidden />}
       <div className="portal-tool-card-header">
         <div className="portal-tool-icon">
           <ToolIcon name={tool.icon} className="h-5 w-5" />
@@ -62,9 +124,12 @@ function ToolCard({ tool, user }: { tool: ToolDefinition; user: UserWithPurchase
       <h2 className="portal-tool-name">{tool.name}</h2>
       <p className="portal-tool-desc">{tool.description}</p>
       <div className="portal-tool-footer">
-        <span className="portal-tool-category">{TOOL_CATEGORY_LABELS[tool.category]}</span>
+        <span className="portal-tool-category flex items-center gap-1.5">
+          <span className={`portal-tool-audience-dot portal-tool-audience-dot--${tool.audience}`} aria-hidden />
+          {TOOL_CATEGORY_LABELS[tool.category]}
+        </span>
         <span className="portal-tool-cta">
-          Open
+          {unlocked ? "Open" : "View"}
           <ArrowRight aria-hidden />
         </span>
       </div>
@@ -97,53 +162,114 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
   const unlockedCount = TOOLS.filter((t) => canAccessTool(user, t).allowed).length;
   const byAudience = groupToolsByAudience();
 
+  const featuredTools = FEATURED_SLUGS.map((slug) => TOOLS.find((t) => t.slug === slug)).filter(
+    Boolean
+  ) as ToolDefinition[];
+
+  const stats = [
+    { label: "Total tools", value: TOOLS.length, tone: "gold" as const, icon: LayoutGrid },
+    { label: "For clients", value: byAudience.customer.length, tone: "default" as const, icon: Users },
+    { label: "For advisors", value: byAudience.agent.length, tone: "default" as const, icon: Briefcase },
+    {
+      label: preview ? "Unlocked (preview)" : "Unlocked",
+      value: preview ? TOOLS.length : unlockedCount,
+      tone: "accent" as const,
+      icon: Unlock,
+    },
+  ];
+
   return (
     <>
       <UnlockToolsModal user={user} />
       <UnlockToolsBanner user={user} />
-      <div className="portal-hub-hero">
-        <p className="portal-hub-eyebrow">
-          <Sparkles className="h-3.5 w-3.5" aria-hidden />
-          Financial command center
-        </p>
-        <h1 className="portal-hub-title">Your wealth toolkit</h1>
-        <p className="portal-hub-sub portal-hub-sub--compact">
-          Tools organized for clients, advisors, and workshops — analyze coverage, eliminate debt,
-          forecast retirement, and protect your legacy.
-          {preview && " Preview mode: every tool is unlocked for testing."}
-          {!preview && premium && " Your Premium plan is active."}
-        </p>
+
+      <div className="portal-hub-panel portal-fade-in">
+        <div className="portal-hub-panel-inner">
+          <p className="portal-hub-eyebrow">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden />
+            Financial command center
+          </p>
+          <h1 className="portal-hub-title">Your wealth toolkit</h1>
+          <p className="portal-hub-sub portal-hub-sub--compact">
+            A premium workspace for clients and advisors — analyze coverage, eliminate debt, forecast
+            retirement, and protect your legacy.
+            {preview && " Preview mode: every tool is unlocked for testing."}
+            {!preview && premium && " Your Premium plan is active."}
+          </p>
+
+          <div className="portal-hub-toolbar">
+            <div className="portal-hub-search">
+              <Search aria-hidden />
+              <input
+                type="search"
+                placeholder="Search tools by name, topic, or audience…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search tools"
+              />
+              {search.trim() && (
+                <p className="portal-hub-search-count">
+                  {filtered.length} result{filtered.length === 1 ? "" : "s"}
+                </p>
+              )}
+            </div>
+            <Link href="/dashboard/billing" className="portal-btn-primary shrink-0 text-sm">
+              {premium || preview ? "Manage plan" : "Upgrade access"}
+            </Link>
+          </div>
+        </div>
       </div>
 
-      <div className="portal-stats-row">
-        <div className="portal-stat-card">
-          <div className="portal-stat-value gold">{TOOLS.length}</div>
-          <div className="portal-stat-label">Total tools</div>
-        </div>
-        <div className="portal-stat-card">
-          <div className="portal-stat-value">{byAudience.customer.length}</div>
-          <div className="portal-stat-label">For clients</div>
-        </div>
-        <div className="portal-stat-card">
-          <div className="portal-stat-value">{byAudience.agent.length}</div>
-          <div className="portal-stat-label">For advisors</div>
-        </div>
-        <div className="portal-stat-card">
-          <div className="portal-stat-value accent">{preview ? TOOLS.length : unlockedCount}</div>
-          <div className="portal-stat-label">{preview ? "Unlocked (preview)" : "Unlocked"}</div>
-        </div>
+      <div className="portal-stats-row portal-fade-in portal-fade-in-delay-1">
+        {stats.map((stat) => (
+          <div key={stat.label} className="portal-stat-card portal-stat-card--premium">
+            <div className="portal-stat-icon">
+              <stat.icon className="h-4 w-4" aria-hidden />
+            </div>
+            <div className={`portal-stat-value${stat.tone !== "default" ? ` ${stat.tone}` : ""}`}>
+              {stat.value}
+            </div>
+            <div className="portal-stat-label">{stat.label}</div>
+          </div>
+        ))}
       </div>
 
-      <div className="mb-4 md:hidden">
-        <input
-          type="search"
-          placeholder="Search tools…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-[var(--color-portal-border)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[var(--color-portal-gold)] focus:ring-2 focus:ring-[rgba(166,124,0,0.12)]"
-          aria-label="Search tools"
-        />
-      </div>
+      {!search.trim() && audience === "all" && (
+        <>
+          <p className="portal-section-eyebrow portal-fade-in portal-fade-in-delay-2">
+            <Star className="h-3.5 w-3.5" aria-hidden />
+            Quick start
+          </p>
+          <div className="portal-quick-paths portal-fade-in portal-fade-in-delay-2">
+            {QUICK_PATHS.map((path) => {
+              const tool = TOOLS.find((t) => t.slug === path.slug);
+              if (!tool) return null;
+              return (
+                <Link key={path.slug} href={`/dashboard/tools/${path.slug}`} className="portal-quick-path">
+                  <div className="portal-quick-path-icon">
+                    <ToolIcon name={tool.icon} className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="portal-quick-path-label">{path.label}</p>
+                    <p className="portal-quick-path-title">{path.title}</p>
+                    <p className="portal-quick-path-desc">{path.desc}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <p className="portal-section-eyebrow portal-fade-in portal-fade-in-delay-3">
+            <GraduationCap className="h-3.5 w-3.5" aria-hidden />
+            Featured tools
+          </p>
+          <div className="portal-tools-grid mb-8 portal-fade-in portal-fade-in-delay-3">
+            {featuredTools.map((tool, i) => (
+              <ToolCard key={tool.slug} tool={tool} user={user} featured delay={i * 40} />
+            ))}
+          </div>
+        </>
+      )}
 
       <div className="portal-filter-bar" role="tablist" aria-label="Filter tools by audience">
         {FILTERS.map(({ key, label }) => (
@@ -165,7 +291,7 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
           <Wrench aria-hidden />
           <p>No tools match your search. Try a different term or filter.</p>
         </div>
-      ) : audience === "all" ? (
+      ) : audience === "all" && !search.trim() ? (
         <div className="portal-tool-sections">
           {AUDIENCE_ORDER.map((key) => {
             const tools = grouped[key];
@@ -180,8 +306,8 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
                   <p className="portal-tool-section-desc">{meta.description}</p>
                 </div>
                 <div className="portal-tools-grid">
-                  {tools.map((tool) => (
-                    <ToolCard key={tool.slug} tool={tool} user={user} />
+                  {tools.map((tool, i) => (
+                    <ToolCard key={tool.slug} tool={tool} user={user} delay={i * 30} />
                   ))}
                 </div>
               </section>
@@ -190,8 +316,8 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
         </div>
       ) : (
         <div className="portal-tools-grid">
-          {filtered.map((tool) => (
-            <ToolCard key={tool.slug} tool={tool} user={user} />
+          {filtered.map((tool, i) => (
+            <ToolCard key={tool.slug} tool={tool} user={user} delay={i * 25} />
           ))}
         </div>
       )}
@@ -202,19 +328,19 @@ export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
 export function UserStatusBanner({ user }: { user: UserWithPurchases }) {
   const preview = isPreviewUnlockAll();
   const premium = hasActivePremium(user);
-  const vault = hasPurchase(user, "LEGACY_VAULT");
-  const hlv = hasPurchase(user, "HLV_REPORT");
+  const vault = user.purchases.some((p) => p.productKey === "LEGACY_VAULT");
+  const hlv = user.purchases.some((p) => p.productKey === "HLV_REPORT");
 
   if (preview) return null;
 
   return (
-    <div className="portal-stats-row portal-stats-row--triple mb-4 sm:mb-6">
+    <div className="portal-stats-row portal-stats-row--triple mb-4 sm:mb-6 portal-fade-in">
       {[
         { label: "Premium plan", active: premium, value: premium ? "Active" : "—" },
         { label: "HLV report", active: hlv, value: hlv ? "Owned" : "—" },
         { label: "Legacy vault", active: vault, value: vault ? "Owned" : "—" },
       ].map((item) => (
-        <div key={item.label} className="portal-stat-card">
+        <div key={item.label} className="portal-stat-card portal-stat-card--premium">
           <div className={`portal-stat-value${item.active ? " accent" : ""}`}>{item.value}</div>
           <div className="portal-stat-label">{item.label}</div>
         </div>

@@ -129,9 +129,9 @@ export default function DashboardShell({
 
   return (
     <div className="portal-root">
-      <header className="portal-topbar">
+      <header className="portal-topbar portal-topbar--premium">
         <Link href="/dashboard" className="portal-topbar-brand">
-          <span className="portal-sidebar-logo">LM</span>
+          <span className="portal-sidebar-logo portal-sidebar-logo--premium">LM</span>
           <span className="portal-topbar-brand-text">
             <span className="portal-sidebar-sub">Legacy in Motion</span>
             <span className="portal-sidebar-title">Client Portal</span>
@@ -168,7 +168,7 @@ export default function DashboardShell({
       </main>
 
       {/* Mobile / tablet portrait — bottom tab bar (keeps top header minimal) */}
-      <nav className="portal-mobile-nav" aria-label="Portal navigation">
+      <nav className="portal-mobile-nav portal-mobile-nav--premium" aria-label="Portal navigation">
         {nav.map((item) => {
           const active = !item.external && !item.siteHome && isNavActive(pathname, item);
           const className = cn(active && "active", item.siteHome && "portal-mobile-nav-home");
