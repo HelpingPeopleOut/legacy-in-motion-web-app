@@ -17,7 +17,7 @@ export default function ClerkSignUpPanel() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#0a0a0b] px-4 py-10">
-      <SignUp routing="hash" signInUrl="/login" fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard" />
+      <SignUp routing="hash" signInUrl="/login/sign-in" fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard" />
     </div>
   );
 }

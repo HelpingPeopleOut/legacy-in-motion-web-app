@@ -12,8 +12,8 @@ export default function ClerkAppProvider({
   return (
     <ClerkProvider
       publishableKey={publishableKey}
-      signInUrl="/login"
-      signUpUrl="/sign-up"
+      signInUrl="/login/sign-in"
+      signUpUrl="/sign-up/sign-up"
       afterSignOutUrl="/"
     >
       {children}
