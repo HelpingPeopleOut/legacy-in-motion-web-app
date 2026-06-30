@@ -16,6 +16,7 @@ const SHOW_AFTER_PX = 320;
 export default function ScrollToTop({ variant = "site" }: ScrollToTopProps) {
   const pathname = usePathname() ?? "";
   const isEs = pathname.startsWith("/es");
+  const isLinksHub = pathname === "/links" || pathname === "/es/links";
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -43,10 +44,17 @@ export default function ScrollToTop({ variant = "site" }: ScrollToTopProps) {
   const label = isEs ? "Volver arriba" : "Back to top";
   const strokeDashoffset = RING_CIRCUMFERENCE * (1 - progress);
 
+  const layoutClass =
+    variant === "site"
+      ? isLinksHub
+        ? "scroll-to-top--flush"
+        : "scroll-to-top--above-bar scroll-to-top--above-fab"
+      : "";
+
   return (
     <button
       type="button"
-      className={`scroll-to-top scroll-to-top--${variant}${visible ? " scroll-to-top--visible" : ""}`}
+      className={`scroll-to-top scroll-to-top--${variant}${layoutClass ? ` ${layoutClass}` : ""}${visible ? " scroll-to-top--visible" : ""}`}
       onClick={scrollToTop}
       aria-label={label}
       title={label}

@@ -21,6 +21,12 @@
   --layout-max: 75rem;
   --layout-gutter: clamp(1rem, 2.5vw, 2rem);
   --layout-readable: 50rem;
+  /* Bottom-right FAB column (plus button + scroll-to-top) */
+  --site-fab-size: 3.75rem;
+  --site-fab-gap: 0.75rem;
+  --site-fab-inset-x: clamp(1.25rem, 2vw, 2rem);
+  --site-fab-inset-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  --site-mobile-bar-offset: calc(4.75rem + env(safe-area-inset-bottom, 0px));
 }
 
 /* === RESET & BASE === */
@@ -1829,25 +1835,44 @@ main.main--linkhub {
 
 @media (max-width: 1023px) {
   .home-quick-links-dock {
-    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+    bottom: var(--site-mobile-bar-offset);
   }
 }
 
 @media (min-width: 1024px) {
-  /* Keep dock off the left hero photo on desktop — sit left of the FAB */
+  /* Sit left of the plus FAB + scroll-to-top row (see scroll-to-top--above-fab) */
   .home-quick-links-dock {
     left: auto;
-    right: calc(5.75rem + env(safe-area-inset-right, 0px));
-    bottom: clamp(1.25rem, 2.5vw, 2rem);
+    right: calc(
+      var(--site-fab-inset-x) + var(--site-fab-size) + var(--site-fab-gap) +
+        var(--scroll-top-size, 3.25rem) + 1rem
+    );
+    bottom: var(--site-fab-inset-bottom);
     align-items: flex-end;
   }
 
   .home-quick-links-panel {
     width: min(360px, calc(100vw - 3rem));
   }
-}
 
-/* Scroll to top — premium FAB with progress ring */
+  /* Sit beside the plus FAB (same row) so the open menu does not cover scroll-to-top */
+  .scroll-to-top--site.scroll-to-top--above-fab {
+    right: calc(var(--site-fab-inset-x) + var(--site-fab-size) + var(--site-fab-gap));
+    bottom: calc(
+      var(--site-fab-inset-bottom) + (var(--site-fab-size) - var(--scroll-top-size)) / 2
+    );
+  }
+
+  .scroll-to-top--site.scroll-to-top--flush {
+    right: var(--site-fab-inset-x);
+    bottom: var(--site-fab-inset-bottom);
+  }
+
+  .scroll-to-top--portal {
+    right: var(--site-fab-inset-x);
+    bottom: var(--site-fab-inset-bottom);
+  }
+}
 .scroll-to-top {
   --scroll-top-size: 3.25rem;
   position: fixed;
@@ -1976,6 +2001,11 @@ main.main--linkhub {
   bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 }
 
+.scroll-to-top--site.scroll-to-top--flush {
+  right: clamp(0.85rem, 2vw, 1.35rem);
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+}
+
 .scroll-to-top--portal {
   right: clamp(0.75rem, 2vw, 1.25rem);
   bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
@@ -1986,22 +2016,12 @@ main.main--linkhub {
 }
 
 @media (max-width: 1023px) {
-  .scroll-to-top--site {
-    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  .scroll-to-top--site.scroll-to-top--above-bar {
+    bottom: var(--site-mobile-bar-offset);
   }
 
   .scroll-to-top--portal {
-    bottom: calc(4.85rem + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-@media (min-width: 1024px) {
-  .scroll-to-top--site {
-    bottom: clamp(1.25rem, 2.5vw, 2rem);
-  }
-
-  .scroll-to-top--portal {
-    bottom: clamp(1.25rem, 2vw, 1.75rem);
+    bottom: var(--site-mobile-bar-offset);
   }
 }
 

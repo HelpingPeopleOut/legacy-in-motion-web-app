@@ -327,9 +327,8 @@ export default function Navbar() {
       {!isLinksHub && (
       <div
         className={`nav-fab-container${isOpen ? " nav-fab-container--hidden" : ""}`}
-        style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9980, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1rem", transition: "opacity 0.3s ease" }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", opacity: isFabOpen ? 1 : 0, visibility: isFabOpen ? "visible" : "hidden", transform: isFabOpen ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)", transformOrigin: "bottom right" }}>
+        <div className={`nav-fab-menu${isFabOpen ? " nav-fab-menu--open" : " nav-fab-menu--closed"}`}>
           {showInstall && !isAppInstalled && (
             <button onClick={handleInstallClick} style={fabActionStyle}>
               <span style={fabLabelStyle}>{navText.installApp}</span>
@@ -348,7 +347,13 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <button onClick={() => setIsFabOpen(!isFabOpen)} className="btn-pulse" style={{ width: "60px", height: "60px", borderRadius: "50%", backgroundColor: "var(--gold)", color: "white", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 10px 25px rgba(212, 175, 55, 0.4)", transition: "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)", transform: isFabOpen ? "rotate(45deg)" : "rotate(0deg)" }}>
+        <button
+          type="button"
+          onClick={() => setIsFabOpen(!isFabOpen)}
+          className={`nav-fab-trigger btn-pulse${isFabOpen ? " nav-fab-trigger--open" : ""}`}
+          aria-expanded={isFabOpen}
+          aria-label={isFabOpen ? (isSpanish ? "Cerrar menú" : "Close menu") : (isSpanish ? "Abrir menú" : "Open menu")}
+        >
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
       </div>
