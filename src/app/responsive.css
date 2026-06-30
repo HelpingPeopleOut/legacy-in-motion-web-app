@@ -234,7 +234,7 @@ textarea,
 }
 
 @media (max-width: 1023px) {
-  main {
+  main:not(.main--linkhub) {
     padding-bottom: calc(5.5rem + var(--safe-bottom));
   }
 }

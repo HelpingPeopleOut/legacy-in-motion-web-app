@@ -284,7 +284,7 @@ export default function Navbar() {
               {isSpanish ? "Ver todos los servicios" : "Browse all services"}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="3" style={{ transform: isServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "0.25s" }} aria-hidden><polyline points="6 9 12 15 18 9" /></svg>
             </button>
-            <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "520px" : "0" }}>
+            <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "2000px" : "0" }}>
               <div className="elite-mobile-accordion-inner">
                 {serviceLinks.map((item) => (
                   <Link key={item.href} href={item.href} className="elite-mobile-sublink" onClick={closeMenu}>{item.label}</Link>
@@ -308,8 +308,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Sticky mobile consultation CTA */}
-      <div className={`mobile-sticky-cta${isOpen ? " hidden" : ""}${isHome ? " mobile-sticky-cta--home" : ""}`} aria-hidden={isOpen}>
+      {/* Sticky mobile consultation CTA — hidden on link hub (page has its own dock) */}
+      <div className={`mobile-sticky-cta${isOpen ? " hidden" : ""}${isHome ? " mobile-sticky-cta--home" : ""}${isLinksHub ? " mobile-sticky-cta--hidden" : ""}`} aria-hidden={isOpen || isLinksHub}>
         <a href="tel:6262037652" className="mobile-sticky-cta__call">
           {isSpanish ? "Llamar" : "Call"}
         </a>
