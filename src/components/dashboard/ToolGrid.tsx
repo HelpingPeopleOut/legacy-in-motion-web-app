@@ -13,8 +13,9 @@ import {
 import { canAccessTool, hasActivePremium } from "@/lib/access";
 import { PRODUCTS } from "@/lib/products";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
-import type { User, Purchase } from "@prisma/client";
-import { ToolIcon } from "./DashboardShell";
+import type { Purchase, User } from "@prisma/client";
+import { usePortalUser } from "@/hooks/usePortalUser";
+import { ToolIcon } from "./ToolIcon";
 import {
   ArrowRight,
   Briefcase,
@@ -137,11 +138,27 @@ function ToolCard({
   );
 }
 
-export default function ToolGrid({ user }: { user: UserWithPurchases | null }) {
+export default function ToolGrid() {
   const [audience, setAudience] = useState<AudienceFilter>("all");
   const [search, setSearch] = useState("");
-  const preview = isPreviewUnlockAll();
+  const { user, loading, preview, stripeLive } = usePortalUser();
   const premium = user ? hasActivePremium(user) : false;
+
+  if (stripeLive && !preview && loading) {
+    return (
+      <div className="portal-hub-panel portal-fade-in">
+        <div className="portal-hub-panel-inner">
+          <div className="portal-skeleton-line portal-skeleton-line--title" />
+          <div className="portal-skeleton-line portal-skeleton-line--medium mt-3" />
+          <div className="portal-skeleton-grid mt-6">
+            <div className="portal-skeleton-card" />
+            <div className="portal-skeleton-card" />
+            <div className="portal-skeleton-card portal-skeleton-card--wide" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();

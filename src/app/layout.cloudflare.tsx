@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { rootSiteMetadata } from "@/lib/site-metadata";
 import { inter, playfair } from "@/lib/fonts";
+import ClerkAppProvider from "@/components/auth/ClerkAppProvider";
 import "./globals.css";
 import "./responsive.css";
 import SiteChrome from "@/components/SiteChrome";
@@ -18,6 +19,8 @@ export const viewport = {
 export const metadata: Metadata = rootSiteMetadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
       <head>
@@ -35,7 +38,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <RootOrganizationSchema />
-        <SiteChrome>{children}</SiteChrome>
+        {publishableKey ? (
+          <ClerkAppProvider publishableKey={publishableKey}>
+            <SiteChrome>{children}</SiteChrome>
+          </ClerkAppProvider>
+        ) : (
+          <SiteChrome>{children}</SiteChrome>
+        )}
       </body>
     </html>
   );

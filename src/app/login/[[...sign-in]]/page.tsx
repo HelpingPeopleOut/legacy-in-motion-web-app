@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { isLocalTestMode } from "@/lib/app-env";
+import ClerkSignInPanel from "@/components/auth/ClerkSignInPanel";
 
 export const dynamic = "force-static";
 
@@ -12,12 +13,7 @@ export default function LoginPage() {
     redirect("/dashboard");
   }
 
-  // Clerk sign-in only used when not in local test / static preview mode
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0a0a0b] px-4">
-      <p className="text-gray-400">Sign-in requires server deployment with Clerk configured.</p>
-    </div>
-  );
+  return <ClerkSignInPanel />;
 }
 
 export function generateStaticParams() {

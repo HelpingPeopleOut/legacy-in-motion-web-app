@@ -2,54 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   CreditCard,
-  Shield,
-  Layers,
-  TrendingUp,
-  Lock,
-  GitBranch,
-  Activity,
-  PiggyBank,
-  Vault,
-  BarChart3,
-  Calculator,
-  Clock,
-  Zap,
-  ClipboardCheck,
-  GraduationCap,
   Home,
   Phone,
-  Users,
   ArrowLeft,
 } from "lucide-react";
+import { UserButton } from "@clerk/react";
 import { cn } from "@/lib/utils";
 import ScrollToTop from "@/components/ScrollToTop";
+import { ToolIcon } from "./ToolIcon";
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  shield: Shield,
-  vault: Vault,
-  chart: BarChart3,
-  activity: Activity,
-  layers: Layers,
-  trending: TrendingUp,
-  piggy: PiggyBank,
-  "git-branch": GitBranch,
-  lock: Lock,
-  zap: Zap,
-  calculator: Calculator,
-  clock: Clock,
-  users: Users,
-  clipboard: ClipboardCheck,
-  graduation: GraduationCap,
-  "home-shield": Home,
-};
-
-export function ToolIcon({ name, className }: { name: string; className?: string }) {
-  const Icon = iconMap[name] ?? LayoutDashboard;
-  return <Icon className={className} />;
-}
+export { ToolIcon };
 
 type NavItem = {
   href: string;
@@ -92,7 +58,9 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
 }
 
 function ClerkUserButton() {
-  const { UserButton } = require("@clerk/nextjs");
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted || !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) return null;
   return <UserButton />;
 }
 

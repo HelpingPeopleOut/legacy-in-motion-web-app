@@ -72,6 +72,7 @@ const env = {
   LOCAL_TEST_MODE: stripePages ? "false" : "true",
   NEXT_PUBLIC_LOCAL_TEST_MODE: stripePages ? "false" : "true",
   NEXT_PUBLIC_STRIPE_ENABLED: stripePages ? "true" : "false",
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "",
   NEXT_PUBLIC_APP_URL:
     process.env.NEXT_PUBLIC_APP_URL ?? "https://test-legacy-in-motion-web-app.pages.dev",
 };

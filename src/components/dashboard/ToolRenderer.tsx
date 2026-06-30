@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useMemo } from "react";
 import Paywall from "@/components/dashboard/Paywall";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
 import PortalToolIntro from "@/components/dashboard/PortalToolIntro";
@@ -8,8 +9,10 @@ import PortalWorkspace from "@/components/dashboard/ui/PortalWorkspace";
 import ToolLoadingSkeleton from "@/components/dashboard/ui/ToolLoadingSkeleton";
 import type { ToolDefinition } from "@/lib/tools";
 import type { AccessResult } from "@/lib/access";
+import { canDownloadHlvReport, getToolAccess } from "@/lib/access";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import { PRODUCTS } from "@/lib/products";
+import { usePortalUser } from "@/hooks/usePortalUser";
 import { BarChart3, Calculator, Clock, Shield, TrendingUp } from "lucide-react";
 import type { ComponentType } from "react";
 
@@ -49,21 +52,46 @@ interface ToolRendererProps {
 }
 
 export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRendererProps) {
-  const preview = isPreviewUnlockAll();
-  const allowed = preview || access.allowed;
-  const hlvAllowed = preview || hlvReportAccess.allowed;
+  const previewBuild = isPreviewUnlockAll();
+  const { user, loading, stripeLive } = usePortalUser();
+
+  const accessResult = useMemo((): AccessResult => {
+    if (previewBuild) return { allowed: true };
+    if (stripeLive) return getToolAccess(user, tool.slug);
+    return access;
+  }, [previewBuild, stripeLive, user, tool.slug, access]);
+
+  const hlvResult = useMemo((): AccessResult => {
+    if (previewBuild) return { allowed: true };
+    if (stripeLive) return canDownloadHlvReport(user);
+    return hlvReportAccess;
+  }, [previewBuild, stripeLive, user, hlvReportAccess]);
+
+  if (stripeLive && !previewBuild && loading) {
+    return <ToolLoadingSkeleton />;
+  }
+
+  const allowed = accessResult.allowed;
+  const hlvAllowed = hlvResult.allowed;
 
   if (!allowed) {
+    const denied =
+      accessResult.allowed === false
+        ? accessResult
+        : access.allowed === false
+          ? access
+          : { allowed: false as const, reason: "auth" as const, message: "Sign in to access this tool." };
+
     return (
       <Paywall
         title={tool.name}
-        message={access.message}
-        reason={access.reason}
-        productKey={"productKey" in access ? access.productKey : undefined}
+        message={denied.message}
+        reason={denied.reason}
+        productKey={"productKey" in denied ? denied.productKey : undefined}
         priceLabel={
-          access.reason === "premium"
+          denied.reason === "premium"
             ? PRODUCTS.PREMIUM_MONTHLY.priceLabel
-            : access.reason === "hybrid"
+            : denied.reason === "hybrid"
               ? PRODUCTS.PREMIUM_HYBRID.priceLabel
               : tool.productKey === "LEGACY_VAULT"
                 ? "$99"
@@ -187,7 +215,9 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
               <h3 className="mb-2 font-semibold text-[var(--color-portal-text)]">
                 Family Financial Security Report (PDF)
               </h3>
-              <p className="mb-4 text-sm text-[var(--color-portal-muted)]">{hlvReportAccess.message}</p>
+              <p className="mb-4 text-sm text-[var(--color-portal-muted)]">
+                {hlvResult.allowed === false ? hlvResult.message : "Sign in to download your report."}
+              </p>
               <CheckoutButton productKey="HLV_REPORT" label={`Download Report — ${PRODUCTS.HLV_REPORT.priceLabel}`} />
             </div>
           )}

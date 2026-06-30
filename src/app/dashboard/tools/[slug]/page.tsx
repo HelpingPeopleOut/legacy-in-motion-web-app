@@ -9,7 +9,7 @@ import {
 import { getToolAccess, canDownloadHlvReport } from "@/lib/access";
 import { ensureDbUser } from "@/lib/user";
 import ToolRenderer from "@/components/dashboard/ToolRenderer";
-import { ToolIcon } from "@/components/dashboard/DashboardShell";
+import { ToolIcon } from "@/components/dashboard/ToolIcon";
 
 export const dynamic = "force-static";
 
