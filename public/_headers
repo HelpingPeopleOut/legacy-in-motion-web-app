@@ -1,8 +1,4 @@
-// Cache brand marks longer (LCP logo)
-/images/brand-mark-64.webp
-  Cache-Control: public, max-age=31536000, immutable
-
-/images/brand-mark-64.png
+/images/*
   Cache-Control: public, max-age=31536000, immutable
 
 /_next/static/*
