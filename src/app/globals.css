@@ -2057,7 +2057,8 @@ main.main--linkhub {
   }
 }
 
-/* Related intent links — quiet footer-adjacent SEO band (never fixed / never hero) */
+/* Related intent links — quiet footer-adjacent SEO band (never fixed / never hero).
+   Kept out of the first viewport so mobile brand + story stay primary. */
 .related-intent-links {
   position: static;
   padding: clamp(2.75rem, 5vw, 4rem) 0;
