@@ -88,8 +88,8 @@ section { scroll-margin-top: 100px; position: relative; }
 .btn-outline { display: inline-block; background: transparent; color: var(--text-main); padding: 1.2rem 2.5rem; font-weight: 600; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; font-size: 0.95rem; border: 1px solid var(--border-light); transition: var(--transition); text-align: center; line-height: 1.4; }
 .btn-outline:hover { background: var(--bg-card); border-color: var(--text-main); transform: translateY(-4px); box-shadow: var(--shadow-md); }
 
-/* === NAVBAR === */
-nav { position: fixed; top: 0; width: 100%; z-index: 1000; background: var(--bg-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 1rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.02); transition: var(--transition); }
+/* === LEGACY NAV HELPERS (site chrome uses .elite-nav-container in navbar.css) ===
+   Do NOT style bare `nav` — SEO sections also use <nav> and must stay in document flow. */
 .nav-inner { display: flex; justify-content: space-between; align-items: center; }
 .logo { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-main); font-weight: 700; letter-spacing: 1px; z-index: 1001; position: relative; }
 .nav-links { display: flex; gap: 2rem; align-items: center; font-weight: 500; font-size: 0.95rem; }
@@ -2057,38 +2057,85 @@ main.main--linkhub {
   }
 }
 
-/* Related intent links — SEO internal graph, no card chrome */
+/* Related intent links — quiet footer-adjacent SEO band (never fixed / never hero) */
 .related-intent-links {
-  padding: 3.5rem 0;
-  background: var(--bg-page);
+  position: static;
+  padding: clamp(2.75rem, 5vw, 4rem) 0;
+  background: var(--bg-card);
   border-top: 1px solid var(--border-light);
 }
-.related-intent-title {
-  font-size: 1.35rem;
-  margin: 0 0 1.25rem;
+.related-intent-inner {
+  max-width: 44rem;
+  margin-inline: auto;
   text-align: center;
+}
+.related-intent-eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+.related-intent-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 600;
+  margin: 0 0 1.5rem;
   color: var(--text-main);
+  letter-spacing: -0.02em;
 }
 .related-intent-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  justify-content: center;
-  max-width: 920px;
-  margin-inline: auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
 }
-.related-intent-list a {
+.related-intent-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-light);
   color: var(--text-main);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  font-weight: 600;
-  font-size: 0.95rem;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  transition: color 0.2s ease, padding-left 0.2s ease;
 }
-.related-intent-list a:hover {
-  color: var(--gold);
+.related-intent-list li:last-child .related-intent-link {
+  border-bottom: none;
+}
+.related-intent-arrow {
+  flex-shrink: 0;
+  color: var(--gold-ink);
+  font-weight: 600;
+  opacity: 0.65;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.related-intent-link:hover {
+  color: var(--gold-ink);
+  padding-left: 0.25rem;
+}
+.related-intent-link:hover .related-intent-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+@media (min-width: 720px) {
+  .related-intent-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.75rem;
+  }
+  .related-intent-list li:nth-last-child(-n + 2) .related-intent-link {
+    border-bottom: none;
+  }
 }
 
 /* Footer NAP block */

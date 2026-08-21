@@ -458,7 +458,7 @@
 
 .elite-mobile-quick-btn--book {
   background: var(--gold);
-  color: #fff;
+  color: var(--gold-on-gold, #111);
   box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
 }
 
@@ -476,7 +476,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-ink);
   margin-bottom: 0.75rem;
   padding-left: 0.25rem;
 }
@@ -504,11 +504,11 @@
 .elite-mobile-link:hover,
 .elite-mobile-link.active {
   background: rgba(212, 175, 55, 0.08);
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .elite-mobile-link.portal {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 .elite-mobile-accordion-btn {
