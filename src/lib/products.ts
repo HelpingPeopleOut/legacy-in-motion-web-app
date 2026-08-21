@@ -1,4 +1,5 @@
 import type { ProductKey } from "@prisma/client";
+import type { BillingMode } from "./billing-types";
 import {
   formatCheckoutEstimate,
   formatUsdFromCents,
@@ -6,7 +7,7 @@ import {
   STRIPE_FEE_DISCLOSURE_SHORT,
 } from "./stripe-fees";
 
-export type BillingMode = "one_time" | "subscription";
+export type { BillingMode } from "./billing-types";
 
 export interface ProductConfig {
   key: ProductKey;

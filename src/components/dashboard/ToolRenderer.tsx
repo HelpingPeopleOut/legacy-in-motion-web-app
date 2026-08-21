@@ -1,34 +1,49 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useMemo } from "react";
 import Paywall from "@/components/dashboard/Paywall";
 import CheckoutButton from "@/components/dashboard/CheckoutButton";
 import PortalToolIntro from "@/components/dashboard/PortalToolIntro";
+import PortalWorkspace from "@/components/dashboard/ui/PortalWorkspace";
+import ToolLoadingSkeleton from "@/components/dashboard/ui/ToolLoadingSkeleton";
 import type { ToolDefinition } from "@/lib/tools";
 import type { AccessResult } from "@/lib/access";
+import { canDownloadHlvReport, getToolAccess } from "@/lib/access";
 import { isPreviewUnlockAll } from "@/lib/preview-access";
 import { PRODUCTS } from "@/lib/products";
+import { usePortalUser } from "@/hooks/usePortalUser";
 import { BarChart3, Calculator, Clock, Shield, TrendingUp } from "lucide-react";
+import type { ComponentType } from "react";
 
-const DIMECalculator = dynamic(() => import("@/components/DIMECalculator"), { ssr: false });
-const TaxFreeComparison = dynamic(() => import("@/components/TaxFreeComparison"), { ssr: false });
-const WealthCalculator = dynamic(() => import("@/components/WealthCalculator"), { ssr: false });
-const RuleOf72 = dynamic(() => import("@/components/RuleOf72"), { ssr: false });
-const CostOfWaiting = dynamic(() => import("@/components/CostOfWaiting"), { ssr: false });
-const LegacyVault = dynamic(() => import("@/components/dashboard/LegacyVault"), { ssr: false });
-const BeneficiaryChecklist = dynamic(() => import("@/components/dashboard/BeneficiaryChecklist"), { ssr: false });
-const AgentMeetingPrep = dynamic(() => import("@/components/dashboard/AgentMeetingPrep"), { ssr: false });
-const MortgageProtectionEst = dynamic(() => import("@/components/dashboard/MortgageProtectionEst"), { ssr: false });
-const CollegeFundingPlanner = dynamic(() => import("@/components/dashboard/CollegeFundingPlanner"), { ssr: false });
-const HlvReportPanel = dynamic(() => import("@/components/dashboard/HlvReportPanel"), { ssr: false });
-const FinancialVitalSigns = dynamic(() => import("@/components/dashboard/FinancialVitalSigns"), { ssr: false });
-const PolicyLadderTracker = dynamic(() => import("@/components/dashboard/PolicyLadderTracker"), { ssr: false });
-const WhatIfScenarios = dynamic(() => import("@/components/dashboard/WhatIfScenarios"), { ssr: false });
-const SecureDocumentHub = dynamic(() => import("@/components/dashboard/SecureDocumentHub"), { ssr: false });
-const EmergencyFundBuilder = dynamic(() => import("@/components/dashboard/EmergencyFundBuilder"), { ssr: false });
-const DebtFreedomPortal = dynamic(() => import("@/components/dashboard/DebtFreedomPortal"), { ssr: false });
+function portalDynamic<T extends ComponentType<unknown>>(
+  importer: () => Promise<{ default: T }>
+) {
+  return dynamic(importer, {
+    ssr: false,
+    loading: () => <ToolLoadingSkeleton />,
+  });
+}
 
-const calcHost = "portal-calculator-host rounded-xl overflow-hidden [&_.card]:!shadow-none";
+const DIMECalculator = portalDynamic(() => import("@/components/DIMECalculator"));
+const TaxFreeComparison = portalDynamic(() => import("@/components/TaxFreeComparison"));
+const WealthCalculator = portalDynamic(() => import("@/components/WealthCalculator"));
+const RuleOf72 = portalDynamic(() => import("@/components/RuleOf72"));
+const CostOfWaiting = portalDynamic(() => import("@/components/CostOfWaiting"));
+const LegacyVault = portalDynamic(() => import("@/components/dashboard/LegacyVault"));
+const BeneficiaryChecklist = portalDynamic(() => import("@/components/dashboard/BeneficiaryChecklist"));
+const AgentMeetingPrep = portalDynamic(() => import("@/components/dashboard/AgentMeetingPrep"));
+const MortgageProtectionEst = portalDynamic(() => import("@/components/dashboard/MortgageProtectionEst"));
+const CollegeFundingPlanner = portalDynamic(() => import("@/components/dashboard/CollegeFundingPlanner"));
+const HlvReportPanel = portalDynamic(() => import("@/components/dashboard/HlvReportPanel"));
+const FinancialVitalSigns = portalDynamic(() => import("@/components/dashboard/FinancialVitalSigns"));
+const PolicyLadderTracker = portalDynamic(() => import("@/components/dashboard/PolicyLadderTracker"));
+const WhatIfScenarios = portalDynamic(() => import("@/components/dashboard/WhatIfScenarios"));
+const SecureDocumentHub = portalDynamic(() => import("@/components/dashboard/SecureDocumentHub"));
+const EmergencyFundBuilder = portalDynamic(() => import("@/components/dashboard/EmergencyFundBuilder"));
+const DebtFreedomPortal = portalDynamic(() => import("@/components/dashboard/DebtFreedomPortal"));
+
+const calcHost = "portal-calculator-host";
 
 interface ToolRendererProps {
   tool: ToolDefinition;
@@ -37,21 +52,46 @@ interface ToolRendererProps {
 }
 
 export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRendererProps) {
-  const preview = isPreviewUnlockAll();
-  const allowed = preview || access.allowed;
-  const hlvAllowed = preview || hlvReportAccess.allowed;
+  const previewBuild = isPreviewUnlockAll();
+  const { user, loading, stripeLive } = usePortalUser();
+
+  const accessResult = useMemo((): AccessResult => {
+    if (previewBuild) return { allowed: true };
+    if (stripeLive) return getToolAccess(user, tool.slug);
+    return access;
+  }, [previewBuild, stripeLive, user, tool.slug, access]);
+
+  const hlvResult = useMemo((): AccessResult => {
+    if (previewBuild) return { allowed: true };
+    if (stripeLive) return canDownloadHlvReport(user);
+    return hlvReportAccess;
+  }, [previewBuild, stripeLive, user, hlvReportAccess]);
+
+  if (stripeLive && !previewBuild && loading) {
+    return <ToolLoadingSkeleton />;
+  }
+
+  const allowed = accessResult.allowed;
+  const hlvAllowed = hlvResult.allowed;
 
   if (!allowed) {
+    const denied =
+      accessResult.allowed === false
+        ? accessResult
+        : access.allowed === false
+          ? access
+          : { allowed: false as const, reason: "auth" as const, message: "Sign in to access this tool." };
+
     return (
       <Paywall
         title={tool.name}
-        message={access.message}
-        reason={access.reason}
-        productKey={"productKey" in access ? access.productKey : undefined}
+        message={denied.message}
+        reason={denied.reason}
+        productKey={"productKey" in denied ? denied.productKey : undefined}
         priceLabel={
-          access.reason === "premium"
+          denied.reason === "premium"
             ? PRODUCTS.PREMIUM_MONTHLY.priceLabel
-            : access.reason === "hybrid"
+            : denied.reason === "hybrid"
               ? PRODUCTS.PREMIUM_HYBRID.priceLabel
               : tool.productKey === "LEGACY_VAULT"
                 ? "$99"
@@ -164,7 +204,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
         />
       )}
 
-      {renderTool()}
+      <PortalWorkspace>{renderTool()}</PortalWorkspace>
 
       {tool.slug === "human-life-value" && (
         <>
@@ -175,7 +215,9 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
               <h3 className="mb-2 font-semibold text-[var(--color-portal-text)]">
                 Family Financial Security Report (PDF)
               </h3>
-              <p className="mb-4 text-sm text-[var(--color-portal-muted)]">{hlvReportAccess.message}</p>
+              <p className="mb-4 text-sm text-[var(--color-portal-muted)]">
+                {hlvResult.allowed === false ? hlvResult.message : "Sign in to download your report."}
+              </p>
               <CheckoutButton productKey="HLV_REPORT" label={`Download Report — ${PRODUCTS.HLV_REPORT.priceLabel}`} />
             </div>
           )}
@@ -183,7 +225,7 @@ export default function ToolRenderer({ tool, access, hlvReportAccess }: ToolRend
       )}
 
       {tool.advisorCta && (
-        <div className="rounded-xl border border-amber-200 bg-[var(--color-portal-gold-light)] p-5 text-center">
+        <div className="portal-advisor-cta">
           <p className="text-sm text-[var(--color-portal-muted)]">{tool.advisorCta}</p>
           <a href="/#consultation" className="portal-btn-primary mt-3 inline-flex text-sm">
             Schedule your free strategy session

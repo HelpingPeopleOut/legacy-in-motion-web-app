@@ -147,7 +147,7 @@ export default function HomeQuickLinksDock() {
 
       <button
         type="button"
-        className="home-quick-links-toggle btn-pulse"
+        className="home-quick-links-toggle"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >

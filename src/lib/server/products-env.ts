@@ -1,5 +1,5 @@
 import type { ProductKey } from "@prisma/client";
-import type { BillingMode } from "@/lib/products";
+import type { BillingMode } from "../billing-types";
 import type { ServerEnv } from "./env";
 
 export type RuntimeProduct = {

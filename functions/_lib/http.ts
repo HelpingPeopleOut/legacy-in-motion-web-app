@@ -22,6 +22,7 @@ export function appOrigin(request: Request, env: ServerEnv): string {
 /** Cloudflare Pages Function env → ServerEnv */
 export function pagesEnv(raw: Record<string, string | undefined>): ServerEnv {
   return {
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: raw.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     STRIPE_SECRET_KEY: raw.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: raw.STRIPE_WEBHOOK_SECRET,
     CLERK_SECRET_KEY: raw.CLERK_SECRET_KEY,

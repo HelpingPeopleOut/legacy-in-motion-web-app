@@ -3,54 +3,20 @@
 import type { ComponentType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   CreditCard,
-  Shield,
-  Layers,
-  TrendingUp,
-  Lock,
-  GitBranch,
-  Activity,
-  PiggyBank,
-  Vault,
-  BarChart3,
-  Calculator,
-  Clock,
-  Zap,
-  ClipboardCheck,
-  GraduationCap,
   Home,
   Phone,
-  Users,
   ArrowLeft,
 } from "lucide-react";
+import { UserButton } from "@clerk/react";
 import { cn } from "@/lib/utils";
 import ScrollToTop from "@/components/ScrollToTop";
+import { ToolIcon } from "./ToolIcon";
 
-const iconMap: Record<string, ComponentType<{ className?: string }>> = {
-  shield: Shield,
-  vault: Vault,
-  chart: BarChart3,
-  activity: Activity,
-  layers: Layers,
-  trending: TrendingUp,
-  piggy: PiggyBank,
-  "git-branch": GitBranch,
-  lock: Lock,
-  zap: Zap,
-  calculator: Calculator,
-  clock: Clock,
-  users: Users,
-  clipboard: ClipboardCheck,
-  graduation: GraduationCap,
-  "home-shield": Home,
-};
-
-export function ToolIcon({ name, className }: { name: string; className?: string }) {
-  const Icon = iconMap[name] ?? LayoutDashboard;
-  return <Icon className={className} />;
-}
+export { ToolIcon };
 
 type NavItem = {
   href: string;
@@ -98,9 +64,9 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
  * uses Server Actions incompatible with `output: "export"`.
  */
 function ClerkUserButton() {
-  // Lazy require keeps Clerk out of the CF Pages SSR graph when this branch is unused.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { UserButton } = require("@clerk/nextjs");
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted || !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) return null;
   return <UserButton />;
 }
 
@@ -137,9 +103,9 @@ export default function DashboardShell({
 
   return (
     <div className="portal-root">
-      <header className="portal-topbar">
+      <header className="portal-topbar portal-topbar--premium">
         <Link href="/dashboard" className="portal-topbar-brand">
-          <span className="portal-sidebar-logo">LM</span>
+          <span className="portal-sidebar-logo portal-sidebar-logo--premium">LM</span>
           <span className="portal-topbar-brand-text">
             <span className="portal-sidebar-sub">Legacy in Motion</span>
             <span className="portal-sidebar-title">Client Portal</span>
@@ -174,7 +140,8 @@ export default function DashboardShell({
         <div className="portal-main-inner">{children}</div>
       </main>
 
-      <nav className="portal-mobile-nav" aria-label="Portal navigation">
+      {/* Mobile / tablet portrait — bottom tab bar (keeps top header minimal) */}
+      <nav className="portal-mobile-nav portal-mobile-nav--premium" aria-label="Portal navigation">
         {nav.map((item) => {
           const active = !item.external && !item.siteHome && isNavActive(pathname, item);
           const className = cn(active && "active", item.siteHome && "portal-mobile-nav-home");

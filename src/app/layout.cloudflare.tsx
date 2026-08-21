@@ -17,7 +17,11 @@ export const viewport = {
 
 export const metadata: Metadata = rootSiteMetadata;
 
-/** Cloudflare Pages static layout — do not import ClerkProvider (uses Server Actions incompatible with output:export). */
+/**
+ * Cloudflare Pages static layout.
+ * Do not wrap the whole site in Clerk — it pulls clerk.browser.js onto every
+ * marketing page (hurts TBT / Best Practices). Auth pages load Clerk locally.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
@@ -28,7 +32,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
         <link rel="manifest" href="/site.webmanifest?v=4" />
         <link rel="preload" href="/images/brand-mark-64.webp" as="image" type="image/webp" fetchPriority="high" />
-        <link rel="preload" href="/images/nelly/nelly-hero.webp" as="image" type="image/webp" />
+        <link
+          rel="preload"
+          href="/images/nelly/nelly-hero-320.webp"
+          as="image"
+          type="image/webp"
+          fetchPriority="high"
+          imageSrcSet="/images/nelly/nelly-hero-160.webp 160w, /images/nelly/nelly-hero-320.webp 320w"
+          imageSizes="160px"
+        />
         <link rel="alternate" type="text/plain" href="https://www.legacyinmotion.org/llms.txt" title="LLMs Context" />
         <link rel="alternate" type="text/plain" href="https://www.legacyinmotion.org/llms-es.txt" title="LLMs Context (Spanish)" />
         <link rel="alternate" type="application/json" href="/enterprise-profile.json" title="Enterprise AI Profile" />

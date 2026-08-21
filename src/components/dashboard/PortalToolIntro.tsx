@@ -15,13 +15,17 @@ export default function PortalToolIntro({
   children?: ReactNode;
 }) {
   return (
-    <div className="portal-card p-5 md:p-6">
-      <p className="portal-hub-eyebrow mb-1">
+    <div className="portal-intro-premium mb-5">
+      <p className="portal-hub-eyebrow mb-2">
         <Icon className="h-3.5 w-3.5" aria-hidden />
         {eyebrow}
       </p>
-      <h2 className="text-lg font-semibold text-[var(--color-portal-text)]">{title}</h2>
-      <p className="mt-1 max-w-xl text-sm text-[var(--color-portal-muted)]">{description}</p>
+      <h2 className="font-serif text-xl font-semibold tracking-tight text-[var(--color-portal-text)] md:text-2xl">
+        {title}
+      </h2>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--color-portal-muted)] md:text-base">
+        {description}
+      </p>
       {children}
     </div>
   );
