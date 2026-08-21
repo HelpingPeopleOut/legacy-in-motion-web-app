@@ -1,6 +1,9 @@
-/** Professional portfolio headshot — hero & business profile */
+/** Professional portfolio headshot — hero & business profile (optimized WebP + JPEG) */
 export const advisorHeadshot = {
-  src: "/images/nelly/nelly-professional.jpg",
+  src: "/images/nelly/nelly-hero.webp",
+  fallbackSrc: "/images/nelly/nelly-hero.jpg",
+  width: 480,
+  height: 480,
   alt: {
     en: "Nelly Lara Cruz — professional business portrait, Senior Financial Associate",
     es: "Nelly Lara Cruz — retrato profesional de negocios, Asociada Financiera Senior",
@@ -13,7 +16,10 @@ export const advisorHeadshot = {
 
 /** Educating audiences about personal finance */
 export const advisorEducation = {
-  src: "/images/nelly/gallery-05.jpg",
+  src: "/images/nelly/gallery-05.webp",
+  fallbackSrc: "/images/nelly/gallery-05.jpg",
+  width: 600,
+  height: 800,
   alt: {
     en: "Nelly Lara Cruz presenting financial education — Elite Honor Graduate, Class of 2025",
     es: "Nelly Lara Cruz presentando educación financiera — Graduada de Honor Elite, Clase 2025",
@@ -26,7 +32,10 @@ export const advisorEducation = {
 
 /** Shown when visitors read Nelly's personal story */
 export const advisorStoryPhoto = {
-  src: "/images/nelly/gallery-06.jpg",
+  src: "/images/nelly/gallery-06.webp",
+  fallbackSrc: "/images/nelly/gallery-06.jpg",
+  width: 600,
+  height: 800,
   alt: {
     en: "Nelly Lara Cruz — financial advisor helping families build legacy and security",
     es: "Nelly Lara Cruz — asesora financiera ayudando a familias a construir legado y seguridad",
@@ -40,7 +49,10 @@ export const advisorStoryPhoto = {
 /** Nelly and her Experior Financial Group team */
 export const advisorTeamGallery = [
   {
-    src: "/images/nelly/gallery-01.jpg",
+    src: "/images/nelly/gallery-01.webp",
+    fallbackSrc: "/images/nelly/gallery-01.jpg",
+    width: 603,
+    height: 800,
     alt: {
       en: "Nelly Lara Cruz with Legacy in Motion advisory team",
       es: "Nelly Lara Cruz con el equipo asesor de Legacy in Motion",

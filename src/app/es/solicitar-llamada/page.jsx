@@ -1,93 +1,61 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import { BUSINESS } from "@/lib/business";
 
 export default function SolicitarLlamadaPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll(".fade-in").forEach((section) => {
-      observer.observe(section);
-    });
   }, []);
 
   return (
     <>
-      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
-
-      {/* HERO SECTION - FOCUSED ON APP */}
-      <section className="hero fade-in" style={{ padding: "10rem 0 4rem 0", background: "var(--bg-card)" }}>
+      <section className="hero" style={{ padding: "10rem 0 3rem 0", background: "var(--bg-card)" }}>
         <div className="container text-center">
-          <h1 style={{ fontSize: "3.5rem", marginBottom: "1rem" }}>
-            Su Fortaleza Financiera, <br/><span className="text-gold">En Su Bolsillo.</span>
+          <p className="hero-eyebrow">Legacy in Motion · Consulta Gratuita</p>
+          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.4rem)", marginBottom: "1rem" }}>
+            Solicitar Consulta Financiera Gratuita
           </h1>
-          <p style={{ fontSize: "1.2rem", maxWidth: "600px", margin: "0 auto", color: "var(--text-muted)" }}>
-            Instale la aplicación de Legacy in Motion para acceder a nuestras herramientas al instante, o solicite una llamada de nuestro equipo a continuación.
+          <p style={{ fontSize: "1.15rem", maxWidth: "640px", margin: "0 auto 1.5rem", color: "var(--text-muted)" }}>
+            Hable con Nelly Lara sobre jubilación, beneficios en vida, patrimonio, deudas o negocios —
+            bilingüe. Sede en Pasadena con sesiones virtuales en todo EE. UU.
+          </p>
+          <p style={{ marginBottom: "0.5rem" }}>
+            <a href={`tel:${BUSINESS.phone.replace(/\D/g, "")}`} className="btn-outline">
+              Llamar {BUSINESS.phoneDisplay}
+            </a>
           </p>
         </div>
       </section>
 
-      {/* APP INSTALLATION INSTRUCTIONS - MOVED TO TOP */}
-      <section className="fade-in" style={{ background: "var(--bg-card)", paddingBottom: "6rem" }}>
-        <div className="container text-center">
-          <div className="comp-grid" style={{ marginTop: "0" }}>
-            {/* Apple / iOS Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🍎</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone y iPad (Safari)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Abra esta página en el navegador <strong>Safari</strong>.<br />
-                2. Toque el ícono de <strong>Compartir</strong> (cuadrado con flecha) en la parte inferior.<br />
-                3. Desplácese y toque <strong>"Agregar a inicio"</strong>.<br />
-                4. Toque <strong>Agregar</strong> en la esquina superior derecha.
-              </p>
-            </div>
-
-            {/* Android Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🤖</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Abra esta página en el navegador <strong>Chrome</strong>.<br />
-                2. Toque el ícono de <strong>Menú</strong> (tres puntos) arriba a la derecha.<br />
-                3. Toque <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla"</strong>.<br />
-                4. Siga las instrucciones para agregar el ícono.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THE APP SCRIPT CRM FORM - SECONDARY OPTION */}
-      <section className="fade-in" style={{ background: "var(--bg-page)", paddingTop: "4rem", paddingBottom: "2rem" }}>
-        <GlobalLeadForm 
-          title="¿Prefiere hablar con nosotros ahora?"
-          subtitle="Solicite una llamada a continuación y nos comunicaremos con usted en menos de 24 horas."
-          sourcePage="Spanish App Install / Callback Portal"
+      <section style={{ background: "var(--bg-page)", paddingTop: "2rem", paddingBottom: "2rem" }}>
+        <GlobalLeadForm
+          title="Agende su llamada gratuita"
+          subtitle="Complete unos datos y nos comunicaremos dentro de un día hábil — sin presión de productos."
+          sourcePage="Spanish Request Callback / Contact"
           dropdownOptions={[
             "Consulta General",
             "Planificación de Jubilación y 401(k)",
             "Seguro de Vida y Beneficios en Vida",
             "Planificación Patrimonial y Fideicomisos",
-            "Estrategia para Eliminar Deudas"
+            "Estrategia para Eliminar Deudas",
+            "Estrategias para Negocios",
           ]}
         />
+      </section>
+
+      <section className="fade-in" style={{ background: "var(--bg-card)", padding: "4rem 0 6rem" }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: "1.75rem", marginBottom: "1rem" }}>¿Prefiere las herramientas en su teléfono?</h2>
+          <p style={{ color: "var(--text-muted)", maxWidth: "560px", margin: "0 auto 1.5rem" }}>
+            Instale Legacy in Motion como aplicación para calculadoras — opcional y separado de su consulta.
+          </p>
+          <p style={{ marginTop: "1.5rem" }}>
+            <Link href="/es/herramientas" className="btn-outline">Abrir herramientas →</Link>
+          </p>
+        </div>
       </section>
     </>
   );

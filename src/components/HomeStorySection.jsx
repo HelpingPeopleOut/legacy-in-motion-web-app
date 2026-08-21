@@ -78,12 +78,17 @@ export default function HomeStorySection({ locale = "en" }) {
 
           <figure className="hero-story-photo">
             <div className="hero-story-photo-frame">
-              <img
-                src={advisorStoryPhoto.src}
-                alt={advisorStoryPhoto.alt[isEs ? "es" : "en"]}
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source srcSet={advisorStoryPhoto.src} type="image/webp" />
+                <img
+                  src={advisorStoryPhoto.fallbackSrc ?? advisorStoryPhoto.src}
+                  alt={advisorStoryPhoto.alt[isEs ? "es" : "en"]}
+                  width={advisorStoryPhoto.width ?? 600}
+                  height={advisorStoryPhoto.height ?? 800}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <figcaption>{advisorStoryPhoto.caption[isEs ? "es" : "en"]}</figcaption>
           </figure>

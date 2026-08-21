@@ -461,43 +461,45 @@ export function buildLlmsTxt(): string {
   for (const service of SERVICE_CATALOG) {
     lines.push(`### ${service.name}`);
     lines.push(service.shortDescription);
-    lines.push(`Page: ${buildSiteUrl(service.pageUrl)}`);
+    lines.push(`- Page: [${service.name}](${buildSiteUrl(service.pageUrl)})`);
     if (service.locationUrls?.length) {
-      lines.push(`Locations: ${service.locationUrls.map((u) => buildSiteUrl(u)).join(", ")}`);
+      lines.push(
+        `- Locations: ${service.locationUrls.map((u) => `[${u.split("/").pop()}](${buildSiteUrl(u)})`).join(", ")}`
+      );
     }
-    lines.push(`Best for: ${service.audience.join(", ")}`);
-    lines.push(`User intents: ${service.intentPhrases.join("; ")}`);
+    lines.push(`- Best for: ${service.audience.join(", ")}`);
+    lines.push(`- User intents: ${service.intentPhrases.join("; ")}`);
     lines.push("");
   }
 
   lines.push("## Priority Location Pages");
   for (const loc of LOCATIONS.filter((l) => l.priority <= 2)) {
-    lines.push(`- ${loc.name}, ${loc.stateAbbr}: ${buildSiteUrl(getLocationPath(loc, "en"))}`);
+    lines.push(`- [${loc.name}, ${loc.stateAbbr}](${buildSiteUrl(getLocationPath(loc, "en"))})`);
   }
-  lines.push(`- All locations index: ${buildSiteUrl("/locations")}`);
-  lines.push(`- Regional hub: ${buildSiteUrl("/service-areas")}`);
+  lines.push(`- [All locations index](${buildSiteUrl("/locations")})`);
+  lines.push(`- [Regional hub](${buildSiteUrl("/service-areas")})`);
   lines.push("");
   lines.push("## Primary Call To Action");
-  lines.push(`Free consultation: ${buildSiteUrl("/request-callback")}`);
-  lines.push(`Phone: ${BUSINESS.phoneDisplay}`);
-  lines.push(`Quick links hub (forms + social): ${buildSiteUrl("/links")}`);
+  lines.push(`- [Free consultation](${buildSiteUrl("/request-callback")})`);
+  lines.push(`- Phone: ${BUSINESS.phoneDisplay}`);
+  lines.push(`- [Quick links hub (forms + social)](${buildSiteUrl("/links")})`);
   lines.push("");
   lines.push("## Social Profiles");
   for (const social of NELLY_SOCIAL) {
-    lines.push(`- ${social.label}: ${social.href}`);
+    lines.push(`- [${social.label}](${social.href})`);
   }
   lines.push("");
   lines.push("## Customer Forms (JotForm)");
   for (const form of NELLY_QUICK_FORMS) {
-    lines.push(`- ${form.label}: ${form.href}`);
+    lines.push(`- [${form.label}](${form.href})`);
   }
   lines.push("");
   lines.push("## Extended Context");
-  lines.push(`Full machine-readable profile: ${buildSiteUrl("/enterprise-profile.json")}`);
-  lines.push(`Extended llms file: ${buildSiteUrl("/llms-full.txt")}`);
-  lines.push(`Spanish llms file: ${buildSiteUrl("/llms-es.txt")}`);
-  lines.push(`Humans.txt: ${buildSiteUrl("/humans.txt")}`);
-  lines.push(`AI plugin manifest: ${buildSiteUrl("/ai-plugin.json")}`);
+  lines.push(`- [Full machine-readable profile](${buildSiteUrl("/enterprise-profile.json")})`);
+  lines.push(`- [Extended llms file](${buildSiteUrl("/llms-full.txt")})`);
+  lines.push(`- [Spanish llms file](${buildSiteUrl("/llms-es.txt")})`);
+  lines.push(`- [Humans.txt](${buildSiteUrl("/humans.txt")})`);
+  lines.push(`- [AI plugin manifest](${buildSiteUrl("/ai-plugin.json")})`);
 
   return lines.join("\n");
 }
@@ -554,10 +556,10 @@ export function buildLlmsTxtEs(): string {
     lines.push(`### ${serviceNamesEs[service.id] ?? service.name}`);
     lines.push(service.shortDescription);
     const esPage = SERVICE_PAGE_ES[service.id];
-    if (esPage) lines.push(`Página: ${buildSiteUrl(esPage)}`);
+    if (esPage) lines.push(`- Página: [${serviceNamesEs[service.id] ?? service.name}](${buildSiteUrl(esPage)})`);
     if (service.locationUrls?.length) {
       lines.push(
-        `Ubicaciones: ${service.locationUrls.map((u) => buildSiteUrl(`/es${u}`)).join(", ")}`
+        `- Ubicaciones: ${service.locationUrls.map((u) => `[${u.split("/").pop()}](${buildSiteUrl(`/es${u}`)})`).join(", ")}`
       );
     }
     lines.push("");
@@ -565,15 +567,15 @@ export function buildLlmsTxtEs(): string {
 
   lines.push("## Páginas de Ubicación Prioritarias");
   for (const loc of LOCATIONS.filter((l) => l.priority <= 2)) {
-    lines.push(`- ${loc.name}, ${loc.stateAbbr}: ${buildSiteUrl(getLocationPath(loc, "es"))}`);
+    lines.push(`- [${loc.name}, ${loc.stateAbbr}](${buildSiteUrl(getLocationPath(loc, "es"))})`);
   }
-  lines.push(`- Índice de ubicaciones: ${buildSiteUrl("/es/locations")}`);
-  lines.push(`- Enlaces rápidos: ${buildSiteUrl("/es/links")}`);
+  lines.push(`- [Índice de ubicaciones](${buildSiteUrl("/es/locations")})`);
+  lines.push(`- [Enlaces rápidos](${buildSiteUrl("/es/links")})`);
   lines.push("");
   lines.push("## Contacto");
-  lines.push(`Consulta gratuita: ${buildSiteUrl("/es/solicitar-llamada")}`);
-  lines.push(`Teléfono: ${BUSINESS.phoneDisplay}`);
-  lines.push(`Perfil JSON: ${buildSiteUrl("/enterprise-profile.json")}`);
+  lines.push(`- [Consulta gratuita](${buildSiteUrl("/es/solicitar-llamada")})`);
+  lines.push(`- Teléfono: ${BUSINESS.phoneDisplay}`);
+  lines.push(`- [Perfil JSON](${buildSiteUrl("/enterprise-profile.json")})`);
 
   return lines.join("\n");
 }

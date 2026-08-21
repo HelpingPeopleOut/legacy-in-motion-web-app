@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getLocaleTogglePath } from "@/lib/locale-routes";
 import "./navbar.css";
 
 export default function Navbar() {
@@ -82,15 +83,7 @@ export default function Navbar() {
     setIsFabOpen(false);
   };
 
-  const getToggleUrl = () => {
-    let targetPath = "/";
-    if (isSpanish) {
-      targetPath = pathname.replace(/^\/es/, "") || "/";
-    } else {
-      targetPath = `/es${pathname === "/" ? "" : pathname}`;
-    }
-    return targetPath.replace(/\/+/g, "/");
-  };
+  const getToggleUrl = () => getLocaleTogglePath(pathname);
 
   // --- BILINGUAL TEXT ---
   const navText = {
@@ -174,8 +167,19 @@ export default function Navbar() {
 
       <nav className={`elite-nav-container ${scrolled ? "scrolled" : ""}`}>
         <div className="elite-nav-inner">
-          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu}>
-            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
+          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu} prefetch={false}>
+            <picture>
+              <source srcSet="/images/brand-mark-64.webp" type="image/webp" />
+              <img
+                src="/images/brand-mark-64.png"
+                alt="Legacy in Motion"
+                width={64}
+                height={64}
+                className="elite-brand-mark"
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
             <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
 
@@ -189,40 +193,40 @@ export default function Navbar() {
                   </button>
                   <div className="elite-dropdown-panel">
                     {serviceLinks.map((item) => (
-                      <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                      <Link key={item.href} href={item.href} className="elite-dropdown-item" prefetch={false}>{item.label}</Link>
                     ))}
                     {locationLinks.length > 0 && (
                       <>
                         <div className="elite-dropdown-divider" />
                         {locationLinks.map((item) => (
-                          <Link key={item.href} href={item.href} className="elite-dropdown-item">{item.label}</Link>
+                          <Link key={item.href} href={item.href} className="elite-dropdown-item" prefetch={false}>{item.label}</Link>
                         ))}
                       </>
                     )}
                     <div className="elite-dropdown-divider" />
-                    <Link href="/service-areas" className="elite-dropdown-item highlight">
+                    <Link href="/service-areas" className="elite-dropdown-item highlight" prefetch={false}>
                       {isSpanish ? "Ver Áreas de Servicio" : "View Service Areas"}
                     </Link>
                   </div>
                 </div>
 
-                <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")}>{navText.mission}</Link>
-                <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")}>{navText.baby}</Link>
-                <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")}>{navText.workshops}</Link>
+                <Link href={isSpanish ? "/es/mision" : "/mission"} className={linkClass(isSpanish ? "/es/mision" : "/mission")} prefetch={false}>{navText.mission}</Link>
+                <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={linkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} prefetch={false}>{navText.baby}</Link>
+                <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={linkClass(isSpanish ? "/es/seminarios" : "/workshops")} prefetch={false}>{navText.workshops}</Link>
               </div>
 
               <div className="elite-nav-cluster elite-nav-cluster--secondary">
-                <Link href="/dashboard" className={linkClass("/dashboard", "portal")}>
+                <Link href="/dashboard" className={linkClass("/dashboard", "portal")} prefetch={false}>
                   {isSpanish ? "Portal Cliente" : "Client Portal"}
                 </Link>
               </div>
             </div>
 
             <div className="elite-nav-actions">
-              <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn">
+              <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn" prefetch={false}>
                 {isSpanish ? "EN" : "ES"}
               </Link>
-              <Link href={contactRoute} className="elite-cta-btn">{navText.book}</Link>
+              <Link href={contactRoute} className="elite-cta-btn" prefetch={false}>{navText.book}</Link>
             </div>
           </div>
 
@@ -234,8 +238,19 @@ export default function Navbar() {
 
       <div className={`elite-mobile-overlay ${isOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigation menu">
         <div className="elite-mobile-header">
-          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu}>
-            <img src="/android-chrome-192x192.png" alt="Legacy in Motion Logo" />
+          <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu} prefetch={false}>
+            <picture>
+              <source srcSet="/images/brand-mark-64.webp" type="image/webp" />
+              <img
+                src="/images/brand-mark-64.png"
+                alt="Legacy in Motion"
+                width={64}
+                height={64}
+                className="elite-brand-mark"
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
             <span className="elite-brand-text">LEGACY IN MOTION</span>
           </Link>
           <button type="button" className="elite-hamburger" onClick={closeMenu} aria-label="Close menu">
@@ -250,12 +265,12 @@ export default function Navbar() {
               {isSpanish ? "Llamar" : "Call"}
             </a>
             {!isHome && (
-              <Link href={quickLinksRoute} className="elite-mobile-quick-btn elite-mobile-quick-btn--links" onClick={closeMenu}>
+              <Link href={quickLinksRoute} className="elite-mobile-quick-btn elite-mobile-quick-btn--links" onClick={closeMenu} prefetch={false}>
                 <span aria-hidden>🔗</span>
                 {navText.quickLinks}
               </Link>
             )}
-            <Link href={contactRoute} className={`elite-mobile-quick-btn elite-mobile-quick-btn--book${isHome ? " elite-mobile-quick-btn--book-wide" : ""}`} onClick={closeMenu}>
+            <Link href={contactRoute} className={`elite-mobile-quick-btn elite-mobile-quick-btn--book${isHome ? " elite-mobile-quick-btn--book-wide" : ""}`} onClick={closeMenu} prefetch={false}>
               <span aria-hidden>✦</span>
               {isSpanish ? "Consulta" : "Book"}
             </Link>
@@ -264,10 +279,10 @@ export default function Navbar() {
           <div className="elite-mobile-section">
             <p className="elite-mobile-section-label">{isSpanish ? "Explorar" : "Explore"}</p>
             <div className="elite-mobile-links">
-              <Link href={isSpanish ? "/es/mision" : "/mission"} className={mobileLinkClass(isSpanish ? "/es/mision" : "/mission")} onClick={closeMenu}>{navText.mission}</Link>
-              <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={mobileLinkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} onClick={closeMenu}>{navText.baby}</Link>
-              <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={mobileLinkClass(isSpanish ? "/es/seminarios" : "/workshops")} onClick={closeMenu}>{navText.workshops}</Link>
-              <Link href="/dashboard" className={mobileLinkClass("/dashboard", "portal")} onClick={closeMenu}>
+              <Link href={isSpanish ? "/es/mision" : "/mission"} className={mobileLinkClass(isSpanish ? "/es/mision" : "/mission")} onClick={closeMenu} prefetch={false}>{navText.mission}</Link>
+              <Link href={isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby"} className={mobileLinkClass(isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby")} onClick={closeMenu} prefetch={false}>{navText.baby}</Link>
+              <Link href={isSpanish ? "/es/seminarios" : "/workshops"} className={mobileLinkClass(isSpanish ? "/es/seminarios" : "/workshops")} onClick={closeMenu} prefetch={false}>{navText.workshops}</Link>
+              <Link href="/dashboard" className={mobileLinkClass("/dashboard", "portal")} onClick={closeMenu} prefetch={false}>
                 {isSpanish ? "Portal Cliente" : "Client Portal"}
               </Link>
             </div>
@@ -287,12 +302,12 @@ export default function Navbar() {
             <div className="elite-mobile-accordion-wrapper" style={{ maxHeight: isServicesOpen ? "2000px" : "0" }}>
               <div className="elite-mobile-accordion-inner">
                 {serviceLinks.map((item) => (
-                  <Link key={item.href} href={item.href} className="elite-mobile-sublink" onClick={closeMenu}>{item.label}</Link>
+                  <Link key={item.href} href={item.href} className="elite-mobile-sublink" onClick={closeMenu} prefetch={false}>{item.label}</Link>
                 ))}
                 {locationLinks.map((item) => (
-                  <Link key={item.href} href={item.href} className="elite-mobile-sublink highlight" onClick={closeMenu}>{item.label}</Link>
+                  <Link key={item.href} href={item.href} className="elite-mobile-sublink highlight" onClick={closeMenu} prefetch={false}>{item.label}</Link>
                 ))}
-                <Link href="/service-areas" className="elite-mobile-sublink highlight" onClick={closeMenu}>
+                <Link href="/service-areas" className="elite-mobile-sublink highlight" onClick={closeMenu} prefetch={false}>
                   {isSpanish ? "Ver Áreas de Servicio →" : "View Service Areas →"}
                 </Link>
               </div>
@@ -301,10 +316,10 @@ export default function Navbar() {
         </div>
 
         <div className="elite-mobile-footer">
-          <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn">
+          <Link href={getToggleUrl()} onClick={closeMenu} className="elite-lang-btn" prefetch={false}>
             {isSpanish ? "Switch to English" : "Cambiar a Español"}
           </Link>
-          <Link href={contactRoute} className="elite-cta-btn" onClick={closeMenu}>{navText.book}</Link>
+          <Link href={contactRoute} className="elite-cta-btn" onClick={closeMenu} prefetch={false}>{navText.book}</Link>
         </div>
       </div>
 
@@ -314,11 +329,11 @@ export default function Navbar() {
           {isSpanish ? "Llamar" : "Call"}
         </a>
         {!isHome && (
-          <Link href={quickLinksRoute} className="mobile-sticky-cta__links">
+          <Link href={quickLinksRoute} className="mobile-sticky-cta__links" prefetch={false}>
             {isSpanish ? "Enlaces" : "Links"}
           </Link>
         )}
-        <Link href={contactRoute} className="mobile-sticky-cta__book">
+        <Link href={contactRoute} className="mobile-sticky-cta__book" prefetch={false}>
           {navText.book}
         </Link>
       </div>
@@ -336,12 +351,12 @@ export default function Navbar() {
             </button>
           )}
           {isAppInstalled && (
-            <Link href={toolboxRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+            <Link href={toolboxRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle} prefetch={false}>
               <span style={fabLabelStyle}>{navText.openToolbox}</span>
-              <div style={{...fabIconWrapperStyle, animation: "pulseGlow 2.5s infinite", background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
+              <div style={{...fabIconWrapperStyle, background: "var(--gold)", color: "#000", borderColor: "var(--gold)"}}>🧰</div>
             </Link>
           )}
-          <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle}>
+          <Link href={contactRoute} onClick={() => setIsFabOpen(false)} style={fabActionStyle} prefetch={false}>
             <span style={fabLabelStyle}>{navText.book}</span>
             <div style={fabIconWrapperStyle}>📞</div>
           </Link>
@@ -350,7 +365,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setIsFabOpen(!isFabOpen)}
-          className={`nav-fab-trigger btn-pulse${isFabOpen ? " nav-fab-trigger--open" : ""}`}
+          className={`nav-fab-trigger${isFabOpen ? " nav-fab-trigger--open" : ""}`}
           aria-expanded={isFabOpen}
           aria-label={isFabOpen ? (isSpanish ? "Cerrar menú" : "Close menu") : (isSpanish ? "Abrir menú" : "Open menu")}
         >

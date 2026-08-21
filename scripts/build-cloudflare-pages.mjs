@@ -66,11 +66,23 @@ copyReplace(layoutCf, layout);
 
 const stripePages = process.env.STRIPE_PAGES === "1" || process.env.NEXT_PUBLIC_STRIPE_ENABLED === "true";
 
+/**
+ * Cloudflare Pages uses `output: "export"`. Clerk v7 relies on Server Actions, which
+ * Next forbids in static export. Always prerender the portal in local-test shell mode
+ * (no <UserButton />) so builds succeed; Stripe Functions still work at runtime when
+ * NEXT_PUBLIC_STRIPE_ENABLED is true in the Pages dashboard.
+ */
+console.log(
+  `\n  CF Pages static export — portal preview shell ON` +
+    `${stripePages ? " (Stripe Functions env detected)" : ""}\n`
+);
+
 const env = {
   ...process.env,
   CF_PAGES: "1",
-  LOCAL_TEST_MODE: stripePages ? "false" : "true",
-  NEXT_PUBLIC_LOCAL_TEST_MODE: stripePages ? "false" : "true",
+  LOCAL_TEST_MODE: "true",
+  NEXT_PUBLIC_LOCAL_TEST_MODE: "true",
+  // Preserve dashboard Stripe checkout UI when the project has Stripe enabled.
   NEXT_PUBLIC_STRIPE_ENABLED: stripePages ? "true" : "false",
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "",
   NEXT_PUBLIC_APP_URL:

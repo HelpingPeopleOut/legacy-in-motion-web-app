@@ -1,5 +1,6 @@
 "use client";
 
+import type { ComponentType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ type NavItem = {
   href: string;
   label: string;
   shortLabel: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   external?: boolean;
   siteHome?: boolean;
 };
@@ -57,6 +58,11 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
   );
 }
 
+/**
+ * Account menu for non-static deployments (Vercel/Node with ClerkProvider in root layout).
+ * Cloudflare static export must keep localTest=true so this never mounts — @clerk/nextjs
+ * uses Server Actions incompatible with `output: "export"`.
+ */
 function ClerkUserButton() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -106,7 +112,6 @@ export default function DashboardShell({
           </span>
         </Link>
 
-        {/* Desktop / tablet landscape — tabs live in the header, not a sidebar */}
         <nav className="portal-topbar-nav" aria-label="Portal sections">
           {nav.map((item) => (
             <NavTab key={item.href} item={item} pathname={pathname} />
@@ -156,6 +161,7 @@ export default function DashboardShell({
           );
         })}
       </nav>
+
       <ScrollToTop variant="portal" />
     </div>
   );

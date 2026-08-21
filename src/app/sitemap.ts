@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/request-callback",
-    "/thanks",
     "/mission",
     "/freedom-financial-baby",
     "/workshops",
@@ -32,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/es/seminarios",
     "/es/herramientas",
     "/es/solicitar-llamada",
-    "/es/gracias",
     "/es/links",
     "/es/locations",
     "/es/planificacion-de-jubilacion-los-angeles",
@@ -55,10 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "" || route === "/es"
         ? 1
-        : route === "/financial-education" || route === "/es/educacion-financiera"
-          ? 0.95
-          : route === "/locations" || route === "/es/locations" || route.includes("/locations/california/")
-            ? 0.9
-            : 0.8,
+        : route === "/request-callback" || route === "/es/solicitar-llamada"
+          ? 0.98
+          : route === "/financial-education" || route === "/es/educacion-financiera"
+            ? 0.95
+            : route === "/locations" || route === "/es/locations" || route.includes("/locations/california/")
+              ? 0.9
+              : 0.8,
   }));
 }
