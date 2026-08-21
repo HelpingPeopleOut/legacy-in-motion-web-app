@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import RelatedIntentLinks from "@/components/seo/RelatedIntentLinks";
 
 export default function MortgageProtectionPage() {
   useEffect(() => {
@@ -19,18 +19,9 @@ export default function MortgageProtectionPage() {
     document.querySelectorAll(".fade-in").forEach(sec => observer.observe(sec));
   }, []);
 
-  const localSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialService",
-    "name": "Legacy in Motion - Mortgage Protection",
-    "description": "Keep your family in their home. Mortgage protection insurance with living benefits to cover your home loan in case of death, cancer, or heart attack.",
-    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"],
-  };
-
   return (
     <>
       {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
-      <Script id="schema-mortgage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0", background: "var(--bg-dark)" }}>
@@ -89,6 +80,15 @@ export default function MortgageProtectionPage() {
           ]}
         />
       </section>
+
+      <RelatedIntentLinks
+        locale="en"
+        links={[
+          { href: "/living-benefits-life-insurance-los-angeles", label: "Living benefits life insurance" },
+          { href: "/locations/california/los-angeles", label: "Los Angeles location" },
+          { href: "/request-callback", label: "Free strategy consultation" },
+        ]}
+      />
     </>
   );
 }

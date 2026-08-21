@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import RelatedIntentLinks from "@/components/seo/RelatedIntentLinks";
 
 export default function DebtFreeWealthPage() {
   useEffect(() => {
@@ -19,18 +19,9 @@ export default function DebtFreeWealthPage() {
     document.querySelectorAll(".fade-in").forEach(sec => observer.observe(sec));
   }, []);
 
-  const localSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialService",
-    "name": "Legacy in Motion - Debt Elimination Strategy",
-    "description": "Customized cash flow analysis and debt elimination strategies to help you get out of debt faster and start building tax-free wealth.",
-    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"],
-  };
-
   return (
     <>
       {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
-      <Script id="schema-debt-free" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0", background: "var(--bg-dark)" }}>
@@ -90,6 +81,15 @@ export default function DebtFreeWealthPage() {
           ]}
         />
       </section>
+
+      <RelatedIntentLinks
+        locale="en"
+        links={[
+          { href: "/retirement-planning-pasadena", label: "Retirement planning" },
+          { href: "/financial-education", label: "Education hub" },
+          { href: "/request-callback", label: "Free strategy consultation" },
+        ]}
+      />
     </>
   );
 }

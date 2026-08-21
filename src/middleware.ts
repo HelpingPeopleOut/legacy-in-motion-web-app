@@ -22,9 +22,13 @@ export default function middleware(req: NextRequest, event: NextFetchEvent) {
   return clerkHandler(req, event);
 }
 
+/** Limit Clerk middleware to auth/portal/API paths — skip public marketing pages for TTFB. */
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
+    "/dashboard/:path*",
+    "/login/:path*",
+    "/sign-up/:path*",
+    "/api/stripe/:path*",
+    "/api/webhooks/:path*",
   ],
 };

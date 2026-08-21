@@ -48,6 +48,6 @@ export const TRUST = {
   consultationsOffered: "Free private strategy session — no obligation",
 } as const;
 
-/** Social / OG — use professional headshot until dedicated 1200×630 asset is added */
-export const DEFAULT_OG_IMAGE = "/images/nelly/nelly-professional.jpg";
-export const ADVISOR_HEADSHOT_URL = "/images/nelly/nelly-professional.jpg";
+/** Social / OG — dedicated 1200×630 brand asset */
+export const DEFAULT_OG_IMAGE = "/images/nelly/og-default.jpg";
+export const ADVISOR_HEADSHOT_URL = "/images/nelly/nelly-hero.webp";

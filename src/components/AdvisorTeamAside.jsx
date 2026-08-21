@@ -28,12 +28,17 @@ export default function AdvisorTeamAside({ locale = "en" }) {
       <p className="faq-team-aside-sub">{t.teamSub}</p>
       <figure className="faq-team-aside-photo">
         <div className="faq-team-aside-img-wrap">
-          <img
-            src={teamPhoto.src}
-            alt={teamPhoto.alt[isEs ? "es" : "en"]}
-            loading="lazy"
-            decoding="async"
-          />
+          <picture>
+            <source srcSet={teamPhoto.src} type="image/webp" />
+            <img
+              src={teamPhoto.fallbackSrc ?? teamPhoto.src}
+              alt={teamPhoto.alt[isEs ? "es" : "en"]}
+              width={teamPhoto.width ?? 603}
+              height={teamPhoto.height ?? 800}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
         </div>
         <figcaption>{teamPhoto.caption[isEs ? "es" : "en"]}</figcaption>
       </figure>

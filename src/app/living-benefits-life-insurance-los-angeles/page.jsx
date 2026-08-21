@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import RelatedIntentLinks from "@/components/seo/RelatedIntentLinks";
 
 export default function LALivingBenefitsPage() {
   // Smooth fade-in scroll animation
@@ -24,37 +24,10 @@ export default function LALivingBenefitsPage() {
   }, []);
 
   // --- INVISIBLE LOCAL SEO SCHEMA (For Google & AI Overviews) ---
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialService",
-    "name": "Legacy in Motion",
-    "description": "Life insurance with living benefits, mortgage protection, and critical illness coverage for families in Los Angeles, Pasadena, and the San Gabriel Valley.",
-    "areaServed": [
-      { "@type": "City", "name": "Los Angeles" },
-      { "@type": "City", "name": "Pasadena" },
-      { "@type": "City", "name": "Glendale" },
-      { "@type": "City", "name": "Burbank" },
-      { "@type": "Region", "name": "San Gabriel Valley" }
-    ],
-    "serviceArea": {
-      "@type": "GeoCircle",
-      "geoMidpoint": {
-        "@type": "GeoCoordinates",
-        "latitude": "34.0522",
-        "longitude": "-118.2437"
-      },
-      "geoRadius": "40000"
-    }
-  };
 
   return (
     <>
       {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
-      <Script 
-        id="schema-en-living-benefits"
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} 
-      />
 
       {/* HERO SECTION */}
       <section className="hero fade-in" style={{ padding: "12rem 0 6rem 0" }}>
@@ -136,6 +109,16 @@ export default function LALivingBenefitsPage() {
           "Mortgage Protection Insurance",
           "Return of Premium (Get my money back)",
           "General Life Insurance Quote"
+        ]}
+      />
+
+      <RelatedIntentLinks
+        locale="en"
+        links={[
+          { href: "/mortgage-protection-los-angeles", label: "Mortgage protection" },
+          { href: "/retirement-planning-pasadena", label: "Retirement planning" },
+          { href: "/locations/california/los-angeles", label: "Los Angeles location" },
+          { href: "/request-callback", label: "Free strategy consultation" },
         ]}
       />
     </>

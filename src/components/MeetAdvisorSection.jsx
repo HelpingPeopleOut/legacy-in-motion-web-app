@@ -33,12 +33,17 @@ export default function MeetAdvisorSection({ locale = "en" }) {
         <p className="advisor-gallery-label">{t.educationLabel}</p>
         <figure className="advisor-education-card">
           <div className="advisor-education-img-wrap">
-            <img
-              src={advisorEducation.src}
-              alt={advisorEducation.alt[isEs ? "es" : "en"]}
-              loading="lazy"
-              decoding="async"
-            />
+            <picture>
+              <source srcSet={advisorEducation.src} type="image/webp" />
+              <img
+                src={advisorEducation.fallbackSrc ?? advisorEducation.src}
+                alt={advisorEducation.alt[isEs ? "es" : "en"]}
+                width={advisorEducation.width ?? 600}
+                height={advisorEducation.height ?? 800}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
           <figcaption>{advisorEducation.caption[isEs ? "es" : "en"]}</figcaption>
         </figure>

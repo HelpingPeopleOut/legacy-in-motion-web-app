@@ -75,6 +75,30 @@ function buildMeta({
   };
 }
 
+function buildNoIndexMeta({
+  title,
+  description,
+  path,
+  locale = "en",
+  alternatePath,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  locale?: "en" | "es";
+  alternatePath?: string;
+}): Metadata {
+  const base = buildMeta({ title, description, path, keywords: [], locale, alternatePath });
+  return {
+    ...base,
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false, noimageindex: true },
+    },
+  };
+}
+
 /** Root layout defaults — individual routes override via layout.tsx */
 export const rootSiteMetadata: Metadata = {
   metadataBase: new URL(BUSINESS.url),
@@ -127,7 +151,7 @@ export const homeMetadata = {
   en: buildMeta({
     title: "Financial Advisor Pasadena & Nationwide | Retirement & Living Benefits",
     description:
-      "Legacy in Motion helps families solve financial problems — not get sold products. Free strategy sessions with Nelly Lara: retirement rollovers, living benefits life insurance, estate planning, debt elimination. Bilingual · Pasadena HQ · US-wide virtual service.",
+      "Legacy in Motion helps Pasadena and nationwide families solve financial problems — not get sold products. Free strategy sessions with Nelly Lara: retirement rollovers, living benefits life insurance, estate planning, debt elimination. Bilingual · Pasadena HQ · US-wide virtual service.",
     path: "/",
     alternatePath: "/es",
     keywords: [
@@ -144,7 +168,7 @@ export const homeMetadata = {
   es: buildMeta({
     title: "Asesor Financiero Pasadena y Nacional | Jubilación y Beneficios en Vida",
     description:
-      "Legacy in Motion ayuda a familias a resolver problemas financieros — sin presión de ventas. Sesiones gratuitas con Nelly Lara: jubilación, seguros con beneficios en vida, patrimonio y deudas. Bilingüe · Pasadena · servicio virtual en EE. UU.",
+      "Legacy in Motion ayuda a familias en Pasadena y a nivel nacional a resolver problemas financieros — sin presión de ventas. Sesiones gratuitas con Nelly Lara: jubilación, seguros con beneficios en vida, patrimonio y deudas. Bilingüe · Pasadena · servicio virtual en EE. UU.",
     path: "/es",
     alternatePath: "/",
     locale: "es",
@@ -210,6 +234,7 @@ export const MARKETING_SEO: Record<MarketingSeoKey, Metadata> = {
     description:
       "Avoid probate, protect business assets, and plan your exit with trusts, key person insurance, and executive bonus strategies. Legacy in Motion — Pasadena-based, nationwide service.",
     path: "/estate-business-planning-los-angeles",
+    alternatePath: "/es/solicitar-llamada",
     keywords: ["estate planning Los Angeles", "business exit planning", "key person insurance", "avoid probate California"],
   }),
   "generational-wealth-arcadia-sgv": buildMeta({
@@ -217,6 +242,7 @@ export const MARKETING_SEO: Record<MarketingSeoKey, Metadata> = {
     description:
       "Tax-efficient wealth transfer strategies for SGV families — IUL, children's accounts, and multi-generational legacy planning with bilingual guidance.",
     path: "/generational-wealth-arcadia-sgv",
+    alternatePath: "/es/futuro-financiero-infantil",
     keywords: ["generational wealth Arcadia", "wealth transfer SGV", "family legacy planning", "children investment accounts"],
   }),
   "debt-free-wealth-strategy": buildMeta({
@@ -283,12 +309,11 @@ export const MARKETING_SEO: Record<MarketingSeoKey, Metadata> = {
     alternatePath: "/es/solicitar-llamada",
     keywords: ["free financial consultation", "book financial advisor", "strategy session Pasadena"],
   }),
-  thanks: buildMeta({
+  thanks: buildNoIndexMeta({
     title: "Thank You — We Will Contact You Soon",
     description: "Your consultation request was received. Legacy in Motion will contact you within one business day.",
     path: "/thanks",
     alternatePath: "/es/gracias",
-    keywords: [],
   }),
   "service-areas": buildMeta({
     title: "Service Areas | San Gabriel Valley & Nationwide Virtual Planning",
@@ -401,13 +426,12 @@ export const MARKETING_SEO: Record<MarketingSeoKey, Metadata> = {
     locale: "es",
     keywords: ["consulta financiera gratis", "asesor financiero cita", "sesión estrategia"],
   }),
-  gracias: buildMeta({
+  gracias: buildNoIndexMeta({
     title: "Gracias — Nos Comunicaremos Pronto",
     description: "Recibimos su solicitud. Legacy in Motion se comunicará dentro de un día hábil.",
     path: "/es/gracias",
     alternatePath: "/thanks",
     locale: "es",
-    keywords: [],
   }),
   "educacion-financiera": buildMeta({
     title: "Centro de Educación Financiera | Guías de Jubilación y Seguros",

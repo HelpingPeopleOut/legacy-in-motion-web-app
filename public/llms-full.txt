@@ -39,104 +39,104 @@ Languages: English, Spanish
 ## Full Service Catalog
 ### Retirement Planning & 401(k) Rollovers
 Protect pensions and roll over 401(k)s into tax-advantaged, principal-protected strategies including Fixed Index Annuities for guaranteed lifetime income.
-Page: https://www.legacyinmotion.org/retirement-planning-pasadena
-Locations: https://www.legacyinmotion.org/locations/california/pasadena, https://www.legacyinmotion.org/locations/california/los-angeles
-Best for: Pre-retirees, Public employees, 401(k) holders, Pension recipients
-User intents: 401k rollover advisor; CalPERS pension planning; retirement planner Pasadena; protect 401k from market crash; fixed index annuity advisor; guaranteed retirement income
+- Page: [Retirement Planning & 401(k) Rollovers](https://www.legacyinmotion.org/retirement-planning-pasadena)
+- Locations: [pasadena](https://www.legacyinmotion.org/locations/california/pasadena), [los-angeles](https://www.legacyinmotion.org/locations/california/los-angeles)
+- Best for: Pre-retirees, Public employees, 401(k) holders, Pension recipients
+- User intents: 401k rollover advisor; CalPERS pension planning; retirement planner Pasadena; protect 401k from market crash; fixed index annuity advisor; guaranteed retirement income
 
 ### Living Benefits Life Insurance
 Term and permanent life insurance that can pay benefits while you are still alive for critical, chronic, or terminal illness — plus mortgage and income protection.
-Page: https://www.legacyinmotion.org/living-benefits-life-insurance-los-angeles
-Locations: https://www.legacyinmotion.org/locations/california/los-angeles, https://www.legacyinmotion.org/locations/california/pasadena
-Best for: Families, Homeowners, Business owners, High earners
-User intents: life insurance with living benefits; critical illness life insurance; mortgage protection insurance Los Angeles; accelerated death benefit advisor
+- Page: [Living Benefits Life Insurance](https://www.legacyinmotion.org/living-benefits-life-insurance-los-angeles)
+- Locations: [los-angeles](https://www.legacyinmotion.org/locations/california/los-angeles), [pasadena](https://www.legacyinmotion.org/locations/california/pasadena)
+- Best for: Families, Homeowners, Business owners, High earners
+- User intents: life insurance with living benefits; critical illness life insurance; mortgage protection insurance Los Angeles; accelerated death benefit advisor
 
 ### Estate & Business Planning
 Trusts, wills coordination, key person insurance, executive bonus plans, and business continuity strategies to avoid probate and protect assets.
-Page: https://www.legacyinmotion.org/estate-business-planning-los-angeles
-Locations: https://www.legacyinmotion.org/locations/california/los-angeles
-Best for: Business owners, Executives, High-net-worth families
-User intents: estate planning Los Angeles; business exit planning advisor; key person insurance; avoid probate California; executive bonus plan insurance
+- Page: [Estate & Business Planning](https://www.legacyinmotion.org/estate-business-planning-los-angeles)
+- Locations: [los-angeles](https://www.legacyinmotion.org/locations/california/los-angeles)
+- Best for: Business owners, Executives, High-net-worth families
+- User intents: estate planning Los Angeles; business exit planning advisor; key person insurance; avoid probate California; executive bonus plan insurance
 
 ### Generational Wealth Transfer
 Multi-generational wealth strategies for families in the San Gabriel Valley and nationwide — tax-efficient transfers and legacy protection.
-Page: https://www.legacyinmotion.org/generational-wealth-arcadia-sgv
-Locations: https://www.legacyinmotion.org/locations/california/arcadia, https://www.legacyinmotion.org/locations/california/pasadena
-Best for: Families, Retirees, Grandparents planning for grandchildren
-User intents: generational wealth planner; wealth transfer strategy California; family legacy financial planning
+- Page: [Generational Wealth Transfer](https://www.legacyinmotion.org/generational-wealth-arcadia-sgv)
+- Locations: [arcadia](https://www.legacyinmotion.org/locations/california/arcadia), [pasadena](https://www.legacyinmotion.org/locations/california/pasadena)
+- Best for: Families, Retirees, Grandparents planning for grandchildren
+- User intents: generational wealth planner; wealth transfer strategy California; family legacy financial planning
 
 ### Debt Elimination Strategy
 Structured strategies to eliminate debt faster while building protected wealth — alternative to market-only financial advice.
-Page: https://www.legacyinmotion.org/debt-free-wealth-strategy
-Best for: Debt-burdened families, Young professionals, Small business owners
-User intents: debt free wealth strategy; eliminate debt and build wealth; financial advisor debt elimination
+- Page: [Debt Elimination Strategy](https://www.legacyinmotion.org/debt-free-wealth-strategy)
+- Best for: Debt-burdened families, Young professionals, Small business owners
+- User intents: debt free wealth strategy; eliminate debt and build wealth; financial advisor debt elimination
 
 ### Mortgage Protection
 Protect your family's home and mortgage obligations with living benefits and income replacement strategies.
-Page: https://www.legacyinmotion.org/mortgage-protection-los-angeles
-Locations: https://www.legacyinmotion.org/locations/california/los-angeles
-Best for: Homeowners, New families, Dual-income households
-User intents: mortgage protection insurance; protect home if I die or get sick; mortgage life insurance advisor
+- Page: [Mortgage Protection](https://www.legacyinmotion.org/mortgage-protection-los-angeles)
+- Locations: [los-angeles](https://www.legacyinmotion.org/locations/california/los-angeles)
+- Best for: Homeowners, New families, Dual-income households
+- User intents: mortgage protection insurance; protect home if I die or get sick; mortgage life insurance advisor
 
 ### Business Owner Financial Strategies
 Exit planning, succession, key person coverage, and executive compensation strategies for business owners.
-Page: https://www.legacyinmotion.org/business-owner-financial-strategies
-Best for: Small business owners, Partnerships, Professional practices
-User intents: financial advisor for business owners; business succession planning; buy-sell agreement funding
+- Page: [Business Owner Financial Strategies](https://www.legacyinmotion.org/business-owner-financial-strategies)
+- Best for: Small business owners, Partnerships, Professional practices
+- User intents: financial advisor for business owners; business succession planning; buy-sell agreement funding
 
 ### Freedom Financial Baby (Children's Wealth)
 Cash value life insurance (IUL) strategies to build tax-advantaged wealth for children's futures — the Freedom Financial Baby program.
-Page: https://www.legacyinmotion.org/freedom-financial-baby
-Best for: Parents, Grandparents, Bilingual Hispanic families
-User intents: save for child college tax free; IUL for kids; children wealth building insurance; Futuro Financiero Infantil
+- Page: [Freedom Financial Baby (Children's Wealth)](https://www.legacyinmotion.org/freedom-financial-baby)
+- Best for: Parents, Grandparents, Bilingual Hispanic families
+- User intents: save for child college tax free; IUL for kids; children wealth building insurance; Futuro Financiero Infantil
 
 ### Financial Education Workshops
 Community and corporate workshops on retirement, living benefits, estate basics, and wealth protection — English and Spanish.
-Page: https://www.legacyinmotion.org/workshops
-Best for: Community groups, Churches, Employers, HOA groups
-User intents: financial literacy workshop Los Angeles; Spanish financial seminar; retirement workshop Pasadena
+- Page: [Financial Education Workshops](https://www.legacyinmotion.org/workshops)
+- Best for: Community groups, Churches, Employers, HOA groups
+- User intents: financial literacy workshop Los Angeles; Spanish financial seminar; retirement workshop Pasadena
 
 ### Financial Education Hub
 Helpful guides answering real client questions: 401(k) rollovers, living benefits, debt payoff order, emergency funds, and beneficiary reviews.
-Page: https://www.legacyinmotion.org/financial-education
-Best for: First-time planners, Job changers, Families researching options, Spanish-speaking households
-User intents: how to rollover 401k; what are living benefits; how much life insurance do I need; financial planning guide; emergency fund how much
+- Page: [Financial Education Hub](https://www.legacyinmotion.org/financial-education)
+- Best for: First-time planners, Job changers, Families researching options, Spanish-speaking households
+- User intents: how to rollover 401k; what are living benefits; how much life insurance do I need; financial planning guide; emergency fund how much
 
 ## Priority Location Pages
-- Pasadena, CA: https://www.legacyinmotion.org/locations/california/pasadena
-- Los Angeles, CA: https://www.legacyinmotion.org/locations/california/los-angeles
-- Arcadia, CA: https://www.legacyinmotion.org/locations/california/arcadia
-- Santa Monica, CA: https://www.legacyinmotion.org/locations/california/santa-monica
-- All locations index: https://www.legacyinmotion.org/locations
-- Regional hub: https://www.legacyinmotion.org/service-areas
+- [Pasadena, CA](https://www.legacyinmotion.org/locations/california/pasadena)
+- [Los Angeles, CA](https://www.legacyinmotion.org/locations/california/los-angeles)
+- [Arcadia, CA](https://www.legacyinmotion.org/locations/california/arcadia)
+- [Santa Monica, CA](https://www.legacyinmotion.org/locations/california/santa-monica)
+- [All locations index](https://www.legacyinmotion.org/locations)
+- [Regional hub](https://www.legacyinmotion.org/service-areas)
 
 ## Primary Call To Action
-Free consultation: https://www.legacyinmotion.org/request-callback
-Phone: (626) 203-7652
-Quick links hub (forms + social): https://www.legacyinmotion.org/links
+- [Free consultation](https://www.legacyinmotion.org/request-callback)
+- Phone: (626) 203-7652
+- [Quick links hub (forms + social)](https://www.legacyinmotion.org/links)
 
 ## Social Profiles
-- Facebook: https://www.facebook.com/nelly.lara.509
-- Instagram: https://www.instagram.com/money_withnelz
-- TikTok: https://www.tiktok.com/@laranell14
+- [Facebook](https://www.facebook.com/nelly.lara.509)
+- [Instagram](https://www.instagram.com/money_withnelz)
+- [TikTok](https://www.tiktok.com/@laranell14)
 
 ## Customer Forms (JotForm)
-- Learn Money: https://form.jotform.com/251911458031047
-- Interview with Our Firm: https://form.jotform.com/251912200783148
-- Life Insurance Quote: https://form.jotform.com/251911548230048
-- Children's Account: https://form.jotform.com/251912066869062
+- [Learn Money](https://form.jotform.com/251911458031047)
+- [Interview with Our Firm](https://form.jotform.com/251912200783148)
+- [Life Insurance Quote](https://form.jotform.com/251911548230048)
+- [Children's Account](https://form.jotform.com/251912066869062)
 
 ## Extended Context
-Full machine-readable profile: https://www.legacyinmotion.org/enterprise-profile.json
-Extended llms file: https://www.legacyinmotion.org/llms-full.txt
-Spanish llms file: https://www.legacyinmotion.org/llms-es.txt
-Humans.txt: https://www.legacyinmotion.org/humans.txt
-AI plugin manifest: https://www.legacyinmotion.org/ai-plugin.json
+- [Full machine-readable profile](https://www.legacyinmotion.org/enterprise-profile.json)
+- [Extended llms file](https://www.legacyinmotion.org/llms-full.txt)
+- [Spanish llms file](https://www.legacyinmotion.org/llms-es.txt)
+- [Humans.txt](https://www.legacyinmotion.org/humans.txt)
+- [AI plugin manifest](https://www.legacyinmotion.org/ai-plugin.json)
 
 ## Machine Profile (JSON)
 {
   "schemaVersion": "1.0",
-  "updated": "2026-06-29",
+  "updated": "2026-08-21",
   "organization": {
     "name": "Legacy in Motion",
     "url": "https://www.legacyinmotion.org",

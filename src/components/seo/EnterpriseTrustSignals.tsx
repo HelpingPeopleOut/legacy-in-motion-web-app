@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PRINCIPAL, SERVICE_CATALOG } from "@/lib/ai-enterprise";
 import { BUSINESS, TRUST } from "@/lib/business";
-import { buildSiteUrl } from "@/lib/seo-metadata";
+import { SERVICE_PAGE_ES } from "@/lib/locale-routes";
 
 import type { SiteLocale } from "@/lib/locations";
 
@@ -104,7 +104,10 @@ export function EnterpriseExpertiseList({ locale = "en" }: { locale?: SiteLocale
         </ul>
         <div className="enterprise-service-links">
           {SERVICE_CATALOG.slice(0, 6).map((service) => (
-            <Link key={service.id} href={service.pageUrl}>
+            <Link
+              key={service.id}
+              href={isSpanish ? SERVICE_PAGE_ES[service.id] ?? service.pageUrl : service.pageUrl}
+            >
               {service.name} →
             </Link>
           ))}

@@ -17,32 +17,32 @@ const pathwaysEn = [
   {
     icon: TrendingDown,
     label: "I'm drowning in debt",
-    hint: "See your payoff path",
-    href: "/dashboard/tools/debt-freedom",
+    hint: "Debt-free wealth strategy",
+    href: "/debt-free-wealth-strategy",
   },
   {
     icon: Shield,
     label: "My family isn't protected",
-    hint: "Calculate coverage needed",
-    href: "/dashboard/tools/human-life-value",
+    hint: "Living benefits coverage",
+    href: "/living-benefits-life-insurance-los-angeles",
   },
   {
     icon: PiggyBank,
     label: "I'm behind on retirement",
-    hint: "Forecast tax-free income",
-    href: "/dashboard/tools/retirement-forecaster",
+    hint: "401(k) & pension planning",
+    href: "/retirement-planning-pasadena",
   },
   {
     icon: Home,
     label: "I worry about my mortgage",
-    hint: "Protection strategies",
-    href: "/dashboard/tools/mortgage-protection",
+    hint: "Homeowner protection",
+    href: "/mortgage-protection-los-angeles",
   },
   {
     icon: FileHeart,
     label: "No will or estate plan",
-    hint: "Organize your legacy",
-    href: "/dashboard/tools/legacy-vault",
+    hint: "Estate & legacy planning",
+    href: "/estate-business-planning-los-angeles",
   },
   {
     icon: Briefcase,
@@ -53,26 +53,56 @@ const pathwaysEn = [
 ];
 
 const pathwaysEs = [
-  { icon: TrendingDown, label: "Estoy ahogado en deudas", hint: "Vea su plan de pago", href: "/dashboard/tools/debt-freedom" },
-  { icon: Shield, label: "Mi familia no está protegida", hint: "Calcule la cobertura", href: "/dashboard/tools/human-life-value" },
-  { icon: PiggyBank, label: "Voy tarde en jubilación", hint: "Proyecte ingresos libres de impuestos", href: "/dashboard/tools/retirement-forecaster" },
-  { icon: Home, label: "Me preocupa mi hipoteca", hint: "Estrategias de protección", href: "/es/proteccion-de-hipoteca-los-angeles" },
-  { icon: FileHeart, label: "No tengo testamento", hint: "Organice su legado", href: "/dashboard/tools/legacy-vault" },
-  { icon: Briefcase, label: "Tengo un negocio", hint: "Red de seguridad empresarial", href: "/es/estrategias-financieras-para-negocios" },
+  {
+    icon: TrendingDown,
+    label: "Estoy ahogado en deudas",
+    hint: "Estrategia libre de deudas",
+    href: "/es/estrategia-libre-de-deudas",
+  },
+  {
+    icon: Shield,
+    label: "Mi familia no está protegida",
+    hint: "Beneficios en vida",
+    href: "/es/beneficios-en-vida-los-angeles",
+  },
+  {
+    icon: PiggyBank,
+    label: "Voy tarde en jubilación",
+    hint: "Planificación de jubilación",
+    href: "/es/planificacion-de-jubilacion-los-angeles",
+  },
+  {
+    icon: Home,
+    label: "Me preocupa mi hipoteca",
+    hint: "Protección de hipoteca",
+    href: "/es/proteccion-de-hipoteca-los-angeles",
+  },
+  {
+    icon: FileHeart,
+    label: "No tengo testamento",
+    hint: "Planificación patrimonial",
+    href: "/estate-business-planning-los-angeles",
+  },
+  {
+    icon: Briefcase,
+    label: "Tengo un negocio",
+    hint: "Red de seguridad empresarial",
+    href: "/es/estrategias-financieras-para-negocios",
+  },
 ];
 
 const copy = {
   en: {
     eyebrow: "Start here",
     title: "What's your biggest financial concern?",
-    sub: "Pick the challenge that fits you — we'll point you to the right tool or a free strategy call.",
+    sub: "Pick the challenge that fits you — we'll point you to the right guide or a free strategy call.",
     tools: "Explore all free tools",
     call: "Talk to an advisor — free",
   },
   es: {
     eyebrow: "Empiece aquí",
     title: "¿Cuál es su mayor preocupación financiera?",
-    sub: "Elija su situación — le guiamos a la herramienta correcta o a una consulta gratuita.",
+    sub: "Elija su situación — le guiamos a la página correcta o a una consulta gratuita.",
     tools: "Ver herramientas gratis",
     call: "Hablar con un asesor — gratis",
   },
@@ -81,7 +111,7 @@ const copy = {
 export default function HomePathwayPanel({ locale = "en" }) {
   const pathways = locale === "es" ? pathwaysEs : pathwaysEn;
   const t = copy[locale] ?? copy.en;
-  const consultHref = locale === "es" ? "/es#consultation" : "#consultation";
+  const consultHref = locale === "es" ? "/es/solicitar-llamada" : "/request-callback";
 
   return (
     <div className="home-pathway-panel">
