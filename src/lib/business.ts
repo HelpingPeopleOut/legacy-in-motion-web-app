@@ -50,4 +50,4 @@ export const TRUST = {
 
 /** Social / OG — dedicated 1200×630 brand asset */
 export const DEFAULT_OG_IMAGE = "/images/nelly/og-default.jpg";
-export const ADVISOR_HEADSHOT_URL = "/images/nelly/nelly-hero.webp";
+export const ADVISOR_HEADSHOT_URL = "/images/nelly/nelly-hero-288.webp";
