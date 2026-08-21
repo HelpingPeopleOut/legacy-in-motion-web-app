@@ -12,7 +12,10 @@ type RelatedIntentLinksProps = {
   title?: string;
 };
 
-/** Internal link cluster for pillar pages — hub ↔ services ↔ locations ↔ contact. */
+/**
+ * Quiet internal-link band for SEO — lives near the footer, never in the hero.
+ * Keep real <a> hrefs for crawlers; presentation stays calm and on-brand.
+ */
 export default function RelatedIntentLinks({
   locale = "en",
   links,
@@ -20,26 +23,35 @@ export default function RelatedIntentLinks({
 }: RelatedIntentLinksProps) {
   const isSpanish = locale === "es";
   const heading =
-    title ?? (isSpanish ? "Explorar rutas relacionadas" : "Explore related paths");
+    title ?? (isSpanish ? "Seguir explorando" : "Continue exploring");
+  const eyebrow = isSpanish ? "Rutas populares" : "Popular paths";
 
   if (!links.length) return null;
 
   return (
-    <nav
-      className="related-intent-links fade-in"
-      aria-label={isSpanish ? "Enlaces relacionados" : "Related links"}
+    <section
+      className="related-intent-links"
+      aria-labelledby="related-intent-heading"
     >
-      <div className="container">
-        <h2 className="related-intent-title">{heading}</h2>
+      <div className="container related-intent-inner">
+        <p className="related-intent-eyebrow">{eyebrow}</p>
+        <h2 id="related-intent-heading" className="related-intent-title">
+          {heading}
+        </h2>
         <ul className="related-intent-list">
           {links.map((link) => (
             <li key={link.href}>
-              <Link href={link.href}>{link.label}</Link>
+              <Link href={link.href} className="related-intent-link">
+                <span>{link.label}</span>
+                <span className="related-intent-arrow" aria-hidden>
+                  →
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-    </nav>
+    </section>
   );
 }
 
