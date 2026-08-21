@@ -10,7 +10,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/request-callback",
-    "/contact",
     "/mission",
     "/freedom-financial-baby",
     "/workshops",
@@ -32,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/es/seminarios",
     "/es/herramientas",
     "/es/solicitar-llamada",
-    "/es/contacto",
     "/es/links",
     "/es/locations",
     "/es/planificacion-de-jubilacion-los-angeles",
@@ -55,10 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "" || route === "/es"
         ? 1
-        : route === "/request-callback" ||
-            route === "/contact" ||
-            route === "/es/solicitar-llamada" ||
-            route === "/es/contacto"
+        : route === "/request-callback" || route === "/es/solicitar-llamada"
           ? 0.98
           : route === "/financial-education" || route === "/es/educacion-financiera"
             ? 0.95
