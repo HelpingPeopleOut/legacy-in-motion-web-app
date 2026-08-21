@@ -1,5 +1,6 @@
 "use client";
 
+import type { ComponentType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -27,7 +28,7 @@ import {
 import { cn } from "@/lib/utils";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   shield: Shield,
   vault: Vault,
   chart: BarChart3,
@@ -55,7 +56,7 @@ type NavItem = {
   href: string;
   label: string;
   shortLabel: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   external?: boolean;
   siteHome?: boolean;
 };
@@ -91,7 +92,14 @@ function NavTab({ item, pathname }: { item: NavItem; pathname: string }) {
   );
 }
 
+/**
+ * Account menu for non-static deployments (Vercel/Node with ClerkProvider in root layout).
+ * Cloudflare static export must keep localTest=true so this never mounts — @clerk/nextjs
+ * uses Server Actions incompatible with `output: "export"`.
+ */
 function ClerkUserButton() {
+  // Lazy require keeps Clerk out of the CF Pages SSR graph when this branch is unused.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { UserButton } = require("@clerk/nextjs");
   return <UserButton />;
 }
@@ -138,7 +146,6 @@ export default function DashboardShell({
           </span>
         </Link>
 
-        {/* Desktop / tablet landscape — tabs live in the header, not a sidebar */}
         <nav className="portal-topbar-nav" aria-label="Portal sections">
           {nav.map((item) => (
             <NavTab key={item.href} item={item} pathname={pathname} />
@@ -167,7 +174,6 @@ export default function DashboardShell({
         <div className="portal-main-inner">{children}</div>
       </main>
 
-      {/* Mobile / tablet portrait — bottom tab bar (keeps top header minimal) */}
       <nav className="portal-mobile-nav" aria-label="Portal navigation">
         {nav.map((item) => {
           const active = !item.external && !item.siteHome && isNavActive(pathname, item);
@@ -188,6 +194,7 @@ export default function DashboardShell({
           );
         })}
       </nav>
+
       <ScrollToTop variant="portal" />
     </div>
   );

@@ -17,6 +17,7 @@ export const viewport = {
 
 export const metadata: Metadata = rootSiteMetadata;
 
+/** Cloudflare Pages static layout — do not import ClerkProvider (uses Server Actions incompatible with output:export). */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
