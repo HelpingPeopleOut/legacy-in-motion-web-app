@@ -1,11 +1,10 @@
-"use client";
-
 import { advisorHeadshot } from "@/lib/advisor-media";
 
-export default function AdvisorHeroPhoto({ locale = "en" }) {
+/** Server component — keep LCP portrait in the initial HTML with no client JS. */
+export default function AdvisorHeroPhoto({ locale = "en" }: { locale?: "en" | "es" }) {
   const isEs = locale === "es";
-  const width = advisorHeadshot.width ?? 480;
-  const height = advisorHeadshot.height ?? 480;
+  const width = advisorHeadshot.width ?? 288;
+  const height = advisorHeadshot.height ?? 288;
 
   return (
     <div className="advisor-hero-photo">
@@ -14,18 +13,18 @@ export default function AdvisorHeroPhoto({ locale = "en" }) {
           <source
             type="image/webp"
             srcSet={advisorHeadshot.srcSet ?? advisorHeadshot.src}
-            sizes={advisorHeadshot.sizes ?? "(max-width: 768px) 160px, 280px"}
+            sizes={advisorHeadshot.sizes}
           />
           <img
-            src={advisorHeadshot.fallbackSrc ?? advisorHeadshot.src}
-            srcSet={advisorHeadshot.fallbackSrcSet}
+            src={advisorHeadshot.src}
+            srcSet={advisorHeadshot.srcSet}
             alt={advisorHeadshot.alt[isEs ? "es" : "en"]}
             width={width}
             height={height}
-            sizes={advisorHeadshot.sizes ?? "(max-width: 768px) 160px, 280px"}
+            sizes={advisorHeadshot.sizes}
             loading="eager"
             fetchPriority="high"
-            decoding="async"
+            decoding="sync"
           />
         </picture>
       </div>
@@ -35,7 +34,9 @@ export default function AdvisorHeroPhoto({ locale = "en" }) {
           {isEs ? "Asociada Financiera Senior" : "Senior Financial Associate"}
         </p>
         <p className="advisor-hero-photo-org">
-          {isEs ? "Retrato profesional · Experior Financial Group Inc." : "Professional portfolio · Experior Financial Group Inc."}
+          {isEs
+            ? "Retrato profesional · Experior Financial Group Inc."
+            : "Professional portfolio · Experior Financial Group Inc."}
         </p>
       </div>
     </div>

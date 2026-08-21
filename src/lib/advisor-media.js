@@ -1,16 +1,17 @@
 /** Professional portfolio headshot — hero & business profile (optimized WebP + JPEG) */
 export const advisorHeadshot = {
-  src: "/images/nelly/nelly-hero.webp",
+  /** Default = mobile LCP candidate (~5.5rem / ~88–144 CSS px) */
+  src: "/images/nelly/nelly-hero-144.webp",
   srcSet:
-    "/images/nelly/nelly-hero-160.webp 160w, /images/nelly/nelly-hero-320.webp 320w, /images/nelly/nelly-hero.webp 480w",
-  fallbackSrc: "/images/nelly/nelly-hero.jpg",
+    "/images/nelly/nelly-hero-144.webp 144w, /images/nelly/nelly-hero-288.webp 288w",
+  fallbackSrc: "/images/nelly/nelly-hero-160.jpg",
   fallbackSrcSet:
-    "/images/nelly/nelly-hero-160.jpg 160w, /images/nelly/nelly-hero-320.jpg 320w, /images/nelly/nelly-hero.jpg 480w",
-  /** Mobile displays ~144–220 CSS px; preload the 320w candidate for 2x DPR */
-  preloadSrc: "/images/nelly/nelly-hero-320.webp",
-  width: 480,
-  height: 480,
-  sizes: "(max-width: 768px) 160px, 280px",
+    "/images/nelly/nelly-hero-160.jpg 160w, /images/nelly/nelly-hero-320.jpg 320w",
+  /** Match .advisor-hero-photo-frame; cap at 288w so Slow-4G never pulls 480 */
+  preloadSrc: "/images/nelly/nelly-hero-288.webp",
+  width: 288,
+  height: 288,
+  sizes: "(max-width: 767px) 144px, 168px",
   alt: {
     en: "Nelly Lara Cruz — professional business portrait, Senior Financial Associate",
     es: "Nelly Lara Cruz — retrato profesional de negocios, Asociada Financiera Senior",

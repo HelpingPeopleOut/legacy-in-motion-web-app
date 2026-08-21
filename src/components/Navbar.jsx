@@ -169,7 +169,7 @@ export default function Navbar() {
         <div className="elite-nav-inner">
           <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu} prefetch={false}>
             <picture>
-              <source srcSet="/images/brand-mark-64.webp" type="image/webp" />
+              <source srcSet="/images/brand-mark.webp" type="image/webp" />
               <img
                 src="/images/brand-mark-64.png"
                 alt="Legacy in Motion"
@@ -177,7 +177,7 @@ export default function Navbar() {
                 height={64}
                 className="elite-brand-mark"
                 decoding="async"
-                fetchPriority="high"
+                fetchPriority="low"
               />
             </picture>
             <span className="elite-brand-text">LEGACY IN MOTION</span>
@@ -240,7 +240,7 @@ export default function Navbar() {
         <div className="elite-mobile-header">
           <Link href={homeRoute} className={`elite-brand${isActive(homeRoute) ? " elite-brand--active" : ""}`} onClick={closeMenu} prefetch={false}>
             <picture>
-              <source srcSet="/images/brand-mark-64.webp" type="image/webp" />
+              <source srcSet="/images/brand-mark.webp" type="image/webp" />
               <img
                 src="/images/brand-mark-64.png"
                 alt="Legacy in Motion"
@@ -248,7 +248,7 @@ export default function Navbar() {
                 height={64}
                 className="elite-brand-mark"
                 decoding="async"
-                fetchPriority="high"
+                fetchPriority="low"
               />
             </picture>
             <span className="elite-brand-text">LEGACY IN MOTION</span>

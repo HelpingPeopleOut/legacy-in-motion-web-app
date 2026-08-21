@@ -26,15 +26,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=4" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4" />
         <link rel="manifest" href="/site.webmanifest?v=4" />
-        <link rel="preload" href="/images/brand-mark-64.webp" as="image" type="image/webp" fetchPriority="high" />
         <link
           rel="preload"
-          href="/images/nelly/nelly-hero-320.webp"
+          href="/images/nelly/nelly-hero-288.webp"
           as="image"
           type="image/webp"
           fetchPriority="high"
-          imageSrcSet="/images/nelly/nelly-hero-160.webp 160w, /images/nelly/nelly-hero-320.webp 320w"
-          imageSizes="160px"
+          imageSrcSet="/images/nelly/nelly-hero-144.webp 144w, /images/nelly/nelly-hero-288.webp 288w"
+          imageSizes="144px"
         />
         <link rel="alternate" type="text/plain" href="https://www.legacyinmotion.org/llms.txt" title="LLMs Context" />
         <link rel="alternate" type="text/plain" href="https://www.legacyinmotion.org/llms-es.txt" title="LLMs Context (Spanish)" />

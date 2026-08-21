@@ -1,4 +1,7 @@
 # Nested paths need explicit rules — CF Pages `*` does not cross `/`
+/images/brand-mark.webp
+  Cache-Control: public, max-age=31536000, immutable
+
 /images/*
   Cache-Control: public, max-age=31536000, immutable
 
