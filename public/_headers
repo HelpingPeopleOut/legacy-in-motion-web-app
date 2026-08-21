@@ -1,4 +1,11 @@
+# Nested paths need explicit rules — CF Pages `*` does not cross `/`
 /images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*/*/*
   Cache-Control: public, max-age=31536000, immutable
 
 /_next/static/*
@@ -7,19 +14,16 @@
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-/*.ico
+/favicon.ico
   Cache-Control: public, max-age=604800
 
-/*.png
+/favicon-*.png
   Cache-Control: public, max-age=604800
 
-/*.jpg
+/apple-touch-icon.png
   Cache-Control: public, max-age=604800
 
-/*.webp
-  Cache-Control: public, max-age=604800
-
-/*.svg
+/android-chrome-*.png
   Cache-Control: public, max-age=604800
 
 /site.webmanifest

@@ -11,13 +11,18 @@ export default function AdvisorHeroPhoto({ locale = "en" }) {
     <div className="advisor-hero-photo">
       <div className="advisor-hero-photo-frame">
         <picture>
-          <source srcSet={advisorHeadshot.src} type="image/webp" />
+          <source
+            type="image/webp"
+            srcSet={advisorHeadshot.srcSet ?? advisorHeadshot.src}
+            sizes={advisorHeadshot.sizes ?? "(max-width: 768px) 160px, 280px"}
+          />
           <img
             src={advisorHeadshot.fallbackSrc ?? advisorHeadshot.src}
+            srcSet={advisorHeadshot.fallbackSrcSet}
             alt={advisorHeadshot.alt[isEs ? "es" : "en"]}
             width={width}
             height={height}
-            sizes="(max-width: 768px) 220px, 280px"
+            sizes={advisorHeadshot.sizes ?? "(max-width: 768px) 160px, 280px"}
             loading="eager"
             fetchPriority="high"
             decoding="async"

@@ -90,6 +90,7 @@
   display: none;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--gold-ink);
 }
 
 @media (min-width: 520px) {
@@ -99,7 +100,7 @@
 }
 
 .elite-brand--active .elite-brand-text {
-  color: var(--gold);
+  color: var(--gold-ink);
 }
 
 @media (min-width: 1100px) and (max-width: 1240px) {

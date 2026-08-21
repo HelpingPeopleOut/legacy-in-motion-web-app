@@ -1,6 +1,7 @@
 "use client";
 
 import { SignUp } from "@clerk/react";
+import ClerkAppProvider from "@/components/auth/ClerkAppProvider";
 
 export default function ClerkSignUpPanel() {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -16,8 +17,10 @@ export default function ClerkSignUpPanel() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0a0a0b] px-4 py-10">
-      <SignUp routing="hash" signInUrl="/login/sign-in" fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard" />
-    </div>
+    <ClerkAppProvider publishableKey={publishableKey}>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#0a0a0b] px-4 py-10">
+        <SignUp routing="hash" signInUrl="/login/sign-in" fallbackRedirectUrl="/dashboard" forceRedirectUrl="/dashboard" />
+      </div>
+    </ClerkAppProvider>
   );
 }

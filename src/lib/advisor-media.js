@@ -1,9 +1,16 @@
 /** Professional portfolio headshot — hero & business profile (optimized WebP + JPEG) */
 export const advisorHeadshot = {
   src: "/images/nelly/nelly-hero.webp",
+  srcSet:
+    "/images/nelly/nelly-hero-160.webp 160w, /images/nelly/nelly-hero-320.webp 320w, /images/nelly/nelly-hero.webp 480w",
   fallbackSrc: "/images/nelly/nelly-hero.jpg",
+  fallbackSrcSet:
+    "/images/nelly/nelly-hero-160.jpg 160w, /images/nelly/nelly-hero-320.jpg 320w, /images/nelly/nelly-hero.jpg 480w",
+  /** Mobile displays ~144–220 CSS px; preload the 320w candidate for 2x DPR */
+  preloadSrc: "/images/nelly/nelly-hero-320.webp",
   width: 480,
   height: 480,
+  sizes: "(max-width: 768px) 160px, 280px",
   alt: {
     en: "Nelly Lara Cruz — professional business portrait, Senior Financial Associate",
     es: "Nelly Lara Cruz — retrato profesional de negocios, Asociada Financiera Senior",
@@ -18,8 +25,8 @@ export const advisorHeadshot = {
 export const advisorEducation = {
   src: "/images/nelly/gallery-05.webp",
   fallbackSrc: "/images/nelly/gallery-05.jpg",
-  width: 600,
-  height: 800,
+  width: 550,
+  height: 733,
   alt: {
     en: "Nelly Lara Cruz presenting financial education — Elite Honor Graduate, Class of 2025",
     es: "Nelly Lara Cruz presentando educación financiera — Graduada de Honor Elite, Clase 2025",
