@@ -76,11 +76,13 @@
   justify-self: start;
 }
 
-.elite-brand img {
+.elite-brand img,
+.elite-brand-mark {
   width: 2.35rem;
   height: 2.35rem;
   object-fit: contain;
   flex-shrink: 0;
+  border-radius: 8px;
   filter: drop-shadow(0 4px 6px rgba(212, 175, 55, 0.2));
 }
 
@@ -176,7 +178,7 @@
 }
 
 .elite-nav-link.portal {
-  color: var(--gold);
+  color: var(--gold-ink, #6b5410);
   font-weight: 600;
 }
 
@@ -297,7 +299,7 @@
   padding: 0 0.75rem;
   border: 1.5px solid var(--gold);
   border-radius: 0.5rem;
-  color: var(--gold);
+  color: var(--gold-ink, #6b5410);
   font-weight: 700;
   font-size: 0.8125rem;
   text-decoration: none;
@@ -319,20 +321,21 @@
   padding: 0.5rem 1.125rem;
   border-radius: 0.5rem;
   background: var(--gold);
-  color: #fff;
-  font-weight: 600;
+  color: #111111;
+  font-weight: 700;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   font-family: var(--font-body);
   white-space: nowrap;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, color 0.2s;
   box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
 }
 
 .elite-cta-btn:hover {
   background: var(--text-main);
+  color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
@@ -702,14 +705,15 @@
 
   .mobile-sticky-cta__links {
     border: 1px solid rgba(212, 175, 55, 0.45);
-    color: var(--gold);
+    color: var(--gold-ink, #6b5410);
     background: rgba(212, 175, 55, 0.08);
     font-weight: 700;
   }
 
   .mobile-sticky-cta__book {
     background: var(--gold);
-    color: #fff;
+    color: #111111;
+    font-weight: 700;
     box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
   }
 

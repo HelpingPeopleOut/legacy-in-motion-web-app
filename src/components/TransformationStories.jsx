@@ -1,14 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { TrendingDown, Shield, Heart, Landmark } from "lucide-react";
-
-const InstagramEmbed = dynamic(() => import("@/components/InstagramEmbed"), {
-  ssr: false,
-  loading: () => (
-    <div className="ig-embed-wrap" style={{ minHeight: 320, background: "#f4f4f4", borderRadius: 12 }} />
-  ),
-});
 
 function InstagramIcon({ className }) {
   return (
@@ -105,6 +97,7 @@ const copy = {
     igLabel: "Follow on Instagram",
     igHandle: "@money_withnelz",
     igHref: "https://www.instagram.com/money_withnelz",
+    igCta: "Open Instagram profile →",
     solution: "Solution",
   },
   es: {
@@ -113,10 +106,12 @@ const copy = {
     igLabel: "Síguenos en Instagram",
     igHandle: "@money_withnelz",
     igHref: "https://www.instagram.com/money_withnelz",
+    igCta: "Abrir perfil de Instagram →",
     solution: "Solución",
   },
 };
 
+/** Lightweight stories + Instagram profile link — no embed.js (major TBT/network win). */
 export default function TransformationStories({ locale = "en" }) {
   const t = copy[locale] ?? copy.en;
   const stories = locale === "es" ? storiesEs : storiesEn;
@@ -136,14 +131,15 @@ export default function TransformationStories({ locale = "en" }) {
                 <InstagramIcon className="stories-ig-icon" />
                 <span>{t.igLabel}</span>
               </div>
-              <InstagramEmbed />
               <a
                 href={t.igHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="stories-ig-link"
+                className="ig-poster"
+                aria-label={`${t.igLabel} ${t.igHandle}`}
               >
-                {t.igHandle}
+                <span className="ig-poster-label">{t.igHandle}</span>
+                <span className="ig-poster-hint">{t.igCta}</span>
               </a>
             </div>
           </aside>
@@ -163,7 +159,7 @@ export default function TransformationStories({ locale = "en" }) {
                         <small>{story.metricLabel}</small>
                       </div>
                     </div>
-                    <h4>{story.title}</h4>
+                    <h3 className="story-card-v2-title">{story.title}</h3>
                     <p className="story-card-v2-quote">&ldquo;{story.quote}&rdquo;</p>
                     <p className="story-card-v2-solution">
                       <span className="text-gold">{t.solution}:</span> {story.solution}
