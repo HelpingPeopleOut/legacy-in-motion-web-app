@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BUSINESS } from "@/lib/business";
 import { NELLY_SOCIAL } from "@/lib/nelly-links";
 
 export default function Footer() {
   const pathname = usePathname() || "/";
   const isSpanish = pathname.startsWith("/es");
-  const base = isSpanish ? "/es" : "";
 
   const text = {
     sub: isSpanish
@@ -22,8 +22,11 @@ export default function Footer() {
     servicesLabel: isSpanish ? "Nuestros Servicios" : "Our Expertise",
     contactLabel: isSpanish ? "Contacto" : "Contact",
     areasLabel: isSpanish ? "Áreas de Servicio" : "Areas We Serve",
+    locationsLabel: isSpanish ? "Ubicaciones" : "Locations",
     call: isSpanish ? "Llamar" : "Call",
     book: isSpanish ? "Agendar una Asesoría" : "Book a Consultation",
+    email: isSpanish ? "Correo" : "Email",
+    hq: isSpanish ? "Sede" : "Headquarters",
     quickLinks: isSpanish ? "Enlaces Rápidos" : "Quick Links",
     follow: isSpanish ? "Síguenos" : "Follow Nelly",
     disclaimer: isSpanish
@@ -35,6 +38,15 @@ export default function Footer() {
     verseRef: isSpanish ? "Juan 16:33" : "John 16:33",
   };
 
+  const homeHref = isSpanish ? "/es" : "/";
+  const missionHref = isSpanish ? "/es/mision" : "/mission";
+  const babyHref = isSpanish ? "/es/futuro-financiero-infantil" : "/freedom-financial-baby";
+  const workshopsHref = isSpanish ? "/es/seminarios" : "/workshops";
+  const educationHref = isSpanish ? "/es/educacion-financiera" : "/financial-education";
+  const bookHref = isSpanish ? "/es/solicitar-llamada" : "/request-callback";
+  const locationsHref = isSpanish ? "/es/locations" : "/locations";
+  const linksHref = isSpanish ? "/es/links" : "/links";
+
   return (
     <footer>
       <div className="container text-center">
@@ -45,11 +57,12 @@ export default function Footer() {
           <div>
             <h4>{text.companyLabel}</h4>
             <div className="footer-col-links">
-              <Link href={`${base}/`} className="footer-link">{text.home}</Link>
-              <Link href={`${base}/mission`} className="footer-link">{text.mission}</Link>
-              <Link href={`${base}/freedom-financial-baby`} className="footer-link">{text.baby}</Link>
-              <Link href={`${base}/workshops`} className="footer-link">{text.workshops}</Link>
-              <Link href={isSpanish ? "/es/educacion-financiera" : "/financial-education"} className="footer-link">{text.education}</Link>
+              <Link href={homeHref} className="footer-link">{text.home}</Link>
+              <Link href={missionHref} className="footer-link">{text.mission}</Link>
+              <Link href={babyHref} className="footer-link">{text.baby}</Link>
+              <Link href={workshopsHref} className="footer-link">{text.workshops}</Link>
+              <Link href={educationHref} className="footer-link">{text.education}</Link>
+              <Link href={locationsHref} className="footer-link">{text.locationsLabel}</Link>
             </div>
           </div>
 
@@ -81,10 +94,27 @@ export default function Footer() {
 
           <div>
             <h4>{text.contactLabel}</h4>
+            <div className="footer-nap">
+              <p>
+                <strong>{text.hq}:</strong> {BUSINESS.address.addressLocality}, {BUSINESS.address.addressRegion}{" "}
+                {BUSINESS.address.postalCode}
+              </p>
+              <p>
+                {text.call}:{" "}
+                <a href={`tel:${BUSINESS.phone.replace(/\D/g, "")}`}>{BUSINESS.phoneDisplay}</a>
+              </p>
+              <p>
+                {text.email}: <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+              </p>
+              <p>
+                {isSpanish
+                  ? "Consultas virtuales en todo EE. UU. · Inglés y Español"
+                  : "Nationwide virtual consultations · English & Spanish"}
+              </p>
+            </div>
             <div className="footer-col-links">
-              <a href="tel:626-203-7652" className="footer-link">{text.call}: (626) 203-7652</a>
-              <Link href={`${base}/#consultation`} className="footer-link">{text.book}</Link>
-              <Link href={`${base}/links`} className="footer-link footer-link--gold">{text.quickLinks}</Link>
+              <Link href={bookHref} className="footer-link footer-link--gold">{text.book}</Link>
+              <Link href={linksHref} className="footer-link">{text.quickLinks}</Link>
             </div>
             <div className="footer-social-row" style={{ marginTop: "1.25rem" }}>
               <p className="footer-follow-label">{text.follow}</p>

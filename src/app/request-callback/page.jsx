@@ -1,93 +1,79 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
+import { BUSINESS } from "@/lib/business";
 
 export default function RequestCallbackPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll(".fade-in").forEach((section) => {
-      observer.observe(section);
-    });
   }, []);
 
   return (
     <>
-      {/* CRITICAL FIX: Removed illegal <title> and <meta> tags from client component to prevent React Error 418 Hydration Crash */}
-
-      {/* HERO SECTION - FOCUSED ON APP */}
-      <section className="hero fade-in" style={{ padding: "10rem 0 4rem 0", background: "var(--bg-card)" }}>
+      <section className="hero" style={{ padding: "10rem 0 3rem 0", background: "var(--bg-card)" }}>
         <div className="container text-center">
-          <h1 style={{ fontSize: "3.5rem", marginBottom: "1rem" }}>
-            Your Financial Fortress, <br/><span className="text-gold">In Your Pocket.</span>
+          <p className="hero-eyebrow">Legacy in Motion · Free Strategy Session</p>
+          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.4rem)", marginBottom: "1rem" }}>
+            Request a Free Financial Strategy Consultation
           </h1>
-          <p style={{ fontSize: "1.2rem", maxWidth: "600px", margin: "0 auto", color: "var(--text-muted)" }}>
-            Install the Legacy in Motion app to access our financial tools instantly, or request a callback from our team below.
+          <p style={{ fontSize: "1.15rem", maxWidth: "640px", margin: "0 auto 1.5rem", color: "var(--text-muted)" }}>
+            Talk with Nelly Lara about retirement, living benefits, estate planning, debt, or business strategies —
+            bilingual English &amp; Spanish. Pasadena HQ with nationwide virtual sessions.
+          </p>
+          <p style={{ marginBottom: "0.5rem" }}>
+            <a href={`tel:${BUSINESS.phone.replace(/\D/g, "")}`} className="btn-outline">
+              Call {BUSINESS.phoneDisplay}
+            </a>
           </p>
         </div>
       </section>
 
-      {/* APP INSTALLATION INSTRUCTIONS - MOVED TO TOP */}
-      <section className="fade-in" style={{ background: "var(--bg-card)", paddingBottom: "6rem" }}>
-        <div className="container text-center">
-          <div className="comp-grid" style={{ marginTop: "0" }}>
-            {/* Apple / iOS Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🍎</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone & iPad (Safari)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Open this page in the <strong>Safari</strong> browser.<br />
-                2. Tap the <strong>Share</strong> icon (square with an arrow) at the bottom.<br />
-                3. Scroll down and tap <strong>"Add to Home Screen"</strong>.<br />
-                4. Tap <strong>Add</strong> in the top right corner.
-              </p>
-            </div>
-
-            {/* Android Instructions */}
-            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
-              <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🤖</div>
-              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
-              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
-                1. Open this page in the <strong>Chrome</strong> browser.<br />
-                2. Tap the <strong>Menu</strong> icon (three dots) top right.<br />
-                3. Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br />
-                4. Follow the prompt to add the icon to your phone.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THE APP SCRIPT CRM FORM - SECONDARY OPTION */}
-      <section className="fade-in" style={{ background: "var(--bg-page)", paddingTop: "4rem", paddingBottom: "2rem" }}>
-        <GlobalLeadForm 
-          title="Prefer to speak right away?"
-          subtitle="Request a callback below and our team will reach out within 24 hours."
-          sourcePage="App Install / Callback Portal"
+      <section style={{ background: "var(--bg-page)", paddingTop: "2rem", paddingBottom: "2rem" }}>
+        <GlobalLeadForm
+          title="Book your free callback"
+          subtitle="Share a few details and our team will reach out within one business day — no product pressure."
+          sourcePage="Request Callback / Contact"
           dropdownOptions={[
             "General Consultation",
             "Retirement & 401(k) Rollovers",
             "Life Insurance & Living Benefits",
             "Estate Planning & Trusts",
-            "Debt Elimination Strategy"
+            "Debt Elimination Strategy",
+            "Business Owner Strategies",
           ]}
         />
+      </section>
+
+      <section className="fade-in" style={{ background: "var(--bg-card)", padding: "4rem 0 6rem" }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: "1.75rem", marginBottom: "1rem" }}>Prefer the toolbox on your phone?</h2>
+          <p style={{ color: "var(--text-muted)", maxWidth: "560px", margin: "0 auto 1.5rem" }}>
+            Install Legacy in Motion as an app for calculators and client tools — optional, and separate from your consultation.
+          </p>
+          <div className="comp-grid" style={{ marginTop: "0" }}>
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>iPhone &amp; iPad (Safari)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Open this site in <strong>Safari</strong>.<br />
+                2. Tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.<br />
+                3. Tap <strong>Add</strong>.
+              </p>
+            </div>
+            <div className="comp-card" style={{ background: "var(--bg-page)", border: "1px solid var(--border-light)", boxShadow: "var(--shadow-sm)" }}>
+              <h3 style={{ color: "var(--text-main)", marginBottom: "1rem" }}>Android (Chrome)</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "1.05rem", lineHeight: "1.6", textAlign: "left", display: "inline-block" }}>
+                1. Open this site in <strong>Chrome</strong>.<br />
+                2. Tap <strong>Menu</strong> → <strong>Install app</strong> or <strong>Add to Home screen</strong>.<br />
+                3. Confirm the install.
+              </p>
+            </div>
+          </div>
+          <p style={{ marginTop: "2rem" }}>
+            <Link href="/toolbox" className="btn-outline">Open toolbox →</Link>
+          </p>
+        </div>
       </section>
     </>
   );

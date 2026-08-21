@@ -2,6 +2,7 @@
   "name": "Legacy in Motion",
   "short_name": "Legacy in Motion",
   "description": "Bilingual financial planning — retirement, living benefits, estate & legacy. Pasadena, CA · nationwide.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "lang": "en-US",
@@ -11,5 +12,17 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "shortcuts": [
+    {
+      "name": "Request consultation",
+      "short_name": "Consult",
+      "url": "/request-callback"
+    },
+    {
+      "name": "Toolbox",
+      "short_name": "Tools",
+      "url": "/toolbox"
+    }
+  ]
 }

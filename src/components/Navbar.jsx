@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getLocaleTogglePath } from "@/lib/locale-routes";
 import "./navbar.css";
 
 export default function Navbar() {
@@ -82,15 +83,7 @@ export default function Navbar() {
     setIsFabOpen(false);
   };
 
-  const getToggleUrl = () => {
-    let targetPath = "/";
-    if (isSpanish) {
-      targetPath = pathname.replace(/^\/es/, "") || "/";
-    } else {
-      targetPath = `/es${pathname === "/" ? "" : pathname}`;
-    }
-    return targetPath.replace(/\/+/g, "/");
-  };
+  const getToggleUrl = () => getLocaleTogglePath(pathname);
 
   // --- BILINGUAL TEXT ---
   const navText = {

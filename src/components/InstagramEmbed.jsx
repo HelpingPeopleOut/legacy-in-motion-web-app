@@ -1,33 +1,44 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 
 const REEL_URL =
   "https://www.instagram.com/reel/DPXZTJtganx/?utm_source=ig_embed&utm_campaign=loading";
 
+function loadInstagramScript() {
+  if (typeof window === "undefined") return;
+  if (window.instgrm?.Embeds) {
+    window.instgrm.Embeds.process();
+    return;
+  }
+  if (document.querySelector('script[src*="instagram.com/embed.js"]')) return;
+
+  const script = document.createElement("script");
+  script.src = "https://www.instagram.com/embed.js";
+  script.async = true;
+  script.onload = () => window.instgrm?.Embeds?.process();
+  document.body.appendChild(script);
+}
+
+/** Loads Instagram embed.js only after explicit user interaction (PageSpeed-friendly). */
 export default function InstagramEmbed({ className = "" }) {
-  useEffect(() => {
-    const loadEmbed = () => {
-      if (typeof window !== "undefined" && window.instgrm?.Embeds) {
-        window.instgrm.Embeds.process();
-      }
-    };
+  const [active, setActive] = useState(false);
 
-    if (document.querySelector('script[src*="instagram.com/embed.js"]')) {
-      loadEmbed();
-      return;
-    }
+  const activate = () => {
+    setActive(true);
+    queueMicrotask(loadInstagramScript);
+  };
 
-    const script = document.createElement("script");
-    script.src = "https://www.instagram.com/embed.js";
-    script.async = true;
-    script.onload = loadEmbed;
-    document.body.appendChild(script);
-
-    return () => {
-      script.onload = null;
-    };
-  }, []);
+  if (!active) {
+    return (
+      <div className={`ig-embed-wrap ${className}`}>
+        <button type="button" className="ig-poster" onClick={activate}>
+          <span className="ig-poster-label">Watch on Instagram</span>
+          <span className="ig-poster-hint">Tap to load the embed — keeps this page fast on mobile.</span>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`ig-embed-wrap ${className}`}>
@@ -62,56 +73,10 @@ export default function InstagramEmbed({ className = "" }) {
           }}
         >
           <div style={{ padding: "19% 0" }} />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "#F4F4F4",
-                borderRadius: "50%",
-                flexGrow: 0,
-                height: 40,
-                marginRight: 14,
-                width: 40,
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                justifyContent: "center",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: "#F4F4F4",
-                  borderRadius: 4,
-                  flexGrow: 0,
-                  height: 14,
-                  marginBottom: 6,
-                  width: 100,
-                }}
-              />
-              <div
-                style={{
-                  backgroundColor: "#F4F4F4",
-                  borderRadius: 4,
-                  flexGrow: 0,
-                  height: 14,
-                  width: 60,
-                }}
-              />
-            </div>
-          </div>
           <p
             style={{
               color: "#c9c8cd",
-              fontFamily: "Arial,sans-serif",
+              fontFamily: "Georgia, serif",
               fontSize: 14,
               fontWeight: 550,
               lineHeight: "17px",

@@ -48,9 +48,18 @@ section { scroll-margin-top: 100px; position: relative; }
   margin: 0 auto;
 }
 
-/* === ENTERPRISE ANIMATIONS === */
-.fade-in { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-.fade-in.visible { opacity: 1; transform: translateY(0) scale(1); }
+/* === ENTERPRISE ANIMATIONS ===
+   Content is visible by default so LCP/H1/hero media are never blocked on JS.
+   Optional soft entrance only after IntersectionObserver adds .visible. */
+.fade-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
+}
 
 @keyframes pulse-gold {
   0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
@@ -1829,6 +1838,16 @@ main.main--linkhub {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .fade-in.visible,
+  .btn-pulse,
+  .marquee-track {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .scroll-to-top {
     transition: opacity 0.2s ease, visibility 0.2s;
   }
@@ -1836,6 +1855,93 @@ main.main--linkhub {
   .scroll-to-top-ring-progress {
     transition: none;
   }
+}
+
+/* Related intent links — SEO internal graph, no card chrome */
+.related-intent-links {
+  padding: 3.5rem 0;
+  background: var(--bg-page);
+  border-top: 1px solid var(--border-light);
+}
+.related-intent-title {
+  font-size: 1.35rem;
+  margin: 0 0 1.25rem;
+  text-align: center;
+  color: var(--text-main);
+}
+.related-intent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  justify-content: center;
+  max-width: 920px;
+  margin-inline: auto;
+}
+.related-intent-list a {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.related-intent-list a:hover {
+  color: var(--gold);
+}
+
+/* Footer NAP block */
+.footer-nap {
+  margin: 0.75rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.footer-nap a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Sticky mobile CTA clearance */
+@media (max-width: 900px) {
+  main {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Instagram click-to-load poster */
+.ig-poster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 280px;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  background: linear-gradient(160deg, #f7f5f0 0%, #eef2f6 100%);
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  font: inherit;
+}
+.ig-poster:hover,
+.ig-poster:focus-visible {
+  border-color: var(--gold);
+  outline: none;
+}
+.ig-poster-label {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.ig-poster-hint {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 28ch;
 }
 
 .footer-social-btn {

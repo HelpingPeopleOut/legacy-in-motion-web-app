@@ -7,6 +7,7 @@ import { isLocalTestMode } from "@/lib/app-env";
 export const metadata = {
   title: "Client Portal | Legacy in Motion",
   description: "Secure financial tools, calculators, and dashboards for Legacy in Motion clients.",
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
 };
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

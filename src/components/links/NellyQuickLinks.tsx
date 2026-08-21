@@ -47,12 +47,12 @@ export default function NellyQuickLinks({ locale = "en" }: NellyQuickLinksProps)
       <div className="nelly-linkhub-inner">
         <header className="nelly-linkhub-header">
           <img
-            src={advisorHeadshot.src}
-            alt={isSpanish ? advisorHeadshot.alt.es : advisorHeadshot.alt.en}
-            className="nelly-linkhub-avatar"
-            width={120}
-            height={120}
-          />
+              src={advisorHeadshot.fallbackSrc ?? advisorHeadshot.src}
+              alt={isSpanish ? advisorHeadshot.alt.es : advisorHeadshot.alt.en}
+              className="nelly-linkhub-avatar"
+              width={120}
+              height={120}
+            />
           <h1 className="nelly-linkhub-name">Nelly Lara</h1>
           <p className="nelly-linkhub-title">
             {isSpanish ? "Asociada Financiera Senior" : "Senior Financial Associate"}

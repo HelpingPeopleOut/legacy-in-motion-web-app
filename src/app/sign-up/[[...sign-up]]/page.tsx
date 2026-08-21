@@ -5,6 +5,7 @@ export const dynamic = "force-static";
 
 export const metadata = {
   title: "Sign Up | Legacy in Motion Client Portal",
+  robots: { index: false, follow: false },
 };
 
 export default function SignUpPage() {

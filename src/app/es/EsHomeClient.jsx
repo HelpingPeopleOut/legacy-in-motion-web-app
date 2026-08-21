@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import Script from "next/script";
 import GlobalLeadForm from "@/components/GlobalLeadForm";
 import HomePathwayPanel from "@/components/HomePathwayPanel";
 import HomeStorySection from "@/components/HomeStorySection";
@@ -11,6 +10,7 @@ import MeetAdvisorSection from "@/components/MeetAdvisorSection";
 import EnterpriseTrustSignals from "@/components/seo/EnterpriseTrustSignals";
 import EnterpriseFaqSection from "@/components/seo/EnterpriseFaqSection";
 import AdvisorTeamAside from "@/components/AdvisorTeamAside";
+import RelatedIntentLinks, { DEFAULT_RELATED_ES } from "@/components/seo/RelatedIntentLinks";
 import { GLOBAL_FAQS_ES } from "@/lib/ai-enterprise";
 import Link from "next/link";
 
@@ -18,57 +18,38 @@ export default function HomeSpanish() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, rootMargin: "0px", threshold: 0.1 }
+    );
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll(".fade-in").forEach((section) => {
-      observer.observe(section);
-    });
+    document.querySelectorAll(".fade-in").forEach((section) => observer.observe(section));
   }, []);
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "FinancialService",
-    "name": "Legacy in Motion",
-    "url": "https://www.legacyinmotion.org/es",
-    "description": "Consultoría financiera experta. Especialistas en Planificación de Jubilación, Seguros de Vida con Beneficios en Vida y Planificación Patrimonial.",
-    "areaServed": ["Los Angeles", "Pasadena", "San Gabriel Valley"]
-  };
 
   return (
     <>
-      <Script
-        id="schema-org-home-es"
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} 
-      />
-
-      <header className="hero hero-index hero-premium fade-in">
+      <header className="hero hero-index hero-premium">
         <div className="container hero-premium-grid">
           <div className="hero-intro-content">
-            <p className="hero-eyebrow">Legacy in Motion · Asesoría Financiera</p>
+            <p className="hero-eyebrow">Legacy in Motion · Sede Pasadena · Nacional</p>
             <h1>
-              Resuelva Sus Problemas Financieros — <span className="text-gold">No Solo Venda Productos.</span>
+              Asesor Financiero para Familias en Pasadena —{" "}
+              <span className="text-gold">Problemas Resueltos, No Solo Productos.</span>
             </h1>
             <AdvisorHeroPhoto locale="es" />
 
             <HomeStorySection locale="es" />
 
             <div className="hero-action-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">Consulta Gratuita</a>
-              <a href="/dashboard" className="btn-outline">Portal de Herramientas</a>
+              <a href="/es/solicitar-llamada" className="btn-gold">Consulta Gratuita</a>
+              <a href="#services" className="btn-outline">Ver Servicios</a>
             </div>
           </div>
           <HomePathwayPanel locale="es" />
@@ -77,7 +58,6 @@ export default function HomeSpanish() {
 
       <EnterpriseTrustSignals locale="es" />
 
-      {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Su Plan de Riqueza de 7 Pasos</h2>
@@ -98,7 +78,6 @@ export default function HomeSpanish() {
 
       <MeetAdvisorSection locale="es" />
 
-      {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="es" />
 
       <EnterpriseFaqSection
@@ -119,10 +98,9 @@ export default function HomeSpanish() {
         </div>
       </section>
 
-      {/* 4. REQUEST A CALLBACK FORM (SPANISH) */}
-      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
-        <GlobalLeadForm 
-          title="¿Listo para Comenzar? Solicite una Consulta" 
+      <section className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
+        <GlobalLeadForm
+          title="¿Listo para Comenzar? Solicite una Consulta"
           subtitle="Complete el formulario a continuación. Nuestro equipo revisará su solicitud y le devolverá la llamada en menos de 24 horas."
           lang="es"
           sourcePage="Página de Inicio Principal (ES)"
@@ -132,24 +110,59 @@ export default function HomeSpanish() {
             "Planificación Patrimonial, Fideicomisos y Testamentos",
             "Eliminación de Deudas y Análisis de Flujo de Efectivo",
             "Salida de Negocios y Bonificación Ejecutiva",
-            "Cuentas de Inversión y Ahorro para Niños"
+            "Cuentas de Inversión y Ahorro para Niños",
           ]}
         />
       </section>
 
-      {/* 5. SERVICES DIRECTORY */}
       <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Experiencia Financiera Integral</h2>
-          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>Diseñamos estrategias personalizadas a través de cada pilar de la generación de riqueza, asegurando que no haya vacíos en su fortaleza financiera.</p>
+          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>
+            Diseñamos estrategias personalizadas — elija la ruta que coincida con lo que busca.
+          </p>
           <div className="services-wrapper">
-            <div className="service-category"><h3>Jubilación y Ahorros</h3><ul><li>Planificación de Jubilación</li><li>Gestión de Pensiones</li><li>Transferencias de 401(k)</li><li>Anualidades Indexadas Fijas</li></ul></div>
-            <div className="service-category"><h3>Seguros y Protección</h3><ul><li>Pólizas de Seguro de Vida</li><li>Seguro de Vida Permanente</li><li>Cobertura de Enfermedades Críticas</li><li>Seguro de Protección Hipotecaria</li></ul></div>
-            <div className="service-category"><h3>Legado y Familia</h3><ul><li>Planificación Patrimonial</li><li>Fideicomisos y Testamentos</li><li>Cuentas de Inversión para Niños</li><li>Transferencia de Riqueza</li></ul></div>
-            <div className="service-category"><h3>Negocios y Efectivo</h3><ul><li>Seguridad Empresarial</li><li>Seguro de Persona Clave</li><li>Bonificación Ejecutiva</li><li>Eliminación de Deuda</li></ul></div>
+            <div className="service-category">
+              <h3>Jubilación y Ahorros</h3>
+              <ul>
+                <li><Link href="/es/planificacion-de-jubilacion-los-angeles">Planificación de Jubilación</Link></li>
+                <li><Link href="/es/planificacion-de-jubilacion-los-angeles">Transferencias de 401(k)</Link></li>
+                <li><Link href="/es/planificacion-de-jubilacion-los-angeles">Anualidades Indexadas Fijas</Link></li>
+                <li><Link href="/es/locations/california/pasadena">Hub de Pasadena</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Seguros y Protección</h3>
+              <ul>
+                <li><Link href="/es/beneficios-en-vida-los-angeles">Beneficios en Vida</Link></li>
+                <li><Link href="/es/proteccion-de-hipoteca-los-angeles">Protección Hipotecaria</Link></li>
+                <li><Link href="/es/beneficios-en-vida-los-angeles">Seguro de Vida Permanente</Link></li>
+                <li><Link href="/es/locations/california/los-angeles">Hub de Los Ángeles</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Legado y Familia</h3>
+              <ul>
+                <li><Link href="/estate-business-planning-los-angeles">Planificación Patrimonial</Link></li>
+                <li><Link href="/es/futuro-financiero-infantil">Cuentas de Inversión para Niños</Link></li>
+                <li><Link href="/generational-wealth-arcadia-sgv">Riqueza Generacional</Link></li>
+                <li><Link href="/es/locations">Todas las ubicaciones</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Negocios y Efectivo</h3>
+              <ul>
+                <li><Link href="/es/estrategias-financieras-para-negocios">Seguridad Empresarial</Link></li>
+                <li><Link href="/es/estrategias-financieras-para-negocios">Seguro de Persona Clave</Link></li>
+                <li><Link href="/es/estrategia-libre-de-deudas">Eliminación de Deuda</Link></li>
+                <li><Link href="/es/solicitar-llamada">Agendar consulta gratuita</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
+
+      <RelatedIntentLinks locale="es" links={DEFAULT_RELATED_ES} />
     </>
   );
 }

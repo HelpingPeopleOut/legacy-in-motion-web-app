@@ -18,34 +18,27 @@ const AI_CRAWLERS = [
   "CCBot",
 ];
 
-const AI_ALLOW_PATHS = [
-  "/",
-  "/llms.txt",
-  "/llms-es.txt",
-  "/llms-full.txt",
-  "/humans.txt",
-  "/ai-plugin.json",
-  "/enterprise-profile.json",
-  "/locations/",
-  "/es/locations/",
-  "/links",
-  "/es/links",
+const PRIVATE_DISALLOW = [
+  "/api/",
+  "/dashboard/",
+  "/login",
+  "/sign-up",
+  "/thanks",
+  "/es/gracias",
 ];
 
 export default function robots(): MetadataRoute.Robots {
-  const disallow = ["/api/", "/dashboard/"];
-
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow,
+        disallow: PRIVATE_DISALLOW,
       },
       ...AI_CRAWLERS.map((userAgent) => ({
         userAgent,
-        allow: AI_ALLOW_PATHS,
-        disallow,
+        allow: "/",
+        disallow: PRIVATE_DISALLOW,
       })),
     ],
     sitemap: buildSiteUrl("/sitemap.xml"),

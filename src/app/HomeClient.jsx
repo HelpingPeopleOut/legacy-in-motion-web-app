@@ -10,6 +10,7 @@ import MeetAdvisorSection from "@/components/MeetAdvisorSection";
 import EnterpriseTrustSignals from "@/components/seo/EnterpriseTrustSignals";
 import EnterpriseFaqSection from "@/components/seo/EnterpriseFaqSection";
 import AdvisorTeamAside from "@/components/AdvisorTeamAside";
+import RelatedIntentLinks, { DEFAULT_RELATED_EN } from "@/components/seo/RelatedIntentLinks";
 import { GLOBAL_FAQS } from "@/lib/ai-enterprise";
 import Link from "next/link";
 
@@ -17,34 +18,30 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { root: null, rootMargin: "0px", threshold: 0.1 }
+    );
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll(".fade-in").forEach((section) => {
-      observer.observe(section);
-    });
+    document.querySelectorAll(".fade-in").forEach((section) => observer.observe(section));
   }, []);
 
   return (
     <>
-      <header className="hero hero-index hero-premium fade-in">
+      <header className="hero hero-index hero-premium">
         <div className="container hero-premium-grid">
           <div className="hero-intro-content">
-            <p className="hero-eyebrow">Legacy in Motion · Financial Advisory</p>
+            <p className="hero-eyebrow">Legacy in Motion · Pasadena HQ · Nationwide</p>
             <h1>
-              Get Your Financial Problems <span className="text-gold">Solved — Not Sold.</span>
+              Financial Advisor for Pasadena Families —{" "}
+              <span className="text-gold">Problems Solved, Not Sold.</span>
             </h1>
 
             <AdvisorHeroPhoto locale="en" />
@@ -52,14 +49,11 @@ export default function Home() {
             <HomeStorySection />
 
             <div className="hero-action-buttons">
-              <a href="#consultation" className="btn-gold btn-pulse">
+              <a href="/request-callback" className="btn-gold">
                 Free Strategy Call
               </a>
-              <a href="/dashboard" className="btn-outline">
-                Client Tools Portal
-              </a>
-              <a href="#framework" className="btn-outline btn-ghost">
-                7-Step Blueprint
+              <a href="#services" className="btn-outline">
+                Explore Services
               </a>
             </div>
           </div>
@@ -70,7 +64,6 @@ export default function Home() {
 
       <EnterpriseTrustSignals locale="en" />
 
-      {/* 2. THE BLUEPRINT */}
       <section id="framework" className="fwf-elegant-section fade-in">
         <div className="container">
           <h2>Your 7-Step Wealth Blueprint</h2>
@@ -91,7 +84,6 @@ export default function Home() {
 
       <MeetAdvisorSection locale="en" />
 
-      {/* 3. PROVEN TRANSFORMATIONS + INSTAGRAM */}
       <TransformationStories locale="en" />
 
       <EnterpriseFaqSection
@@ -112,10 +104,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. REQUEST A CALLBACK FORM */}
-      <section id="consultation" className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
-        <GlobalLeadForm 
-          title="Ready to Start? Request a Consultation" 
+      <section className="fade-in" style={{ background: "var(--bg-page)", padding: "7rem 0" }}>
+        <GlobalLeadForm
+          title="Ready to Start? Request a Consultation"
           subtitle="Fill out the form below. Our team will review your request and call you back within 24 hours."
           sourcePage="English Main Homepage"
           dropdownOptions={[
@@ -124,24 +115,59 @@ export default function Home() {
             "Estate Planning, Trusts & Wills",
             "Debt Elimination & Cash Flow Analysis",
             "Business Exit & Executive Bonus Plans",
-            "Children's Investment & Savings Accounts"
+            "Children's Investment & Savings Accounts",
           ]}
         />
       </section>
 
-      {/* 5. SERVICES DIRECTORY */}
       <section id="services" className="services fade-in text-section" style={{ background: "var(--bg-card)" }}>
         <div className="container">
           <h2 className="text-center" style={{ fontSize: "2.8rem" }}>Comprehensive Financial Expertise</h2>
-          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>We architect customized strategies across every pillar of wealth generation, ensuring no gaps in your financial fortress.</p>
+          <p className="text-center text-muted" style={{ maxWidth: "700px", margin: "1rem auto 4rem", fontSize: "1.1rem" }}>
+            We architect customized strategies across every pillar of wealth generation — pick a path that matches how you search.
+          </p>
           <div className="services-wrapper">
-            <div className="service-category"><h3>Retirement & Savings</h3><ul><li>Retirement Planning</li><li>Pension Management</li><li>401(k) Rollovers</li><li>Fixed Indexed Annuities</li></ul></div>
-            <div className="service-category"><h3>Insurance & Protection</h3><ul><li>Life Insurance Policies</li><li>Living Benefits & Critical Illness</li><li>Permanent Life Insurance</li><li>Mortgage Protection Insurance</li></ul></div>
-            <div className="service-category"><h3>Legacy & Family</h3><ul><li>Estate Planning & Trusts</li><li>Legacy Planning</li><li>Children&apos;s Investment Accounts</li><li>Wealth Transfer Strategies</li></ul></div>
-            <div className="service-category"><h3>Business & Cash Flow</h3><ul><li>Business Financial Safety Nets</li><li>Key Person Insurance</li><li>Executive Bonus Plans</li><li>Debt Elimination Strategies</li></ul></div>
+            <div className="service-category">
+              <h3>Retirement & Savings</h3>
+              <ul>
+                <li><Link href="/retirement-planning-pasadena">Retirement Planning</Link></li>
+                <li><Link href="/retirement-planning-pasadena">401(k) Rollovers</Link></li>
+                <li><Link href="/retirement-planning-pasadena">Fixed Indexed Annuities</Link></li>
+                <li><Link href="/locations/california/pasadena">Pasadena retirement hub</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Insurance & Protection</h3>
+              <ul>
+                <li><Link href="/living-benefits-life-insurance-los-angeles">Living Benefits & Critical Illness</Link></li>
+                <li><Link href="/mortgage-protection-los-angeles">Mortgage Protection</Link></li>
+                <li><Link href="/living-benefits-life-insurance-los-angeles">Permanent Life Insurance</Link></li>
+                <li><Link href="/locations/california/los-angeles">Los Angeles coverage hub</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Legacy & Family</h3>
+              <ul>
+                <li><Link href="/estate-business-planning-los-angeles">Estate Planning & Trusts</Link></li>
+                <li><Link href="/generational-wealth-arcadia-sgv">Generational Wealth</Link></li>
+                <li><Link href="/freedom-financial-baby">Children&apos;s Investment Accounts</Link></li>
+                <li><Link href="/locations">All locations</Link></li>
+              </ul>
+            </div>
+            <div className="service-category">
+              <h3>Business & Cash Flow</h3>
+              <ul>
+                <li><Link href="/business-owner-financial-strategies">Business Financial Safety Nets</Link></li>
+                <li><Link href="/business-owner-financial-strategies">Key Person Insurance</Link></li>
+                <li><Link href="/debt-free-wealth-strategy">Debt Elimination Strategies</Link></li>
+                <li><Link href="/request-callback">Book a free consultation</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
+
+      <RelatedIntentLinks locale="en" links={DEFAULT_RELATED_EN} />
     </>
   );
 }

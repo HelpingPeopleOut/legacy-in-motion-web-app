@@ -7,10 +7,11 @@ export const inter = Inter({
   preload: true,
 });
 
+/** Display font — do not preload (competes with LCP image/CSS). */
 export const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600", "700"],
   display: "swap",
   variable: "--font-playfair",
-  preload: true,
+  preload: false,
 });
